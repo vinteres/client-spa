@@ -1,27 +1,49 @@
-# SocialSpa
+# SPA front-end for a web app for finding people
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.7.
+## Description
 
-## Development server
+Webapp for finding people by personality. When the user signs up he takes a quiz that is used to find better matches. The user can search people by city and age but people with high percentage match will be recomended.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Features
 
-## Code scaffolding
+- Auth: sign up, login, logout. At sign up user takes a personality quiz used to find better matches. At the moment the quiz is not complete.
+- Update profile info:
+    - Title (job, education etc), about, height, smoking & drinking status, does the user have children or pets.
+    - interests & activities list
+    - set current city
+    - change password
+    - deactivate account
+- Send intros to other people. A intro can be a message, audio or video recording, a smile.
+- Match with other people. The match happens after after you have sent an intro to someone and the other person has liked the intro.
+- See who viewed your profile
+- See your mathces
+- Upload photos (up to 6). The first photo is your profile picture
+- See people with high compatability percentage to you
+- See how many initerests and activities you have in common with every user you see
+- Real time notifications. You receive a notification when:
+    - receive an intro
+    - a match happens
+    - someone views your profile
+- Real time chat
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Screenshots
 
-## Build
+### Profile page:
+![Screenshot](images/image1.png)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+### Find people page:
+![Screenshot](images/image2.png)
 
-## Running unit tests
+### Intros page (intros sent to me):
+![Screenshot](images/image3.png)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Settings page:
+![Screenshot](images/image4.png)
 
-## Running end-to-end tests
+### Chat page:
+![Screenshot](images/image5.png)
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Build and run the project
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+ - `npm install` to install project dependencies.
+ - `npm run start` to run the project. Access the project on [http://localhost:4200](http://localhost:4200)
