@@ -1,0 +1,38 @@
+<div>
+  <button class="btn btn-primary" (click)="startRecording()" [disabled]="recording">record</button>
+  <button class="btn btn-primary" (click)="stopRecording()" [disabled]="!recording">stop recording</button>
+</div>
+<div *ngIf="recording" class="recording-text">
+  Remaining {{this.timeElapsed}} sec for recording.
+</div>
+
+<video class="recording-text" style="width: 100%; display: none;" #previewVideo></video>
+
+<div class="recording-text" style="position: relative; display: none;" #replayVideoCont>
+  <video class="rounded"
+         style="width: 100%;"
+         (ended)="playing = false"
+         (pause)="playing = false"
+         (play)="playing = true"
+         #replayVideo></video>
+
+  <fa-icon *ngIf="!playing" [icon]="faPlay" class="media-btn play-btn"></fa-icon>
+  <fa-icon *ngIf="playing" [icon]="faPause" class="media-btn play-btn"></fa-icon>
+
+  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; " (click)="toggleMedia()"></div>
+</div>
+
+<audio style="display: none;"
+       (timeupdate)="timeupdate($event, audiobar)"
+       (ended)="playing = false"
+       (pause)="playing = false"
+       (play)="playing = true"
+       #replayAudio></audio>
+
+<div class="audio-bar" style="display: none;" #audioBar>
+  <progress class="shadow-sm" value="0" max="1" style="width: 100%; height: 30px" #audiobar></progress>
+  <fa-icon *ngIf="!playing" [icon]="faPlay" class="media-btn play-btn" style="top: 5px;"></fa-icon>
+  <fa-icon *ngIf="playing" [icon]="faPause" class="media-btn play-btn" style="top: 5px;"></fa-icon>
+
+  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; " (click)="toggleMedia()"></div>
+</div>

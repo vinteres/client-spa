@@ -1,0 +1,211 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NotifierService } from 'angular-notifier';
+import { AuthService } from 'src/app/services/auth.service';
+import { UsersService } from 'src/app/services/users.service';
+
+@Component({
+  selector: 'settings-page',
+  templateUrl: './settings-page.component.html',
+  styleUrls: ['./settings-page.component.sass']
+})
+export class SettingsPageComponent implements OnInit {
+  activeTab: string
+
+  loading: boolean
+  settings: any
+
+  profileInfoForm = new FormGroup({})
+  accountInfoForm = new FormGroup({})
+  securityForm = new FormGroup({})
+
+  loadingAccountInfo: boolean
+  loadingProfileInfo: boolean
+  loadingSecurity: boolean
+
+  confirmPasswordModal: string
+  confirmPasswordError: boolean
+
+  constructor(
+    private usersService: UsersService,
+    private notifierService: NotifierService,
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private modalService: NgbModal,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.route.queryParams.subscribe(params => {
+      this.activeTab = ['account_info', 'profile_info', 'security', 'account'].includes(params.type) ?
+        params.type :
+        'account_info'
+    })
+
+    this.loading = true
+    usersService.getSettings()
+      .subscribe(settings => {
+        this.settings = settings
+
+        this.createAccountInfoForm()
+        this.createProfileInfoForm()
+        this.createSecurityForm()
+
+        this.loading = false
+      })
+  }
+
+  changeTab(tab) {
+    this.activeTab = tab
+  }
+
+  private createAccountInfoForm() {
+    this.accountInfoForm = this.formBuilder.group({
+      'name': [this.settings.accountSettings.name, [Validators.required, Validators.min(3), Validators.max(255)]],
+      'email': [this.settings.accountSettings.email, [Validators.required]],
+      'birthday':  [this.settings.accountSettings.birthday, [Validators.required]],
+      'title': [this.settings.accountSettings.title, [Validators.required, Validators.min(1), Validators.max(70)]],
+      'description':  [this.settings.accountSettings.description, [Validators.required, Validators.min(1), Validators.max(255)]],
+    })
+  }
+
+  private createProfileInfoForm() {
+    this.profileInfoForm = this.formBuilder.group({
+      'height': [this.settings.profileSettings.height, [Validators.required, Validators.min(100), Validators.max(250)]],
+      'smoking':  [this.settings.profileSettings.smoking, Validators.required],
+      'drinking':  [this.settings.profileSettings.drinking, Validators.required],
+      'body':  [this.settings.profileSettings.body, Validators.required],
+      'children_status':  [this.settings.profileSettings.children_status, Validators.required],
+      'pet_status':  [this.settings.profileSettings.pet_status, Validators.required],
+    })
+  }
+
+  private createSecurityForm() {
+    const passowrdValidator = Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')
+
+    this.securityForm = this.formBuilder.group({
+      'password': ['', [Validators.required]],
+      'newPassword':  ['', [Validators.required, passowrdValidator]],
+      'confirmPassword':  ['', [Validators.required, passowrdValidator]],
+    })
+  }
+
+  get name() { return this.accountInfoForm.get('name') }
+  get title() { return this.accountInfoForm.get('title') }
+  get email() { return this.accountInfoForm.get('email') }
+  get birthday() { return this.accountInfoForm.get('birthday') }
+  get description() { return this.accountInfoForm.get('description') }
+
+  get height() { return this.profileInfoForm.get('height') }
+  get smoking() { return this.profileInfoForm.get('smoking') }
+  get drinking() { return this.profileInfoForm.get('drinking') }
+  get body() { return this.profileInfoForm.get('body') }
+  get children_status() { return this.profileInfoForm.get('children_status') }
+  get pet_status() { return this.profileInfoForm.get('pet_status') }
+
+  get password() { return this.securityForm.get('password') }
+  get newPassword() { return this.securityForm.get('newPassword') }
+  get confirmPassword() { return this.securityForm.get('confirmPassword') }
+
+  ngOnInit(): void {
+  }
+
+  dateChange(e) {
+    this.birthday.setValue(e)
+  }
+
+  saveAccountInfo() {
+    if (this.accountInfoForm.invalid) {
+      this.markFormAsDirty(this.accountInfoForm)
+
+      return
+    }
+
+    if (this.loadingAccountInfo) return
+    if (this.accountInfoForm.invalid && this.accountInfoForm.dirty) return
+
+    this.loadingAccountInfo = true
+    this.usersService.setAccountSettings(this.accountInfoForm.value)
+      .subscribe(() => {
+        this.loadingAccountInfo = false
+        this.notifierService.notify('success', 'Settings saved')
+      }, (err) => {
+        this.loadingAccountInfo = false
+        this.notifierService.notify('error', 'Error saving')
+      })
+  }
+
+  saveProfileInfo() {
+    if (this.profileInfoForm.invalid) {
+      this.markFormAsDirty(this.profileInfoForm)
+
+      return
+    }
+
+    if (this.loadingProfileInfo) return
+    if (this.profileInfoForm.invalid && this.profileInfoForm.dirty) return
+
+    this.loadingProfileInfo = true
+    this.usersService.setProfileSettings(this.profileInfoForm.value)
+      .subscribe(() => {
+        this.loadingProfileInfo = false
+        this.notifierService.notify('success', 'Settings saved')
+      }, (err) => {
+        this.loadingProfileInfo = false
+        this.notifierService.notify('error', 'Error saving')
+      })
+  }
+
+  saveSecurity() {
+    if (this.securityForm.invalid) {
+      this.markFormAsDirty(this.securityForm)
+
+      return
+    }
+
+    if (this.securityForm.value.newPassword !== this.securityForm.value.confirmPassword) {
+      this.securityForm.controls['confirmPassword'].setErrors({'does_not_match': true})
+
+      return
+    }
+
+    this.loadingSecurity = true
+    this.usersService.changePassword(this.securityForm.value.password, this.securityForm.value.newPassword)
+      .subscribe(() => {
+        this.loadingSecurity = false
+        this.securityForm.reset()
+        this.notifierService.notify('success', 'Password changed')
+      }, (err) => {
+        this.loadingSecurity = false
+        this.securityForm.controls['password'].setErrors({'invalid': true})
+      })
+  }
+
+  openConfirmPassword(content) {
+    this.confirmPasswordModal = ''
+    this.confirmPasswordError = false
+    this.modalService.open(content, { size: 'sm' })
+  }
+
+  deactivate() {
+    this.usersService.deactivate(this.confirmPasswordModal)
+      .subscribe(response => {
+        this.modalService.dismissAll()
+        this.authService.logout()
+          .then(() => this.router.navigate(['/login']))
+      }, error => {
+        if (400 === error.status) {
+          this.confirmPasswordError = true
+        }
+      })
+  }
+
+  private markFormAsDirty(form: FormGroup) {
+    Object.values(form.controls).forEach(control => {
+      control.markAsTouched();
+
+      control.markAsDirty()
+    })
+  }
+}

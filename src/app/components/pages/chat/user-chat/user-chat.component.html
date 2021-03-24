@@ -1,0 +1,48 @@
+<div style="padding: 0px;     height: 100%;" [ngStyle]="{'background-color': (!loading && !chat) ? 'gray' : ''}">
+  <loader *ngIf="loading"></loader>
+  <div *ngIf="!loading && chat" style="height: 100%;">
+    <div
+      style="height: 52px; padding: 5px; border-bottom: 1px solid #b0b0b0; background-color: #fff; position: absolute; top: 0; width: 100%;">
+      <img [src]="chat.user.profileImage" style="height: 40px; margin-right: 5px;" />
+      <a [routerLink]="['/user/' + chat.user.id]" style="color: #000; text-decoration: initial;">{{chat.user.name}}</a>
+    </div>
+
+    <div style="height: 100%; padding-top: 52px; background-color: #f0f0f0;
+    padding-bottom: 80px;">
+      <div style="height: 100%;  overflow-y: scroll;" #messagesCont>
+
+        <div style="padding: 5px; background-color: #f0f0f0;">
+          <div *ngIf="chat.messages.length === 0" style="padding: 5px; text-align: center;">No chat history</div>
+          <loader *ngIf="loadingMore"></loader>
+          <div *ngIf="chat.hasMoreMsgs" style="text-align: center;">
+            <button class="btn btn-outline-primary" (click)="loadMore()" [disabled]="loadingMore">Show older</button>
+          </div>
+          <div *ngFor="let msg of chat.messages; let ix = index">
+            <div style="position: relative; margin-top: 5px;">
+              <div class="message-item" [class.card-item]="!!msg.card"
+                [ngStyle]="{'background-color': isFromLoggedUser(msg.user_id) ? 'turquoise' : 'pink', 'float': isFromLoggedUser(msg.user_id) ? 'right' : 'left'}">
+                <pre *ngIf="!msg.card" style="margin: 0;">{{msg.text}}</pre>
+                <span *ngIf="msg.card">{{msg.card.text}}</span>
+              </div>
+              <div style="clear: both;"></div>
+            </div>
+            <div *ngIf="isNextMsgFromMe(ix)" class="posted-ago"
+              [ngStyle]="{'text-align': isFromLoggedUser(msg.user_id) ? 'right' : 'left'}">
+              {{postedAgo(msg)}}
+            </div>
+            <div *ngIf="isNextMsgFromDifferentDay(ix)" style="margin: 15px 0;">
+              <span style="font-size: 14px;">{{getMessageDate(chat.messages[ix + 1])}}</span>
+              <hr style="margin: 0;">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="position: absolute; width: 100%; height: 81px; bottom: 0; border-top: 1px solid #b0b0b0;">
+      <textarea (keypress)="sendMessage($event)" [(ngModel)]="chatMsg[userId]" placeholder="Your message..."
+        style="bottom: 0; position: absolute; border: 0; padding: 5px;"></textarea>
+    </div>
+  </div>
+</div>

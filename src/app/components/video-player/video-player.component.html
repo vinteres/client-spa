@@ -1,0 +1,8 @@
+<div style="position: relative; ">
+  <video class="media-item rounded" [src]="src" style="width: 100%;" (ended)="pause()" (pause)="pause()" (play)="play()" #media></video>
+
+  <fa-icon *ngIf="!playing" [icon]="faPlay" class="media-btn play-btn"></fa-icon>
+  <fa-icon *ngIf="playing" [icon]="faPause" class="media-btn play-btn"></fa-icon>
+
+  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; " (click)="toggleMedia()"></div>
+</div>

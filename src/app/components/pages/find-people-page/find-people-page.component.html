@@ -1,0 +1,40 @@
+<h1>Find people <fa-icon [icon]="faSearchPref" (click)="openModal(content)" style="cursor: pointer;"></fa-icon></h1>
+
+<loader *ngIf="loading"></loader>
+<div *ngIf="!loading && users.length == 0">No people were found.</div>
+<div>
+  <user-item *ngFor="let user of users" [user]="user"></user-item>
+
+  <div class="clearfix"></div>
+</div>
+
+<pagination [page]="page" [totalPages]="totalPages" (pageChange)="pageChange($event)"></pagination>
+
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <span class="close" aria-label="Close" style="position: absolute; top: -30px;right: 0; color: #fff; cursor: pointer;" (click)="modal.dismiss('Cross click')">&times;</span>
+
+    <div>
+      <h4>Age</h4>
+      <div class="row">
+        <div class="col-6">
+          <select class="form-control" [value]="editSearchPref.fromAge" (change)="changePref('fromAge', +$event.target.value)">
+            <option *ngFor="let age of ages" [value]="age" [selected]="age == editSearchPref.fromAge">{{age}}</option>
+          </select>
+        </div>
+        <div class="col-6">
+          <select class="form-control" [value]="editSearchPref.toAge" (change)="changePref('toAge', +$event.target.value)">
+            <option *ngFor="let age of agesTo" [value]="age" [selected]="age == editSearchPref.toAge">{{age}}</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-top: 30px">
+
+      <h4>City</h4>
+        <location-select [location]="editSearchPref.location" (locationChanged)="locationChanged($event)"></location-select>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" (click)="saveSearchPref()">Save</button>
+  </div>
+</ng-template>

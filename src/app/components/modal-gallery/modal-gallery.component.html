@@ -1,0 +1,14 @@
+<div id="myModal" class="modal" (click)="close()" #lightboxDialog>
+  <span class="close cursor" (click)="close()">&times;</span>
+  <div class="modal-content" (click)="$event.stopPropagation()">
+
+    <div *ngFor="let image of images; let ix = index" (click)="plusSlides(1)" class="mySlides" [ngStyle]="{'display': (ix === currentImage ? 'block' : 'none')}">
+      <div class="numbertext">{{ix + 1}} / {{images.length}}</div>
+      <img [src]="image.big" style="width:100%">
+    </div>
+
+    <a *ngIf="images.length > 1" class="prev" (click)="plusSlides(-1)"><fa-icon [icon]="faLeft"></fa-icon></a>
+    <a *ngIf="images.length > 1" class="next" (click)="plusSlides(1)"><fa-icon [icon]="faRight"></fa-icon></a>
+
+  </div>
+</div>

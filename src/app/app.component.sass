@@ -1,0 +1,95 @@
+$contentWidth: 1000px
+
+.header
+  height: 50px
+  width: 100%
+  background-color: #fff
+  /*background-color: #a6f7a6*/
+  border: 1px solid rgba(46, 62, 72, 0.12)
+  position: fixed
+  top: 0
+  left: 0
+  z-index: 2
+
+  .content
+    #width: $contentWidth
+    width: 1000px
+    margin: auto
+    position: relative
+    height: 50px
+
+    .home-data
+      position: absolute
+      left: 0
+      top: 0
+
+    .user-data
+      position: absolute
+      right: 0
+      top: 0
+
+  a.header-item
+      margin-left: 15px
+      padding: 10px 0
+      display: inline-block
+      font-size: 20px
+      color: rgba(46, 62, 72, 0.7)
+      #color: #000
+      text-decoration: none
+
+.dropdown-item:hover
+  cursor: pointer
+
+.page-content
+  &:after
+    clear: both
+  width: $contentWidth
+  margin: auto
+  margin-top: 60px
+
+  .content
+    width: 800px
+    float: left
+
+.left-menu
+  width: 225px
+  #float: left
+  #height: 400px
+  position: fixed
+  left: 0
+  top: 50px
+  height: 100%
+
+  a
+    font-weight: bold
+    font-size: 17px
+    i.icon
+      display: inline-block
+
+  .item
+    &:hover
+      #color: #6e6867
+      #background-color: #d1cecd
+
+      background-color: rgba(46, 62, 72, 0.1)
+      #color: #fff
+    display: block
+    height: 40px
+    line-height: 40px
+    font-size: 20px
+    padding: 0 25px
+    #color: #6e6867
+    #color: #000
+    color: rgba(46, 62, 72, 0.7)
+    text-decoration: none
+    cursor: pointer
+
+.menu-btn
+  font-weight: bold
+  font-size: 17px
+  display: inline-block
+
+@media only screen and (max-width: 1300px)
+  .left-menu
+    position: initial
+    margin: 60px 50px 0 30px

@@ -1,0 +1,19 @@
+<div class="user-item rounded shadow-sm">
+  <div class="image-cont rounded" [routerLink]="['/user/' + user.id]">
+    <img class="rounded" [src]="user.profile_image" />
+    <div class="img-text">
+    </div>
+    <div class="item-overlay rounded">
+      <div class="text-container">
+        <div class="text-truncate" style="font-size: initial;">
+          {{user.name}}, {{user.age}}
+        </div> 
+        <div class="text-truncate" *ngIf="user.mutual_hobbies_count" style="line-height: 14px;">{{user.mutual_hobbies_count}} mutual interests</div>
+        <div class="text-truncate" *ngIf="user.mutual_ativities_count" style="line-height: 14px;">{{user.mutual_ativities_count}} mutual activities</div>
+        <div class="text-truncate" *ngIf="user.from" style="line-height: 14px; margin-top: 5px">{{user.from}}</div>
+      </div>
+    </div>
+
+    <span *ngIf="user.compatability" class="badge badge-pill badge-secondary" style="position: absolute; right: 5px; top: 5px;">{{user.compatability}}%</span>
+  </div>
+</div>

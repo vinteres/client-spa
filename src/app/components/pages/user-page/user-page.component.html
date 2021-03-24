@@ -1,0 +1,372 @@
+<loader *ngIf="loading"></loader>
+
+<div *ngIf="!loading && user">
+  <div class="profile-content">
+    <div>
+      <div class="profile-data-content">
+        <div class="container" style="margin-bottom: 30px; position: relative; margin-top: 100px">
+          <div style="position: absolute; margin-left: 210px; margin-top: -60px;">
+            <div class="name">
+              <span class="align-middle">{{user.name}}, {{user.age}}</span>
+              <span *ngIf="user.compatability" class="badge badge-pill badge-secondary align-middle"
+                style="margin-left: 10px;">{{user.compatability}}%</span>
+            </div>
+            <div>
+              {{user.title}}
+            </div>
+          </div>
+          <div class="shadow-sm rounded"
+            style="padding: 15px; height: 210px; height: 100px; background-color: #fff; position: relative;">
+
+
+            <div *ngIf="!isLoggedUser()" style="position: absolute; top: 20px; right: 20px;">
+              <button *ngIf="!user.relation_status" class="btn btn-outline-dark" style="margin-right: 10px;"
+                (click)="sendSmile()">
+                Smile
+              </button>
+
+              <button *ngIf="!user.relation_status" class="btn btn-outline-dark" (click)="openIntroDialog(introDialog)">
+                Send intro
+              </button>
+
+              <button *ngIf="'matched' === user.relation_status" class="btn btn-outline-dark"
+                style="margin-right: 10px;" (click)="unmatch()">
+                Unmatch
+              </button>
+
+              <div *ngIf="'intro_to_me' === user.relation_status" class="intro-response">
+                They have sent you an intro!
+              </div>
+
+              <div *ngIf="'intro_from_me' === user.relation_status" class="intro-response">
+                You have sent an intro to them
+              </div>
+
+              <button *ngIf="'matched' === user.relation_status" class="btn btn-outline-dark"
+                [routerLink]="['/chat/user/' + userId]">
+                Message
+              </button>
+            </div>
+
+            <div style="position: absolute; top: -45px; right: 0;">
+              <div *ngIf="!isLoggedUser() && !user.reported" style="text-align: right;">
+                <button class="btn btn-outline-dark" (click)="openReportModal(reportDialog)">
+                  <fa-icon [icon]="faFlag"></fa-icon>
+                </button>
+              </div>
+            </div>
+
+            <div *ngIf="isLoggedUser()" style="border-radius: 100%; margin-top: -110px" class="image-content shadow-sm"
+              [ngStyle]="{ 'background-image': 'url(' + user.profile_image + ')'}"
+              (click)="showEditImageModal(imageUploadModal)">
+              <div *ngIf="isLoggedUser()" class="img-btn" style="color: #fff;">Change image</div>
+            </div>
+
+            <div *ngIf="!isLoggedUser()" style="border-radius: 100%; margin-top: -110px" class="image-content shadow-sm"
+              [ngStyle]="{ 'background-image': 'url(' + user.profile_image + ')'}" (click)="showGalleryModal()">
+              <div class="img-btn" style="color: #fff;" *ngIf="user.images.length > 0">View images</div>
+            </div>
+
+            <div class="name-content" style="margin-left: 170px;">
+
+              <div>
+                <img *ngFor="let img of previewImages(); let ix = index" [src]="img.small" class="border"
+                  style="width: 50px; border-radius: 100%; margin-right: 5px; cursor: pointer;"
+                  (click)="showGalleryModal(ix + 1)" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm">
+            <div class="shadow-sm rounded" style="padding: 15px; background-color: #fff; margin-bottom: 30px;">
+              <div style="position: relative;">
+                <h5>About</h5>
+                <textarea *ngIf="editingBio" class="bio"
+                  (change)="setEditBioText($event.target.value)">{{editBioText}}</textarea>
+                <div *ngIf="!editingBio" class="bio">{{getBio()}}</div>
+              </div>
+
+              <hr>
+
+              <h5>
+                Interests
+                <fa-icon *ngIf="!editingInterests && isLoggedUser()" class="edit-btn" (click)="editInterests()"
+                  [icon]="faPen"></fa-icon>
+                <fa-icon *ngIf="editingInterests && isLoggedUser()" class="edit-btn" (click)="saveInterests()"
+                  [icon]="faSave"></fa-icon>
+              </h5>
+              <div *ngIf="!editingInterests">
+                <div *ngIf="getInterests().length === 0">No interests yet.</div>
+                <span *ngFor="let interest of getInterests()" class="interest-item"
+                  [ngClass]="{'mutual': interest.mutual}">
+                  {{interest.name}}
+                </span>
+              </div>
+              <div *ngIf="editingInterests">
+                <hobbie-picker (change)="changeEditHobbies($event)" [selectedHobbies]="editHobbies" [list]="allHobbies">
+                </hobbie-picker>
+              </div>
+
+              <hr>
+
+              <h5>
+                Free time activities
+                <fa-icon *ngIf="!editingActivities && isLoggedUser()" class="edit-btn" (click)="editFreeActivities()"
+                  [icon]="faPen"></fa-icon>
+                <fa-icon *ngIf="editingActivities && isLoggedUser()" class="edit-btn" (click)="saveActivities()"
+                  [icon]="faSave"></fa-icon>
+              </h5>
+              <div *ngIf="!editingActivities">
+                <div *ngIf="getActivities().length === 0">No activities yet.</div>
+                <span *ngFor="let interest of getActivities()" class="interest-item">
+                  {{interest.name}}
+                </span>
+              </div>
+              <div *ngIf="editingActivities">
+                <hobbie-picker (change)="changeEditHobbies($event)" [selectedHobbies]="editActivities"
+                  [list]="allActivities"></hobbie-picker>
+              </div>
+
+              <hr>
+
+              <h5>
+                From
+                <fa-icon *ngIf="!editingFrom && isLoggedUser()" class="edit-btn" (click)="editFrom()" [icon]="faPen">
+                </fa-icon>
+                <fa-icon *ngIf="editingFrom && isLoggedUser()" class="edit-btn" (click)="saveFrom()" [icon]="faSave">
+                </fa-icon>
+              </h5>
+              <div *ngIf="!editingFrom">
+                {{user.location?.fullName}}
+                <span *ngIf="!user.location || !user.location.fullName || user.location.fullName.trim() === ''">No
+                  location yet.</span>
+              </div>
+              <location-select *ngIf="editingFrom" [location]="editFromData"
+                (locationChanged)="locationChanged($event)"></location-select>
+            </div>
+
+            <div *ngIf="user.intro && 'intro_to_me' === user.relation_status" class="shadow-sm rounded intro-item"
+              (mouseenter)="parentSubject.next({ play: 0 })" (mouseleave)="parentSubject.next({ pause: 0 })"
+              style="background-color: #fff; padding: 10px; position: relative; "
+              [ngStyle]="{ 'width': 'smile' === user.intro.type ? '250px' : '' }">
+              <div class="arrow-right" style="position: absolute; left: -20px; top: 20px"></div>
+              <div style="font-size: 13px; margin-bottom: 5px;">
+                {{introsService.sentMessage(user.intro, 'They sent you ')}}</div>
+              <pre *ngIf="'message' === user.intro.type">{{user.intro.message}}</pre>
+              <div *ngIf="'video' === user.intro.type" style="position: relative;">
+                <video-player [src]="user.intro.mediaPath" [index]="0" [parentSubject]="parentSubject"></video-player>
+              </div>
+              <div *ngIf="'audio' === user.intro.type">
+                <audio-player [src]="user.intro.mediaPath" [index]="0" [parentSubject]="parentSubject"></audio-player>
+              </div>
+              <div *ngIf="'smile' === user.intro.type">
+                <smile></smile>
+              </div>
+
+              <div style="position: absolute; top: 0; right: -50px; z-index: 1;">
+                <div *ngIf="!user.intro.liked_at" style="margin-bottom: 5px; text-align: right;">
+                  <button class="btn btn-outline-success like-btn" title="Like intro" [disabled]="likingIntro"
+                    (click)="like(user.intro)">
+                    <fa-icon [icon]="faHeart"></fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+          <div class="col-sm-4">
+            <div class="shadow-sm rounded profile-info-container">
+              <fa-icon *ngIf="isLoggedUser()" class="edit-btn" [icon]="faPen" [routerLink]="['/settings']"
+                [queryParams]="{type: 'profile_info'}"></fa-icon>
+
+              <h5 class="user-info-item">Info</h5>
+
+              <div *ngIf="!hasUserData()">
+                No person info yet.
+              </div>
+
+              <div *ngIf="bodyData()" class="user-info-item">
+                <fa-icon [icon]="faBody" class="info-icon"></fa-icon>
+                {{bodyData()}}
+              </div>
+              <div *ngIf="user.smoking" class="user-info-item">
+                <fa-icon [icon]="faSmoking" class="info-icon"></fa-icon>
+                <span *ngIf="user.smoking == 'regularly'">Smokes regularly</span>
+                <span *ngIf="user.smoking == 'sometimes'">Smokes sometimes</span>
+                <span *ngIf="user.smoking == 'never'">Doesn't smoke</span>
+              </div>
+              <div *ngIf="user.drinking" class="user-info-item">
+                <fa-icon [icon]="faCocktail" class="info-icon"></fa-icon>
+                <span *ngIf="user.drinking == 'regularly'">Drinks regularly</span>
+                <span *ngIf="user.drinking == 'sometimes'">Drinks socially</span>
+                <span *ngIf="user.drinking == 'never'">Doesn't drink</span>
+              </div>
+              <div *ngIf="user.children_status" class="user-info-item">
+                <fa-icon [icon]="faChild" class="info-icon"></fa-icon>
+                <span *ngIf="user.children_status == 'has'">Has childen</span>
+                <span *ngIf="user.children_status == 'does_not_have'">Doesn't have children</span>
+              </div>
+              <div *ngIf="user.pet_status" class="user-info-item">
+                <fa-icon [icon]="faCat" class="info-icon"></fa-icon>
+                <span *ngIf="user.pet_status == 'cat'">Has cat(s)</span>
+                <span *ngIf="user.pet_status == 'dog'">Has dog(s)</span>
+                <span *ngIf="user.pet_status == 'other'">Has other pet(s)</span>
+                <span *ngIf="user.pet_status == 'none'">Doesn't have pets</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <ng-template #imageUploadModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Image upload</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8">
+
+            <div *ngFor="let userImage of user.images; let ix = index"
+              class="rounded shadow border border-dark add-image-item" (click)="showImageUpload(ix + 1, file)">
+              <img class="rounded" [src]="userImage.small" style="max-width: 150px; max-height: 150px;" />
+              <input type="file" accept="image/*" #file (change)="uploadImage(userImage.position, $event.target.files)"
+                style="display: none;">
+              <button class="btn btn-outline-danger" style="position: absolute; top: 3px; right: 3px;"
+                (click)="removeImage($event, ix + 1)" [disabled]="loadingImages[ix + 1]">
+                <fa-icon [icon]="faTimesCircle"></fa-icon>
+              </button>
+            </div>
+
+            <div *ngIf="user.images.length < 6" class="modal-add-item shadow rounded add-image-item align-middle"
+              (click)="newImage.click()">
+              <div class="modal-add">
+                <fa-icon [icon]="faPlus"></fa-icon>
+              </div>
+              <input type="file" accept="image/*" #newImage
+                (change)="uploadImage(user.images.length + 1, $event.target.files)" style="display: none;">
+            </div>
+
+            <div style="clear: both;"></div>
+
+          </div>
+          <div class="col-sm-4">
+
+            <h5>Photo rules:</h5>
+            <div style="padding: 0 20px;">
+              <ul class="a">
+                <li>You must be in the picture</li>
+                <li>show your face</li>
+                <li>No nudity</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close click')">Done</button>
+    </div>
+  </ng-template>
+
+  <ng-template #introDialog let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Send intro
+
+        <div class="btn-group">
+          <button type="button" style="outline: none;" class="btn btn-outline-primary"
+            (click)="changeIntroType('message')" [ngClass]="{'active': (introType === 'message')}">Message</button>
+          <button type="button" class="btn btn-outline-primary" (click)="changeIntroType('audio')"
+            [ngClass]="{'active': (introType === 'audio')}">Voice</button>
+          <button type="button" class="btn btn-outline-primary" (click)="changeIntroType('video')"
+            [ngClass]="{'active': (introType === 'video')}">Video</button>
+        </div>
+      </h4>
+    </div>
+    <div class="modal-body">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8">
+            <div *ngIf="introType === 'message'">
+              <h5 class="intro-type-title">Send message ({{introMsg.length}}/255)</h5>
+              <textarea class="form-control" [(ngModel)]='introMsg' rows="3"></textarea>
+              <small *ngIf="introMsg.length > 255" class="text-danger">
+                Message must be less than 255 characters.
+              </small>
+            </div>
+            <div *ngIf="introType === 'audio'">
+              <h5 class="intro-type-title">Voice message</h5>
+              <media-recorder [type]="'audio'" (change)="changeMedia($event)"></media-recorder>
+            </div>
+            <div *ngIf="introType === 'video'">
+              <h5 class="intro-type-title">Video message</h5>
+              <media-recorder [type]="'video'" (change)="changeMedia($event)"></media-recorder>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <div style="padding: 0 20px;">
+              <h5>Posting rules:</h5>
+              <ul class="a">
+                <li>The person in the recording should be you</li>
+                <li>No nudity in recording</li>
+                <li>Be nice</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline-dark" (click)="sendIntro()"
+        [disabled]="!introData && (0 === introMsg.trim().length || introMsg.length > 255)">Send</button>
+    </div>
+  </ng-template>
+
+  <ng-template #reportDialog let-modal>
+    <div class="modal-header">
+      <span class="close" aria-label="Close"
+        style="position: absolute; top: -30px;right: 0; color: #fff; cursor: pointer;"
+        (click)="modal.dismiss('Cross click')">&times;</span>
+      <h4 class="modal-title">Report</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="reason">Reason</label>
+        <select id="reason" class="form-control" #reportType>
+          <option value="inappropriate">Inappropriate content</option>
+          <option value="abusive">Abusive language</option>
+          <option value="scam">Running a scam</option>
+          <option value="fake">Fake profile/photos</option>
+          <option value="underage">Underage</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group required">
+        <label class="control-label" for="details">Details</label>
+        <textarea id="details" class="form-control" placeholder="Give us more details.."
+          [(ngModel)]='reportDetails'></textarea>
+      </div>
+      <button class="btn btn-outline-dark" (click)="sendReport(reportType.value)"
+        [disabled]="reporting || !reportDetails || 0 === reportDetails.trim().length" style="width: 100%;">Send</button>
+    </div>
+  </ng-template>
+
+  <modal-gallery [parentSubject]="gallerySubject" [images]="user.images"></modal-gallery>

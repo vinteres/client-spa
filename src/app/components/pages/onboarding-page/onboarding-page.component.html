@@ -1,0 +1,278 @@
+<div *ngIf="1 == step" class="onboarding-step-cont border shadow-sm">
+  <form [formGroup]="accountInfoForm">
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Birthday</label>
+      <div class="col-sm-10">
+        <date-picker [date]="birthday.value" (dateChange)="dateChange($event)"></date-picker>
+        <div>
+          <small *ngIf="gender.invalid && (gender.dirty || gender.touched)" class="text-danger">
+            Required field
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Gender</label>
+      <div class="col-sm-10">
+        <div class="radio">
+          <label><input type="radio" value="male" name="gender" formControlName="gender">Male</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" value="female" name="gender" formControlName="gender">Female</label>
+        </div>
+        <div>
+          <small *ngIf="gender.invalid && (gender.dirty || gender.touched)" class="text-danger">
+            Required field
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Interested in</label>
+      <div class="col-sm-10">
+        <div class="radio">
+          <label><input type="radio" value="male" name="interested_in" formControlName="interested_in">Male</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" value="female" name="interested_in" formControlName="interested_in">Female</label>
+        </div>
+        <div>
+          <small *ngIf="interested_in.invalid && (interested_in.dirty || interested_in.touched)" class="text-danger">
+            Required field
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Title</label>
+      <div class="col-sm-10">
+        <div class="radio">
+          <input class="form-control" type="text" name="title" formControlName="title"
+            placeholder="Your job, education...">
+        </div>
+        <div>
+          <small *ngIf="title.invalid && (title.dirty || title.touched)" class="text-danger">
+            Required field
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">About me</label>
+      <div class="col-sm-10">
+        <div class="radio">
+          <textarea class="form-control" name="description" formControlName="description"
+            placeholder="Tell something about you"></textarea>
+        </div>
+        <div>
+          <small *ngIf="description.invalid && (description.dirty || description.touched)" class="text-danger">
+            Required field
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">From</label>
+      <div class="col-sm-10">
+        <div class="radio">
+          <location-select [location]="location" (locationChanged)="locationChanged($event)"></location-select>
+        </div>
+        <div>
+          <small *ngIf="city.invalid && (city.dirty || city.touched)" class="text-danger">
+            Required field
+          </small>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="btn-cont">
+    <button class="btn btn-primary" (click)="saveAccountInfo()" [disabled]="loading">Save</button>
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<div *ngIf="2 == step" class="onboarding-step-cont ob-small border shadow-sm">
+  <form [formGroup]="profileInfoForm">
+
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-4 col-form-label">Body type:</label>
+      <div class="col-sm-8">
+        <div class="radio">
+          <label><input type="radio" value="fit" name="body" formControlName="body">Fit</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" value="curvy" name="body" formControlName="body">Curvy</label>
+        </div>
+        <div class="radio disabled">
+          <label><input type="radio" value="average" name="body" formControlName="body">Average</label>
+        </div>
+        <div class="radio disabled">
+          <label><input type="radio" value="skinny" name="body" formControlName="body">Skinny</label>
+        </div>
+        <div>
+          <small *ngIf="body.invalid && (body.dirty || body.touched)" class="text-danger">
+            Required field
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label">Height:</label>
+      <div class="col-sm-8">
+        <input type="number" class="form-control" formControlName="height" name="height"
+          style="width: 70px; display: inline-block;">
+        cm
+        <div>
+          <small *ngIf="height.invalid && (height.dirty || height.touched)" class="text-danger">
+            Invalid height
+          </small>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-4 col-form-label">Smoking:</label>
+      <div class="col-sm-8">
+        <div class="radio">
+          <label><input type="radio" value="regularly" name="smoking" formControlName="smoking">Regularly</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" value="sometimes" name="smoking" formControlName="smoking">Sometimes</label>
+        </div>
+        <div class="radio disabled">
+          <label><input type="radio" value="never" name="smoking" formControlName="smoking">Never</label>
+        </div>
+        <div>
+          <small *ngIf="smoking.invalid && (smoking.dirty || smoking.touched)" class="text-danger">
+            Required field
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-4 col-form-label">Drinking:</label>
+      <div class="col-sm-8">
+        <div class="radio">
+          <label><input type="radio" value="regularly" name="drinking" formControlName="drinking">Regularly</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" value="sometimes" name="drinking" formControlName="drinking">Socially</label>
+        </div>
+        <div class="radio disabled">
+          <label><input type="radio" value="never" name="drinking" formControlName="drinking">never</label>
+        </div>
+        <div>
+          <small *ngIf="drinking.invalid && (drinking.dirty || drinking.touched)" class="text-danger">
+            Required field
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-4 col-form-label">Do you have children?</label>
+      <div class="col-sm-8">
+        <div class="radio">
+          <label><input type="radio" value="has" name="children_status" formControlName="children_status">Yes</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" value="does_not_have" name="children_status"
+              formControlName="children_status">No</label>
+        </div>
+        <div>
+          <small *ngIf="children_status.invalid && (children_status.dirty || children_status.touched)"
+            class="text-danger">
+            Required field
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-4 col-form-label">Do you have pets?</label>
+      <div class="col-sm-8">
+        <div class="radio">
+          <label><input type="radio" value="cat" name="pet_status" formControlName="pet_status">Cat(s)</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" value="dog" name="pet_status" formControlName="pet_status">Dog(s)</label>
+        </div>
+        <div class="radio disabled">
+          <label><input type="radio" value="other" name="pet_status" formControlName="pet_status">Other(s)</label>
+        </div>
+        <div class="radio disabled">
+          <label><input type="radio" value="none" name="pet_status" formControlName="pet_status">None</label>
+        </div>
+        <div>
+          <small *ngIf="pet_status.invalid && (pet_status.dirty || pet_status.touched)" class="text-danger">
+            Required field
+          </small>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="btn-cont">
+    <button class="btn btn-primary" (click)="saveProfileInfo()">Save</button>
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<div *ngIf="3 == step" class="onboarding-step-cont rounded shadow-sm">
+  <h2>
+    Interests
+  </h2>
+  <div style="margin-bottom: 25px;">
+    <hobbie-picker [selectedHobbies]="selectedHobbies" [list]="allHobbies" type="hobbies"
+      (change)="hobbiesChanged($event)"></hobbie-picker>
+    <small *ngIf="hobbies.invalid && (hobbies.dirty || hobbies.touched)" class="text-danger">
+      Choose at least 1 hobbie
+    </small>
+  </div>
+  <div style="margin-bottom: 25px;">
+    <hobbie-picker [selectedHobbies]="selectedActivities" [list]="allActivities" type="activities"
+      (change)="interestsChanged($event)"></hobbie-picker>
+    <small *ngIf="activities.invalid && (activities.dirty || activities.touched)" class="text-danger">
+      Choose at least 1 activity
+    </small>
+  </div>
+
+  <div class="btn-cont">
+    <button class="btn btn-primary" (click)="saveInterests()" [disabled]="loading">Save</button>
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<div *ngIf="4 == step" style="padding-top: 20px;">
+  <progress class="border shadow-sm" [value]="(3 * (quizStep - 1)) / questions.length" max="1"
+    style="width: 100%; height: 30px"></progress>
+
+  <div style="padding: 25px; margin-left: 20px;">
+    <form [formGroup]="quizForm">
+      <div *ngFor="let question of stepQustions(quizStep); let ix = index" class="form-group">
+        <label for="inputPassword">
+          {{question.text}}
+        </label>
+        <div style="margin-bottom: 25px; margin-left: 20px;">
+          <div *ngFor="let answer of question.answers" class="radio">
+            <label>
+              <input type="radio" [value]="answer.id" [name]="question.id" [formControlName]="question.id">
+              {{answer.text}}
+            </label>
+          </div>
+          <small *ngIf="quest(question.id).invalid && (quest(question.id).dirty || quest(question.id).touched)"
+            class="text-danger">
+            Required field
+          </small>
+        </div>
+      </div>
+    </form>
+
+    <button class="btn btn-primary" (click)="saveQuiz()">Save</button>
+  </div>
+</div>

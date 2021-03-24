@@ -1,0 +1,11 @@
+<h1>Matches</h1>
+
+<loader *ngIf="loading"></loader>
+<div *ngIf="!loading && users.length == 0">
+  <div class="alert alert-primary" role="alert">
+    Send intros or like intros to get matches.
+  </div>
+
+  No matches yet.
+</div>
+<user-item *ngFor="let user of users" [user]="user"></user-item>

@@ -1,0 +1,97 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Validators, NgForm, FormGroup, AbstractControl, ValidationErrors, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UsersService } from 'src/app/services/users.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Component({
+  selector: 'sign-up-page',
+  templateUrl: './sign-up-page.component.html',
+  styleUrls: ['./sign-up-page.component.sass']
+})
+export class SignUpPageComponent implements OnInit {
+  @ViewChild('registerForm') public registerForm: NgForm;
+
+  form = new FormGroup({})
+  public showForm = true
+  public loading: boolean
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private http: HttpClient,
+  ) {
+    this.createForm()
+  }
+
+  ngOnInit() {
+  }
+
+  public signup(form) {
+    if (this.form.invalid) {
+      this.markFormAsDirty(this.form)
+
+      return
+    }
+    if (this.form.value.password !== this.form.value.confirmPassword) {
+      this.form.controls['confirmPassword'].setErrors({'does_not_match': true})
+
+      return
+    }
+
+    const payload = this.form.value
+    delete payload.confirmPassword;
+
+    this.loading = true;
+    this.authService.create(payload)
+      .subscribe((response: { user: any, onboarding: any }) => {
+        this.authService.addUserToStorage(response.user)
+
+        this.router.navigateByUrl('/onboarding')
+      }, (resp) => {
+        this.loading = false
+        if (400 === resp.status) {
+          Object.keys(resp.error).forEach(field => {
+            this.form.get(field).setErrors(resp.error[field])
+          })
+        }
+      })
+  }
+
+  private markFormAsDirty(form: FormGroup) {
+    Object.values(form.controls).forEach(control => {
+      control.markAsTouched()
+
+      control.markAsDirty()
+    })
+  }
+
+  private createForm() {
+    const passwordValidator = Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')
+
+    this.form = new FormGroup({
+      'email': new FormControl('', [Validators.required, Validators.email], [this.emailValidator.bind(this)]),
+      'name': new FormControl('', [Validators.required, Validators.minLength(2)]),
+      'password': new FormControl('', [Validators.required, passwordValidator]),
+      'confirmPassword': new FormControl('', [Validators.required, passwordValidator])
+    })
+  }
+
+  emailValidator(control: AbstractControl): Observable<ValidationErrors> | null {
+    return this.http.get(environment.api_url + 'email-exists?email=' + control.value)
+  }
+
+  get email() { return this.form.get('email') }
+  get name() { return this.form.get('name') }
+  get password() { return this.form.get('password') }
+  get confirmPassword() { return this.form.get('confirmPassword') }
+
+  public login() {
+    this.router.navigateByUrl('/login');
+
+    return false;
+  }
+}

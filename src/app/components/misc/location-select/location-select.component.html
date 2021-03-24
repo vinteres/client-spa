@@ -1,0 +1,41 @@
+<div class="select-container">
+  <input type="text" class="form-control locations-dropdown"
+         (focus)="inputFocus()"
+         (keyup)="interestKeyUp($event)"
+         (keydown)="interestKeyDown()"
+         [value]="location.name"
+         [placeholder]="location.fullName"
+         />
+
+  <div *ngIf="showHighlight" class="locations-dropdown dropdown border rounded shadow-sm">
+    <div *ngFor="let item of matches" class="dropdown-item" (click)="select(item)">
+      {{item.fullName}}
+    </div>
+    <loader *ngIf="loading" size="small"></loader>
+    <div *ngIf="!loading && (!matches || 0 === matches.length)" class="no-locations locations-dropdown">
+      <div *ngIf="!showCountries" (click)="showCountries = true" class="show-more-countries locations-dropdown">
+        Show list of countries.
+      </div>
+
+      <div *ngIf="!showCountries && !selectedCountry" class="locations-dropdown">
+        No matches found.
+      </div>
+      <div *ngIf="showCountries">
+        <h5>Countries:</h5>
+        <div *ngFor="let country of locationService.countries" class="dropdown-item locations-dropdown" (click)="showCitiesOf(country)">
+          {{country.name}}
+        </div>
+      </div>
+      <div *ngIf="selectedCountry">
+        <h5>
+          Cities of {{selectedCountry.name}}:
+        </h5>
+        <loader *ngIf="loadingCities" size="small"></loader>
+        <div *ngIf="!loadingCities && 0 === cities.length">No cities found.</div>
+        <div *ngFor="let city of cities" class="dropdown-item" (click)="selectCity(city)">
+          {{city.name}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

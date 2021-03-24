@@ -1,0 +1,8 @@
+<h1>Views</h1>
+<h5>People who viewed me.</h5>
+
+<loader *ngIf="loading"></loader>
+<div *ngIf="!loading && users.length == 0">
+  No views yet.
+</div>
+<user-item *ngFor="let user of users" [user]="user"></user-item>
