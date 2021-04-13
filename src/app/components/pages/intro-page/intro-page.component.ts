@@ -1,13 +1,13 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { IntrosService } from 'src/app/services/intros.service';
-import { faPlay, faPause, faHeart, faFlag } from '@fortawesome/free-solid-svg-icons';
-import { Subject } from 'rxjs';
-import { NotificationsService } from 'src/app/services/notifications.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { CHttp } from 'src/app/services/chttp.service';
-import { NotifierService } from 'angular-notifier';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core'
+import { IntrosService } from 'src/app/services/intros.service'
+import { faPlay, faPause, faHeart, faFlag } from '@fortawesome/free-solid-svg-icons'
+import { Subject } from 'rxjs'
+import { NotificationsService } from 'src/app/services/notifications.service'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
+import { Router } from '@angular/router'
+import { environment } from 'src/environments/environment'
+import { CHttp } from 'src/app/services/chttp.service'
+import { NotifierService } from 'angular-notifier'
 
 @Component({
   selector: 'intro-page',
@@ -22,8 +22,8 @@ export class IntroPageComponent implements OnInit {
 
   loading: boolean
   intros: any = []
-  page: number = 1
-  noMoreItems: boolean = false
+  page = 1
+  noMoreItems = false
 
   introLikeLoading = {}
   selectedIntro: any
@@ -60,19 +60,19 @@ export class IntroPageComponent implements OnInit {
     const n: any = document.documentElement || document.body.parentNode || document.body
     const scrollTop = window.pageYOffset || n.scrollTop
 
-    if(scrollTop > maxHeight ) {
+    if (scrollTop > maxHeight ) {
       this.loadIntros()
     }
   }
 
   loadIntros() {
-    if (this.noMoreItems) return
+    if (this.noMoreItems) { return }
 
     this.loading = true
 
     this.getIntros()
       .subscribe(intros => {
-        for (const intro of intros) this.intros.push(intro)
+        for (const intro of intros) { this.intros.push(intro) }
         if (0 === intros.length) {
           this.noMoreItems = true
         }
@@ -138,7 +138,7 @@ export class IntroPageComponent implements OnInit {
     this.reportType = ''
     this.reportDetails = ''
     this.reportIntro = intro
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'sm' }).result
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'sm' })
   }
 
   sendReport(type) {
@@ -152,7 +152,7 @@ export class IntroPageComponent implements OnInit {
     this.http.post(environment.api_url + 'report', payload)
       .subscribe(response => {
         for (const intro of this.intros) {
-          if (intro.user.id !== this.reportIntro.user.id) continue
+          if (intro.user.id !== this.reportIntro.user.id) { continue }
 
           intro.user.reported = true
         }

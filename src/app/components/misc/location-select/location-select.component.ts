@@ -1,5 +1,5 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import { LocationsService } from 'src/app/services/locations.service';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
+import { LocationsService } from 'src/app/services/locations.service'
 
 @Component({
   selector: 'location-select',
@@ -31,10 +31,10 @@ export class LocationSelectComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   clickout(event) {
     const target = event.target
-    const classesOf = (ele) => ('string' === typeof ele.className) ? ele.className.split(' ') : [];
+    const classesOf = (ele) => ('string' === typeof ele.className) ? ele.className.split(' ') : []
     const hasClass = (cls, classes) => {
-      for (let clsI of classes) {
-        if (cls === clsI) return true
+      for (const clsI of classes) {
+        if (cls === clsI) { return true }
       }
 
       return false
@@ -43,7 +43,7 @@ export class LocationSelectComponent implements OnInit {
       const targetClass = 'locations-dropdown'
       let targetEle = ele
       while (targetEle) {
-        if (hasClass(targetClass, classesOf(targetEle))) return true
+        if (hasClass(targetClass, classesOf(targetEle))) { return true }
 
         targetEle = targetEle.parentNode
       }

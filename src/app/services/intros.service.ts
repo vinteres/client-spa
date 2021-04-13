@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { CHttp } from './chttp.service';
+import { Injectable } from '@angular/core'
+import { environment } from 'src/environments/environment'
+import { CHttp } from './chttp.service'
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +8,7 @@ import { CHttp } from './chttp.service';
 export class IntrosService {
 
   constructor(private http: CHttp) { }
+l
 
   getForUser(page: number) {
     return this.http.get(environment.api_url + 'intros-to?page=' + page)
@@ -16,7 +17,6 @@ export class IntrosService {
   getFromUser(page: number) {
     return this.http.get(environment.api_url + 'intros-from?page=' + page)
   }
-l
   like(id: string) {
     return this.http.post(environment.api_url + `intros/${id}/like`)
   }

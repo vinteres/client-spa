@@ -1,16 +1,16 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing'
 
-import { EmailValidatorService } from './email-validator.service';
+import { EmailValidatorService } from './email-validator.service'
 
 describe('EmailValidatorService', () => {
-  let service: EmailValidatorService;
+  let service: EmailValidatorService
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(EmailValidatorService);
-  });
+    TestBed.configureTestingModule({})
+    service = TestBed.inject(EmailValidatorService)
+  })
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+    expect(service).toBeTruthy()
+  })
+})

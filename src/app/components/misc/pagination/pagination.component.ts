@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 
 @Component({
   selector: 'pagination',
@@ -18,7 +18,7 @@ export class PaginationComponent implements OnInit {
   }
 
   changePage(page) {
-    if (0 >= page || this.totalPages < page || '..' === page) return
+    if (0 >= page || this.totalPages < page || '..' === page) { return }
 
     this.pageChange.emit(page)
   }
@@ -33,20 +33,20 @@ export class PaginationComponent implements OnInit {
     end = start + 5
 
     if (end > this.totalPages + 1) {
-      let d = end - (this.totalPages + 1)
+      const d = end - (this.totalPages + 1)
       end -= d
       if (end - start < 5) {
-        if (start - d > 0) start -= d
-        else start = 1
+        if (start - d > 0) { start -= d }
+        else { start = 1 }
       }
     }
 
-    let a2 = []
+    const a2 = []
     for (let i = start; i < end; i++) {
       a2.push(i)
     }
 
-    let f1 = []
+    const f1 = []
     if (a2[0] - 1 > 1) {
       f1.push('..')
     }
@@ -54,9 +54,9 @@ export class PaginationComponent implements OnInit {
       f1.push(1)
     }
 
-    for (const i of f1) a2.unshift(i)
+    for (const i of f1) { a2.unshift(i) }
 
-    let f2 = []
+    const f2 = []
     if (this.totalPages - a2[a2.length - 1] > 1) {
       f2.push('..')
     }
@@ -64,7 +64,7 @@ export class PaginationComponent implements OnInit {
       f2.push(this.totalPages)
     }
 
-    for (const i of f2) a2.push(i)
+    for (const i of f2) { a2.push(i) }
 
     return a2
   }

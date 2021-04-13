@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NotifierService } from 'angular-notifier';
-import { AuthService } from 'src/app/services/auth.service';
-import { UsersService } from 'src/app/services/users.service';
+import { Component, OnInit } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { ActivatedRoute, Router } from '@angular/router'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
+import { NotifierService } from 'angular-notifier'
+import { AuthService } from 'src/app/services/auth.service'
+import { UsersService } from 'src/app/services/users.service'
 
 @Component({
   selector: 'settings-page',
@@ -62,22 +62,22 @@ export class SettingsPageComponent implements OnInit {
 
   private createAccountInfoForm() {
     this.accountInfoForm = this.formBuilder.group({
-      'name': [this.settings.accountSettings.name, [Validators.required, Validators.min(3), Validators.max(255)]],
-      'email': [this.settings.accountSettings.email, [Validators.required]],
-      'birthday':  [this.settings.accountSettings.birthday, [Validators.required]],
-      'title': [this.settings.accountSettings.title, [Validators.required, Validators.min(1), Validators.max(70)]],
-      'description':  [this.settings.accountSettings.description, [Validators.required, Validators.min(1), Validators.max(255)]],
+      name: [this.settings.accountSettings.name, [Validators.required, Validators.min(3), Validators.max(255)]],
+      email: [this.settings.accountSettings.email, [Validators.required]],
+      birthday:  [this.settings.accountSettings.birthday, [Validators.required]],
+      title: [this.settings.accountSettings.title, [Validators.required, Validators.min(1), Validators.max(70)]],
+      description:  [this.settings.accountSettings.description, [Validators.required, Validators.min(1), Validators.max(255)]],
     })
   }
 
   private createProfileInfoForm() {
     this.profileInfoForm = this.formBuilder.group({
-      'height': [this.settings.profileSettings.height, [Validators.required, Validators.min(100), Validators.max(250)]],
-      'smoking':  [this.settings.profileSettings.smoking, Validators.required],
-      'drinking':  [this.settings.profileSettings.drinking, Validators.required],
-      'body':  [this.settings.profileSettings.body, Validators.required],
-      'children_status':  [this.settings.profileSettings.children_status, Validators.required],
-      'pet_status':  [this.settings.profileSettings.pet_status, Validators.required],
+      height: [this.settings.profileSettings.height, [Validators.required, Validators.min(100), Validators.max(250)]],
+      smoking:  [this.settings.profileSettings.smoking, Validators.required],
+      drinking:  [this.settings.profileSettings.drinking, Validators.required],
+      body:  [this.settings.profileSettings.body, Validators.required],
+      children_status:  [this.settings.profileSettings.children_status, Validators.required],
+      pet_status:  [this.settings.profileSettings.pet_status, Validators.required],
     })
   }
 
@@ -85,9 +85,9 @@ export class SettingsPageComponent implements OnInit {
     const passowrdValidator = Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')
 
     this.securityForm = this.formBuilder.group({
-      'password': ['', [Validators.required]],
-      'newPassword':  ['', [Validators.required, passowrdValidator]],
-      'confirmPassword':  ['', [Validators.required, passowrdValidator]],
+      password: ['', [Validators.required]],
+      newPassword:  ['', [Validators.required, passowrdValidator]],
+      confirmPassword:  ['', [Validators.required, passowrdValidator]],
     })
   }
 
@@ -122,8 +122,8 @@ export class SettingsPageComponent implements OnInit {
       return
     }
 
-    if (this.loadingAccountInfo) return
-    if (this.accountInfoForm.invalid && this.accountInfoForm.dirty) return
+    if (this.loadingAccountInfo) { return }
+    if (this.accountInfoForm.invalid && this.accountInfoForm.dirty) { return }
 
     this.loadingAccountInfo = true
     this.usersService.setAccountSettings(this.accountInfoForm.value)
@@ -143,8 +143,8 @@ export class SettingsPageComponent implements OnInit {
       return
     }
 
-    if (this.loadingProfileInfo) return
-    if (this.profileInfoForm.invalid && this.profileInfoForm.dirty) return
+    if (this.loadingProfileInfo) { return }
+    if (this.profileInfoForm.invalid && this.profileInfoForm.dirty) { return }
 
     this.loadingProfileInfo = true
     this.usersService.setProfileSettings(this.profileInfoForm.value)
@@ -165,7 +165,7 @@ export class SettingsPageComponent implements OnInit {
     }
 
     if (this.securityForm.value.newPassword !== this.securityForm.value.confirmPassword) {
-      this.securityForm.controls['confirmPassword'].setErrors({'does_not_match': true})
+      this.securityForm.controls.confirmPassword.setErrors({does_not_match: true})
 
       return
     }
@@ -178,7 +178,7 @@ export class SettingsPageComponent implements OnInit {
         this.notifierService.notify('success', 'Password changed')
       }, (err) => {
         this.loadingSecurity = false
-        this.securityForm.controls['password'].setErrors({'invalid': true})
+        this.securityForm.controls.password.setErrors({invalid: true})
       })
   }
 
@@ -203,7 +203,7 @@ export class SettingsPageComponent implements OnInit {
 
   private markFormAsDirty(form: FormGroup) {
     Object.values(form.controls).forEach(control => {
-      control.markAsTouched();
+      control.markAsTouched()
 
       control.markAsDirty()
     })

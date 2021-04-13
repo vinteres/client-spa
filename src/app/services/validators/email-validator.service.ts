@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { AbstractControl, AsyncValidator, ValidationErrors } from '@angular/forms';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http'
+import { Injectable } from '@angular/core'
+import { AbstractControl, AsyncValidator, ValidationErrors } from '@angular/forms'
+import { Observable, of } from 'rxjs'
+import { catchError, map } from 'rxjs/operators'
+import { environment } from 'src/environments/environment'
 
 @Injectable({
   providedIn: 'root'

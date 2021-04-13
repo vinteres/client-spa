@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { HobbiesService } from 'src/app/services/hobbies.service';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'hobbie-picker',
@@ -13,22 +12,21 @@ export class HobbiePickerComponent implements OnInit {
   @Input() selectedHobbies: any
   @Input() list: any
   @Input() type: string
-  @Output() change: EventEmitter<any> = new EventEmitter()
+  @Output() changed: EventEmitter<any> = new EventEmitter()
 
   interestSearchTimer: any
   showInterestHighlight: boolean
   matches: any = []
 
-
   ngOnInit(): void {
   }
 
   add(hobbie) {
-    if (this.hasHobbie(hobbie)) return
+    if (this.hasHobbie(hobbie)) { return }
 
     this.selectedHobbies.push(hobbie)
 
-    this.change.emit(this.selectedHobbies)
+    this.changed.emit(this.selectedHobbies)
   }
 
   remove(hobbie) {
@@ -40,7 +38,7 @@ export class HobbiePickerComponent implements OnInit {
       }
     }
 
-    this.change.emit(this.selectedHobbies)
+    this.changed.emit(this.selectedHobbies)
   }
 
   hasHobbie(targetHobbie) {

@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Validators, NgForm, FormGroup, AbstractControl, ValidationErrors, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
-import { UsersService } from 'src/app/services/users.service';
-import { AuthService } from 'src/app/services/auth.service';
-import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core'
+import { Validators, NgForm, FormGroup, AbstractControl, ValidationErrors, FormControl } from '@angular/forms'
+import { Router } from '@angular/router'
+import { UsersService } from 'src/app/services/users.service'
+import { AuthService } from 'src/app/services/auth.service'
+import { environment } from 'src/environments/environment'
+import { HttpClient } from '@angular/common/http'
+import { Observable } from 'rxjs'
 
 @Component({
   selector: 'sign-up-page',
@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./sign-up-page.component.sass']
 })
 export class SignUpPageComponent implements OnInit {
-  @ViewChild('registerForm') public registerForm: NgForm;
+  @ViewChild('registerForm') public registerForm: NgForm
 
   form = new FormGroup({})
   public showForm = true
@@ -37,15 +37,15 @@ export class SignUpPageComponent implements OnInit {
       return
     }
     if (this.form.value.password !== this.form.value.confirmPassword) {
-      this.form.controls['confirmPassword'].setErrors({'does_not_match': true})
+      this.form.controls.confirmPassword.setErrors({does_not_match: true})
 
       return
     }
 
     const payload = this.form.value
-    delete payload.confirmPassword;
+    delete payload.confirmPassword
 
-    this.loading = true;
+    this.loading = true
     this.authService.create(payload)
       .subscribe((response: { user: any, onboarding: any }) => {
         this.authService.addUserToStorage(response.user)
@@ -73,10 +73,10 @@ export class SignUpPageComponent implements OnInit {
     const passwordValidator = Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')
 
     this.form = new FormGroup({
-      'email': new FormControl('', [Validators.required, Validators.email], [this.emailValidator.bind(this)]),
-      'name': new FormControl('', [Validators.required, Validators.minLength(2)]),
-      'password': new FormControl('', [Validators.required, passwordValidator]),
-      'confirmPassword': new FormControl('', [Validators.required, passwordValidator])
+      email: new FormControl('', [Validators.required, Validators.email], [this.emailValidator.bind(this)]),
+      name: new FormControl('', [Validators.required, Validators.minLength(2)]),
+      password: new FormControl('', [Validators.required, passwordValidator]),
+      confirmPassword: new FormControl('', [Validators.required, passwordValidator])
     })
   }
 
@@ -90,8 +90,8 @@ export class SignUpPageComponent implements OnInit {
   get confirmPassword() { return this.form.get('confirmPassword') }
 
   public login() {
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('/login')
 
-    return false;
+    return false
   }
 }

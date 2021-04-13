@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http'
+import { Injectable } from '@angular/core'
+import { Subject } from 'rxjs'
+import { environment } from '../../environments/environment'
 
 @Injectable({
   providedIn: 'root'
@@ -27,15 +27,15 @@ export class AuthService {
           }
           this.emitUserLoggedInEvent()
 
-          resolve(resp);
+          resolve(resp)
         }, error => {
-          reject(error);
-        });
-    });
+          reject(error)
+        })
+    })
   }
 
   public create(data: any) {
-    return this.http.post(environment.api_url + 'sign-up', data);
+    return this.http.post(environment.api_url + 'sign-up', data)
   }
 
   public logout() {
@@ -58,21 +58,21 @@ export class AuthService {
 
           reject(error)
         })
-    });
+    })
   }
 
   removeUserFromStorage() {
-    localStorage.removeItem(this.USER_DATA);
+    localStorage.removeItem(this.USER_DATA)
   }
 
   addUserToStorage(data: any) {
-    localStorage.setItem(this.USER_DATA, JSON.stringify(data));
+    localStorage.setItem(this.USER_DATA, JSON.stringify(data))
   }
 
   public getLoggedUser() {
     try {
       return JSON.parse(localStorage.getItem(this.USER_DATA))
-    } catch(e) {
+    } catch (e) {
       return null
     }
   }
@@ -80,7 +80,7 @@ export class AuthService {
   private addAuthTokenIfHas() {
     const headers = {}
 
-    const user = this.getLoggedUser();
+    const user = this.getLoggedUser()
     if (user && user.token) {
       headers['X-Auth-Token'] = user.token
     }
@@ -89,7 +89,7 @@ export class AuthService {
   }
 
   private emitUserLoggedInEvent() {
-    if (!this.isLoggedIn()) return
+    if (!this.isLoggedIn()) { return }
 
     this.loggedInSubject$.next(this.getLoggedUser())
   }

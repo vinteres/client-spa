@@ -109,7 +109,7 @@
                 </span>
               </div>
               <div *ngIf="editingInterests">
-                <hobbie-picker (change)="changeEditHobbies($event)" [selectedHobbies]="editHobbies" [list]="allHobbies">
+                <hobbie-picker (changed)="changeEditHobbies($event)" [selectedHobbies]="editHobbies" [list]="allHobbies">
                 </hobbie-picker>
               </div>
 
@@ -129,7 +129,7 @@
                 </span>
               </div>
               <div *ngIf="editingActivities">
-                <hobbie-picker (change)="changeEditHobbies($event)" [selectedHobbies]="editActivities"
+                <hobbie-picker (changed)="changeEditHobbies($event)" [selectedHobbies]="editActivities"
                   [list]="allActivities"></hobbie-picker>
               </div>
 
@@ -311,11 +311,11 @@
             </div>
             <div *ngIf="introType === 'audio'">
               <h5 class="intro-type-title">Voice message</h5>
-              <media-recorder [type]="'audio'" (change)="changeMedia($event)"></media-recorder>
+              <media-recorder [type]="'audio'" (changed)="changeMedia($event)"></media-recorder>
             </div>
             <div *ngIf="introType === 'video'">
               <h5 class="intro-type-title">Video message</h5>
-              <media-recorder [type]="'video'" (change)="changeMedia($event)"></media-recorder>
+              <media-recorder [type]="'video'" (changed)="changeMedia($event)"></media-recorder>
             </div>
           </div>
 

@@ -1,13 +1,13 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
-import { Subject } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
+import { Subject } from 'rxjs'
 
 @Component({
   selector: 'video-player',
   templateUrl: './video-player.component.html',
   styleUrls: ['./video-player.component.sass']
 })
-export class VideoPlayerComponent implements OnInit {
+export class VideoPlayerComponent implements OnInit, OnDestroy {
   faPlay = faPlay
   faPause = faPause
 

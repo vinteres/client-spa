@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UsersService } from 'src/app/services/users.service';
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { UsersService } from 'src/app/services/users.service'
 import {
   faEllipsisH,
   faEdit,
@@ -14,15 +14,15 @@ import {
   faChild,
   faDumbbell,
   faPlus
-} from '@fortawesome/free-solid-svg-icons';
-import { AuthService } from 'src/app/services/auth.service';
-import { CHttp } from 'src/app/services/chttp.service';
-import { environment } from 'src/environments/environment';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { HobbiesService } from 'src/app/services/hobbies.service';
-import { NotifierService } from 'angular-notifier';
-import { Subject } from 'rxjs';
-import { IntrosService } from 'src/app/services/intros.service';
+} from '@fortawesome/free-solid-svg-icons'
+import { AuthService } from 'src/app/services/auth.service'
+import { CHttp } from 'src/app/services/chttp.service'
+import { environment } from 'src/environments/environment'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
+import { HobbiesService } from 'src/app/services/hobbies.service'
+import { NotifierService } from 'angular-notifier'
+import { Subject } from 'rxjs'
+import { IntrosService } from 'src/app/services/intros.service'
 
 @Component({
   selector: 'user-page',
@@ -46,10 +46,10 @@ export class UserPageComponent implements OnInit {
   userId: string
   user: any = null
 
-  editingBio: boolean = false
-  editingInterests: boolean = false
-  editingActivities: boolean = false
-  editingFrom: boolean = false
+  editingBio = false
+  editingInterests = false
+  editingActivities = false
+  editingFrom = false
 
   likingIntro: boolean
 
@@ -107,7 +107,7 @@ export class UserPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const userId = params['id']
+      const userId = params.id
 
       this.changeUser(userId)
    })
@@ -128,9 +128,9 @@ export class UserPageComponent implements OnInit {
 
   getBio() {
     const NO_BIO = 'No bio yet.'
-    if (!this.user.description) return NO_BIO
-    if (this.user.description.trim() === '') return NO_BIO
-    
+    if (!this.user.description) { return NO_BIO }
+    if (this.user.description.trim() === '') { return NO_BIO }
+
     return this.user.description
   }
 
@@ -155,7 +155,7 @@ export class UserPageComponent implements OnInit {
   }
 
   removeActivity(id) {
-    for (let index in this.editActivitiesData) {
+    for (const index in this.editActivitiesData) {
       if (this.editActivitiesData[index].id !== id) {
         continue
       }
@@ -167,7 +167,7 @@ export class UserPageComponent implements OnInit {
   }
 
   removeInterest(id) {
-    for (let index in this.editInterestsData) {
+    for (const index in this.editInterestsData) {
       if (this.editInterestsData[index].id !== id) {
         continue
       }
@@ -234,12 +234,12 @@ export class UserPageComponent implements OnInit {
   }
 
   uploadImage(position, files, image) {
-    const formData: FormData = new FormData();
-    formData.append('image', files[0], files[0].name);
+    const formData: FormData = new FormData()
+    formData.append('image', files[0], files[0].name)
     this.http.post(environment.api_url + `image/upload?position=${position}`, formData)
       .subscribe(response => {
         this.user.images = response.images
-        if (1 == position) {
+        if (1 === position) {
           this.user.profile_image = this.user.images[0].small
         }
       })
@@ -248,7 +248,7 @@ export class UserPageComponent implements OnInit {
   removeImage(event, position) {
     event.stopPropagation()
 
-    if (this.loadingImages[position]) return
+    if (this.loadingImages[position]) { return }
 
     this.loadingImages[position] = true
     this.http.delete(environment.api_url + `image?position=${position}`)
@@ -258,7 +258,7 @@ export class UserPageComponent implements OnInit {
         if (0 === response.images.length) {
           this.user.profile_image = `/assets/${this.user.gender}.jpg`
         } else {
-          this.user.profile_image = response.images.find(image => 1 == image.position).small
+          this.user.profile_image = response.images.find(image => 1 === image.position).small
         }
         this.loadingImages[position] = false
       }, () => {
@@ -267,13 +267,13 @@ export class UserPageComponent implements OnInit {
   }
 
   showImageUpload(position, file) {
-    if (this.loadingImages[position]) return
+    if (this.loadingImages[position]) { return }
 
     file.click()
   }
 
   showGalleryModal(imagePosition = 0) {
-    if (0 === this.user.images.length || this.isLoggedUser()) return
+    if (0 === this.user.images.length || this.isLoggedUser()) { return }
 
     this.gallerySubject.next({ imagePosition })
   }
@@ -289,14 +289,14 @@ export class UserPageComponent implements OnInit {
   openReportModal(content) {
     this.reportType = ''
     this.reportDetails = ''
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'sm' }).result
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'sm' })
   }
 
   openIntroDialog(content) {
     this.introType = 'message'
     this.introData = null
     this.introMsg = ''
-    this.modalService.open(content, { centered: true, size: 'lg' });
+    this.modalService.open(content, { centered: true, size: 'lg' })
   }
 
   changeIntroType(type) {
@@ -307,9 +307,9 @@ export class UserPageComponent implements OnInit {
 
   bodyData() {
     const data = []
-    if (this.user.height) data.push(`${this.user.height}cm`)
-    if (this.user.body) data.push(this.user.body)
-    
+    if (this.user.height) { data.push(`${this.user.height}cm`) }
+    if (this.user.body) { data.push(this.user.body) }
+
     return data.join(', ')
   }
 
@@ -392,13 +392,13 @@ export class UserPageComponent implements OnInit {
   }
 
   getInterests() {
-    if (!this.user.interests) return []
+    if (!this.user.interests) { return [] }
 
     return this.user.interests.sort((x, y) => -1 * (x.mutual - y.mutual))
   }
 
   getActivities() {
-    if (!this.user.activities) return []
+    if (!this.user.activities) { return [] }
 
     return this.user.activities
   }

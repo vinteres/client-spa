@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core'
 import RecordRTC from 'recordrtc'
-import { CHttp } from 'src/app/services/chttp.service';
-import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
+import { CHttp } from 'src/app/services/chttp.service'
+import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'media-recorder',
@@ -20,7 +20,7 @@ export class MediaRecorderComponent implements OnInit {
   @ViewChild('replayVideoCont') replayVideoCont
 
   @Input() type
-  @Output() change: EventEmitter<any> = new EventEmitter()
+  @Output() changed: EventEmitter<any> = new EventEmitter()
 
   private readonly MAX_VIDEO_LENGTH = 7
   private readonly MAX_AUDIO_LENGTH = 20
@@ -58,7 +58,7 @@ export class MediaRecorderComponent implements OnInit {
       }
     }, 1000)
   }
-  
+
   stopRecording() {
     this.recording = false
     if (this.type === 'video') {
@@ -79,11 +79,11 @@ export class MediaRecorderComponent implements OnInit {
       audioBar.style.display = 'none'
       this.stream = stream
 
-        this.recorder = RecordRTC(stream, {
+      this.recorder = RecordRTC(stream, {
             type: 'audio',
             mimeType: 'audio/webm',
         })
-        this.recorder.startRecording()
+      this.recorder.startRecording()
     })
   }
 
@@ -91,10 +91,10 @@ export class MediaRecorderComponent implements OnInit {
     const replayAudio = this.replayAudio.nativeElement
     const audioBar = this.audioBar.nativeElement
 
-    if (!this.recorder) return
+    if (!this.recorder) { return }
 
     this.recorder.stopRecording(() => {
-      let blob = this.recorder.getBlob()
+      const blob = this.recorder.getBlob()
 
       audioBar.style.display = null
       replayAudio.controls = true
@@ -103,7 +103,7 @@ export class MediaRecorderComponent implements OnInit {
       replayAudio.play()
 
       this.blob = blob
-      this.change.emit(this.blob)
+      this.changed.emit(this.blob)
 
       this.stream.getAudioTracks().forEach(track => track.stop())
       this.stream.getVideoTracks().forEach(track => track.stop())
@@ -140,17 +140,17 @@ export class MediaRecorderComponent implements OnInit {
     const v2 = this.replayVideo.nativeElement
     const replayVideoCont = this.replayVideoCont.nativeElement
 
-    if (!this.recorder) return
+    if (!this.recorder) { return }
 
     this.recorder.stopRecording(() => {
       v1.pause()
       v1.srcObject = null
       v1.style.display = 'none'
 
-      let blob = this.recorder.getBlob()
+      const blob = this.recorder.getBlob()
 
       this.blob = blob
-      this.change.emit(this.blob)
+      this.changed.emit(this.blob)
 
       this.stream.getAudioTracks().forEach(track => track.stop())
       this.stream.getVideoTracks().forEach(track => track.stop())

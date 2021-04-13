@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { CHttp } from './chttp.service';
+import { Injectable } from '@angular/core'
+import { Subject } from 'rxjs'
+import { environment } from 'src/environments/environment'
+import { CHttp } from './chttp.service'
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationsService {
 
-  countSubject$: Subject<{type: 'msg' | 'notif' | 'intro', count: number }> = new Subject();
+  countSubject$: Subject<{type: 'msg' | 'notif' | 'intro', count: number }> = new Subject()
 
   constructor(private http: CHttp) { }
 

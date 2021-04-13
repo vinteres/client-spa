@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { HttpClient, HttpHandler } from '@angular/common/http';
-import { AuthService } from './auth.service';
+import { Injectable } from '@angular/core'
+import { Observable } from 'rxjs'
+import { catchError } from 'rxjs/operators'
+import { HttpClient, HttpHandler } from '@angular/common/http'
+import { AuthService } from './auth.service'
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +36,7 @@ export class CHttp extends HttpClient {
   private addAuthTokenIfHas(headers?: any) {
     headers = headers || {}
 
-    const user = this.authService.getLoggedUser();
+    const user = this.authService.getLoggedUser()
     if (user && user.token) {
       headers['X-Auth-Token'] = user.token
     }
@@ -45,26 +45,26 @@ export class CHttp extends HttpClient {
   }
 
   private handleError(error: any) {
-    const errorStatus = error.status;
+    const errorStatus = error.status
     if ('string' === typeof error) {
       try {
-        error = JSON.parse(error);
+        error = JSON.parse(error)
       } catch (ex) {
-        error = {};
+        error = {}
       }
     }
     if (401 === errorStatus) {
-      localStorage.removeItem('user_data');
-      window.location.href = '/login';
+      localStorage.removeItem('user_data')
+      window.location.href = '/login'
     } else {
       try {
-        error = JSON.parse(error._body);
-        error.status = errorStatus;
+        error = JSON.parse(error._body)
+        error.status = errorStatus
       } catch (ex) { }
     }
-    console.error(JSON.stringify(error));
+    console.error(JSON.stringify(error))
 
-    return Observable.throw(error);
+    return Observable.throw(error)
   }
 }
 
@@ -76,4 +76,4 @@ export let customHttpProvider = {
   provide: CHttp,
   useFactory: customHttpFactory,
   deps: [HttpHandler, AuthService]
-};
+}

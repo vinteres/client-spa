@@ -1,9 +1,9 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { faComments, faTimes, faSlidersH } from '@fortawesome/free-solid-svg-icons';
-import { CHttp } from 'src/app/services/chttp.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UsersService } from 'src/app/services/users.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, HostListener, OnInit } from '@angular/core'
+import { faComments, faTimes, faSlidersH } from '@fortawesome/free-solid-svg-icons'
+import { CHttp } from 'src/app/services/chttp.service'
+import { ActivatedRoute, Router } from '@angular/router'
+import { UsersService } from 'src/app/services/users.service'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 
 @Component({
   selector: 'find-people-page',
@@ -16,8 +16,8 @@ export class FindPeoplePageComponent implements OnInit {
   faSearchPref = faSlidersH
 
   loading: boolean
-  noMoreCards: boolean = false
-  page: number = 1
+  noMoreCards = false
+  page = 1
   totalPages: number
 
   users = []
@@ -49,11 +49,11 @@ export class FindPeoplePageComponent implements OnInit {
 
         let page
         try {
-          page = parseInt(params.page)
+          page = parseInt(params.page, 10)
           if (isNaN(page) || 0 >= page) {
             page = 1
           }
-        } catch(e) {
+        } catch (e) {
           page = 1
         }
         this.page = page
@@ -114,7 +114,7 @@ export class FindPeoplePageComponent implements OnInit {
       [],
       {
         relativeTo: this.activatedRoute,
-        queryParams: { page: page }
+        queryParams: { page }
       })
   }
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core'
 import {
   faHome,
   faEnvelope,
@@ -13,23 +13,23 @@ import {
   faSignOutAlt,
   faBinoculars,
   faUserFriends
-} from '@fortawesome/free-solid-svg-icons';
-import { AuthService } from './services/auth.service';
-import { WebsocketService } from './services/websocket.service';
+} from '@fortawesome/free-solid-svg-icons'
+import { AuthService } from './services/auth.service'
+import { WebsocketService } from './services/websocket.service'
 import { NotificationsService } from './services/notifications.service'
-import { environment } from 'src/environments/environment';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
-import { NotifierService } from 'angular-notifier';
-import { CHttp } from './services/chttp.service';
-import { Title } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
+import { Router } from '@angular/router'
+import { NotifierService } from 'angular-notifier'
+import { CHttp } from './services/chttp.service'
+import { Title } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.sass']
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   faHome = faHome
   faEnvelope = faEnvelope
   faBell = faBell
@@ -45,7 +45,7 @@ export class AppComponent {
   faLogout = faSignOutAlt
 
   baseTitle = 'Vinterest'
-  title = this.baseTitle;
+  title = this.baseTitle
 
   notifsCount = {
     msg: 0,
@@ -87,8 +87,8 @@ export class AppComponent {
           notif: 0,
           intro: 0
         }
-        if (this.wsSubscription) this.wsSubscription.unsubscribe()
-        if (this.countSubscription) this.countSubscription.unsubscribe()
+        if (this.wsSubscription) { this.wsSubscription.unsubscribe() }
+        if (this.countSubscription) { this.countSubscription.unsubscribe() }
       })
 
     this.websocketOpenSubscription = this.websocketService.websocketOpenSubject$
@@ -98,15 +98,15 @@ export class AppComponent {
   }
 
   ngOnDestroy() {
-    if (this.wsSubscription) this.wsSubscription.unsubscribe()
-    if (this.countSubscription) this.countSubscription.unsubscribe()
-    if (this.websocketOpenSubscription) this.websocketOpenSubscription.unsubscribe()
+    if (this.wsSubscription) { this.wsSubscription.unsubscribe() }
+    if (this.countSubscription) { this.countSubscription.unsubscribe() }
+    if (this.websocketOpenSubscription) { this.websocketOpenSubscription.unsubscribe() }
     this.loginSubscription.unsubscribe()
     this.logoutSubscription.unsubscribe()
   }
 
   init() {
-    if (!this.isLoggedIn() || 'active' !== this.authService.getLoggedUser().status) return
+    if (!this.isLoggedIn() || 'active' !== this.authService.getLoggedUser().status) { return }
 
     this.wsSubscription = this.websocketService.websocketMessageSubject$
       .subscribe((data) => {
@@ -137,7 +137,7 @@ export class AppComponent {
           this.notifsCount.intro = 0
         } else if ('see_notifs' === data.type) {
           this.notifsCount.notif = 0
-        } 
+        }
 
         this.setTitle()
       })
@@ -168,7 +168,7 @@ export class AppComponent {
   }
 
   openIntroDialog(content) {
-    this.modalService.open(content, { centered: true });
+    this.modalService.open(content, { centered: true })
   }
 
   logout() {
@@ -185,7 +185,7 @@ export class AppComponent {
   openFeedbackModal(content) {
     this.feedbackType = ''
     this.feedbackDetails = ''
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'sm' }).result
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'sm' })
   }
 
   sendFeedback(type) {

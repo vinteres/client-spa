@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core'
+import { AuthService } from 'src/app/services/auth.service'
+import { NgForm } from '@angular/forms'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'login-page',
@@ -9,11 +9,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./login-page.component.sass']
 })
 export class LoginPageComponent implements OnInit {
-  @ViewChild('loginForm') public loginForm: NgForm;
+  @ViewChild('loginForm') public loginForm: NgForm
 
-  public loginData: any = {};
+  public loginData: any = {}
 
-  public loading: boolean;
+  public loading: boolean
 
   constructor(
     private authService: AuthService,
@@ -26,8 +26,8 @@ export class LoginPageComponent implements OnInit {
   public login(form) {
     if (!form.valid) {
       Object.keys(form.controls).forEach((name) => {
-        form.controls[name].markAsTouched();
-      });
+        form.controls[name].markAsTouched()
+      })
 
       return
     }

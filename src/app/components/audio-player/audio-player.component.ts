@@ -1,13 +1,13 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
-import { Subject } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
+import { Subject } from 'rxjs'
 
 @Component({
   selector: 'audio-player',
   templateUrl: './audio-player.component.html',
   styleUrls: ['./audio-player.component.sass']
 })
-export class AudioPlayerComponent implements OnInit {
+export class AudioPlayerComponent implements OnInit, OnDestroy {
   faPlay = faPlay
   faPause = faPause
 
@@ -19,7 +19,7 @@ export class AudioPlayerComponent implements OnInit {
 
   playing: boolean
   private subscription
- 
+
   constructor() { }
 
   ngOnInit() {
@@ -33,7 +33,7 @@ export class AudioPlayerComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if (this.subscription) this.subscription.unsubscribe()
+    if (this.subscription) { this.subscription.unsubscribe() }
   }
 
   timeupdate($event, audiobar) {

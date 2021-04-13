@@ -1,16 +1,16 @@
-import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { Subject } from 'rxjs';
+import { Component, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { Subject } from 'rxjs'
 
 @Component({
   selector: 'modal-gallery',
   templateUrl: './modal-gallery.component.html',
   styleUrls: ['./modal-gallery.component.sass']
 })
-export class ModalGalleryComponent implements OnInit {
+export class ModalGalleryComponent implements OnInit, OnDestroy {
 
   faLeft = faChevronLeft
-  faRight = faChevronRight 
+  faRight = faChevronRight
 
   @Input() parentSubject: Subject<any>
   @Input() images: any
@@ -38,15 +38,15 @@ export class ModalGalleryComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(e: KeyboardEvent) {
-    if (!this.isOpen) return
+    if (!this.isOpen) { return }
 
-    if (e.keyCode == 37) {
+    if (e.keyCode === 37) {
       // left arrow
       this.plusSlides(-1)
-    } else if (e.keyCode == 39) {
+    } else if (e.keyCode === 39) {
         // right arrow
       this.plusSlides(1)
-    } else if (e.keyCode == 27) {
+    } else if (e.keyCode === 27) {
       // esc
       this.close()
     }

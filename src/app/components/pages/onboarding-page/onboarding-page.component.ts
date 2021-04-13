@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { NotifierService } from 'angular-notifier';
-import { AuthService } from 'src/app/services/auth.service';
-import { HobbiesService } from 'src/app/services/hobbies.service';
-import { OnboardingService } from 'src/app/services/onboarding.service';
+import { Component, OnInit } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Router } from '@angular/router'
+import { NotifierService } from 'angular-notifier'
+import { AuthService } from 'src/app/services/auth.service'
+import { HobbiesService } from 'src/app/services/hobbies.service'
+import { OnboardingService } from 'src/app/services/onboarding.service'
 
 @Component({
   selector: 'onboarding-page',
@@ -34,7 +34,7 @@ export class OnboardingPageComponent implements OnInit {
   location: any = { name: '', fullName: 'Your current city' }
 
   step: number
-  quizStep: number = 1
+  quizStep = 1
 
   constructor(
     private formBuilder: FormBuilder,
@@ -66,15 +66,15 @@ export class OnboardingPageComponent implements OnInit {
   }
 
   private setStep(step) {
-    if (1 == step) {
+    if (1 === step) {
       this.createAccountInfoForm()
       this.step = step
-    } else if (2 == step) {
+    } else if (2 === step) {
       this.createProfileInfoForm()
       this.step = step
-    } else if (3 == step) {
+    } else if (3 === step) {
       const setupInterests = () => {
-        if (!this.allHobbies || !this.allActivities) return
+        if (!this.allHobbies || !this.allActivities) { return }
 
         this.createInterestsForm()
         this.step = step
@@ -92,11 +92,11 @@ export class OnboardingPageComponent implements OnInit {
 
           setupInterests()
         })
-    } else if (4 == step) {
+    } else if (4 === step) {
       this.onboardingService.getQuiz()
       .subscribe(({ questions, answers }) => {
         const h = {}
-        let c = 1
+        const c = 1
         this.questions = []
         for (const question of questions) {
           this.questions.push(question.id)
@@ -128,7 +128,7 @@ export class OnboardingPageComponent implements OnInit {
     for (const questionId of Object.keys(this.questionMap)) {
       const question = this.questionMap[questionId]
 
-      if (question.step != step) continue
+      if (question.step !== step) { continue }
 
       formControls[question.id] = ['', [Validators.required]]
     }
@@ -137,30 +137,30 @@ export class OnboardingPageComponent implements OnInit {
 
   private createAccountInfoForm() {
     this.accountInfoForm = this.formBuilder.group({
-      'birthday':  ['', [Validators.required]],
-      'gender': ['', [Validators.required]],
-      'interested_in':  ['', [Validators.required]],
-      'title': ['', [Validators.required, Validators.min(1), Validators.max(70)]],
-      'description':  ['', [Validators.required, Validators.min(1), Validators.max(255)]],
-      'city':  ['', [Validators.required]],
+      birthday:  ['', [Validators.required]],
+      gender: ['', [Validators.required]],
+      interested_in:  ['', [Validators.required]],
+      title: ['', [Validators.required, Validators.min(1), Validators.max(70)]],
+      description:  ['', [Validators.required, Validators.min(1), Validators.max(255)]],
+      city:  ['', [Validators.required]],
     })
   }
 
   private createProfileInfoForm() {
     this.profileInfoForm = this.formBuilder.group({
-      'height': ['', [Validators.required, Validators.min(100), Validators.max(250)]],
-      'smoking':  ['', Validators.required],
-      'drinking':  ['', Validators.required],
-      'body':  ['', Validators.required],
-      'children_status':  ['', Validators.required],
-      'pet_status':  ['', Validators.required],
+      height: ['', [Validators.required, Validators.min(100), Validators.max(250)]],
+      smoking:  ['', Validators.required],
+      drinking:  ['', Validators.required],
+      body:  ['', Validators.required],
+      children_status:  ['', Validators.required],
+      pet_status:  ['', Validators.required],
     })
   }
 
   private createInterestsForm() {
     this.interestsForm = this.formBuilder.group({
-      'hobbies': [[], [Validators.required, Validators.min(1)]],
-      'activities': [[], Validators.required],
+      hobbies: [[], [Validators.required, Validators.min(1)]],
+      activities: [[], Validators.required],
     })
   }
 
@@ -203,7 +203,7 @@ export class OnboardingPageComponent implements OnInit {
   stepQustions(step) {
     const r = []
     for (const k of Object.keys(this.questionMap)) {
-      if (this.questionMap[k].step == step) {
+      if (this.questionMap[k].step === step) {
         r.push(this.questionMap[k])
       }
     }
@@ -218,8 +218,8 @@ export class OnboardingPageComponent implements OnInit {
       return
     }
 
-    if (this.loading) return
-    if (this.accountInfoForm.invalid && this.accountInfoForm.dirty) return
+    if (this.loading) { return }
+    if (this.accountInfoForm.invalid && this.accountInfoForm.dirty) { return }
 
     this.loading = true
     this.onboardingService.setAccountInfo(this.accountInfoForm.value)
@@ -236,8 +236,8 @@ export class OnboardingPageComponent implements OnInit {
       return
     }
 
-    if (this.loading) return
-    if (this.profileInfoForm.invalid && this.profileInfoForm.dirty) return
+    if (this.loading) { return }
+    if (this.profileInfoForm.invalid && this.profileInfoForm.dirty) { return }
 
     this.loading = true
     this.onboardingService.setProfileInfo(this.profileInfoForm.value)
@@ -254,8 +254,8 @@ export class OnboardingPageComponent implements OnInit {
       return
     }
 
-    if (this.loading) return
-    if (this.interestsForm.invalid && this.interestsForm.dirty) return
+    if (this.loading) { return }
+    if (this.interestsForm.invalid && this.interestsForm.dirty) { return }
 
 
     this.onboardingService.setInterests(this.interestsForm.value)

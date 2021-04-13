@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { Subject } from 'rxjs';
-import { AuthService } from './auth.service';
+import { Injectable } from '@angular/core'
+import { environment } from '../../environments/environment'
+import { Subject } from 'rxjs'
+import { AuthService } from './auth.service'
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +13,8 @@ export class WebsocketService {
   websocketOpenSubject$: Subject<any> = new Subject()
 
   constructor(private authService: AuthService) {
-    (<any>window).ws_close = this.close.bind(this);
-    (<any>window).ws_open = this.connect.bind(this);
+    (window as any).ws_close = this.close.bind(this);
+    (window as any).ws_open = this.connect.bind(this)
 
     this.connect()
 
@@ -41,7 +41,7 @@ export class WebsocketService {
   }
 
   private connect() {
-    if (!this.authService.isLoggedIn()) return
+    if (!this.authService.isLoggedIn()) { return }
 
     this.websocket = new WebSocket(environment.ws_url + `?x-auth-token=${this.authService.getLoggedUser().token}`)
     this.websocket.onopen = (event) => {

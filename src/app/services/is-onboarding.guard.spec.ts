@@ -1,16 +1,16 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing'
 
-import { IsOnboardingGuard } from './is-onboarding.guard';
+import { IsOnboardingGuard } from './is-onboarding.guard'
 
 describe('IsOnboardingGuard', () => {
-  let guard: IsOnboardingGuard;
+  let guard: IsOnboardingGuard
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    guard = TestBed.inject(IsOnboardingGuard);
-  });
+    TestBed.configureTestingModule({})
+    guard = TestBed.inject(IsOnboardingGuard)
+  })
 
   it('should be created', () => {
-    expect(guard).toBeTruthy();
-  });
-});
+    expect(guard).toBeTruthy()
+  })
+})

@@ -229,14 +229,14 @@
   </h2>
   <div style="margin-bottom: 25px;">
     <hobbie-picker [selectedHobbies]="selectedHobbies" [list]="allHobbies" type="hobbies"
-      (change)="hobbiesChanged($event)"></hobbie-picker>
+      (changed)="hobbiesChanged($event)"></hobbie-picker>
     <small *ngIf="hobbies.invalid && (hobbies.dirty || hobbies.touched)" class="text-danger">
       Choose at least 1 hobbie
     </small>
   </div>
   <div style="margin-bottom: 25px;">
     <hobbie-picker [selectedHobbies]="selectedActivities" [list]="allActivities" type="activities"
-      (change)="interestsChanged($event)"></hobbie-picker>
+      (changed)="interestsChanged($event)"></hobbie-picker>
     <small *ngIf="activities.invalid && (activities.dirty || activities.touched)" class="text-danger">
       Choose at least 1 activity
     </small>

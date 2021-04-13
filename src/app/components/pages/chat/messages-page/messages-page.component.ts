@@ -1,19 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { ChatService } from 'src/app/services/chat.service';
-import { CHttp } from 'src/app/services/chttp.service';
-import { NotificationsService } from 'src/app/services/notifications.service';
-import { WebsocketService } from 'src/app/services/websocket.service';
-import { environment } from 'src/environments/environment';
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { NavigationEnd, Router } from '@angular/router'
+import { Subscription } from 'rxjs'
+import { AuthService } from 'src/app/services/auth.service'
+import { ChatService } from 'src/app/services/chat.service'
+import { CHttp } from 'src/app/services/chttp.service'
+import { NotificationsService } from 'src/app/services/notifications.service'
+import { WebsocketService } from 'src/app/services/websocket.service'
+import { environment } from 'src/environments/environment'
 
 @Component({
   selector: 'messages-page',
   templateUrl: './messages-page.component.html',
   styleUrls: ['./messages-page.component.sass']
 })
-export class MessagesPageComponent implements OnInit {
+export class MessagesPageComponent implements OnInit, OnDestroy {
   users: any = []
   loading: boolean
   activeUserId
@@ -38,8 +38,8 @@ export class MessagesPageComponent implements OnInit {
 
     this.routeSubscription = router.events
       .subscribe((val) => {
-        if (!(val instanceof NavigationEnd)) return
-        if ('/chat' !== val.url) return
+        if (!(val instanceof NavigationEnd)) { return }
+        if ('/chat' !== val.url) { return }
 
         this.activeUserId = null
       })
@@ -65,7 +65,7 @@ export class MessagesPageComponent implements OnInit {
         if (msg.user_id === authService.getLoggedUser().id) {
           return
         }
-        if (0 !== this.users.filter(user => user.id === msg.user_id).length) {
+        if (0 !== this.users.filter(userItem => userItem.id === msg.user_id).length) {
           return
         }
 

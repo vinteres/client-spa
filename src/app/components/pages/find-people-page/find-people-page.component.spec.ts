@@ -1,25 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { FindPeoplePageComponent } from './find-people-page.component';
+import { FindPeoplePageComponent } from './find-people-page.component'
 
 describe('FindPeoplePageComponent', () => {
-  let component: FindPeoplePageComponent;
-  let fixture: ComponentFixture<FindPeoplePageComponent>;
+  let component: FindPeoplePageComponent
+  let fixture: ComponentFixture<FindPeoplePageComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ FindPeoplePageComponent ]
     })
-    .compileComponents();
-  });
+    .compileComponents()
+  })
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FindPeoplePageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(FindPeoplePageComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

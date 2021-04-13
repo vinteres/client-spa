@@ -1,20 +1,20 @@
-import { Component, OnInit, AfterViewChecked, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { ChatService } from 'src/app/services/chat.service';
-import { CHttp } from 'src/app/services/chttp.service';
-import { WebsocketService } from 'src/app/services/websocket.service';
-import { environment } from 'src/environments/environment';
+import { Component, OnInit, AfterViewChecked, ViewChild, OnDestroy } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { Subscription } from 'rxjs'
+import { AuthService } from 'src/app/services/auth.service'
+import { ChatService } from 'src/app/services/chat.service'
+import { CHttp } from 'src/app/services/chttp.service'
+import { WebsocketService } from 'src/app/services/websocket.service'
+import { environment } from 'src/environments/environment'
 
 @Component({
   selector: 'user-chat',
   templateUrl: './user-chat.component.html',
   styleUrls: ['./user-chat.component.sass']
 })
-export class UserChatComponent implements OnInit, AfterViewChecked {
+export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   chat = null
-  loading: boolean = true
+  loading = true
   userId: string
   loadingMore: boolean
 
@@ -38,16 +38,16 @@ export class UserChatComponent implements OnInit, AfterViewChecked {
   ) {
     this.chatSubscription = chatService.chatMessageSubject$
       .subscribe(message => {
-        if (message.chatId !== this.chat.chatId) return
+        if (message.chatId !== this.chat.chatId) { return }
 
-        chatService.seeMessage(message.chatId) 
+        chatService.seeMessage(message.chatId)
         this.scrolledAtBottom = this.isScrolledAtBottom()
         this.chat.messages.push(message)
       })
 
     this.websocketOpenSubscription = this.websocketService.websocketOpenSubject$
       .subscribe(() => {
-        if (!this.chat) return
+        if (!this.chat) { return }
 
         const lastMsg = this.chat.messages[this.chat.messages.length - 1]
         this.websocketService.send({
@@ -59,9 +59,9 @@ export class UserChatComponent implements OnInit, AfterViewChecked {
 
     this.websocketSubscription = websocketService.websocketMessageSubject$
       .subscribe(payload => {
-        if ('msgs' !== payload.type) return
-        if (!this.chat) return
-        if (payload.chatId !== this.chat.chatId) return
+        if ('msgs' !== payload.type) { return }
+        if (!this.chat) { return }
+        if (payload.chatId !== this.chat.chatId) { return }
 
         this.scrolledAtBottom = this.isScrolledAtBottom()
         let fromOtherUser = false
@@ -69,7 +69,7 @@ export class UserChatComponent implements OnInit, AfterViewChecked {
           if (!this.chat.messages.find(msg => msg.id === message.id)) {
             this.chat.messages.push(message)
 
-            if (!this.isFromLoggedUser(message.user_id)) fromOtherUser = true
+            if (!this.isFromLoggedUser(message.user_id)) { fromOtherUser = true }
           }
         }
 
@@ -79,8 +79,8 @@ export class UserChatComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const userId = params['id']
-      if (!this.chatMsg[userId]) this.chatMsg[userId] = ''
+      const userId = params.id
+      if (!this.chatMsg[userId]) { this.chatMsg[userId] = '' }
 
       this.changeChat(userId)
       this.chatService.chatChangeSubject$.next(userId)
@@ -94,7 +94,7 @@ export class UserChatComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    if (!this.messagesCont || !this.messagesCont.nativeElement) return
+    if (!this.messagesCont || !this.messagesCont.nativeElement) { return }
 
     if (this.scrolledAtBottom) {
       this.scrollToBottom()
@@ -140,7 +140,7 @@ export class UserChatComponent implements OnInit, AfterViewChecked {
     const textarea = e.target
     const text = textarea.value
 
-    if ('' === text.trim()) return
+    if ('' === text.trim()) { return }
 
     this.chatService.send({ text, chatId: this.chat.chatId })
     this.chatMsg[this.userId] = ''
@@ -149,7 +149,7 @@ export class UserChatComponent implements OnInit, AfterViewChecked {
   }
 
   isFromLoggedUser(userId) {
-    return userId == this.authService.getLoggedUser().id
+    return userId === this.authService.getLoggedUser().id
   }
 
   isNextMsgFromMe(msgIx) {
@@ -194,7 +194,7 @@ export class UserChatComponent implements OnInit, AfterViewChecked {
 
     const f = (i) =>  i < 10 ? `0${i}` : `${i}`
 
-    let d = d1 - d2
+    const d = d1 - d2
     let timeAgo = ''
     if (0 === d) {
       timeAgo = 'Today'
