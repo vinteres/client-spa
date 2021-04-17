@@ -1,3 +1,5 @@
+@import "variables.sass"
+
 $contentWidth: 1000px
 
 .header
@@ -80,7 +82,8 @@ $contentWidth: 1000px
     padding: 0 25px
     #color: #6e6867
     #color: #000
-    color: rgba(46, 62, 72, 0.7)
+    #color: rgba(46, 62, 72, 0.7)
+    color: $mainColor
     text-decoration: none
     cursor: pointer
 
@@ -89,7 +92,7 @@ $contentWidth: 1000px
   font-size: 17px
   display: inline-block
 
-@media only screen and (max-width: 1300px)
+@media only screen and (max-width: 1240px)
   .left-menu
     position: initial
     margin: 60px 50px 0 30px
