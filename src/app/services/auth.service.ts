@@ -69,6 +69,12 @@ export class AuthService {
     localStorage.setItem(this.USER_DATA, JSON.stringify(data))
   }
 
+  public isLoggedUser(userId) {
+    if (!this.isLoggedIn()) { return false }
+
+    return userId === this.getLoggedUser().id
+  }
+
   public getLoggedUser() {
     try {
       return JSON.parse(localStorage.getItem(this.USER_DATA))

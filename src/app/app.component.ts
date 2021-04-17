@@ -23,6 +23,7 @@ import { Router } from '@angular/router'
 import { NotifierService } from 'angular-notifier'
 import { CHttp } from './services/chttp.service'
 import { Title } from '@angular/platform-browser'
+import { ChatService } from './services/chat.service'
 
 @Component({
   selector: 'app-root',
@@ -70,6 +71,7 @@ export class AppComponent implements OnDestroy {
     private modalService: NgbModal,
     private router: Router,
     private notifierService: NotifierService,
+    private chatService: ChatService,
     private http: CHttp,
     private titleService: Title
   ) {
@@ -106,18 +108,17 @@ export class AppComponent implements OnDestroy {
   }
 
   init() {
-    if (!this.isLoggedIn() || 'active' !== this.authService.getLoggedUser().status) { return }
+    if (!this.isActiveUser()) { return }
 
     this.wsSubscription = this.websocketService.websocketMessageSubject$
       .subscribe((data) => {
-        if (
-          'notif' === data.type) {
+        if ('notif' === data.type) {
           this.notifsCount.notif++
           this.notificationsService.playSound()
         } else if (
           'msg' === data.type &&
-          data.user_id !== this.authService.getLoggedUser().id &&
-          `/chat/user/${data.user_id}` !== window.location.pathname
+          !this.authService.isLoggedUser(data.user_id) &&
+          this.chatService.getActiveUserId() !== data.user_id
         ) {
           this.notifsCount.msg++
           this.notificationsService.playSound()
@@ -159,6 +160,10 @@ export class AppComponent implements OnDestroy {
     return this.notifsCount.msg + this.notifsCount.intro + this.notifsCount.notif
   }
 
+  private isActiveUser() {
+    return this.isLoggedIn() && 'active' === this.authService.getLoggedUser().status
+  }
+
   isLoggedIn() {
     return this.authService.isLoggedIn()
   }
@@ -176,10 +181,6 @@ export class AppComponent implements OnDestroy {
       .then(() => {
         this.router.navigate(['/login'])
       })
-  }
-
-  isActiveUser() {
-    return this.isLoggedIn() && 'active' === this.authService.getLoggedUser().status
   }
 
   openFeedbackModal(content) {

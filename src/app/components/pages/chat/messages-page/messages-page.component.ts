@@ -16,12 +16,9 @@ import { environment } from 'src/environments/environment'
 export class MessagesPageComponent implements OnInit, OnDestroy {
   users: any = []
   loading: boolean
-  activeUserId
 
   private wsSubscription: Subscription
   private websocketSubscription: Subscription
-  private chatChangeSubscription: Subscription
-  private routeSubscription: Subscription
 
   constructor(
     private http: CHttp,
@@ -31,28 +28,13 @@ export class MessagesPageComponent implements OnInit, OnDestroy {
     private notificationsService: NotificationsService,
     private router: Router
   ) {
-    this.chatChangeSubscription = this.chatService.chatChangeSubject$
-      .subscribe(userId => {
-        this.activeUserId = userId
-      })
-
-    this.routeSubscription = router.events
-      .subscribe((val) => {
-        if (!(val instanceof NavigationEnd)) { return }
-        if ('/chat' !== val.url) { return }
-
-        this.activeUserId = null
-      })
-
     this.websocketSubscription = chatService.chatMessageSubject$
       .subscribe(msg => {
         const user = this.users.find(item => item.chat_id === msg.chatId)
         if (user) {
           user.lastMessageAt = msg.created_at
 
-          if (msg.user_id !== authService.getLoggedUser().id &&
-              window.location.pathname !== `/chat/user/${msg.user_id}`
-          ) {
+          if (!authService.isLoggedUser(msg.user_id) && msg.user_id !== this.getActiveUserId()) {
             if (!user.notSeenCount) {
               user.notSeenCount = 0
             }
@@ -99,14 +81,14 @@ export class MessagesPageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.wsSubscription.unsubscribe()
     this.websocketSubscription.unsubscribe()
-    this.chatChangeSubscription.unsubscribe()
-    this.routeSubscription.unsubscribe()
   }
 
   changeUser(user) {
-    this.activeUserId = user.id
-
     return this.router.navigate([`/chat/user/${user.id}`])
+  }
+
+  getActiveUserId() {
+    return this.chatService.getActiveUserId()
   }
 
   private sortMembers(members) {

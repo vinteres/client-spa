@@ -6,9 +6,9 @@ import { WebsocketService } from './websocket.service'
   providedIn: 'root'
 })
 export class ChatService {
+  private activeUserId: string
 
   chatMessageSubject$: Subject<any> = new Subject()
-  chatChangeSubject$: Subject<any> = new Subject()
 
   constructor(private websocketService: WebsocketService) {
     websocketService.websocketMessageSubject$
@@ -36,5 +36,13 @@ export class ChatService {
     }
 
     this.websocketService.send(data)
+  }
+
+  getActiveUserId() {
+    return this.activeUserId
+  }
+
+  setActiveUserId(activeUserId: string|null) {
+    this.activeUserId = activeUserId
   }
 }

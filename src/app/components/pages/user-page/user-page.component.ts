@@ -134,10 +134,6 @@ export class UserPageComponent implements OnInit {
     return this.user.description
   }
 
-  isLoggedUser() {
-    return this.userId === this.authService.getLoggedUser().id
-  }
-
   editInterests() {
     this.editHobbies = this.user.interests || []
 
@@ -273,7 +269,7 @@ export class UserPageComponent implements OnInit {
   }
 
   showGalleryModal(imagePosition = 0) {
-    if (0 === this.user.images.length || this.isLoggedUser()) { return }
+    if (0 === this.user.images.length || this.authService.isLoggedUser(this.userId)) { return }
 
     this.gallerySubject.next({ imagePosition })
   }
@@ -429,5 +425,9 @@ export class UserPageComponent implements OnInit {
       }, () => {
         this.likingIntro = false
       })
+  }
+
+  isLoggedUser() {
+    return this.authService.isLoggedUser(this.userId)
   }
 }

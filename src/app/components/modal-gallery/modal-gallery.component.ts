@@ -33,7 +33,7 @@ export class ModalGalleryComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe()
+    if (this.subscription) { this.subscription.unsubscribe() }
   }
 
   @HostListener('window:keydown', ['$event'])

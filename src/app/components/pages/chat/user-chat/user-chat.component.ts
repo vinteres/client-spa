@@ -83,11 +83,12 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (!this.chatMsg[userId]) { this.chatMsg[userId] = '' }
 
       this.changeChat(userId)
-      this.chatService.chatChangeSubject$.next(userId)
-   })
+    })
   }
 
   ngOnDestroy() {
+    this.chatService.setActiveUserId(null)
+
     this.chatSubscription.unsubscribe()
     this.websocketOpenSubscription.unsubscribe()
     this.websocketSubscription.unsubscribe()
@@ -128,6 +129,8 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.chat = result
         this.scrolledAtBottom = true
         this.loading = false
+
+        this.chatService.setActiveUserId(userId)
       })
   }
 
