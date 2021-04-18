@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
+import { Router } from '@angular/router'
 import { Subject } from 'rxjs'
 import { environment } from '../../environments/environment'
 
@@ -12,7 +13,23 @@ export class AuthService {
   loggedInSubject$: Subject<any> = new Subject()
   logoutSubject$: Subject<any> = new Subject()
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private router: Router,
+    private http: HttpClient
+  ) {
+    window.addEventListener('storage', (e) => {
+      if (e.storageArea != localStorage) return
+      if (e.key !== this.USER_DATA) return
+
+      if (!e.newValue) {
+        this.emitUserLoggedOutEvent()
+        this.router.navigate(['/login'])
+      } else {
+        this.emitUserLoggedInEvent()
+        this.router.navigate(['/'])
+      }
+    })
+  }
 
   public isLoggedIn(): boolean {
     return this.getLoggedUser() !== null
@@ -43,14 +60,14 @@ export class AuthService {
       this.http.post(environment.api_url + 'logout', {}, this.addAuthTokenIfHas())
         .subscribe(resp => {
           this.removeUserFromStorage()
-          this.logoutSubject$.next()
+          this.emitUserLoggedOutEvent()
 
           resolve(true)
         }, error => {
           if (!error.ok && 401 === error.status) {
             // user already logged out
             this.removeUserFromStorage()
-            this.logoutSubject$.next()
+            this.emitUserLoggedOutEvent()
             resolve(true)
 
             return
@@ -94,9 +111,15 @@ export class AuthService {
     return { headers }
   }
 
+  private emitUserLoggedOutEvent() {
+    if (this.isLoggedIn()) { return }
+
+    this.logoutSubject$.next()
+  }
+
   private emitUserLoggedInEvent() {
     if (!this.isLoggedIn()) { return }
 
-    this.loggedInSubject$.next(this.getLoggedUser())
+    this.loggedInSubject$.next()
   }
 }

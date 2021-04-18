@@ -78,7 +78,7 @@ export class AppComponent implements OnDestroy {
     this.init()
 
     this.loginSubscription = authService.loggedInSubject$
-      .subscribe(user => {
+      .subscribe(() => {
         this.init()
       })
 

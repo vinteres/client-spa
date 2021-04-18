@@ -152,6 +152,10 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   isFromLoggedUser(userId) {
+    if (!this.authService.isLoggedIn()) {
+      return false
+    }
+
     return userId === this.authService.getLoggedUser().id
   }
 
