@@ -9,7 +9,7 @@
             <div class="name">
               <span class="align-middle">{{user.name}}, {{user.age}}</span>
               <span *ngIf="user.compatability" class="badge badge-pill badge-secondary align-middle"
-                style="margin-left: 10px;">{{user.compatability}}%</span>
+                style="margin-left: 10px;" title="Compatability percentage to me">{{user.compatability}}%</span>
             </div>
             <div>
               {{user.title}}

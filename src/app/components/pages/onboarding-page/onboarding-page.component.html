@@ -1,4 +1,12 @@
-<div *ngIf="1 == step" class="onboarding-step-cont border shadow-sm">
+<div *ngIf="1 == step && showIntroText" class="onboarding-step-cont border shadow-sm">
+  The onboarding process will take around 20 minutes.
+  <div style="margin-top: 20px;">
+    <button class="btn btn-primary" (click)="showIntroText = false">Start</button>
+  </div>
+</div>
+
+<div *ngIf="1 == step && !showIntroText" class="onboarding-step-cont border shadow-sm">
+  <h2 class="section-title">Account Info ({{targetStep}})</h2>
   <form [formGroup]="accountInfoForm">
     <div class="form-group row">
       <label for="inputPassword" class="col-sm-2 col-form-label">Birthday</label>
@@ -97,8 +105,8 @@
 </div>
 
 <div *ngIf="2 == step" class="onboarding-step-cont ob-small border shadow-sm">
+  <h2 class="section-title">Profile Info ({{targetStep}})</h2>
   <form [formGroup]="profileInfoForm">
-
     <div class="form-group row">
       <label for="inputPassword" class="col-sm-4 col-form-label">Body type:</label>
       <div class="col-sm-8">
@@ -134,7 +142,6 @@
         </div>
       </div>
     </div>
-
 
     <div class="form-group row">
       <label for="inputPassword" class="col-sm-4 col-form-label">Smoking:</label>
@@ -224,9 +231,7 @@
 </div>
 
 <div *ngIf="3 == step" class="onboarding-step-cont rounded shadow-sm">
-  <h2>
-    Interests
-  </h2>
+  <h2 class="section-title">Interests ({{targetStep}})</h2>
   <div style="margin-bottom: 25px;">
     <hobbie-picker [selectedHobbies]="selectedHobbies" [list]="allHobbies" type="hobbies"
       (changed)="hobbiesChanged($event)"></hobbie-picker>
@@ -249,10 +254,30 @@
 </div>
 
 <div *ngIf="4 == step" style="padding-top: 20px;">
-  <progress class="border shadow-sm" [value]="(3 * (quizStep - 1)) / questions.length" max="1"
+  <h2 *ngIf="!quizComplete" class="section-title">Personality Quiz ({{targetStep}})</h2>
+
+  <div *ngIf="showQuizIntroText">
+    <div class="alert alert-info" role="alert">
+      The goal of the personality quiz is to determine part of what your personality and beliefs are so that
+      we can find better matches for you. <br/>
+      To find a better match try to answer honestly.
+    </div>
+    <div>
+      <button class="btn btn-primary" (click)="showQuizIntroText = false">Start Quiz</button>
+    </div>
+  </div>
+
+  <div *ngIf="!showQuizIntroText && quizComplete">
+    <div class="alert alert-success" role="alert">
+      You have successfully completed the onboarding!
+    </div>
+    <button class="btn btn-success" (click)="handleComplete()">Done</button>
+  </div>
+
+  <progress *ngIf="!showQuizIntroText && !quizComplete" class="border shadow-sm" [value]="stepProgress / questions.length" max="1"
     style="width: 100%; height: 30px"></progress>
 
-  <div style="padding: 25px; margin-left: 20px;">
+  <div *ngIf="!showQuizIntroText && !quizComplete" style="padding: 25px; margin-left: 20px;">
     <form [formGroup]="quizForm">
       <div *ngFor="let question of stepQustions(quizStep); let ix = index" class="form-group">
         <label for="inputPassword">
@@ -273,6 +298,6 @@
       </div>
     </form>
 
-    <button class="btn btn-primary" (click)="saveQuiz()">Save</button>
+    <button class="btn btn-primary" (click)="saveQuiz()">Next</button>
   </div>
 </div>

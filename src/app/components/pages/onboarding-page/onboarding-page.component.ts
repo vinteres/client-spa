@@ -13,6 +13,8 @@ import { OnboardingService } from 'src/app/services/onboarding.service'
 })
 export class OnboardingPageComponent implements OnInit {
 
+  readonly TOTAL_STEPS: number = 4
+
   loading: boolean
   accountInfoForm = new FormGroup({})
   profileInfoForm = new FormGroup({})
@@ -33,8 +35,10 @@ export class OnboardingPageComponent implements OnInit {
 
   location: any = { name: '', fullName: 'Your current city' }
 
+  showIntroText: boolean = true
+  showQuizIntroText: boolean = true
   step: number
-  quizStep = 1
+  quizStep: number = 1
 
   constructor(
     private formBuilder: FormBuilder,
@@ -285,7 +289,7 @@ export class OnboardingPageComponent implements OnInit {
     }
 
     this.onboardingService.setQuiz({ answers: this.questionAnswers })
-      .subscribe(r => {  })
+      .subscribe(() => { })
   }
 
   private handleError({ error }) {
@@ -306,5 +310,22 @@ export class OnboardingPageComponent implements OnInit {
 
       control.markAsDirty()
     })
+  }
+
+  get quizComplete() {
+    return !this.stepQustions(this.quizStep).length
+  }
+
+  get stepProgress() {
+    let r = 0
+    for (let i = 0; i < this.quizStep; i++) {
+      r += this.stepQustions(i).length
+    }
+
+    return r
+  }
+
+  get targetStep() {
+    return `Step ${this.step}/${this.TOTAL_STEPS}`
   }
 }
