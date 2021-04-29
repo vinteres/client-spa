@@ -33,7 +33,9 @@ import { OnboardingPageComponent } from './components/pages/onboarding-page/onbo
 import { ViewsPageComponent } from './components/pages/views-page/views-page.component'
 import { CompatabilitiesPageComponent } from './components/pages/compatabilities-page/compatabilities-page.component'
 import { SmileComponent } from './components/misc/smile/smile.component'
-import { MatchesPageComponent } from './components/pages/matches-page/matches-page.component'
+import { MatchesPageComponent } from './components/pages/matches-page/matches-page.component';
+import { AppTitleComponent } from './components/misc/app-title/app-title.component';
+import { AppInfoComponent } from './components/misc/app-info/app-info.component'
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -104,6 +106,8 @@ const customNotifierOptions: NotifierOptions = {
     ViewsPageComponent,
     CompatabilitiesPageComponent,
     SmileComponent,
+    AppTitleComponent,
+    AppInfoComponent,
   ],
   imports: [
     BrowserModule,

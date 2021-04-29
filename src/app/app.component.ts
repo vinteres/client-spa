@@ -45,7 +45,7 @@ export class AppComponent implements OnDestroy {
   faFeedback = faClipboardList
   faLogout = faSignOutAlt
 
-  baseTitle = 'Vinterest'
+  baseTitle = 'Vinteres - Find love or friends. Match with people by personality and interests.'
   title = this.baseTitle
 
   notifsCount = {
