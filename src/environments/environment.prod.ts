@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  api_url: 'http://vinteres.io/api/',
-  ws_url: 'ws://vinteres.io'
+  api_url: 'https://vinteres.io/api/',
+  ws_url: 'wss://vinteres.io'
 };
