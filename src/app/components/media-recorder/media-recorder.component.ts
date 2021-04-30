@@ -41,22 +41,26 @@ export class MediaRecorderComponent implements OnInit {
   }
 
   startRecording() {
+    let recording
     if (this.type === 'video') {
-      this.recordingVideo()
+      recording = this.recordingVideo()
       this.timeElapsed = this.MAX_VIDEO_LENGTH
     } else if (this.type === 'audio') {
-      this.recordAudio()
+      recording = this.recordAudio()
       this.timeElapsed = this.MAX_AUDIO_LENGTH
     }
-    this.recording = true
-    this.timeElapsedInterval = setInterval(() => {
-      if (this.timeElapsed <= 0) {
-        clearInterval(this.timeElapsedInterval)
-        this.stopRecording()
-      } else {
-        this.timeElapsed--
-      }
-    }, 1000)
+
+    recording.then(() => {
+      this.recording = true
+      this.timeElapsedInterval = setInterval(() => {
+        if (this.timeElapsed <= 0) {
+          clearInterval(this.timeElapsedInterval)
+          this.stopRecording()
+        } else {
+          this.timeElapsed--
+        }
+      }, 1000)
+    })
   }
 
   stopRecording() {
@@ -73,9 +77,9 @@ export class MediaRecorderComponent implements OnInit {
   recordAudio() {
     const audioBar = this.audioBar.nativeElement
 
-    navigator.mediaDevices.getUserMedia({
+    return navigator.mediaDevices.getUserMedia({
       audio: true
-    }).then(async (stream) => {
+    }).then(stream => {
       audioBar.style.display = 'none'
       this.stream = stream
 
@@ -116,10 +120,10 @@ export class MediaRecorderComponent implements OnInit {
     const v1 = this.previewVideo.nativeElement
     const replayVideoCont = this.replayVideoCont.nativeElement
 
-    navigator.mediaDevices.getUserMedia({
+    return navigator.mediaDevices.getUserMedia({
       video: true,
       audio: true
-    }).then(async (stream) => {
+    }).then(stream => {
       this.stream = stream
       replayVideoCont.style.display = 'none'
       v1.style.display = null
