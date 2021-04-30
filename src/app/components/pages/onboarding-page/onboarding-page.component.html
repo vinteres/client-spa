@@ -288,7 +288,9 @@
     <div class="alert alert-success" role="alert">
       You have successfully completed the onboarding!
     </div>
-    <button class="btn btn-success" (click)="handleComplete()">Done</button>
+    <div class="info-button-cont">
+      <button class="btn btn-success" (click)="handleComplete()">Done</button>
+    </div>
   </div>
 
   <progress *ngIf="!showQuizIntroText && !quizComplete" class="border shadow-sm"
