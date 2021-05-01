@@ -7,3 +7,69 @@
 
 .chat-user-item.active-chat
   background-color: #f2f2f2
+
+.msg-page-cont
+  #height: 700px
+  overflow: hidden
+  position: fixed
+  top: 0
+  bottom: 0
+  height: 100%
+  width: 840px
+
+  .inner-cont
+    background-color: #fff
+    height: auto
+    position: absolute
+    top: 60px
+    bottom: 10px
+    left: 0px
+    right: 0px
+    width: 100%
+    overflow: hidden
+    border: 1px solid #b0b0b0
+
+  .chat-cont
+    width: 590px
+    height: 100%
+    margin-left: 250px
+    position: relative
+    background-color: #e8e8e8
+
+  .chat-members-cont
+    width: 250px
+    height: 100%
+    border-right: 1px solid #b0b0b0
+    float: left
+
+@media only screen and (max-width: 1240px)
+  .msg-page-cont
+    position: static
+    #height: 900px
+
+    .inner-cont
+      position: static
+      height: 100%
+
+    .chat-cont
+      height: 900px
+
+@media only screen and (max-width: 840px)
+  .msg-page-cont
+    width: 100%
+
+    .chat-cont
+      width: calc(100% - 250px)
+
+@media only screen and (max-width: 700px)
+  .msg-page-cont
+    .chat-cont
+      width: 100%
+      margin: 0
+
+    .chat-members-cont
+      #display: none
+      float: none
+      height: initial
+      width: 100%
+      border-bottom: 1px solid #b0b0b0
