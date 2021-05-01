@@ -1,13 +1,16 @@
-.app-info
-  width: 430px
-  margin-right: auto
-  position: absolute
-
-.auth-cont
-  width: 400px
-  margin-left: auto
-  background-color: #fff
+.page-cont
+  background-color: #f5f3f0
+  padding: 10px
   border-radius: 5px
+
+  .app-info
+    width: 420px
+    margin-right: auto
+    position: absolute
+
+  .auth-cont
+    width: 400px
+    margin-left: auto
 
 input
   padding: 25px 15px
@@ -16,16 +19,18 @@ button
   width: 100%
 
 @media only screen and (max-width: 840px)
-  .app-info
-    position: static
-    margin: auto
+  .page-cont
+    .app-info
+      position: static
+      margin: auto
 
-  .auth-cont
-    margin: auto
+    .auth-cont
+      margin: auto
 
 @media only screen and (max-width: 430px)
-  .app-info
-    width: 100%
+  .page-cont
+    .app-info
+      width: 100%
 
-  .auth-cont
-    width: 100%
+    .auth-cont
+      width: 100%

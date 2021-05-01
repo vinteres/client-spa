@@ -296,7 +296,7 @@
   <progress *ngIf="!showQuizIntroText && !quizComplete" class="border shadow-sm"
     [value]="stepProgress / questions.length" max="1" style="width: 100%; height: 30px"></progress>
 
-  <div *ngIf="!showQuizIntroText && !quizComplete" style="padding: 25px; margin-left: 20px;">
+  <div *ngIf="!showQuizIntroText && !quizComplete" style="padding: 25px;" class="onboarding-step-cont border shadow-sm">
     <form [formGroup]="quizForm">
       <div *ngFor="let question of stepQustions(quizStep); let ix = index" class="form-group">
         <label for="inputPassword">
