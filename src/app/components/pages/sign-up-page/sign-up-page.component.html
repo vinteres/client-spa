@@ -37,8 +37,24 @@
                   placeholder="Password" [readonly]="loading" required>
 
             <small class="text-danger" *ngIf="(password.dirty || password.touched) && !password.valid" class="text-danger">
-              <div *ngIf="password.hasError('required')">Password is invalid.</div>
-              <div *ngIf="password.hasError('pattern')">Password must be at least 8 characters long and contain at least one uppercase letter, lowercase letter, number and special character</div>
+              <div class="alert alert-warning">
+                <div class="pwd-item">
+                  <fa-icon *ngIf="password.value.length >= 8" [icon]="faCheck"></fa-icon> 8+ length
+                </div>
+                <div class="pwd-item">
+                  <fa-icon *ngIf="hasUppercase(password.value)" [icon]="faCheck"></fa-icon> [A-Z]
+                </div>
+                <div class="pwd-item">
+                  <fa-icon *ngIf="hasLowercase(password.value)" [icon]="faCheck"></fa-icon> [a-z]
+                </div>
+                <div class="pwd-item">
+                  <fa-icon *ngIf="hasNumber(password.value)" [icon]="faCheck"></fa-icon> [0-9]
+                </div>
+                <div class="pwd-item">
+                  <fa-icon *ngIf="hasSpecialChar(password.value)" [icon]="faCheck"></fa-icon> [#?!@$%^&*-]
+                </div>
+              </div>
+              <div>Password is invalid.</div>
             </small>
           </div>
           <div class="form-group inp-cont">

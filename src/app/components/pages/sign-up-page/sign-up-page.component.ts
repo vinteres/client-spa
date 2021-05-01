@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { Validators, NgForm, FormGroup, AbstractControl, ValidationErrors, FormControl } from '@angular/forms'
 import { Router } from '@angular/router'
-import { UsersService } from 'src/app/services/users.service'
 import { AuthService } from 'src/app/services/auth.service'
 import { environment } from 'src/environments/environment'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'sign-up-page',
@@ -13,6 +13,8 @@ import { Observable } from 'rxjs'
   styleUrls: ['./sign-up-page.component.sass']
 })
 export class SignUpPageComponent implements OnInit {
+  faCheck = faCheck
+
   @ViewChild('registerForm') public registerForm: NgForm
 
   form = new FormGroup({})
@@ -93,5 +95,21 @@ export class SignUpPageComponent implements OnInit {
     this.router.navigateByUrl('/login')
 
     return false
+  }
+
+  hasUppercase(value) {
+    return /[A-Z]+/.test(value)
+  }
+
+  hasLowercase(value) {
+    return /[a-z]+/.test(value)
+  }
+
+  hasNumber(value) {
+    return /[0-9]+/.test(value)
+  }
+
+  hasSpecialChar(value) {
+    return /[#?!@$%^&*-]+/.test(value)
   }
 }
