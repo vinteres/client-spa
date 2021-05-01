@@ -10,15 +10,29 @@
 
       <form (ngSubmit)="login(loginForm)" #loginForm="ngForm">
         <div class="form-group inp-cont">
-          <input type="text" class="form-control" required [(ngModel)]="loginData.username" name="username" #username="ngModel"
-          placeholder="Email" [readonly]="loading" required>
+          <input type="text"
+                 class="form-control"
+                 placeholder="Email"
+                 name="username"
+                 [(ngModel)]="loginData.username"
+                 [ngClass]="{'error-inp': ((username.dirty || username.touched) && !username.valid)}"
+                 #username="ngModel"
+                 [readonly]="loading"
+                 required>
           <small class="text-danger" *ngIf="(username.dirty || username.touched) && !username.valid">
             Email is invalid.
           </small>
         </div>
         <div class="form-group inp-cont">
-          <input type="password" class="form-control auth-inp" [(ngModel)]="loginData.password" name="password" #password="ngModel"
-          placeholder="Password" [readonly]="loading" required>
+          <input type="password"
+                 name="password"
+                 class="form-control auth-inp"
+                 placeholder="Password"
+                 [(ngModel)]="loginData.password"
+                 [ngClass]="{'error-inp': ((password.dirty || password.touched) && !password.valid)}"
+                 #password="ngModel"
+                 [readonly]="loading"
+                 required>
           <small small class="text-danger" *ngIf="(password.dirty || password.touched) && !password.valid">
             <div *ngIf="password.errors.required">Password is invalid.</div>
             <div *ngIf="password.errors.invalidCredentials">Invalid username or password.</div>
