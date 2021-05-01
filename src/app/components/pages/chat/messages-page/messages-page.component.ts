@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { NavigationEnd, Router } from '@angular/router'
+import { Router } from '@angular/router'
+import { faAlignJustify } from '@fortawesome/free-solid-svg-icons'
 import { Subscription } from 'rxjs'
 import { AuthService } from 'src/app/services/auth.service'
 import { ChatService } from 'src/app/services/chat.service'
@@ -14,8 +15,11 @@ import { environment } from 'src/environments/environment'
   styleUrls: ['./messages-page.component.sass']
 })
 export class MessagesPageComponent implements OnInit, OnDestroy {
+  faMenuItem = faAlignJustify
   users: any = []
   loading: boolean
+
+  menuHidden: boolean
 
   private wsSubscription: Subscription
   private websocketSubscription: Subscription
@@ -76,6 +80,12 @@ export class MessagesPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+  }
+
+  showMenu(e) {
+    e.stopPropagation()
+
+    this.menuHidden = false
   }
 
   ngOnDestroy() {

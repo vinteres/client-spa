@@ -1,26 +1,25 @@
 <div class="msg-page-cont">
-  <div class="rounded shadow-sm inner-cont">
-    <div class="chat-members-cont">
+  <div class="rounded shadow-sm inner-cont" (click)="menuHidden = true">
+    <div class="chat-members-cont" [ngClass]="{'menu-hidden': menuHidden}">
       <div style="height: 100%; overflow-y: auto;">
-        <div>
-          <loader *ngIf="loading"></loader>
+        <loader *ngIf="loading"></loader>
 
-          <div *ngIf="!loading && 0 === users.length" style="padding: 5px;">
-            No matches yet.
-          </div>
-          <div *ngFor="let user of users"
-               class="chat-user-item"
-               [ngClass]="{'not-seen': (user.notSeenCount > 0), 'active-chat': (getActiveUserId() === user.id)}"
-               style="padding: 5px;"
-               (click)="changeUser(user)"
-               >
-            <img [src]="user.profileImage" class="rounded" style="width: 40px;" />
-            {{user.name}}
-          </div>
+        <div *ngIf="!loading && 0 === users.length" style="padding: 5px;">
+          No matches yet.
+        </div>
+        <div *ngFor="let user of users"
+             class="chat-user-item"
+             [ngClass]="{'not-seen': (user.notSeenCount > 0), 'active-chat': (getActiveUserId() === user.id)}"
+             style="padding: 5px;"
+             (click)="changeUser(user)"
+             >
+          <img [src]="user.profileImage" class="rounded" style="width: 40px;" />
+          {{user.name}}
         </div>
       </div>
     </div>
     <div class="chat-cont">
+      <fa-icon class="toggle-menu" [icon]="faMenuItem" (click)="showMenu($event)"></fa-icon>
       <router-outlet></router-outlet>
     </div>
   </div>

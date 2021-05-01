@@ -17,6 +17,15 @@
   height: 100%
   width: 840px
 
+  .toggle-menu
+    display: none
+    font-size: 40px
+    cursor: pointer
+    position: absolute
+    top: 0
+    right: 10px
+    z-index: 1
+
   .inner-cont
     background-color: #fff
     height: auto
@@ -45,7 +54,6 @@
 @media only screen and (max-width: 1240px)
   .msg-page-cont
     position: static
-    #height: 900px
 
     .inner-cont
       position: static
@@ -63,13 +71,26 @@
 
 @media only screen and (max-width: 700px)
   .msg-page-cont
+    .toggle-menu
+      display: block
+
     .chat-cont
       width: 100%
       margin: 0
+
+    .chat-members-cont.menu-hidden
+      display: none
 
     .chat-members-cont
       #display: none
       float: none
       height: initial
-      width: 100%
+      #width: 100%
+      width: 70%
+      height: 100%
       border-bottom: 1px solid #b0b0b0
+      position: fixed
+      z-index: 10
+      top: 0
+      left: 0
+      background-color: #fff
