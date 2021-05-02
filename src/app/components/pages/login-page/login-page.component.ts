@@ -11,7 +11,9 @@ import { Router } from '@angular/router'
 export class LoginPageComponent implements OnInit {
   @ViewChild('loginForm') public loginForm: NgForm
 
-  public loginData: any = {}
+  public loginData: any = {
+    remember: true
+  }
 
   public loading: boolean
 

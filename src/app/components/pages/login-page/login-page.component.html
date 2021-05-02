@@ -39,6 +39,16 @@
             <div *ngIf="password.errors.serverError">Server error.</div>
           </small>
         </div>
+
+        <div class="form-group inp-cont">
+          <input type="checkbox"
+                 [(ngModel)]="loginData.remember"
+                 name="remember"
+                 #remember="ngModel"
+                 [readonly]="loading"/>
+          Remember
+        </div>
+
         <button class="btn btn-primary" type="submit" [disabled]="loading">Login</button>
       <div style="text-align: center; margin: 10px 0">or</div>
       <button class="btn btn-success" type="button" (click)="signup()">Sign up</button>
