@@ -1,5 +1,6 @@
 .user-item
-  width: 200px
+  width: calc(25% - 10px)
+  overflow: hidden
   float: left
   margin: 5px
   position: relative
@@ -36,14 +37,13 @@
 .user-item:hover
   cursor: pointer
 
-
 @media only screen and (max-width: 840px)
   .user-item
-    width: 32%
+    width: calc(33% - 10px)
 
-@media only screen and (max-width: 750px)
+@media only screen and (max-width: 650px)
   .user-item
-    width: 48%
+    width: calc(50% - 10px)
 
 @media only screen and (max-width: 500px)
   .user-item

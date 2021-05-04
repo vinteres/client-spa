@@ -242,7 +242,7 @@
 
             <div *ngFor="let userImage of user.images; let ix = index"
               class="rounded shadow border border-dark add-image-item" (click)="showImageUpload(ix + 1, file)">
-              <img class="rounded" [src]="userImage.small" style="max-width: 150px; max-height: 150px;" />
+              <img class="rounded" [src]="userImage.small" style="width: 100%;" />
               <input type="file" accept="image/*" #file (change)="uploadImage(userImage.position, $event.target.files)"
                 style="display: none;">
               <button class="btn btn-outline-danger" style="position: absolute; top: 3px; right: 3px;"
