@@ -4,7 +4,7 @@
       <div style="height: 100%; overflow-y: auto;">
         <loader *ngIf="loading"></loader>
 
-        <div *ngIf="!loading && 0 === users.length" style="padding: 5px;">
+        <div *ngIf="!loading && 0 === users.length" style="padding: 10px; font-weight: bold;">
           No matches yet.
         </div>
         <div *ngFor="let user of users"
@@ -19,6 +19,17 @@
       </div>
     </div>
     <div class="chat-cont">
+      <h4 *ngIf="!loading && 0 === users.length" style="display: inline-block; position: absolute;
+      top: 50%;
+      width: 100%;
+      text-align: center;
+      padding: 0 10px;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);">
+        No one to chat with. You don't have any matches yet.
+        <br/>
+        To get matched with someone <a routerLink="/intros">accept intros</a> sent to you or <a routerLink="/find-people">find people</a> and send intros to them.
+      </h4>
       <fa-icon class="toggle-menu" [icon]="faMenuItem" (click)="showMenu($event)"></fa-icon>
       <router-outlet></router-outlet>
     </div>

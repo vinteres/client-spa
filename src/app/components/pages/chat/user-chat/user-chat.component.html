@@ -10,7 +10,6 @@
     <div style="height: 100%; padding-top: 52px; background-color: #f0f0f0;
     padding-bottom: 80px;">
       <div style="height: 100%;  overflow-y: scroll;" #messagesCont>
-
         <div style="padding: 5px; background-color: #f0f0f0;">
           <div *ngIf="chat.messages.length === 0" style="padding: 5px; text-align: center;">No chat history</div>
           <loader *ngIf="loadingMore"></loader>

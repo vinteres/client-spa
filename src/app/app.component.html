@@ -9,12 +9,12 @@
           </a>
         </div>
         <div class="user-data">
-          <a *ngIf="isActiveUser()" class="header-item" [routerLink]="['/user/' + loggedUser().id]"><fa-icon [icon]="faProfile"></fa-icon></a>
-          <a *ngIf="isActiveUser()" class="header-item" routerLink="/chat" style="position: relative;">
+          <a *ngIf="isActiveUser()" class="header-item" [routerLink]="['/user/' + loggedUser().id]"><fa-icon [icon]="faProfile" title="My profile"></fa-icon></a>
+          <a *ngIf="isActiveUser()" class="header-item" routerLink="/chat" style="position: relative;" title="Chat">
             <fa-icon [icon]="faEnvelope"></fa-icon>
             <span *ngIf="notifsCount.msg > 0" class="badge rounded-pill bg-danger" style="top: 8px; right: -8px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{notifsCount.msg}}</span>
           </a>
-          <a *ngIf="isActiveUser()" class="header-item" routerLink="/notifications" style="position: relative;">
+          <a *ngIf="isActiveUser()" class="header-item" routerLink="/notifications" style="position: relative;" title="Notifications">
             <fa-icon [icon]="faBell"></fa-icon>
             <span *ngIf="notifsCount.notif > 0" class="badge rounded-pill bg-danger" style="top: 8px; right: -8px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{notifsCount.notif}}</span>
           </a>

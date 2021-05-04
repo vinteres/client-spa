@@ -1,4 +1,6 @@
-<h1>Find people <fa-icon [icon]="faSearchPref" (click)="openModal(content)" style="cursor: pointer;"></fa-icon></h1>
+<h1>Find people <span *ngIf="searchPref && searchPref.location">in {{searchPref.location.fullName}}</span>
+  <fa-icon [icon]="faSearchPref" (click)="openModal(content)" style="cursor: pointer; margin-left: 10px;"></fa-icon>
+</h1>
 
 <loader *ngIf="loading"></loader>
 <div *ngIf="!loading && users.length == 0">No people were found.</div>
