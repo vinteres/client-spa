@@ -1,4 +1,4 @@
-<div class="page-cont shadow-sm">
+<div class="page-cont shadow">
   <app-title></app-title>
   <div class="app-info">
     <app-info></app-info>
@@ -49,9 +49,10 @@
           Remember
         </div>
 
-        <button class="btn btn-primary" type="submit" [disabled]="loading">Login</button>
-      <div style="text-align: center; margin: 10px 0">or</div>
-      <button class="btn btn-success" type="button" (click)="signup()">Sign up</button>
+        <button class="btn btn-outline-primary" type="submit" [disabled]="loading">Login</button>
+      <div style="margin: 15px 0">
+        Or you can <a routerLink="/sign-up">sign up here</a> if you don't have an account.
+      </div>
     </form>
   </div>
 </div>

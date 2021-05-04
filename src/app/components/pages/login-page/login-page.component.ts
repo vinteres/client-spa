@@ -60,11 +60,5 @@ export class LoginPageComponent implements OnInit {
       this.loginForm.form.get('password').setErrors(errors)
     }
   }
-
-  public signup() {
-    this.router.navigateByUrl('/sign-up')
-
-    return false
-  }
 }
 

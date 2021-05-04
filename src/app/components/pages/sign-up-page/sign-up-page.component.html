@@ -89,9 +89,10 @@
               Confirm password
             </small>
           </div>
-          <button class="btn btn-primary" type="submit" [disabled]="loading">Sign up</button>
-          <div style="text-align: center; margin: 10px 0">or</div>
-          <button class="btn btn-success" type="button" (click)="login()">Go to login</button>
+          <button class="btn btn-outline-primary" type="submit" [disabled]="loading">Sign up</button>
+          <div style="margin: 15px 0">
+            If you already have an account you can <a routerLink="/login">sign in here</a>.
+          </div>
         </form>
       </div>
     </div>
