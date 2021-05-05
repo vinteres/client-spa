@@ -7,7 +7,9 @@
         <div class="container" style="margin-bottom: 30px; position: relative; margin-top: 100px">
           <div style="position: absolute; margin-left: 210px; margin-top: -60px;">
             <div class="name">
-              <span class="align-middle">{{user.name}}, {{user.age}}</span>
+              <span class="align-middle">
+                {{user.name}}, {{user.age}} <verified-badge *ngIf="user.verified"></verified-badge>
+              </span>
               <span *ngIf="user.compatability" class="badge badge-pill badge-secondary align-middle compatability-badge"
                 style="margin-left: 10px;" title="Compatability percentage to me">{{user.compatability}}%</span>
             </div>
@@ -17,7 +19,6 @@
           </div>
           <div class="shadow-sm rounded"
             style="padding: 15px; height: 210px; height: 100px; background-color: #fff; position: relative;">
-
 
             <div *ngIf="!isLoggedUser()" style="position: absolute; top: 20px; right: 20px;">
               <button *ngIf="!user.relation_status" class="btn btn-outline-dark" style="margin-right: 10px;"

@@ -35,7 +35,8 @@ import { CompatabilitiesPageComponent } from './components/pages/compatabilities
 import { SmileComponent } from './components/misc/smile/smile.component'
 import { MatchesPageComponent } from './components/pages/matches-page/matches-page.component';
 import { AppTitleComponent } from './components/misc/app-title/app-title.component';
-import { AppInfoComponent } from './components/misc/app-info/app-info.component'
+import { AppInfoComponent } from './components/misc/app-info/app-info.component';
+import { VerifiedBadgeComponent } from './components/misc/verified-badge/verified-badge.component'
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -108,6 +109,7 @@ const customNotifierOptions: NotifierOptions = {
     SmileComponent,
     AppTitleComponent,
     AppInfoComponent,
+    VerifiedBadgeComponent,
   ],
   imports: [
     BrowserModule,

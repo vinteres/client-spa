@@ -6,7 +6,7 @@
     <div class="item-overlay rounded">
       <div class="text-container">
         <div class="text-truncate" style="font-size: initial;">
-          {{user.name}}, {{user.age}}
+          {{user.name}}, {{user.age}} <verified-badge *ngIf="user.verified"></verified-badge>
         </div> 
         <div class="text-truncate" *ngIf="user.mutual_hobbies_count" style="line-height: 14px;">{{user.mutual_hobbies_count}} mutual interests</div>
         <div class="text-truncate" *ngIf="user.mutual_ativities_count" style="line-height: 14px;">{{user.mutual_ativities_count}} mutual activities</div>
