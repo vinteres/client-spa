@@ -24,6 +24,7 @@ import { NotifierService } from 'angular-notifier'
 import { CHttp } from './services/chttp.service'
 import { Title } from '@angular/platform-browser'
 import { ChatService } from './services/chat.service'
+import { UsersService } from './services/users.service'
 
 @Component({
   selector: 'app-root',
@@ -48,6 +49,8 @@ export class AppComponent implements OnDestroy {
   baseTitle = 'Vinteres - Find love or friends. Match with people by personality and interests.'
   title = this.baseTitle
 
+  compatabilityCount: number
+
   notifsCount = {
     msg: 0,
     notif: 0,
@@ -68,6 +71,7 @@ export class AppComponent implements OnDestroy {
     private authService: AuthService,
     private websocketService: WebsocketService,
     private notificationsService: NotificationsService,
+    private userService: UsersService,
     private modalService: NgbModal,
     private router: Router,
     private notifierService: NotifierService,
@@ -141,6 +145,11 @@ export class AppComponent implements OnDestroy {
         }
 
         this.setTitle()
+      })
+
+    this.userService.getCompatabilityCount()
+      .subscribe((result) => {
+        this.compatabilityCount = result.compatabilityCount
       })
 
     this.countSubscription = this.notificationsService.countSubject$

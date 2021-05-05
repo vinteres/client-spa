@@ -1,7 +1,7 @@
 <h1>Matches</h1>
 
 <loader *ngIf="loading"></loader>
-<div *ngIf="!loading && users.length == 0">
+<div *ngIf="!loading && 0 === users.length">
   <div class="alert alert-primary" role="alert">
     To get matched with someone <a routerLink="/intros">accept intros</a> sent to you or <a routerLink="/find-people">find people</a> and send intros to them.
     <br/>

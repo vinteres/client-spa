@@ -51,10 +51,6 @@
         <fa-icon [icon]="faFindPeople"></fa-icon>
         Find people
       </a>
-      <a routerLink="/compatabilities" class="item">
-        <fa-icon [icon]="faCompatability"></fa-icon>
-        Compatabilities
-      </a>
       <a routerLink="/matches" class="item">
         <fa-icon [icon]="faMatch"></fa-icon>
         Matches
@@ -62,6 +58,10 @@
       <a routerLink="/views" class="item">
         <fa-icon [icon]="faViews"></fa-icon>
         Views
+      </a>
+      <a routerLink="/compatabilities" class="item">
+        <fa-icon [icon]="faCompatability"></fa-icon>
+        Compatability <span *ngIf="compatabilityCount && 0 < compatabilityCount">({{compatabilityCount}})</span>
       </a>
     </div>
   </div>

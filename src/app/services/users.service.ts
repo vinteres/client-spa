@@ -29,6 +29,10 @@ export class UsersService {
     return this.http.get(environment.api_url + 'compatabilities')
   }
 
+  getCompatabilityCount() {
+    return this.http.get(environment.api_url + 'compatability-count')
+  }
+
   getSettings() {
     return this.http.get(environment.api_url + 'settings')
   }

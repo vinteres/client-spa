@@ -1,7 +1,7 @@
 <h1>Intros</h1>
 <h5>Intros that people have sent to you.</h5>
 
-<div *ngIf="!intros || 0 === intros.length">
+<div *ngIf="!loading && (!intros || 0 === intros.length)">
   <div class="alert alert-primary" role="alert">
     You can <a routerLink="/find-people">find people</a> and send intros to them.
     <br/>
