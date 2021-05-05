@@ -1,4 +1,4 @@
-# SPA front-end for a web app for finding people
+# SPA front-end for [Vinteres.io](https://vinteres.io/) - Find and match with people by personality and interests.
 
 ## Description
 
