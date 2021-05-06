@@ -38,7 +38,8 @@ import { AppTitleComponent } from './components/misc/app-title/app-title.compone
 import { AppInfoComponent } from './components/misc/app-info/app-info.component';
 import { VerifiedBadgeComponent } from './components/misc/verified-badge/verified-badge.component'
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core'
-import { TranslateHttpLoader } from '@ngx-translate/http-loader'
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { OnlineComponent } from './components/misc/online/online.component'
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -116,6 +117,7 @@ const customNotifierOptions: NotifierOptions = {
     AppTitleComponent,
     AppInfoComponent,
     VerifiedBadgeComponent,
+    OnlineComponent,
   ],
   imports: [
     BrowserModule,

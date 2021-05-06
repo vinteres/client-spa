@@ -8,7 +8,7 @@
           <div style="position: absolute; margin-left: 210px; margin-top: -60px;">
             <div class="name">
               <span class="align-middle">
-                {{user.name}}, {{user.age}} <verified-badge *ngIf="user.verified"></verified-badge>
+                {{user.name}}, {{user.age}} <verified-badge *ngIf="user.verified"></verified-badge> <online *ngIf="user.online"></online>
               </span>
               <span *ngIf="user.compatability" class="badge badge-pill badge-secondary align-middle compatability-badge"
                 style="margin-left: 10px;" title="Compatability percentage to me">{{ user.compatability }}%</span>
