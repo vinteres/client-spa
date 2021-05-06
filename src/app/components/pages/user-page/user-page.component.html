@@ -11,10 +11,10 @@
                 {{user.name}}, {{user.age}} <verified-badge *ngIf="user.verified"></verified-badge>
               </span>
               <span *ngIf="user.compatability" class="badge badge-pill badge-secondary align-middle compatability-badge"
-                style="margin-left: 10px;" title="Compatability percentage to me">{{user.compatability}}%</span>
+                style="margin-left: 10px;" title="Compatability percentage to me">{{ user.compatability }}%</span>
             </div>
             <div>
-              {{user.title}}
+              {{ user.title }}
             </div>
           </div>
           <div class="shadow-sm rounded"
@@ -23,29 +23,29 @@
             <div *ngIf="!isLoggedUser()" style="position: absolute; top: 20px; right: 20px;">
               <button *ngIf="!user.relation_status" class="btn btn-outline-dark" style="margin-right: 10px;"
                 (click)="sendSmile()">
-                Smile
+                {{ 'Smile' | translate }}
               </button>
 
               <button *ngIf="!user.relation_status" class="btn btn-outline-dark" (click)="openIntroDialog(introDialog)">
-                Send intro
+                {{ 'Send intro' | translate }}
               </button>
 
               <button *ngIf="'matched' === user.relation_status" class="btn btn-outline-dark"
                 style="margin-right: 10px;" (click)="unmatch()">
-                Unmatch
+                {{ 'Unmatch' | translate }}
               </button>
 
               <div *ngIf="'intro_to_me' === user.relation_status" class="intro-response">
-                They have sent you an intro!
+                {{ 'They have sent you an intro!' | translate }}
               </div>
 
               <div *ngIf="'intro_from_me' === user.relation_status" class="intro-response">
-                You have sent an intro to them
+                {{ 'You have sent an intro to them' | translate }}
               </div>
 
               <button *ngIf="'matched' === user.relation_status" class="btn btn-outline-dark"
                 [routerLink]="['/chat/user/' + userId]">
-                Message
+                {{ 'Message' | translate }}
               </button>
             </div>
 
@@ -60,16 +60,15 @@
             <div *ngIf="isLoggedUser()" style="border-radius: 100%; margin-top: -110px" class="image-content shadow-sm"
               [ngStyle]="{ 'background-image': 'url(' + user.profile_image + ')'}"
               (click)="showEditImageModal(imageUploadModal)">
-              <div *ngIf="isLoggedUser()" class="img-btn" style="color: #fff;">Change image</div>
+              <div *ngIf="isLoggedUser()" class="img-btn" style="color: #fff;">{{ 'Change image' | translate }}</div>
             </div>
 
             <div *ngIf="!isLoggedUser()" style="border-radius: 100%; margin-top: -110px" class="image-content shadow-sm"
               [ngStyle]="{ 'background-image': 'url(' + user.profile_image + ')'}" (click)="showGalleryModal()">
-              <div class="img-btn" style="color: #fff;" *ngIf="user.images.length > 0">View images</div>
+              <div class="img-btn" style="color: #fff;" *ngIf="user.images.length > 0">{{ 'View images' | translate }}</div>
             </div>
 
             <div class="name-content" style="margin-left: 170px;">
-
               <div>
                 <img *ngFor="let img of previewImages(); let ix = index" [src]="img.small" class="border"
                   style="width: 50px; border-radius: 100%; margin-right: 5px; cursor: pointer;"
@@ -87,57 +86,60 @@
           <div class="col-sm">
             <div class="shadow-sm rounded" style="padding: 15px; background-color: #fff; margin-bottom: 30px;">
               <div style="position: relative;">
-                <h5>About</h5>
+                <h5>{{ 'About' | translate }}</h5>
                 <textarea *ngIf="editingBio" class="bio"
-                  (change)="setEditBioText($event.target.value)">{{editBioText}}</textarea>
-                <div *ngIf="!editingBio" class="bio">{{getBio()}}</div>
+                  (change)="setEditBioText($event.target.value)">{{ editBioText }}</textarea>
+                <div *ngIf="!editingBio" class="bio">
+                  <span *ngIf="hasBio()">{{ user.description }}</span>
+                  <span *ngIf="!hasBio()">{{ 'No bio yet.' | translate }}</span>
+                </div>
               </div>
 
               <hr>
 
               <h5>
-                Interests
+                {{ 'Interests' | translate }}
                 <fa-icon *ngIf="!editingInterests && isLoggedUser()" class="edit-btn" (click)="editInterests()"
                   [icon]="faPen"></fa-icon>
                 <fa-icon *ngIf="editingInterests && isLoggedUser()" class="edit-btn" (click)="saveInterests()"
                   [icon]="faSave"></fa-icon>
               </h5>
               <div *ngIf="!editingInterests">
-                <div *ngIf="getInterests().length === 0">No interests yet.</div>
+                <div *ngIf="getInterests().length === 0">{{ 'No interests yet.' | translate }}</div>
                 <span *ngFor="let interest of getInterests()" class="interest-item"
                   [ngClass]="{'mutual': interest.mutual}">
-                  {{interest.name}}
+                  {{ interest.name | translate }}
                 </span>
               </div>
               <div *ngIf="editingInterests">
-                <hobbie-picker (changed)="changeEditHobbies($event)" [selectedHobbies]="editHobbies" [list]="allHobbies">
+                <hobbie-picker (changed)="changeEditHobbies($event)" [selectedHobbies]="editHobbies" [list]="allHobbies" type="hobbies">
                 </hobbie-picker>
               </div>
 
               <hr>
 
               <h5>
-                Free time activities
+                {{ 'Free time activities' | translate }}
                 <fa-icon *ngIf="!editingActivities && isLoggedUser()" class="edit-btn" (click)="editFreeActivities()"
                   [icon]="faPen"></fa-icon>
                 <fa-icon *ngIf="editingActivities && isLoggedUser()" class="edit-btn" (click)="saveActivities()"
                   [icon]="faSave"></fa-icon>
               </h5>
               <div *ngIf="!editingActivities">
-                <div *ngIf="getActivities().length === 0">No activities yet.</div>
+                <div *ngIf="getActivities().length === 0">{{ 'No activities yet.' | translate }}</div>
                 <span *ngFor="let interest of getActivities()" class="interest-item">
-                  {{interest.name}}
+                  {{ interest.name | translate }}
                 </span>
               </div>
               <div *ngIf="editingActivities">
                 <hobbie-picker (changed)="changeEditHobbies($event)" [selectedHobbies]="editActivities"
-                  [list]="allActivities"></hobbie-picker>
+                  [list]="allActivities" type="activities"></hobbie-picker>
               </div>
 
               <hr>
 
               <h5>
-                From
+                {{ 'From' | translate }}
                 <fa-icon *ngIf="!editingFrom && isLoggedUser()" class="edit-btn" (click)="editFrom()" [icon]="faPen">
                 </fa-icon>
                 <fa-icon *ngIf="editingFrom && isLoggedUser()" class="edit-btn" (click)="saveFrom()" [icon]="faSave">
@@ -145,8 +147,9 @@
               </h5>
               <div *ngIf="!editingFrom">
                 {{user.location?.fullName}}
-                <span *ngIf="!user.location || !user.location.fullName || user.location.fullName.trim() === ''">No
-                  location yet.</span>
+                <span *ngIf="!user.location || !user.location.fullName || user.location.fullName.trim() === ''">
+                  {{ 'No location yet.' | translate }}
+                </span>
               </div>
               <location-select *ngIf="editingFrom" [location]="editFromData"
                 (locationChanged)="locationChanged($event)"></location-select>
@@ -158,7 +161,8 @@
               [ngStyle]="{ 'width': 'smile' === user.intro.type ? '250px' : '' }">
               <div class="arrow-right" style="position: absolute; left: -20px; top: 20px"></div>
               <div style="font-size: 13px; margin-bottom: 5px;">
-                {{introsService.sentMessage(user.intro, 'They sent you ')}}</div>
+                {{ introsService.sentMessage(user.intro, 'They sent you ') | translate }} {{ user.intro.timeAgo.key | translate:{'d': user.intro.timeAgo.d} }}
+              </div>
               <pre *ngIf="'message' === user.intro.type">{{user.intro.message}}</pre>
               <div *ngIf="'video' === user.intro.type" style="position: relative;">
                 <video-player [src]="user.intro.mediaPath" [index]="0" [parentSubject]="parentSubject"></video-player>
@@ -180,58 +184,60 @@
               </div>
             </div>
 
-
           </div>
           <div class="col-sm-4">
             <div class="shadow-sm rounded profile-info-container">
               <fa-icon *ngIf="isLoggedUser()" class="edit-btn" [icon]="faPen" [routerLink]="['/settings']"
                 [queryParams]="{type: 'profile_info'}"></fa-icon>
 
-              <h5 class="user-info-item">Info</h5>
+              <h5 class="user-info-item">{{ 'Info' | translate }}</h5>
 
               <div *ngIf="!hasUserData()">
-                No person info yet.
+                {{ 'No person info yet.' | translate }}
               </div>
 
-              <div *ngIf="bodyData()" class="user-info-item">
+              <div *ngIf="user.height || user.body" class="user-info-item">
                 <fa-icon [icon]="faBody" class="info-icon"></fa-icon>
-                {{bodyData()}}
+                <span *ngIf="user.height">{{ 'HEIGHT' | translate:{'height': user.height } }}</span>
+                <span *ngIf="user.body">
+                  <span *ngIf="user.height">,</span>
+                  {{ user.body | translate }}
+                </span>
               </div>
               <div *ngIf="user.smoking" class="user-info-item">
                 <fa-icon [icon]="faSmoking" class="info-icon"></fa-icon>
-                <span *ngIf="user.smoking == 'regularly'">Smokes regularly</span>
-                <span *ngIf="user.smoking == 'sometimes'">Smokes sometimes</span>
-                <span *ngIf="user.smoking == 'never'">Doesn't smoke</span>
+                <span *ngIf="user.smoking == 'regularly'">{{ 'Smokes regularly' | translate }}</span>
+                <span *ngIf="user.smoking == 'sometimes'">{{ 'Smokes sometimes' | translate }}</span>
+                <span *ngIf="user.smoking == 'never'">{{ 'Doesn\'t smoke' | translate }}</span>
               </div>
               <div *ngIf="user.drinking" class="user-info-item">
                 <fa-icon [icon]="faCocktail" class="info-icon"></fa-icon>
-                <span *ngIf="user.drinking == 'regularly'">Drinks regularly</span>
-                <span *ngIf="user.drinking == 'sometimes'">Drinks socially</span>
-                <span *ngIf="user.drinking == 'never'">Doesn't drink</span>
+                <span *ngIf="user.drinking == 'regularly'">{{ 'Drinks regularly' | translate }}</span>
+                <span *ngIf="user.drinking == 'sometimes'">{{ 'Drinks socially' | translate }}</span>
+                <span *ngIf="user.drinking == 'never'">{{ 'Doesn\'t drink' | translate }}</span>
               </div>
               <div *ngIf="user.children_status" class="user-info-item">
                 <fa-icon [icon]="faChild" class="info-icon"></fa-icon>
-                <span *ngIf="user.children_status == 'has'">Has childen</span>
-                <span *ngIf="user.children_status == 'does_not_have'">Doesn't have children</span>
+                <span *ngIf="user.children_status == 'has'">{{ 'Has childen' | translate }}</span>
+                <span *ngIf="user.children_status == 'does_not_have'">{{ 'Doesn\'t have children' | translate }}</span>
               </div>
               <div *ngIf="user.pet_status" class="user-info-item">
                 <fa-icon [icon]="faCat" class="info-icon"></fa-icon>
-                <span *ngIf="user.pet_status == 'cat'">Has cat(s)</span>
-                <span *ngIf="user.pet_status == 'dog'">Has dog(s)</span>
-                <span *ngIf="user.pet_status == 'other'">Has other pet(s)</span>
-                <span *ngIf="user.pet_status == 'none'">Doesn't have pets</span>
+                <span *ngIf="user.pet_status == 'cat'">{{ 'Has cat(s)' | translate }}</span>
+                <span *ngIf="user.pet_status == 'dog'">{{ 'Has dog(s)' | translate }}</span>
+                <span *ngIf="user.pet_status == 'other'">{{ 'Has other pet(s)' | translate }}</span>
+                <span *ngIf="user.pet_status == 'none'">{{ 'Doesn\'t have pets' | translate }}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 
   <ng-template #imageUploadModal let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Image upload</h4>
+      <h4 class="modal-title" id="modal-basic-title">{{ 'Image upload' | translate }}</h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">×</span>
       </button>
@@ -240,7 +246,6 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-8">
-
             <div *ngFor="let userImage of user.images; let ix = index"
               class="rounded shadow border border-dark add-image-item" (click)="showImageUpload(ix + 1, file)">
               <img class="rounded" [src]="userImage.small" style="width: 100%;" />
@@ -260,42 +265,37 @@
               <input type="file" accept="image/*" #newImage
                 (change)="uploadImage(user.images.length + 1, $event.target.files)" style="display: none;">
             </div>
-
             <div style="clear: both;"></div>
-
           </div>
           <div class="col-sm-4">
-
-            <h5>Photo rules:</h5>
+            <h5>{{ 'Photo rules:' | translate }}</h5>
             <div style="padding: 0 20px;">
               <ul class="a">
-                <li>You must be in the picture</li>
-                <li>show your face</li>
-                <li>No nudity</li>
+                <li>{{ 'You must be in the picture' | translate }}</li>
+                <li>{{ 'Show your face' | translate }}</li>
+                <li>{{ 'No nudity' | translate }}</li>
               </ul>
             </div>
           </div>
-
         </div>
       </div>
 
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close click')">Done</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close click')">{{ 'Done' | translate }}</button>
     </div>
   </ng-template>
 
   <ng-template #introDialog let-modal>
     <div class="modal-header">
-      <h4 class="modal-title">Send intro
-
+      <h4 class="modal-title">{{ 'Send intro' | translate }}
         <div class="btn-group">
           <button type="button" style="outline: none;" class="btn btn-outline-primary"
-            (click)="changeIntroType('message')" [ngClass]="{'active': (introType === 'message')}">Message</button>
+            (click)="changeIntroType('message')" [ngClass]="{'active': (introType === 'message')}">{{ 'Message' | translate }}</button>
           <button type="button" class="btn btn-outline-primary" (click)="changeIntroType('audio')"
-            [ngClass]="{'active': (introType === 'audio')}">Voice</button>
+            [ngClass]="{'active': (introType === 'audio')}">{{ 'Voice' | translate }}</button>
           <button type="button" class="btn btn-outline-primary" (click)="changeIntroType('video')"
-            [ngClass]="{'active': (introType === 'video')}">Video</button>
+            [ngClass]="{'active': (introType === 'video')}">{{ 'Video' | translate }}</button>
         </div>
       </h4>
     </div>
@@ -304,29 +304,29 @@
         <div class="row">
           <div class="col-sm-8">
             <div *ngIf="introType === 'message'">
-              <h5 class="intro-type-title">Send message ({{introMsg.length}}/255)</h5>
+              <h5 class="intro-type-title">{{ 'Send message' | translate }} ({{ introMsg.length }}/255)</h5>
               <textarea class="form-control" [(ngModel)]='introMsg' rows="3"></textarea>
               <small *ngIf="introMsg.length > 255" class="text-danger">
-                Message must be less than 255 characters.
+                {{ 'Message must be less than 255 characters.' | translate }}
               </small>
             </div>
             <div *ngIf="introType === 'audio'">
-              <h5 class="intro-type-title">Voice message</h5>
+              <h5 class="intro-type-title">{{ 'Voice message' | translate }}</h5>
               <media-recorder [type]="'audio'" (changed)="changeMedia($event)"></media-recorder>
             </div>
             <div *ngIf="introType === 'video'">
-              <h5 class="intro-type-title">Video message</h5>
+              <h5 class="intro-type-title">{{ 'Video message' | translate }}</h5>
               <media-recorder [type]="'video'" (changed)="changeMedia($event)"></media-recorder>
             </div>
           </div>
 
           <div class="col-sm-4">
             <div style="padding: 0 20px;">
-              <h5>Posting rules:</h5>
+              <h5>{{ 'Posting rules:' | translate }}</h5>
               <ul class="a">
-                <li>The person in the recording should be you</li>
-                <li>No nudity in recording</li>
-                <li>Be nice</li>
+                <li>{{ 'The person in the recording should be you' | translate }}</li>
+                <li>{{ 'No nudity in recording' | translate }}</li>
+                <li>{{ 'Be nice' | translate }}</li>
               </ul>
             </div>
           </div>
@@ -336,7 +336,7 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline-dark" (click)="sendIntro()"
-        [disabled]="!introData && (0 === introMsg.trim().length || introMsg.length > 255)">Send</button>
+        [disabled]="!introData && (0 === introMsg.trim().length || introMsg.length > 255)">{{ 'Send' | translate }}</button>
     </div>
   </ng-template>
 
@@ -345,28 +345,28 @@
       <span class="close" aria-label="Close"
         style="position: absolute; top: -30px;right: 0; color: #fff; cursor: pointer;"
         (click)="modal.dismiss('Cross click')">&times;</span>
-      <h4 class="modal-title">Report</h4>
+      <h4 class="modal-title">{{ 'Report' | translate }}</h4>
     </div>
     <div class="modal-body">
       <div class="form-group">
-        <label for="reason">Reason</label>
+        <label for="reason">{{ 'Reason' | translate }}</label>
         <select id="reason" class="form-control" #reportType>
-          <option value="inappropriate">Inappropriate content</option>
-          <option value="abusive">Abusive language</option>
-          <option value="scam">Running a scam</option>
-          <option value="fake">Fake profile/photos</option>
-          <option value="underage">Underage</option>
-          <option value="other">Other</option>
+          <option value="inappropriate">{{ 'Inappropriate content' | translate }}</option>
+          <option value="abusive">{{ 'Abusive language' | translate }}</option>
+          <option value="scam">{{ 'Running a scam' | translate }}</option>
+          <option value="fake">{{ 'Fake profile/photos' | translate }}</option>
+          <option value="underage">{{ 'Underage' | translate }}</option>
+          <option value="other">{{ 'Other' | translate }}</option>
         </select>
       </div>
 
       <div class="form-group required">
-        <label class="control-label" for="details">Details</label>
-        <textarea id="details" class="form-control" placeholder="Give us more details.."
+        <label class="control-label" for="details">{{ 'Details' | translate }}</label>
+        <textarea id="details" class="form-control" placeholder="{{ 'Give us more details..' | translate }}"
           [(ngModel)]='reportDetails'></textarea>
       </div>
       <button class="btn btn-outline-dark" (click)="sendReport(reportType.value)"
-        [disabled]="reporting || !reportDetails || 0 === reportDetails.trim().length" style="width: 100%;">Send</button>
+        [disabled]="reporting || !reportDetails || 0 === reportDetails.trim().length" style="width: 100%;">{{ 'Send' | translate }}</button>
     </div>
   </ng-template>
 

@@ -1,13 +1,13 @@
-<h1>Matches</h1>
+<h1>{{ 'Matches' | translate }}</h1>
 
 <loader *ngIf="loading"></loader>
 <div *ngIf="!loading && 0 === users.length">
   <div class="alert alert-primary" role="alert">
-    To get matched with someone <a routerLink="/intros">accept intros</a> sent to you or <a routerLink="/find-people">find people</a> and send intros to them.
+    {{ 'To get matched with someone' | translate }} <a routerLink="/intros">{{ 'like intros' | translate }}</a> {{ 'sent to you or' | translate }} <a routerLink="/find-people">{{ 'find people' | translate }}</a> {{ 'and send intros to them.' | translate }}
     <br/>
-    Check people with <a routerLink="/compatabilities">higher compatability percentage</a> to you.
+    {{ 'Check people with' | translate }} <a routerLink="/compatabilities">{{ 'higher compatability percentage' | translate }}</a> {{ 'to you.' | translate }}
   </div>
 
-  No matches yet.
+  {{ 'No matches yet.' | translate }}
 </div>
 <user-item *ngFor="let user of users" [user]="user"></user-item>

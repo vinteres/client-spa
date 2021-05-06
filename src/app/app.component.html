@@ -26,15 +26,15 @@
             <div class="dropdown-menu" style="margin-top: -10px;">
               <a *ngIf="isActiveUser()" class="dropdown-item" routerLink="/settings">
                 <fa-icon [icon]="faSettings"></fa-icon>
-                Settings
+                {{ 'Settings' | translate }}
               </a>
               <a class="dropdown-item" (click)="openFeedbackModal(feedbackDialog)">
                 <fa-icon [icon]="faFeedback"></fa-icon>
-                Feedback
+                {{ 'Feedback' | translate }}
               </a>
               <a class="dropdown-item" (click)="logout()">
                 <fa-icon [icon]="faLogout"></fa-icon>
-                Logout
+                {{ 'Logout' | translate }}
               </a>
             </div>
           </div>
@@ -45,23 +45,23 @@
     <div *ngIf="isActiveUser()" class="left-menu">
       <a routerLink="/intros" class="item">
         <fa-icon [icon]="faIntro"></fa-icon>
-        Intros <span *ngIf="notifsCount.intro > 0" class="badge rounded-pill bg-danger" style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{notifsCount.intro}}</span>
+        {{ 'Intros' | translate }} <span *ngIf="notifsCount.intro > 0" class="badge rounded-pill bg-danger" style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{notifsCount.intro}}</span>
       </a>
       <a routerLink="/find-people" class="item">
         <fa-icon [icon]="faFindPeople"></fa-icon>
-        Find people
+        {{ 'Find people' | translate}}
       </a>
       <a routerLink="/matches" class="item">
         <fa-icon [icon]="faMatch"></fa-icon>
-        Matches
+        {{ 'Matches' | translate }}
       </a>
       <a routerLink="/views" class="item">
         <fa-icon [icon]="faViews"></fa-icon>
-        Views
+        {{ 'Views' | translate }}
       </a>
       <a routerLink="/compatabilities" class="item">
         <fa-icon [icon]="faCompatability"></fa-icon>
-        Compatability <span *ngIf="compatabilityCount && 0 < compatabilityCount">({{compatabilityCount}})</span>
+        {{ 'Compatability' | translate }} <span *ngIf="compatabilityCount && 0 < compatabilityCount">({{compatabilityCount}})</span>
       </a>
     </div>
   </div>
@@ -75,25 +75,35 @@
   <div class="modal-body">
     <span class="close" aria-label="Close" style="position: absolute; top: -30px;right: 0; color: #fff; cursor: pointer;" (click)="modal.dismiss('Cross click')">&times;</span>
     <div class="alert alert-secondary" role="alert">
-      If you have found a bug, hove some ideas to improve the app or just want to send general feedback - leave a message!
+      {{ 'If you have found a bug, hove some ideas to improve the app or just want to send general feedback - leave a message!' | translate }}
     </div>
     <div class="form-group">
-      <label for="reason">Type</label>
+      <label for="reason">{{ 'Type' | translate}}</label>
       <select id="reason" class="form-control" #feedbackType>
-        <option value="bug">Found a bug</option>
-        <option value="feature">New feature</option>
-        <option value="other">Other</option>
+        <option value="bug">{{'Found a bug' | translate }}</option>
+        <option value="feature">{{ 'New feature' | translate }}</option>
+        <option value="other">{{ 'Other' | translate }}</option>
       </select>
     </div>
 
     <div class="form-group required">
-      <label class="control-label" for="details">Message</label>
-      <textarea id="details" class="form-control" placeholder="Give us more details.." [(ngModel)]='feedbackDetails'></textarea>
+      <label class="control-label" for="details">{{ 'Message' | translate }}</label>
+      <textarea id="details" class="form-control" placeholder="{{ 'Give us more details..' | translate }}" [(ngModel)]='feedbackDetails'></textarea>
     </div>
-    <button class="btn btn-outline-dark" (click)="sendFeedback(feedbackType.value)" [disabled]="!feedbackDetails || 0 === feedbackDetails.trim().length" style="width: 100%;">Send</button>
+    <button class="btn btn-outline-dark" (click)="sendFeedback(feedbackType.value)" [disabled]="!feedbackDetails || 0 === feedbackDetails.trim().length" style="width: 100%;">{{ 'Send' | translate }}</button>
   </div>
 </ng-template>
 
 <notifier-container></notifier-container>
+
+<span class="change-lang">
+  <select class="form-control" #select (change)="changeLanguage(select.value)" style="font-size: 13px; padding: 2px; background-color: transparent;">
+    <option *ngFor="let language of supportedLanguage"
+            [selected]="currentLang === language.code"
+            [value]="language.code">
+      {{ language.label + ' (' + language.code + ')' }}
+    </option>
+  </select>
+</span>
 
 <span class="created-by-text">Created by Velizar</span>

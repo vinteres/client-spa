@@ -1,14 +1,14 @@
-<h1>Intros</h1>
-<h5>Intros that people have sent to you.</h5>
+<h1>{{ 'Intros' | translate }}</h1>
+<h5>{{ 'Intros that people have sent to you.' | translate }}</h5>
 
 <div *ngIf="!loading && (!intros || 0 === intros.length)">
   <div class="alert alert-primary" role="alert">
-    You can <a routerLink="/find-people">find people</a> and send intros to them.
+    {{ 'You can' | translate }} <a routerLink="/find-people">{{ 'find people' | translate }}</a> {{ 'and send intros to them.' | translate }}
     <br/>
-    Check people with <a routerLink="/compatabilities">higher compatability percentage</a> to you.
+    {{ 'Check people with' | translate }} <a routerLink="/compatabilities">{{ 'higher compatability percentage' | translate }}</a> {{ 'to you.' | translate }}
   </div>
 
-  No intros yet.
+  {{ 'No intros yet.' | translate }}
 </div>
 
 <div *ngFor="let intro of intros; let ix = index" class="intro-item rounded">
@@ -19,15 +19,15 @@
       <div class="rounded" style="position: absolute; width: 100%; height: 100%; top: 0;
       background-image: linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0)); color: #fff;">
         <div class="text-truncate" style="position: absolute; bottom: 0; width: 100%; padding: 5px; font-size: 14px; line-height: 14px;">
-          {{intro.user.name}}, {{intro.user.age}}
+          {{ intro.user.name }}, {{ intro.user.age }}
         </div>
       </div>
     </div>
 
     <div class="shadow-sm rounded" style="margin-left: 125px; background-color: #fff; padding: 10px; position: relative;" [ngStyle]="{'width': 'smile' === intro.type ? '250px' : '435px' }">
       <div class="arrow-right" style="position: absolute; left: -20px; top: 20px"></div>
-      <div style="font-size: 13px; margin-bottom: 5px;">{{introsService.sentMessage(intro)}}</div>
-      <pre *ngIf="'message' === intro.type" class="text-justify">{{intro.message}}</pre>
+      <div style="font-size: 13px; margin-bottom: 5px;">{{ introsService.sentMessage(intro) | translate }} {{ intro.timeAgo.key | translate:{'d': intro.timeAgo.d} }}</div>
+      <pre *ngIf="'message' === intro.type" class="text-justify">{{ intro.message }}</pre>
       <div *ngIf="'video' === intro.type" style="position: relative;">
         <video-player [src]="intro.mediaPath" [index]="ix" [parentSubject]="parentSubject"></video-player>
       </div>
@@ -59,25 +59,25 @@
 <ng-template #reportDialog let-modal>
   <div class="modal-header">
     <span class="close" aria-label="Close" style="position: absolute; top: -30px;right: 0; color: #fff; cursor: pointer;" (click)="modal.dismiss('Cross click')">&times;</span>
-    <h4 class="modal-title">Report</h4>
+    <h4 class="modal-title">{{ 'Report' | translate }}</h4>
   </div>
   <div class="modal-body">
     <div class="form-group">
-      <label for="reason">Reason</label>
+      <label for="reason">{{ 'Reason' | translate }}</label>
       <select id="reason" class="form-control" #reportType>
-        <option value="inappropriate">Inappropriate content</option>
-        <option value="abusive">Abusive language</option>
-        <option value="scam">Running a scam</option>
-        <option value="fake">Fake profile/photos</option>
-        <option value="underage">Underage</option>
-        <option value="other">Other</option>
+        <option value="inappropriate">{{ 'Inappropriate content' | translate }}</option>
+        <option value="abusive">{{ 'Abusive language' | translate }}</option>
+        <option value="scam">{{ 'Running a scam' | translate }}</option>
+        <option value="fake">{{ 'Fake profile/photos' | translate }}</option>
+        <option value="underage">{{ 'Underage' | translate }}</option>
+        <option value="other">{{ 'Other' | translate }}</option>
       </select>
     </div>
 
     <div class="form-group required">
-      <label class="control-label" for="details">Details</label>
-      <textarea id="details" class="form-control" placeholder="Give us more details.." [(ngModel)]='reportDetails'></textarea>
+      <label class="control-label" for="details">{{ 'Details' | translate }}</label>
+      <textarea id="details" class="form-control" placeholder="{{ 'Give us more details..' | translate }}" [(ngModel)]='reportDetails'></textarea>
     </div>
-    <button class="btn btn-outline-dark" (click)="sendReport(reportType.value)" [disabled]="reporting[reportIntro.user.id] || !reportDetails || 0 === reportDetails.trim().length" style="width: 100%;">Send</button>
+    <button class="btn btn-outline-dark" (click)="sendReport(reportType.value)" [disabled]="reporting[reportIntro.user.id] || !reportDetails || 0 === reportDetails.trim().length" style="width: 100%;">{{ 'Send' | translate }}</button>
   </div>
 </ng-template>

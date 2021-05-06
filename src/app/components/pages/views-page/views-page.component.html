@@ -1,8 +1,8 @@
-<h1>Views</h1>
-<h5>People who visited my profile.</h5>
+<h1>{{ 'Views' | translate }}</h1>
+<h5>{{ 'People who visited my profile.' | translate }}</h5>
 
 <loader *ngIf="loading"></loader>
 <div *ngIf="!loading && users.length == 0">
-  No views yet.
+  {{ 'No views yet.' | translate }}
 </div>
 <user-item *ngFor="let user of users" [user]="user"></user-item>

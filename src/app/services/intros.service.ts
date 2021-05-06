@@ -8,7 +8,6 @@ import { CHttp } from './chttp.service'
 export class IntrosService {
 
   constructor(private http: CHttp) { }
-l
 
   getForUser(page: number) {
     return this.http.get(environment.api_url + 'intros-to?page=' + page)
@@ -30,6 +29,6 @@ l
       msg += `a ${intro.type}`
     }
 
-    return `${msg} ${intro.timeAgo}`
+    return msg
   }
 }

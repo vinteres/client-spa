@@ -1,14 +1,14 @@
 <select (change)="changeYear($event)" name="year" [ngModel]="selectedYear" class="form-control">
-  <option value="" disabled selected>year</option>
-  <option *ngFor="let year of yearOptions" [value]="year" >{{year}}</option>
+  <option value="" disabled selected>{{ 'year' | translate }}</option>
+  <option *ngFor="let year of yearOptions" [value]="year" >{{ year }}</option>
 </select>
 /
 <select (change)="changeMonth($event)" [ngModel]="selectedMonth" class="form-control">
-  <option value="" disabled selected>month</option>
-  <option *ngFor="let month of monthOptions; let ix = index" [value]="ix">{{month}}</option>
+  <option value="" disabled selected>{{ 'month' | translate }}</option>
+  <option *ngFor="let month of monthOptions; let ix = index" [value]="ix">{{ month | translate }}</option>
 </select>
 /
 <select (change)="changeDay($event)" [ngModel]="selectedDay" class="form-control">
-  <option value="" selected>day</option>
-  <option *ngFor="let day of getMonthDays()" [value]="day">{{day}}</option>
+  <option value="" selected>{{ 'day' | translate }}</option>
+  <option *ngFor="let day of getMonthDays()" [value]="day">{{ day }}</option>
 </select>

@@ -11,7 +11,7 @@ import 'bootstrap'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { FindPeoplePageComponent } from './components/pages/find-people-page/find-people-page.component'
 import { UserChatComponent } from './components/pages/chat/user-chat/user-chat.component'
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClient, HttpClientModule } from '@angular/common/http'
 import { LoginPageComponent } from './components/pages/login-page/login-page.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { customHttpProvider } from './services/chttp.service'
@@ -37,6 +37,12 @@ import { MatchesPageComponent } from './components/pages/matches-page/matches-pa
 import { AppTitleComponent } from './components/misc/app-title/app-title.component';
 import { AppInfoComponent } from './components/misc/app-info/app-info.component';
 import { VerifiedBadgeComponent } from './components/misc/verified-badge/verified-badge.component'
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core'
+import { TranslateHttpLoader } from '@ngx-translate/http-loader'
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -119,7 +125,15 @@ const customNotifierOptions: NotifierOptions = {
     HttpClientModule,
     FormsModule,
     NotifierModule.withConfig(customNotifierOptions),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+  })
   ],
   providers: [
     customHttpProvider

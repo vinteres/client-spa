@@ -1,14 +1,14 @@
 <div class="interest-picker-container rounded">
   <div *ngIf="selectedHobbies" class="selected-container">
-    <h5>Selected {{type}}:</h5>
-    <div *ngIf="0 === selectedHobbies.length">No selected {{type}}.</div>
+    <h5> {{ 'Selected ' + type + ':' | translate }}</h5>
+    <div *ngIf="0 === selectedHobbies.length">{{ 'No selected ' + type + '.' | translate }}</div>
     <span *ngFor="let hobbie of selectedHobbies" class="hobbie-item" (click)="remove(hobbie)" style="display: inline-block;">
-      <span class="align-middle">{{hobbie.name}}</span> <fa-icon class="align-middle item-close" [icon]="faTimes"></fa-icon>
+      <span class="align-middle">{{ hobbie.name | translate }}</span> <fa-icon class="align-middle item-close" [icon]="faTimes"></fa-icon>
     </span>
   </div>
 
   <div>
-    <h5>All {{type}}:</h5>
-    <span *ngFor="let hobbie of list" class="hobbie-item" (click)="add(hobbie)">{{hobbie.name}}</span>
+    <h5>{{ 'All ' + type + ':' | translate }}</h5>
+    <span *ngFor="let hobbie of list" class="hobbie-item" (click)="add(hobbie)">{{ hobbie.name | translate }}</span>
   </div>
 </div>

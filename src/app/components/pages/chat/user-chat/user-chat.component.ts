@@ -190,6 +190,12 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     return 0 !== this.days(nextMsg.created_at / 1000) - this.days(currMsg.created_at / 1000)
   }
 
+  messageTime(msg) {
+    const msgTime = new Date(+msg.created_at)
+
+    return `${this.getDateInt(msgTime.getHours())}:${this.getDateInt(msgTime.getMinutes())}`
+  }
+
   postedAgo(msg) {
     const now = new Date()
     const msgTime = new Date(+msg.created_at)
@@ -199,8 +205,6 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     const d1 = this.days(nowSec)
     const d2 = this.days(msg.created_at / 1000)
 
-    const f = (i) =>  i < 10 ? `0${i}` : `${i}`
-
     const d = d1 - d2
     let timeAgo = ''
     if (0 === d) {
@@ -208,13 +212,13 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else if (1 === d) {
       timeAgo = 'Yesterday'
     } else {
-      timeAgo = `${f(msgTime.getDate())}/${f(msgTime.getMonth())}`
+      timeAgo = `${this.getDateInt(msgTime.getDate())}/${this.getDateInt(msgTime.getMonth())}`
       if (msgTime.getFullYear() !== now.getFullYear()) {
         timeAgo = `${msgTime.getFullYear()}/${timeAgo}`
       }
     }
 
-    return `${timeAgo} at ${f(msgTime.getHours())}:${f(msgTime.getMinutes())}`
+    return `${timeAgo} at`
   }
 
   days(t) {
@@ -238,5 +242,9 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       }, () => {
         this.loadingMore = false
       })
+  }
+
+  private getDateInt(i) {
+    return i < 10 ? `0${i}` : `${i}`
   }
 }

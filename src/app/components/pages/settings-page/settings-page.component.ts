@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
+import { TranslateService } from '@ngx-translate/core'
 import { NotifierService } from 'angular-notifier'
 import { AuthService } from 'src/app/services/auth.service'
 import { UsersService } from 'src/app/services/users.service'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'settings-page',
@@ -12,6 +14,8 @@ import { UsersService } from 'src/app/services/users.service'
   styleUrls: ['./settings-page.component.sass']
 })
 export class SettingsPageComponent implements OnInit {
+  faCheck = faCheck
+
   activeTab: string
 
   loading: boolean
@@ -35,7 +39,8 @@ export class SettingsPageComponent implements OnInit {
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {
     this.route.queryParams.subscribe(params => {
       this.activeTab = ['account_info', 'profile_info', 'security', 'account'].includes(params.type) ?
@@ -129,10 +134,12 @@ export class SettingsPageComponent implements OnInit {
     this.usersService.setAccountSettings(this.accountInfoForm.value)
       .subscribe(() => {
         this.loadingAccountInfo = false
-        this.notifierService.notify('success', 'Settings saved')
+        this.translate.get('Settings saved')
+          .subscribe(translatedText => this.notifierService.notify('success', translatedText))
       }, (err) => {
         this.loadingAccountInfo = false
-        this.notifierService.notify('error', 'Error saving')
+        this.translate.get('Error saving')
+          .subscribe(translatedText => this.notifierService.notify('error', translatedText))
       })
   }
 
@@ -150,10 +157,12 @@ export class SettingsPageComponent implements OnInit {
     this.usersService.setProfileSettings(this.profileInfoForm.value)
       .subscribe(() => {
         this.loadingProfileInfo = false
-        this.notifierService.notify('success', 'Settings saved')
+        this.translate.get('Settings saved')
+          .subscribe(translatedText => this.notifierService.notify('success', translatedText))
       }, (err) => {
         this.loadingProfileInfo = false
-        this.notifierService.notify('error', 'Error saving')
+        this.translate.get('Error saving')
+          .subscribe(translatedText => this.notifierService.notify('error', translatedText))
       })
   }
 
@@ -175,7 +184,8 @@ export class SettingsPageComponent implements OnInit {
       .subscribe(() => {
         this.loadingSecurity = false
         this.securityForm.reset()
-        this.notifierService.notify('success', 'Password changed')
+        this.translate.get('Password changed')
+          .subscribe(translatedText => this.notifierService.notify('success', translatedText))
       }, (err) => {
         this.loadingSecurity = false
         this.securityForm.controls.password.setErrors({invalid: true})
@@ -199,6 +209,22 @@ export class SettingsPageComponent implements OnInit {
           this.confirmPasswordError = true
         }
       })
+  }
+
+  hasUppercase(value) {
+    return /[A-Z]+/.test(value)
+  }
+
+  hasLowercase(value) {
+    return /[a-z]+/.test(value)
+  }
+
+  hasNumber(value) {
+    return /[0-9]+/.test(value)
+  }
+
+  hasSpecialChar(value) {
+    return /[#?!@$%^&*-]+/.test(value)
   }
 
   private markFormAsDirty(form: FormGroup) {

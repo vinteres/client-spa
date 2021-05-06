@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
+import { TranslateService } from '@ngx-translate/core'
 import { NotifierService } from 'angular-notifier'
 import { AuthService } from 'src/app/services/auth.service'
 import { HobbiesService } from 'src/app/services/hobbies.service'
@@ -46,7 +47,8 @@ export class OnboardingPageComponent implements OnInit {
     private notifierService: NotifierService,
     private router: Router,
     private authService: AuthService,
-    private hobbiesService: HobbiesService
+    private hobbiesService: HobbiesService,
+    private translate: TranslateService
   ) {
     this.onboardingService.getStep()
       .subscribe(response => {
@@ -300,7 +302,8 @@ export class OnboardingPageComponent implements OnInit {
     } else if (error.step) {
       this.setStep(error.step)
     } else {
-      this.notifierService.notify('error', 'Error saving')
+      this.translate.get('Error saving')
+        .subscribe(translatedText => this.notifierService.notify('error', translatedText))
     }
   }
 
@@ -323,9 +326,5 @@ export class OnboardingPageComponent implements OnInit {
     }
 
     return r
-  }
-
-  get targetStep() {
-    return `Step ${this.step}/${this.TOTAL_STEPS}`
   }
 }

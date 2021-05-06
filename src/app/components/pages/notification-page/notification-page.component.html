@@ -1,10 +1,10 @@
-<h1>Notifications</h1>
+<h1>{{ 'Notifications' | translate }}</h1>
 
 <loader *ngIf="loading"></loader>
-<div *ngIf="!loading && notifications.length == 0">No notifications yet.</div>
+<div *ngIf="!loading && notifications.length == 0">{{ 'No notifications yet.' | translate }}</div>
 <div *ngIf="!loading">
   <div *ngFor="let notification of notifications" class="notification-item" [routerLink]="['/user/' + notification.from_user_id]">
-    <img [src]="notification.user.profileImage" class="rounded" /> <b>{{notification.user.name}}</b> {{text(notification)}}
+    <img [src]="notification.user.profileImage" class="rounded" /> <b>{{ notification.user.name }}</b> {{ text(notification) | translate }}
     <hr>
   </div>
 </div>

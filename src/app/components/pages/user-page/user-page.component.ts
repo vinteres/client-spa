@@ -23,6 +23,7 @@ import { HobbiesService } from 'src/app/services/hobbies.service'
 import { NotifierService } from 'angular-notifier'
 import { Subject } from 'rxjs'
 import { IntrosService } from 'src/app/services/intros.service'
+import { TranslateService } from '@ngx-translate/core'
 
 @Component({
   selector: 'user-page',
@@ -92,6 +93,7 @@ export class UserPageComponent implements OnInit {
     private hobbiesService: HobbiesService,
     private router: Router,
     private notifierService: NotifierService,
+    private translate: TranslateService,
     public introsService: IntrosService
   ) {
     hobbiesService.getAll()
@@ -126,12 +128,8 @@ export class UserPageComponent implements OnInit {
       })
   }
 
-  getBio() {
-    const NO_BIO = 'No bio yet.'
-    if (!this.user.description) { return NO_BIO }
-    if (this.user.description.trim() === '') { return NO_BIO }
-
-    return this.user.description
+  hasBio() {
+    return this.user.description && '' !== this.user.description.trim()
   }
 
   editInterests() {
@@ -217,7 +215,8 @@ export class UserPageComponent implements OnInit {
     .subscribe(response => {
       this.user.location = this.editFromData
       this.editingFrom = false
-      this.notifierService.notify('success', 'Location changed')
+      this.translate.get('Location changed')
+        .subscribe(translatedText => this.notifierService.notify('success', translatedText))
     })
   }
 
@@ -301,17 +300,9 @@ export class UserPageComponent implements OnInit {
     this.introMsg = ''
   }
 
-  bodyData() {
-    const data = []
-    if (this.user.height) { data.push(`${this.user.height}cm`) }
-    if (this.user.body) { data.push(this.user.body) }
-
-    return data.join(', ')
-  }
-
   hasUserData() {
     return this.user.smoking || this.user.drinking || this.user.children_status ||
-      this.user.pet_status || this.bodyData()
+      this.user.pet_status || this.user.height || this.user.body
   }
 
   sendReport(type) {
@@ -327,9 +318,11 @@ export class UserPageComponent implements OnInit {
         this.user.reported = true
         this.reporting = false
         this.modalService.dismissAll()
-        this.notifierService.notify('success', 'Report sent')
+        this.translate.get('Report sent')
+          .subscribe(translatedText => this.notifierService.notify('success', translatedText))
       }, () => {
-        this.notifierService.notify('error', 'Error')
+        this.translate.get('Error')
+          .subscribe(translatedText => this.notifierService.notify('error', translatedText))
         this.reporting = false
       })
   }
@@ -349,9 +342,11 @@ export class UserPageComponent implements OnInit {
       .subscribe(response => {
         this.user.relation_status = 'intro_from_me'
         this.modalService.dismissAll()
-        this.notifierService.notify('success', 'Intro sent')
+        this.translate.get('Intro sent')
+          .subscribe(translatedText => this.notifierService.notify('success', translatedText))
       }, () => {
-        this.notifierService.notify('error', 'Error sending intro')
+        this.translate.get('Error sending intro')
+          .subscribe(translatedText => this.notifierService.notify('error', translatedText))
       })
   }
 
@@ -362,9 +357,12 @@ export class UserPageComponent implements OnInit {
     })
       .subscribe(response => {
         this.user.relation_status = 'intro_from_me'
-        this.notifierService.notify('success', 'Intro sent')
+
+        this.translate.get('Intro sent')
+          .subscribe(translatedText => this.notifierService.notify('success', translatedText))
       }, () => {
-        this.notifierService.notify('error', 'Error sending intro')
+        this.translate.get('Error sending intro')
+          .subscribe(translatedText => this.notifierService.notify('error', translatedText))
       })
   }
 
@@ -379,7 +377,8 @@ export class UserPageComponent implements OnInit {
           this.user.relation_status = null
         }
       }, () => {
-        this.notifierService.notify('error', 'Error')
+        this.translate.get('Error')
+          .subscribe(translatedText => this.notifierService.notify('error', translatedText))
       })
   }
 
@@ -415,7 +414,8 @@ export class UserPageComponent implements OnInit {
         intro.liked_at = Date.now()
 
         if ('success' === result.status) {
-          this.notifierService.notify('success', 'You are now matched!')
+          this.translate.get('You are now matched!')
+            .subscribe(translatedText => this.notifierService.notify('success', translatedText))
         }
 
         if (result.status) {

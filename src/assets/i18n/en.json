@@ -1,0 +1,16 @@
+{
+  "Remaining sec for recording.": "Remaining {{timeElapsed}} sec for recording.",
+  "HEIGHT": "{{height}}cm",
+  "MINUTE_AGO": "minute ago",
+  "MINUTES_AGO": "{{d}} minutes ago",
+  "HOUR_AGO": "hour ago",
+  "HOURS_AGO": "{{d}} hours ago",
+  "DAY_AGO": "day",
+  "DAYS_AGO": "{{d}} days ago",
+  "WEEK_AGO": "week ago",
+  "WEEKS_AGO": "{{d}} weeks ago",
+  "MONTH_AGO": "month ago",
+  "MONTHS_AGO": "{{d}} months ago",
+  "YEAR_AGO": "year ago",
+  "YEARS_AGO": "{{d}} years ago"
+}

@@ -4,36 +4,36 @@
          (keyup)="interestKeyUp($event)"
          (keydown)="interestKeyDown()"
          [value]="location.name"
-         [placeholder]="location.fullName"
+         placeholder="{{ location.fullName | translate }}"
          />
 
   <div *ngIf="showHighlight" class="locations-dropdown dropdown border rounded shadow-sm">
     <div *ngFor="let item of matches" class="dropdown-item" (click)="select(item)">
-      {{item.fullName}}
+      {{ item.fullName }}
     </div>
     <loader *ngIf="loading" size="small"></loader>
     <div *ngIf="!loading && (!matches || 0 === matches.length)" class="no-locations locations-dropdown">
       <div *ngIf="!showCountries" (click)="showCountries = true" class="show-more-countries locations-dropdown">
-        Show list of countries.
+        {{ 'Show list of countries.' | translate }}
       </div>
 
       <div *ngIf="!showCountries && !selectedCountry" class="locations-dropdown">
-        No matches found.
+        {{ 'No matches found.' | translate }}
       </div>
       <div *ngIf="showCountries">
-        <h5>Countries:</h5>
+        <h5>{{ 'Countries:' | translate }}</h5>
         <div *ngFor="let country of locationService.countries" class="dropdown-item locations-dropdown" (click)="showCitiesOf(country)">
-          {{country.name}}
+          {{ country.name }}
         </div>
       </div>
       <div *ngIf="selectedCountry">
         <h5>
-          Cities of {{selectedCountry.name}}:
+          {{ 'Cities of' | translate }} {{ selectedCountry.name }}:
         </h5>
         <loader *ngIf="loadingCities" size="small"></loader>
-        <div *ngIf="!loadingCities && 0 === cities.length">No cities found.</div>
+        <div *ngIf="!loadingCities && 0 === cities.length">{{ 'No cities found.' | translate }}</div>
         <div *ngFor="let city of cities" class="dropdown-item" (click)="selectCity(city)">
-          {{city.name}}
+          {{ city.name }}
         </div>
       </div>
     </div>

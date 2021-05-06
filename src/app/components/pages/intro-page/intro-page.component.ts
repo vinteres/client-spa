@@ -8,6 +8,7 @@ import { Router } from '@angular/router'
 import { environment } from 'src/environments/environment'
 import { CHttp } from 'src/app/services/chttp.service'
 import { NotifierService } from 'angular-notifier'
+import { TranslateService } from '@ngx-translate/core'
 
 @Component({
   selector: 'intro-page',
@@ -46,7 +47,8 @@ export class IntroPageComponent implements OnInit {
     private modalService: NgbModal,
     private router: Router,
     private http: CHttp,
-    private notifierService: NotifierService
+    private notifierService: NotifierService,
+    private translate: TranslateService
   ) {
     this.loadIntros()
   }
@@ -117,7 +119,8 @@ export class IntroPageComponent implements OnInit {
         intro.liked_at = Date.now()
 
         if ('success' === result.status) {
-          this.notifierService.notify('success', 'You are now matched!')
+          this.translate.get('You are now matched!')
+            .subscribe(translatedText => this.notifierService.notify('success', translatedText))
         }
       }, () => {
         this.introLikeLoading[intro.id] = false
@@ -157,10 +160,12 @@ export class IntroPageComponent implements OnInit {
           intro.user.reported = true
         }
         this.modalService.dismissAll()
-        this.notifierService.notify('success', 'Report sent')
+        this.translate.get('Report sent')
+          .subscribe(translatedText => this.notifierService.notify('success', translatedText))
       }, () => {
         this.reporting[this.reportIntro.userId] = false
-        this.notifierService.notify('error', 'Error')
+        this.translate.get('Error')
+          .subscribe(translatedText => this.notifierService.notify('error', translatedText))
       })
   }
 }

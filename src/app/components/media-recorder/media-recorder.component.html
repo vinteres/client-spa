@@ -1,9 +1,9 @@
 <div>
-  <button class="btn btn-primary" (click)="startRecording()" [disabled]="recording">record</button>
-  <button class="btn btn-primary" (click)="stopRecording()" [disabled]="!recording">stop recording</button>
+  <button class="btn btn-primary" (click)="startRecording()" [disabled]="recording">{{ 'record' | translate }}</button>
+  <button class="btn btn-primary" (click)="stopRecording()" [disabled]="!recording">{{ 'stop recording' | translate }}</button>
 </div>
 <div *ngIf="recording" class="recording-text">
-  Remaining {{this.timeElapsed}} sec for recording.
+  {{ 'Remaining sec for recording.' | translate:{'timeElapsed': timeElapsed} }}
 </div>
 
 <video class="recording-text" style="width: 100%; display: none;" #previewVideo></video>

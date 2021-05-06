@@ -25,6 +25,7 @@ import { CHttp } from './services/chttp.service'
 import { Title } from '@angular/platform-browser'
 import { ChatService } from './services/chat.service'
 import { UsersService } from './services/users.service'
+import { TranslateService } from '@ngx-translate/core'
 
 @Component({
   selector: 'app-root',
@@ -45,6 +46,12 @@ export class AppComponent implements OnDestroy {
   faProfile = faUserCircle
   faFeedback = faClipboardList
   faLogout = faSignOutAlt
+
+  supportedLanguage = [
+    { code: 'en', label: 'English' },
+    { code: 'bg', label: 'Български' },
+  ]
+  currentLang: string
 
   baseTitle = 'Vinteres - Find love or friends. Match with people by personality and interests.'
   title = this.baseTitle
@@ -77,8 +84,13 @@ export class AppComponent implements OnDestroy {
     private notifierService: NotifierService,
     private chatService: ChatService,
     private http: CHttp,
-    private titleService: Title
+    private titleService: Title,
+    private translate: TranslateService
   ) {
+    this.currentLang = localStorage.getItem('lang') || 'bg'
+    translate.setDefaultLang('en');
+    translate.use(this.currentLang);
+
     this.init()
 
     this.loginSubscription = authService.loggedInSubject$
@@ -101,6 +113,11 @@ export class AppComponent implements OnDestroy {
       .subscribe(() => {
         this.websocketService.send({ type: 'notifs_count' })
       })
+  }
+
+  changeLanguage(languageCode) {
+    this.translate.use(languageCode);
+    localStorage.setItem('lang', languageCode);
   }
 
   ngOnDestroy() {
@@ -207,9 +224,11 @@ export class AppComponent implements OnDestroy {
     this.http.post(environment.api_url + 'feedback', payload)
       .subscribe(response => {
         this.modalService.dismissAll()
-        this.notifierService.notify('success', 'Feedback sent')
+        this.translate.get('Feedback sent')
+          .subscribe(translatedText => this.notifierService.notify('success', translatedText))
       }, () => {
-        this.notifierService.notify('error', 'Error')
+        this.translate.get('Error')
+          .subscribe(translatedText => this.notifierService.notify('error', translatedText))
       })
   }
 }

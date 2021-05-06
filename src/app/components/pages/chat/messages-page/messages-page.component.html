@@ -5,7 +5,7 @@
         <loader *ngIf="loading"></loader>
 
         <div *ngIf="!loading && 0 === users.length" style="padding: 10px; font-weight: bold;">
-          No matches yet.
+          {{ 'No matches yet.' | translate }}
         </div>
         <div *ngFor="let user of users"
              class="chat-user-item"
@@ -14,7 +14,7 @@
              (click)="changeUser(user)"
              >
           <img [src]="user.profileImage" class="rounded" style="width: 40px;" />
-          {{user.name}}
+          {{ user.name }}
         </div>
       </div>
     </div>
@@ -26,9 +26,9 @@
       padding: 0 10px;
       -ms-transform: translateY(-50%);
       transform: translateY(-50%);">
-        No one to chat with. You don't have any matches yet.
+        {{ 'No one to chat with. You don\'t have any matches yet.' | translate }}
         <br/>
-        To get matched with someone <a routerLink="/intros">accept intros</a> sent to you or <a routerLink="/find-people">find people</a> and send intros to them.
+        {{ 'To get matched with someone' | translate }} <a routerLink="/intros">{{ 'like intros' | translate }}</a> {{ 'sent to you or' | translate }} <a routerLink="/find-people">{{ 'find people' | translate }}</a> {{ 'and send intros to them.' | translate }}
       </h4>
       <fa-icon class="toggle-menu" [icon]="faMenuItem" (click)="showMenu($event)"></fa-icon>
       <router-outlet></router-outlet>

@@ -6,13 +6,13 @@
 
   <div class="auth-cont">
     <div style="padding: 10px">
-      <h1>Sign in</h1>
+      <h1 i18n>{{ 'Sign in' | translate }}</h1>
 
       <form (ngSubmit)="login(loginForm)" #loginForm="ngForm">
         <div class="form-group inp-cont">
           <input type="text"
                  class="form-control"
-                 placeholder="Email"
+                 placeholder="{{ 'Email' | translate }}"
                  name="username"
                  [(ngModel)]="loginData.username"
                  [ngClass]="{'error-inp': ((username.dirty || username.touched) && !username.valid)}"
@@ -20,22 +20,22 @@
                  [readonly]="loading"
                  required>
           <small class="text-danger" *ngIf="(username.dirty || username.touched) && !username.valid">
-            Email is invalid.
+            {{ 'Invalid email' | translate }}
           </small>
         </div>
         <div class="form-group inp-cont">
           <input type="password"
                  name="password"
                  class="form-control auth-inp"
-                 placeholder="Password"
+                 placeholder="{{ 'Password' | translate }}"
                  [(ngModel)]="loginData.password"
                  [ngClass]="{'error-inp': ((password.dirty || password.touched) && !password.valid)}"
                  #password="ngModel"
                  [readonly]="loading"
                  required>
           <small small class="text-danger" *ngIf="(password.dirty || password.touched) && !password.valid">
-            <div *ngIf="password.errors.required">Password is invalid.</div>
-            <div *ngIf="password.errors.invalidCredentials">Invalid username or password.</div>
+            <div *ngIf="password.errors.required">{{ 'Invalid password' | translate }}</div>
+            <div *ngIf="password.errors.invalidCredentials">{{ 'Invalid email or password' | translate }}</div>
             <div *ngIf="password.errors.serverError">Server error.</div>
           </small>
         </div>
@@ -46,12 +46,12 @@
                  name="remember"
                  #remember="ngModel"
                  [readonly]="loading"/>
-          Remember
+          <span style="margin-left: 5px;">{{ 'Remember' | translate }}</span>
         </div>
 
-        <button class="btn btn-outline-primary" type="submit" [disabled]="loading">Login</button>
+        <button class="btn btn-outline-primary" type="submit" [disabled]="loading">{{ 'Login' | translate }}</button>
       <div style="margin: 15px 0">
-        Or you can <a routerLink="/sign-up">sign up here</a> if you don't have an account.
+        {{ 'Or you can' | translate }} <a routerLink="/sign-up">{{ 'sign up here' | translate }}</a> {{ 'if you don\'t have an account.' | translate }}
       </div>
     </form>
   </div>

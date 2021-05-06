@@ -1,13 +1,13 @@
-<h1>Settings</h1>
+<h1>{{ 'Settings' | translate }}</h1>
 <div *ngIf="!loading" class="accordion" id="accordionExample">
 
   <div class="container">
     <div class="nav-tabs-wrapper">
       <div class="vnav-tabs">
-        <a [ngClass]="{'active' : ('account_info' === activeTab)}" (click)="changeTab('account_info')">Account Info</a>
-        <a [ngClass]="{'active' : ('profile_info' === activeTab)}" (click)="changeTab('profile_info')">Profile Info</a>
-        <a [ngClass]="{'active' : ('security' === activeTab)}" (click)="changeTab('security')">Security</a>
-        <a [ngClass]="{'active' : ('account' === activeTab)}" (click)="changeTab('account')">Account</a>
+        <a [ngClass]="{'active' : ('account_info' === activeTab)}" (click)="changeTab('account_info')">{{ 'Account Info' | translate }}</a>
+        <a [ngClass]="{'active' : ('profile_info' === activeTab)}" (click)="changeTab('profile_info')">{{ 'Profile Info' | translate }}</a>
+        <a [ngClass]="{'active' : ('security' === activeTab)}" (click)="changeTab('security')">{{ 'Security' | translate }}</a>
+        <a [ngClass]="{'active' : ('account' === activeTab)}" (click)="changeTab('account')">{{ 'Account' | translate }}</a>
       </div>
     </div>
   </div>
@@ -15,106 +15,105 @@
   <div *ngIf="'account_info' === activeTab" class="option-body rounded shadow">
     <form [formGroup]="accountInfoForm">
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">Name</label>
+        <label for="inputPassword" class="col-sm-2 col-form-label">{{ 'Name' | translate }}</label>
         <div class="col-sm-10">
           <div class="radio">
             <input class="form-control" type="text" name="name" formControlName="name">
           </div>
           <div>
             <small *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger">
-              Invalid name
+              {{ 'Invalid name' | translate }}
             </small>
           </div>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">Title</label>
+        <label for="inputPassword" class="col-sm-2 col-form-label">{{ 'Title' | translate }}</label>
         <div class="col-sm-10">
           <div class="radio">
             <input class="form-control" type="text" name="title" formControlName="title">
           </div>
           <div>
             <small *ngIf="title.invalid && (title.dirty || title.touched)" class="text-danger">
-              Invalid title
+              {{ 'Invalid title' | translate }}
             </small>
           </div>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">Email</label>
+        <label for="inputPassword" class="col-sm-2 col-form-label">{{ 'Email' | translate }}</label>
         <div class="col-sm-10">
           <div class="radio">
             <input class="form-control" disabled type="text" name="email" formControlName="email">
           </div>
           <div>
             <small *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
-              Invalid email
+              {{ 'Invalid email' | translate }}
             </small>
           </div>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">Birthday</label>
+        <label for="inputPassword" class="col-sm-2 col-form-label">{{ 'Birthday' | translate }}</label>
         <div class="col-sm-10">
           <date-picker [date]="birthday.value" (dateChange)="dateChange($event)"></date-picker>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">About me</label>
+        <label for="inputPassword" class="col-sm-2 col-form-label">{{ 'About' | translate }}</label>
         <div class="col-sm-10">
           <div class="radio">
             <textarea class="form-control" name="description" formControlName="description"></textarea>
           </div>
           <div>
             <small *ngIf="description.invalid && (description.dirty || description.touched)" class="text-danger">
-              Invalid description
+              {{ 'Invalid description' | translate }}
             </small>
           </div>
         </div>
       </div>
 
     </form>
-    <button class="btn btn-primary" (click)="saveAccountInfo()">Save</button>
+    <button class="btn btn-primary" (click)="saveAccountInfo()">{{ 'Save' | translate }}</button>
   </div>
 
   <div *ngIf="'profile_info' === activeTab" class="option-body rounded shadow">
-
     <form [formGroup]="profileInfoForm">
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">Body type</label>
-        <div class="col-sm-10">
+        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Body type' | translate }}</label>
+        <div class="col-sm-9">
           <div class="radio">
-            <label><input type="radio" value="fit" name="body" formControlName="body">Fit</label>
+            <label><input type="radio" value="fit" name="body" formControlName="body">{{ 'Fit' | translate }}</label>
           </div>
           <div class="radio">
-            <label><input type="radio" value="curvy" name="body" formControlName="body">Curvy</label>
+            <label><input type="radio" value="curvy" name="body" formControlName="body">{{ 'Curvy' | translate }}</label>
           </div>
           <div class="radio disabled">
-            <label><input type="radio" value="average" name="body" formControlName="body">Average</label>
+            <label><input type="radio" value="average" name="body" formControlName="body">{{ 'Average' | translate }}</label>
           </div>
           <div class="radio disabled">
-            <label><input type="radio" value="skinny" name="body" formControlName="body">Skinny</label>
+            <label><input type="radio" value="skinny" name="body" formControlName="body">{{ 'Skinny' | translate }}</label>
           </div>
           <div>
             <small *ngIf="body.invalid && (body.dirty || body.touched)" class="text-danger">
-              Required field
+              {{ 'Required field' | translate }}
             </small>
           </div>
         </div>
       </div>
 
       <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Height</label>
-        <div class="col-sm-8">
+        <label class="col-sm-3 col-form-label">{{ 'Height' | translate }}</label>
+        <div class="col-sm-9">
           <input type="number" class="form-control" formControlName="height" name="height" style="width: 70px; display: inline-block;">
-          cm
+          {{ 'cm' | translate }}
           <div>
             <small *ngIf="height.invalid && (height.dirty || height.touched)" class="text-danger">
-              Invalid height
+              {{ 'Invalid height' | translate }}
             </small>
           </div>
         </div>
@@ -123,159 +122,173 @@
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">Smoking</label>
-        <div class="col-sm-10">
+        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Smoking' | translate }}</label>
+        <div class="col-sm-9">
           <div class="radio">
-            <label><input type="radio" value="regularly" name="smoking" formControlName="smoking">Regularly</label>
+            <label><input type="radio" value="regularly" name="smoking" formControlName="smoking">{{ 'Regularly' | translate }}</label>
           </div>
           <div class="radio">
-            <label><input type="radio" value="sometimes" name="smoking" formControlName="smoking">Sometimes</label>
+            <label><input type="radio" value="sometimes" name="smoking" formControlName="smoking">{{ 'Sometimes' | translate }}</label>
           </div>
           <div class="radio disabled">
-            <label><input type="radio" value="never" name="smoking" formControlName="smoking">Never</label>
+            <label><input type="radio" value="never" name="smoking" formControlName="smoking">{{ 'Never' | translate }}</label>
           </div>
           <div>
             <small *ngIf="smoking.invalid && (smoking.dirty || smoking.touched)" class="text-danger">
-              Required field
+              {{ 'Required field' | translate }}
             </small>
           </div>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">Drinking</label>
-        <div class="col-sm-10">
+        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Drinking' | translate }}</label>
+        <div class="col-sm-9">
           <div class="radio">
-            <label><input type="radio" value="regularly" name="drinking" formControlName="drinking">Regularly</label>
+            <label><input type="radio" value="regularly" name="drinking" formControlName="drinking">{{ 'Regularly' | translate }}</label>
           </div>
           <div class="radio">
-            <label><input type="radio" value="sometimes" name="drinking" formControlName="drinking">Socially</label>
+            <label><input type="radio" value="sometimes" name="drinking" formControlName="drinking">{{ 'Socially' | translate }}</label>
           </div>
           <div class="radio disabled">
-            <label><input type="radio" value="never" name="drinking" formControlName="drinking">Never</label>
+            <label><input type="radio" value="never" name="drinking" formControlName="drinking">{{ 'Never' | translate }}</label>
           </div>
           <div>
             <small *ngIf="drinking.invalid && (drinking.dirty || drinking.touched)" class="text-danger">
-              Required field
+              {{ 'Required field' | translate }}
             </small>
           </div>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">Has children</label>
-        <div class="col-sm-10">
+        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Do you have children?' | translate }}</label>
+        <div class="col-sm-9">
           <div class="radio">
-            <label><input type="radio" value="has" name="children_status" formControlName="children_status">Yes</label>
+            <label><input type="radio" value="has" name="children_status" formControlName="children_status">{{ 'Yes' | translate }}</label>
           </div>
           <div class="radio">
-            <label><input type="radio" value="does_not_have" name="children_status" formControlName="children_status">No</label>
+            <label><input type="radio" value="does_not_have" name="children_status" formControlName="children_status">{{ 'No' | translate }}</label>
           </div>
           <div>
             <small *ngIf="children_status.invalid && (children_status.dirty || children_status.touched)" class="text-danger">
-              Required field
+              {{ 'Required field' | translate }}
             </small>
           </div>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">Has pets</label>
-        <div class="col-sm-10">
+        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Do you have pets?' | translate }}</label>
+        <div class="col-sm-9">
           <div class="radio">
-            <label><input type="radio" value="cat" name="pet_status" formControlName="pet_status">Cat(s)</label>
+            <label><input type="radio" value="cat" name="pet_status" formControlName="pet_status">{{ 'Cat(s)' | translate }}</label>
           </div>
           <div class="radio">
-            <label><input type="radio" value="dog" name="pet_status" formControlName="pet_status">Dog(s)</label>
+            <label><input type="radio" value="dog" name="pet_status" formControlName="pet_status">{{ 'Dog(s)' | translate }}</label>
           </div>
           <div class="radio disabled">
-            <label><input type="radio" value="other" name="pet_status" formControlName="pet_status">Other(s)</label>
+            <label><input type="radio" value="other" name="pet_status" formControlName="pet_status">{{ 'Other(s)' | translate }}</label>
           </div>
           <div class="radio disabled">
-            <label><input type="radio" value="none" name="pet_status" formControlName="pet_status">None</label>
+            <label><input type="radio" value="none" name="pet_status" formControlName="pet_status">{{ 'None' | translate }}</label>
           </div>
           <div>
             <small *ngIf="pet_status.invalid && (pet_status.dirty || pet_status.touched)" class="text-danger">
-              Required field
+              {{ 'Required field' | translate }}
             </small>
           </div>
         </div>
       </div>
-
     </form>
 
-    <button class="btn btn-primary" (click)="saveProfileInfo()">Save</button>
+    <button class="btn btn-primary" (click)="saveProfileInfo()">{{ 'Save' | translate }}</button>
   </div>
 
   <div *ngIf="'security' === activeTab" class="option-body rounded shadow">
     <form [formGroup]="securityForm">
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-3 col-form-label">Current password</label>
+        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Current password' | translate }}</label>
         <div class="col-sm-9">
           <div class="radio">
             <input class="form-control" type="password" name="password" formControlName="password">
           </div>
           <div>
             <small *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
-              <div *ngIf="!password.errors['invalid']">Required field</div>
-              <div *ngIf="password.errors['invalid']">Invalid password</div>
+              <div *ngIf="!password.errors['invalid']">{{ 'Required field' | translate }}</div>
+              <div *ngIf="password.errors['invalid']">{{ 'Invalid password' | translate }}</div>
             </small>
           </div>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-3 col-form-label">New password</label>
+        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'New password' | translate }}</label>
         <div class="col-sm-9">
           <div class="radio">
             <input class="form-control" type="password" name="newPassword" formControlName="newPassword">
           </div>
           <div>
             <small *ngIf="newPassword.invalid && (newPassword.dirty || newPassword.touched)" class="text-danger">
-              <div *ngIf="newPassword.errors['required']">Required field</div>
-              <div *ngIf="newPassword.errors['pattern']">Password must be at least 8 characters long and contain at least one uppercase letter, lowercase letter, number and special character</div>
+              <div class="alert alert-warning">
+                <div class="pwd-item">
+                  <fa-icon *ngIf="newPassword.value.length >= 8" [icon]="faCheck"></fa-icon> 8+ {{ 'length' | translate }}
+                </div>
+                <div class="pwd-item">
+                  <fa-icon *ngIf="hasUppercase(newPassword.value)" [icon]="faCheck"></fa-icon> [A-Z]
+                </div>
+                <div class="pwd-item">
+                  <fa-icon *ngIf="hasLowercase(newPassword.value)" [icon]="faCheck"></fa-icon> [a-z]
+                </div>
+                <div class="pwd-item">
+                  <fa-icon *ngIf="hasNumber(newPassword.value)" [icon]="faCheck"></fa-icon> [0-9]
+                </div>
+                <div class="pwd-item">
+                  <fa-icon *ngIf="hasSpecialChar(newPassword.value)" [icon]="faCheck"></fa-icon> [#?!@$%^&*-]
+                </div>
+              </div>
+              <div>{{ 'Invalid password' | translate }}</div>
             </small>
           </div>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-3 col-form-label">Confirm password</label>
+        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Confirm password' | translate }}</label>
         <div class="col-sm-9">
           <div class="radio">
             <input class="form-control" type="password" name="confirmPassword" formControlName="confirmPassword">
           </div>
           <div>
             <small *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)" class="text-danger">
-              <div *ngIf="!confirmPassword.errors['does_not_match']">Confirm password</div>
-              <div *ngIf="confirmPassword.errors['does_not_match']">Passwords do not match</div>
+              <div *ngIf="!confirmPassword.errors['does_not_match']">{{ 'Confirm password' | translate }}</div>
+              <div *ngIf="confirmPassword.errors['does_not_match']">{{ 'Passwords do not match' | translate }}</div>
             </small>
           </div>
         </div>
       </div>
-
     </form>
 
-    <button class="btn btn-primary" [disabled]="loadingSecurity" (click)="saveSecurity()">Save</button>
+    <button class="btn btn-primary" [disabled]="loadingSecurity" (click)="saveSecurity()">{{ 'Save' | translate }}</button>
   </div>
 
   <div *ngIf="'account' === activeTab" class="option-body rounded shadow">
 
-    <button class="btn btn-danger" (click)="openConfirmPassword(confirmPasswordDialog)">Deactivate account</button>
+    <button class="btn btn-danger" (click)="openConfirmPassword(confirmPasswordDialog)">{{ 'Deactivate account' | translate }}</button>
   </div>
 </div>
 
 <ng-template #confirmPasswordDialog let-modal>
   <div class="modal-body">
     <span class="close" aria-label="Close" style="position: absolute; top: -30px;right: 0; color: #fff; cursor: pointer;" (click)="modal.dismiss('Cross click')">&times;</span>
-    <h4>Confirm password</h4>
+    <h4>{{ 'Confirm password' | translate }}</h4>
 
     <div class="form-group required">
-      <input type="password" class="form-control" [(ngModel)]='confirmPasswordModal' placeholder="Confirm your password" />
+      <input type="password" class="form-control" [(ngModel)]='confirmPasswordModal' placeholder="{{ 'Confirm your password' | translate }}" />
       <small *ngIf="confirmPasswordError" class="text-danger">
-        Invalid password
+        {{ 'Invalid password' | translate }}
       </small>
     </div>
-    <button class="btn btn-outline-dark" (click)="deactivate()" [disabled]="!confirmPasswordModal || 0 === confirmPasswordModal.trim().length" style="width: 100%;">Deactivate</button>
+    <button class="btn btn-outline-dark" (click)="deactivate()" [disabled]="!confirmPasswordModal || 0 === confirmPasswordModal.trim().length" style="width: 100%;">{{ 'Deactivate' | translate }}</button>
   </div>
 </ng-template>
