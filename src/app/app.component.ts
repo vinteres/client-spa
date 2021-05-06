@@ -53,7 +53,7 @@ export class AppComponent implements OnDestroy {
   ]
   currentLang: string
 
-  baseTitle = 'Vinteres - Find love or friends. Match with people by personality and interests.'
+  baseTitle = 'Vinteres - Match with people by personality and interests.'
   title = this.baseTitle
 
   compatabilityCount: number
