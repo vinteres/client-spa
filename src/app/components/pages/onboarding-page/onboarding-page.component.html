@@ -3,7 +3,8 @@
   <div class="alert alert-info" role="alert">
     {{ 'Please take some time as the onboarding process will take arond 10-20 min.' | translate }}
     <br>
-    {{ 'There are 4 steps and the progress is saved till your current step. You can return and continue any time.' | translate }}
+    <br>
+    {{ 'There are 5 steps and the progress is saved till your current step. You can return and continue any time.' | translate }}
   </div>
   <div class="info-button-cont">
     <button class="btn btn-primary" (click)="showIntroText = false">{{ 'Start' | translate }}</button>
@@ -270,7 +271,7 @@
 </div>
 
 <div *ngIf="4 == step" style="padding-top: 20px;">
-  <h2 *ngIf="!quizComplete" class="section-title">{{ 'Personality Quiz' | translate }} ({{ 'Step' | translate }} {{ step + '/' + TOTAL_STEPS }})</h2>
+  <h2 class="section-title">{{ 'Personality Quiz' | translate }} ({{ 'Step' | translate }} {{ step + '/' + TOTAL_STEPS }})</h2>
 
   <div *ngIf="showQuizIntroText">
     <div class="alert alert-info" role="alert">
@@ -283,12 +284,12 @@
     </div>
   </div>
 
-  <div *ngIf="!showQuizIntroText && quizComplete">
+  <div *ngIf="!showQuizIntroText && quizComplete" style="width: 500px; max-width: 100%; text-align: center; margin: auto; margin-top: 20px;">
     <div class="alert alert-success" role="alert">
-      {{ 'You have successfully completed the onboarding!' | translate }}
+      {{ 'You have completed the personality quiz!' | translate }}
     </div>
     <div class="info-button-cont">
-      <button class="btn btn-success" (click)="handleComplete()">{{ 'Done' | translate }}</button>
+      <button class="btn btn-success" (click)="setStep(5)">{{ 'Next' | translate }}</button>
     </div>
   </div>
 
@@ -317,5 +318,36 @@
     </form>
 
     <button class="btn btn-primary" (click)="saveQuiz()">{{ 'Next' | translate }}</button>
+  </div>
+</div>
+
+<div *ngIf="5 == step" style="width: 450px; max-width: 100%; padding-top: 20px; margin: auto;">
+  <h2 class="section-title">{{ 'Upload Photo' | translate }} ({{ 'Step' | translate }} {{ step + '/' + TOTAL_STEPS }})</h2>
+  <div>
+    {{ 'Give a face to your profile. Having a photo drastically increases your chance for a match.' | translate }}
+  </div>
+
+  <div class="add-image-item" style="width: 200px; margin: auto;">
+    <img [src]="userImage.small" style="border-radius: 100%; width: 100%;" (click)="newImage.click()" />
+  </div>
+
+  <div style="text-align: center; margin-top: 20px;">
+    <a role="button" style="color: #000;" (click)="skipUpload()" [disabled]="uploadingImage">{{ 'Skip' | translate }}</a>
+  </div>
+
+  <div style="text-align: center; margin-top: 35px;">
+    <button class="btn btn-outline-primary" (click)="newImage.click()" [disabled]="uploadingImage">{{ 'Upload' | translate }}</button>
+  </div>
+
+  <input type="file" accept="image/*" (change)="uploadImage($event.target.files)" style="display: none;" #newImage>
+</div>
+
+<div *ngIf="6 == step" style="width: 450px; margin: auto; text-align: center;">
+  <h2 class="section-title">{{ 'Congratulations!' | translate }}</h2>
+  <div class="alert alert-success" role="alert">
+    {{ 'You have successfully completed the onboarding!' | translate }}
+  </div>
+  <div class="info-button-cont">
+    <button class="btn btn-success" (click)="complete()">{{ 'Go to app' | translate }}</button>
   </div>
 </div>

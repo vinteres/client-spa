@@ -32,4 +32,12 @@ export class OnboardingService {
   setQuiz(quiz) {
     return this.http.post(environment.api_url + 'onboarding/quiz', quiz)
   }
+
+  imagePass() {
+    return this.http.post(environment.api_url + 'onboarding/image-pass')
+  }
+
+  complete() {
+    return this.http.post(environment.api_url + 'onboarding/complete')
+  }
 }

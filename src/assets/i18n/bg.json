@@ -27,7 +27,7 @@
   "if you don't have an account.": "ако нямате профил.",
   "Onboarding": "Въвеждане",
   "Please take some time as the onboarding process will take arond 10-20 min.": "Моля заделете малко време, тъй като процесът за въвеждане ще отнеме около 10-20мин.",
-  "There are 4 steps and the progress is saved till your current step. You can return and continue any time.": "Състои се от 4 стъпки и информацията се пази за всяка стъпка. Може да се върнете и да продължите по всяко време.",
+  "There are 5 steps and the progress is saved till your current step. You can return and continue any time.": "Състои се от 5 стъпки и информацията се пази за всяка стъпка. Може да се върнете и да продължите по всяко време.",
   "Start": "Започни",
   "Save": "Запази",
   "Male": "Мъж",
@@ -120,7 +120,7 @@
   "Start Quiz": "Започни Теста",
   "The goal of the personality quiz is to determine part of what your personality and beliefs are so that we can find better matches for you.": "Целта на теста е да се определи част от това каква е вашата личност и виждания, за да можем да намерим по-добри съвпадения за вас.",
   "To find a better match try to answer honestly.": "За по-добри резултати се опитайте да отговаряте честно.",
-  "You have successfully completed the onboarding!": "Успешно завършихте въвеждането!",
+  "You have successfully completed the onboarding!": "Успешно завършихте регистрацията си!",
   "Done": "Готово",
   "Why do you want a relationship?": "Защо искаш връзка?",
   "Life is easier with a partner": "Животът е по-лесен с партньор",
@@ -350,5 +350,13 @@
   "Vinteres is a dating website with the main goal to match people by personality and interests. For building serious relationships.": "Vinteres е сайт за запознанства, който се цели да сближи хора по общ характер и взаимни интереси. За изграждане на серйозни връзки.",
   "Automatically show people with high compatability percentage to you.": "Автоматично показване на хора с висок процент на съпоставимост с вас.",
   "Completely free.": "Напълно безплатно.",
-  "Your current city": "Градът, където живееш"
+  "Your current city": "Градът, където живееш",
+  "Messages": "Съобщения",
+  "Upload Photo": "Качи Снимка",
+  "Skip": "Пропусни за сега",
+  "Upload": "Прикачи",
+  "Give a face to your profile. Having a photo drastically increases your chance for a match.": "Дайте лице на вашия профил. Наличието на снимка драстично увеличава шансовете ви да съвпаднете с някого.",
+  "Congratulations!": "Поздравления!",
+  "Go to app": "Влез в приложението",
+  "You have completed the personality quiz!": "Успешно попълнихте тестът за личност!"
 }

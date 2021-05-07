@@ -6,6 +6,8 @@ import { NotifierService } from 'angular-notifier'
 import { AuthService } from 'src/app/services/auth.service'
 import { HobbiesService } from 'src/app/services/hobbies.service'
 import { OnboardingService } from 'src/app/services/onboarding.service'
+import { environment } from 'src/environments/environment'
+import { CHttp } from 'src/app/services/chttp.service'
 
 @Component({
   selector: 'onboarding-page',
@@ -14,7 +16,7 @@ import { OnboardingService } from 'src/app/services/onboarding.service'
 })
 export class OnboardingPageComponent implements OnInit {
 
-  readonly TOTAL_STEPS: number = 4
+  readonly TOTAL_STEPS: number = 5
 
   loading: boolean
   accountInfoForm = new FormGroup({})
@@ -41,6 +43,15 @@ export class OnboardingPageComponent implements OnInit {
   step: number
   quizStep: number = 1
 
+  quizComplete: boolean = false
+  uploadingImage: boolean = false
+
+  userImage: {
+    position: number,
+    small: string,
+    big: string
+  }
+
   constructor(
     private formBuilder: FormBuilder,
     private onboardingService: OnboardingService,
@@ -48,15 +59,17 @@ export class OnboardingPageComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private hobbiesService: HobbiesService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private http: CHttp
   ) {
     this.onboardingService.getStep()
       .subscribe(response => {
-        if (response.completed_at) {
-          return this.handleComplete()
+        if (response.completed) {
+          return this.handleComplete();
         }
 
         this.setStep(response.step)
+        this. showQuizIntroText = true
       })
   }
 
@@ -126,6 +139,12 @@ export class OnboardingPageComponent implements OnInit {
 
         this.step = step
       })
+    } else if (5 === step) {
+      this.initDefaultUserImage()
+
+      this.step = step
+    } else if (6 === step) {
+      this.step = step
     }
   }
 
@@ -168,6 +187,17 @@ export class OnboardingPageComponent implements OnInit {
       hobbies: [[], [Validators.required, Validators.min(1)]],
       activities: [[], Validators.required],
     })
+  }
+
+  private initDefaultUserImage() {
+    const { gender } = this.authService.getLoggedUser()
+    const imageName = `${'male' === gender ? 'man' : 'female'}.jpg`
+
+    this.userImage = {
+      position: 0,
+      small: `/assets/${imageName}`,
+      big: `/assets/${imageName}`
+    }
   }
 
   get birthday() { return this.accountInfoForm.get('birthday') }
@@ -231,6 +261,11 @@ export class OnboardingPageComponent implements OnInit {
     this.onboardingService.setAccountInfo(this.accountInfoForm.value)
       .subscribe(response => {
         this.loading = false
+
+        const user = this.authService.getLoggedUser()
+        user.gender = this.accountInfoForm.value.gender
+        this.authService.addUserToStorage(user)
+
         this.setStep(response.step)
       }, (err) => this.handleError(err))
   }
@@ -291,7 +326,55 @@ export class OnboardingPageComponent implements OnInit {
     }
 
     this.onboardingService.setQuiz({ answers: this.questionAnswers })
-      .subscribe(() => { })
+      .subscribe(response => {
+        this.loading = false
+
+        if (5 !== response.step) {
+          this.setStep(response.step);
+
+          return
+        }
+
+        this.quizComplete = true
+      }, (err) => this.handleError(err))
+  }
+
+  skipUpload() {
+    if (this.uploadingImage) return;
+
+    this.passImageStep()
+  }
+
+  uploadImage(files) {
+    if (this.uploadingImage) return;
+
+    const formData: FormData = new FormData()
+    formData.append('image', files[0], files[0].name)
+
+    this.uploadingImage = true
+    this.http.post(environment.api_url + `image/upload?position=${1}`, formData)
+      .subscribe(response => {
+        this.userImage = response.images[0]
+
+        this.passImageStep()
+      })
+  }
+
+  complete() {
+    this.onboardingService.complete()
+      .subscribe(response => {
+        if (response.completed) {
+          this.handleComplete()
+        }
+      })
+  }
+
+  private passImageStep() {
+    this.onboardingService.imagePass()
+      .subscribe(response => {
+        this.loading = false
+        this.setStep(response.step)
+      }, (err) => this.handleError(err))
   }
 
   private handleError({ error }) {
@@ -313,10 +396,6 @@ export class OnboardingPageComponent implements OnInit {
 
       control.markAsDirty()
     })
-  }
-
-  get quizComplete() {
-    return !this.stepQustions(this.quizStep).length
   }
 
   get stepProgress() {
