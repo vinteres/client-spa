@@ -40,7 +40,9 @@ import { VerifiedBadgeComponent } from './components/misc/verified-badge/verifie
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { OnlineComponent } from './components/misc/online/online.component';
-import { CameraImageCaptureComponent } from './components/misc/camera-image-capture/camera-image-capture.component'
+import { CameraImageCaptureComponent } from './components/misc/camera-image-capture/camera-image-capture.component';
+import { LinkifyPipe } from './pipes/linkify.pipe'
+import { HTMLEscapeUnescapeModule } from 'html-escape-unescape'
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -120,6 +122,7 @@ const customNotifierOptions: NotifierOptions = {
     VerifiedBadgeComponent,
     OnlineComponent,
     CameraImageCaptureComponent,
+    LinkifyPipe,
   ],
   imports: [
     BrowserModule,
@@ -130,6 +133,7 @@ const customNotifierOptions: NotifierOptions = {
     FormsModule,
     NotifierModule.withConfig(customNotifierOptions),
     ReactiveFormsModule,
+    HTMLEscapeUnescapeModule,
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {

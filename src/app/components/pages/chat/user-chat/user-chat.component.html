@@ -18,8 +18,9 @@
           <div *ngFor="let msg of chat.messages; let ix = index">
             <div style="position: relative; margin-top: 5px;">
               <div class="message-item"
-                [ngStyle]="{'background-color': isFromLoggedUser(msg.user_id) ? 'turquoise' : 'pink', 'float': isFromLoggedUser(msg.user_id) ? 'right' : 'left'}">
-                <pre style="margin: 0;">{{msg.text}}</pre>
+                [ngStyle]="{'background-color': isFromLoggedUser(msg.user_id) ? 'turquoise' : 'pink', 'float': isFromLoggedUser(msg.user_id) ? 'right' : 'left'}"
+                innerHtml="{{ msg.text | escape | linkify }}"
+                >
               </div>
               <div style="clear: both;"></div>
             </div>

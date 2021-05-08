@@ -30,6 +30,7 @@
     "bootstrap": "^4.5.3",
     "css.gg": "^2.0.0",
     "font-awesome": "^4.7.0",
+    "html-escape-unescape": "^1.0.3",
     "jquery": "^3.5.1",
     "ng-gallery": "^5.0.0",
     "popper.js": "^1.16.1",
