@@ -67,6 +67,14 @@
   </div>
 
   <div class="page-container">
+    <div *ngIf="isActiveUser() && showVerifyAlert" class="alert alert-warning" role="alert" style="position: relative;">
+      <a href="javascript:void(0)" (click)="openVerifyModal()" style="color: #4798b5;">
+        {{ 'Verify your profile' | translate }}
+      </a> {{ 'and show that it is really you!' | translate }}
+      <br>
+      {{ 'Verified profiles are prioritised in searches and listings.' | translate }}
+      <fa-icon [icon]="faClose" style="font-size: 25px; position: absolute; right: 5px; top: 5px;" (click)="hideVerifyAlert()"></fa-icon>
+    </div>
     <router-outlet></router-outlet>
   </div>
 </div>
@@ -91,6 +99,56 @@
       <textarea id="details" class="form-control" placeholder="{{ 'Give us more details..' | translate }}" [(ngModel)]='feedbackDetails'></textarea>
     </div>
     <button class="btn btn-outline-dark" (click)="sendFeedback(feedbackType.value)" [disabled]="!feedbackDetails || 0 === feedbackDetails.trim().length" style="width: 100%;">{{ 'Send' | translate }}</button>
+  </div>
+</ng-template>
+
+<ng-template #verifyDialog let-modal>
+  <div class="modal-header">
+    <span class="close" aria-label="Close" style="position: absolute; top: -30px;right: 0; color: #fff; cursor: pointer;" (click)="modal.dismiss('Cross click')">&times;</span>
+    <h4 class="modal-title">{{ 'Verification Request' | translate }}</h4>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="!verifying">
+      <div style="font-weight: bold;">
+        {{ 'Why should I verify my profile?' | translate }}
+      </div>
+      <ul style="padding-left: 20px;">
+        <li>{{ 'You show people that it\'s really you' | translate }}</li>
+        <li>{{ 'Your profile will be prioritised in searches and listings' | translate }}</li>
+        <li>{{ 'When you\'re verified then ONLY other verified people can contact you' | translate }}</li>
+      </ul>
+
+      <div style="font-weight: bold;">
+        {{ 'How does verification work?' | translate }}
+      </div>
+      {{ 'Take a photo (from your current device) with the target gesture and submit it. The verification photo will be compared to your profile picture' | translate }}
+
+      <div *ngIf="!verificationStatus.profileImageId" class="alert alert-danger" role="alert" style="margin-top: 20px;">
+        {{ 'You must upload a profile image before you request verification.' | translate }}
+      </div>
+
+      <div *ngIf="verificationStatus.profileImageId" style="margin-top: 20px;">
+        <button class="btn btn-outline-dark" style="width: 100%;" (click)="verifying = true">{{ 'Start verification' | translate }}</button>
+      </div>
+    </div>
+    <div *ngIf="verifying">
+      <div class="row">
+        <div class="col-md-6 col-sm-12">
+          <div style="margin-bottom: 15px;">
+            <div style="margin-bottom: 10px;">
+              {{ 'Please take a photo with the following gesture:' | translate }}
+            </div>
+            <img src="/assets/verify_gesture.jpg" class="border" style="width: 100%;" />
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <camera-image-capture (imageCaptured)="imageCaptured($event)" (captureStarted)="clearCapturedImage()"></camera-image-capture>
+        </div>
+      </div>
+      <div *ngIf="hasVerificationBLob" style="text-align: center;">
+        <button class="btn btn-outline-primary" style="padding: 10px 5px; width: 100%;" (click)="sendVerificationRequest()">{{ 'Send for verification' | translate }}</button>
+      </div>
+    </div>
   </div>
 </ng-template>
 

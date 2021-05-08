@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component, OnDestroy, ViewChild } from '@angular/core'
 import {
   faHome,
   faEnvelope,
@@ -12,7 +12,8 @@ import {
   faClipboardList,
   faSignOutAlt,
   faBinoculars,
-  faUserFriends
+  faUserFriends,
+  faTimesCircle
 } from '@fortawesome/free-solid-svg-icons'
 import { AuthService } from './services/auth.service'
 import { WebsocketService } from './services/websocket.service'
@@ -26,6 +27,7 @@ import { Title } from '@angular/platform-browser'
 import { ChatService } from './services/chat.service'
 import { UsersService } from './services/users.service'
 import { TranslateService } from '@ngx-translate/core'
+import { VerificationService } from './services/verification.service'
 
 @Component({
   selector: 'app-root',
@@ -46,6 +48,9 @@ export class AppComponent implements OnDestroy {
   faProfile = faUserCircle
   faFeedback = faClipboardList
   faLogout = faSignOutAlt
+  faClose = faTimesCircle
+
+  @ViewChild('verifyDialog') verifyDialog
 
   supportedLanguage = [
     { code: 'en', label: 'English' },
@@ -64,11 +69,23 @@ export class AppComponent implements OnDestroy {
     intro: 0
   }
 
+  showVerifyAlert: boolean = false
+
   private wsSubscription
   private countSubscription
   private loginSubscription
   private logoutSubscription
   private websocketOpenSubscription
+  private verificationModalSubscription
+
+  private loadingVerificationStatus: boolean = false
+  private verificationImageBlob: Blob;
+  verifying: boolean = false;
+  verificationStatus: {
+    profileImageId: string|null,
+    verificationStatus: 'verified'|'unverified'|'pending'|'unverified'|null
+  };
+  hasVerificationBLob: boolean;
 
   // Feedback
   feedbackType: string
@@ -85,7 +102,8 @@ export class AppComponent implements OnDestroy {
     private chatService: ChatService,
     private http: CHttp,
     private titleService: Title,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private verificationService: VerificationService
   ) {
     this.currentLang = localStorage.getItem('lang') || 'bg'
     translate.setDefaultLang('en');
@@ -115,21 +133,30 @@ export class AppComponent implements OnDestroy {
       })
   }
 
-  changeLanguage(languageCode) {
-    this.translate.use(languageCode);
-    localStorage.setItem('lang', languageCode);
-  }
-
   ngOnDestroy() {
     if (this.wsSubscription) { this.wsSubscription.unsubscribe() }
     if (this.countSubscription) { this.countSubscription.unsubscribe() }
     if (this.websocketOpenSubscription) { this.websocketOpenSubscription.unsubscribe() }
     this.loginSubscription.unsubscribe()
     this.logoutSubscription.unsubscribe()
+    this.verificationModalSubscription.unsubscribe()
+  }
+
+  hideVerifyAlert() {
+    localStorage.setItem('hide_verify_item', this.authService.getLoggedUser().id)
+    this.showVerifyAlert = false
+  }
+
+  changeLanguage(languageCode) {
+    this.translate.use(languageCode);
+    localStorage.setItem('lang', languageCode);
   }
 
   init() {
     if (!this.isActiveUser()) { return }
+
+    this.showVerifyAlert = !['pending', 'verified'].includes(this.authService.getLoggedUser().verificationStatus) &&
+      this.authService.getLoggedUser().id !== localStorage.getItem('hide_verify_item')
 
     this.wsSubscription = this.websocketService.websocketMessageSubject$
       .subscribe((data) => {
@@ -175,6 +202,13 @@ export class AppComponent implements OnDestroy {
 
         this.setTitle()
       })
+
+    this.verificationModalSubscription = this.verificationService.modalSubject$
+      .subscribe(command => {
+        if ('open' !== command) return;
+
+        this.openVerifyModal();
+      })
   }
 
   private setTitle() {
@@ -186,7 +220,7 @@ export class AppComponent implements OnDestroy {
     return this.notifsCount.msg + this.notifsCount.intro + this.notifsCount.notif
   }
 
-  private isActiveUser() {
+  isActiveUser() {
     return this.isLoggedIn() && 'active' === this.authService.getLoggedUser().status
   }
 
@@ -209,10 +243,77 @@ export class AppComponent implements OnDestroy {
       })
   }
 
+  openVerifyModal() {
+    if (this.loadingVerificationStatus) return;
+
+    this.loadingVerificationStatus = true;
+    this.verificationService.getStatus()
+      .subscribe(result => {
+        this.loadingVerificationStatus = false;
+        this.verificationStatus = result;
+        const user = this.authService.getLoggedUser();
+
+        if (user.verificationStatus != this.verificationStatus.verificationStatus) {
+          user.verificationStatus = this.verificationStatus.verificationStatus;
+          this.authService.addUserToStorage(user);
+        }
+        if (['pending', 'verified'].includes(this.verificationStatus.verificationStatus)) {
+          this.showVerifyAlert = false;
+
+          return;
+        }
+
+        this.clearCapturedImage();
+
+        this.modalService.open(this.verifyDialog, { ariaLabelledBy: 'modal-basic-title', size: 'lg' })
+          .result.then((result) => {
+            this.verificationService.modalSubject$.next('close');
+          }, () => {
+            this.verificationService.modalSubject$.next('close');
+          });
+      })
+  }
+
   openFeedbackModal(content) {
     this.feedbackType = ''
     this.feedbackDetails = ''
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'sm' })
+  }
+
+  imageCaptured(blob) {
+    this.verificationImageBlob = blob;
+    this.hasVerificationBLob = true;
+  }
+
+  clearCapturedImage() {
+    this.hasVerificationBLob = false;
+    this.verificationImageBlob = null;
+  }
+
+  sendVerificationRequest() {
+    if (!this.verificationImageBlob) {
+      return;
+    }
+
+    const formData = new FormData()
+    formData.append('media-blob', this.verificationImageBlob)
+
+    this.http.post(environment.api_url + 'verification/upload', formData)
+      .subscribe(() => {
+        this.modalService.dismissAll();
+
+        const user = this.authService.getLoggedUser();
+        user.verificationStatus = 'pending';
+        this.authService.addUserToStorage(user);
+
+        this.showVerifyAlert = false;
+
+        this.translate.get('Verification request sent')
+          .subscribe(translatedText => this.notifierService.notify('success', translatedText))
+      }, () => {
+        this.translate.get('Error')
+          .subscribe(translatedText => this.notifierService.notify('error', translatedText))
+      })
   }
 
   sendFeedback(type) {

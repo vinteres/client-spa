@@ -8,7 +8,18 @@
           <div style="position: absolute; margin-left: 210px; margin-top: -60px;">
             <div class="name">
               <span class="align-middle">
-                {{user.name}}, {{user.age}} <verified-badge *ngIf="user.verified"></verified-badge> <online *ngIf="user.online"></online>
+                {{user.name}}, {{user.age}}
+                <verified-badge *ngIf="'verified' === user.verification_status"></verified-badge>
+                <span *ngIf="'verified' === user.verification_status" class="verification-status-text" style="cursor: default;">
+                  {{ 'verified' | translate }}
+                </span>
+                <span *ngIf="isLoggedUser && 'pending' === user.verification_status" class="verification-status-text" style="cursor: default;">
+                  {{ 'verification pending' | translate }}
+                </span>
+                <a *ngIf="isLoggedUser && !['pending', 'verified'].includes(user.verification_status)" href="javascript:void(0)" (click)="openVerifyModal()" class="verification-status-text">
+                  {{ 'verify profile' | translate }}
+                </a>
+                <online *ngIf="user.online"></online>
               </span>
               <span *ngIf="user.compatability" class="badge badge-pill badge-secondary align-middle compatability-badge"
                 style="margin-left: 10px;" title="Compatability percentage to me">{{ user.compatability }}%</span>
@@ -20,50 +31,57 @@
           <div class="shadow-sm rounded"
             style="padding: 15px; height: 210px; height: 100px; background-color: #fff; position: relative;">
 
-            <div *ngIf="!isLoggedUser()" style="position: absolute; top: 20px; right: 20px;">
-              <button *ngIf="!user.relation_status" class="btn btn-outline-dark" style="margin-right: 10px;"
-                (click)="sendSmile()">
-                {{ 'Smile' | translate }}
-              </button>
-
-              <button *ngIf="!user.relation_status" class="btn btn-outline-dark" (click)="openIntroDialog(introDialog)">
-                {{ 'Send intro' | translate }}
-              </button>
-
-              <button *ngIf="'matched' === user.relation_status" class="btn btn-outline-dark"
-                style="margin-right: 10px;" (click)="unmatch()">
-                {{ 'Unmatch' | translate }}
-              </button>
-
-              <div *ngIf="'intro_to_me' === user.relation_status" class="intro-response">
-                {{ 'They have sent you an intro!' | translate }}
+            <div *ngIf="!isLoggedUser" style="position: absolute; top: 20px; right: 20px;">
+              <div *ngIf="'verified' !== loggedUser.verificationStatus && 'verified' === user.verification_status; else actionBtns" class="alert alert-warning" role="alert">
+                {{ 'You must be verified to send' | translate }}
+                <br/>
+                {{ 'an intros to this user.' | translate }}
               </div>
-
-              <div *ngIf="'intro_from_me' === user.relation_status" class="intro-response">
-                {{ 'You have sent an intro to them' | translate }}
-              </div>
-
-              <button *ngIf="'matched' === user.relation_status" class="btn btn-outline-dark"
-                [routerLink]="['/chat/user/' + userId]">
-                {{ 'Message' | translate }}
-              </button>
+              <ng-template #actionBtns>
+                <button *ngIf="!user.relation_status" class="btn btn-outline-dark" style="margin-right: 10px;"
+                  (click)="sendSmile()">
+                  {{ 'Smile' | translate }}
+                </button>
+  
+                <button *ngIf="!user.relation_status" class="btn btn-outline-dark" (click)="openIntroDialog(introDialog)">
+                  {{ 'Send intro' | translate }}
+                </button>
+  
+                <button *ngIf="'matched' === user.relation_status" class="btn btn-outline-dark"
+                  style="margin-right: 10px;" (click)="unmatch()">
+                  {{ 'Unmatch' | translate }}
+                </button>
+  
+                <div *ngIf="'intro_to_me' === user.relation_status" class="intro-response">
+                  {{ 'They have sent you an intro!' | translate }}
+                </div>
+  
+                <div *ngIf="'intro_from_me' === user.relation_status" class="intro-response">
+                  {{ 'You have sent an intro to them' | translate }}
+                </div>
+  
+                <button *ngIf="'matched' === user.relation_status" class="btn btn-outline-dark"
+                  [routerLink]="['/chat/user/' + userId]">
+                  {{ 'Message' | translate }}
+                </button>
+              </ng-template>
             </div>
 
             <div style="position: absolute; top: -45px; right: 0;">
-              <div *ngIf="!isLoggedUser() && !user.reported" style="text-align: right;">
+              <div *ngIf="!isLoggedUser && !user.reported" style="text-align: right;">
                 <button class="btn btn-outline-dark" (click)="openReportModal(reportDialog)">
                   <fa-icon [icon]="faFlag"></fa-icon>
                 </button>
               </div>
             </div>
 
-            <div *ngIf="isLoggedUser()" style="border-radius: 100%; margin-top: -110px" class="image-content shadow-sm"
+            <div *ngIf="isLoggedUser" style="border-radius: 100%; margin-top: -110px" class="image-content shadow-sm"
               [ngStyle]="{ 'background-image': 'url(' + user.profile_image + ')'}"
               (click)="showEditImageModal(imageUploadModal)">
-              <div *ngIf="isLoggedUser()" class="img-btn" style="color: #fff;">{{ 'Change image' | translate }}</div>
+              <div *ngIf="isLoggedUser" class="img-btn" style="color: #fff;">{{ 'Change image' | translate }}</div>
             </div>
 
-            <div *ngIf="!isLoggedUser()" style="border-radius: 100%; margin-top: -110px" class="image-content shadow-sm"
+            <div *ngIf="!isLoggedUser" style="border-radius: 100%; margin-top: -110px" class="image-content shadow-sm"
               [ngStyle]="{ 'background-image': 'url(' + user.profile_image + ')'}" (click)="showGalleryModal()">
               <div class="img-btn" style="color: #fff;" *ngIf="user.images.length > 0">{{ 'View images' | translate }}</div>
             </div>
@@ -99,9 +117,9 @@
 
               <h5>
                 {{ 'Interests' | translate }}
-                <fa-icon *ngIf="!editingInterests && isLoggedUser()" class="edit-btn" (click)="editInterests()"
+                <fa-icon *ngIf="!editingInterests && isLoggedUser" class="edit-btn" (click)="editInterests()"
                   [icon]="faPen"></fa-icon>
-                <fa-icon *ngIf="editingInterests && isLoggedUser()" class="edit-btn" (click)="saveInterests()"
+                <fa-icon *ngIf="editingInterests && isLoggedUser" class="edit-btn" (click)="saveInterests()"
                   [icon]="faSave"></fa-icon>
               </h5>
               <div *ngIf="!editingInterests">
@@ -120,9 +138,9 @@
 
               <h5>
                 {{ 'Free time activities' | translate }}
-                <fa-icon *ngIf="!editingActivities && isLoggedUser()" class="edit-btn" (click)="editFreeActivities()"
+                <fa-icon *ngIf="!editingActivities && isLoggedUser" class="edit-btn" (click)="editFreeActivities()"
                   [icon]="faPen"></fa-icon>
-                <fa-icon *ngIf="editingActivities && isLoggedUser()" class="edit-btn" (click)="saveActivities()"
+                <fa-icon *ngIf="editingActivities && isLoggedUser" class="edit-btn" (click)="saveActivities()"
                   [icon]="faSave"></fa-icon>
               </h5>
               <div *ngIf="!editingActivities">
@@ -140,9 +158,9 @@
 
               <h5>
                 {{ 'From' | translate }}
-                <fa-icon *ngIf="!editingFrom && isLoggedUser()" class="edit-btn" (click)="editFrom()" [icon]="faPen">
+                <fa-icon *ngIf="!editingFrom && isLoggedUser" class="edit-btn" (click)="editFrom()" [icon]="faPen">
                 </fa-icon>
-                <fa-icon *ngIf="editingFrom && isLoggedUser()" class="edit-btn" (click)="saveFrom()" [icon]="faSave">
+                <fa-icon *ngIf="editingFrom && isLoggedUser" class="edit-btn" (click)="saveFrom()" [icon]="faSave">
                 </fa-icon>
               </h5>
               <div *ngIf="!editingFrom">
@@ -187,7 +205,7 @@
           </div>
           <div class="col-sm-4">
             <div class="shadow-sm rounded profile-info-container">
-              <fa-icon *ngIf="isLoggedUser()" class="edit-btn" [icon]="faPen" [routerLink]="['/settings']"
+              <fa-icon *ngIf="isLoggedUser" class="edit-btn" [icon]="faPen" [routerLink]="['/settings']"
                 [queryParams]="{type: 'profile_info'}"></fa-icon>
 
               <h5 class="user-info-item">{{ 'Info' | translate }}</h5>

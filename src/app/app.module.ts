@@ -39,7 +39,8 @@ import { AppInfoComponent } from './components/misc/app-info/app-info.component'
 import { VerifiedBadgeComponent } from './components/misc/verified-badge/verified-badge.component'
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { OnlineComponent } from './components/misc/online/online.component'
+import { OnlineComponent } from './components/misc/online/online.component';
+import { CameraImageCaptureComponent } from './components/misc/camera-image-capture/camera-image-capture.component'
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -118,6 +119,7 @@ const customNotifierOptions: NotifierOptions = {
     AppInfoComponent,
     VerifiedBadgeComponent,
     OnlineComponent,
+    CameraImageCaptureComponent,
   ],
   imports: [
     BrowserModule,

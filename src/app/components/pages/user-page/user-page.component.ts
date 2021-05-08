@@ -24,6 +24,7 @@ import { NotifierService } from 'angular-notifier'
 import { Subject } from 'rxjs'
 import { IntrosService } from 'src/app/services/intros.service'
 import { TranslateService } from '@ngx-translate/core'
+import { VerificationService } from 'src/app/services/verification.service'
 
 @Component({
   selector: 'user-page',
@@ -94,7 +95,8 @@ export class UserPageComponent implements OnInit {
     private router: Router,
     private notifierService: NotifierService,
     private translate: TranslateService,
-    public introsService: IntrosService
+    private verificationService: VerificationService,
+    public introsService: IntrosService,
   ) {
     hobbiesService.getAll()
       .then(hobbies => {
@@ -268,7 +270,7 @@ export class UserPageComponent implements OnInit {
   }
 
   showGalleryModal(imagePosition = 0) {
-    if (0 === this.user.images.length || this.authService.isLoggedUser(this.userId)) { return }
+    if (0 === this.user.images.length || this.isLoggedUser) { return }
 
     this.gallerySubject.next({ imagePosition })
   }
@@ -292,6 +294,15 @@ export class UserPageComponent implements OnInit {
     this.introData = null
     this.introMsg = ''
     this.modalService.open(content, { centered: true, size: 'lg' })
+      .result.then((result) => {
+        this.introsService.modalSubject$.next('close');
+      }, () => {
+        this.introsService.modalSubject$.next('close');
+      });
+  }
+
+  openVerifyModal() {
+    this.verificationService.modalSubject$.next('open')
   }
 
   changeIntroType(type) {
@@ -427,7 +438,11 @@ export class UserPageComponent implements OnInit {
       })
   }
 
-  isLoggedUser() {
+  get isLoggedUser() {
     return this.authService.isLoggedUser(this.userId)
+  }
+
+  get loggedUser() {
+    return this.authService.getLoggedUser();
   }
 }

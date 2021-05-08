@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import RecordRTC from 'recordrtc'
 import { CHttp } from 'src/app/services/chttp.service'
 import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
+import { IntrosService } from 'src/app/services/intros.service'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'media-recorder',
@@ -35,9 +37,25 @@ export class MediaRecorderComponent implements OnInit {
 
   playing: boolean
 
-  constructor(private http: CHttp) { }
+  private introModalSubscription: Subscription;
+
+  constructor(
+    private http: CHttp,
+    intoService: IntrosService
+  ) {
+    this.introModalSubscription = intoService.modalSubject$
+      .subscribe(command => {
+        if ('close' !== command) return;
+
+        this.stopRecording();
+      });
+  }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy() {
+    this.introModalSubscription.unsubscribe();
   }
 
   startRecording() {
