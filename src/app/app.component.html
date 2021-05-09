@@ -1,27 +1,28 @@
 <div class="page-cont">
   <div *ngIf="isLoggedIn()">
-    <div class="header shadow">
+    <div class="header shadow-sm">
       <div class="content">
         <div class="home-data">
-          <a routerLink="/"  style="font-weight: bold; color: #000; font-size: 20px; padding: 10px 0; display: inline-block;">
-            <span class="align-middle" style="margin-right: 5px;">vinteres</span>
-            <span class="align-middle badge badge-pill badge-primary" style="font-size: 12px; background-color: purple;">Beta</span>
+          <a routerLink="/" style="font-weight: bold; color: #000; font-size: 20px; padding: 5px 0; display: inline-block;">
+            <img src="/assets/logo.png" style="height: 39px;" />
+            <span class="align-middle badge badge-pill badge-primary beta-badge">Beta</span>
           </a>
         </div>
         <div class="user-data">
-          <a *ngIf="isActiveUser" class="header-item" [routerLink]="['/user/' + loggedUser().id]"><fa-icon [icon]="faProfile" title="My profile"></fa-icon></a>
-          <a *ngIf="isActiveUser" class="header-item" routerLink="/chat" style="position: relative;" title="Chat">
-            <fa-icon [icon]="faEnvelope"></fa-icon>
+          <a *ngIf="isActiveUser" class="header-item" [routerLink]="['/user/' + loggedUser().id]">
+            <fa-icon class="primary-item" [icon]="faProfile" title="{{ 'My profile' | translate }}"></fa-icon>
+          </a>
+          <a *ngIf="isActiveUser" class="header-item" routerLink="/chat" style="position: relative;" title="{{ 'Chat' | translate}}">
+            <fa-icon class="primary-item" [icon]="faEnvelope"></fa-icon>
             <span *ngIf="notifsCount.msg > 0" class="badge rounded-pill bg-danger" style="top: 8px; right: -8px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{notifsCount.msg}}</span>
           </a>
-          <a *ngIf="isActiveUser" class="header-item" routerLink="/notifications" style="position: relative;" title="Notifications">
-            <fa-icon [icon]="faBell"></fa-icon>
+          <a *ngIf="isActiveUser" class="header-item" routerLink="/notifications" style="position: relative;" title="{{ 'Notifications' | translate }}">
+            <fa-icon class="primary-item" [icon]="faBell"></fa-icon>
             <span *ngIf="notifsCount.notif > 0" class="badge rounded-pill bg-danger" style="top: 8px; right: -8px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{notifsCount.notif}}</span>
           </a>
-
           <div class="btn-group">
             <a data-toggle="dropdown" class="header-item" style="width: 15px; cursor: pointer;">
-              <fa-icon [icon]="faEllipsisV"></fa-icon>
+              <fa-icon class="primary-item" [icon]="faEllipsisV"></fa-icon>
             </a>
             <div class="dropdown-menu" style="margin-top: -10px;">
               <a *ngIf="isActiveUser" class="dropdown-item" routerLink="/settings">
@@ -98,7 +99,7 @@
       <label class="control-label" for="details">{{ 'Message' | translate }}</label>
       <textarea id="details" class="form-control" placeholder="{{ 'Give us more details..' | translate }}" [(ngModel)]='feedbackDetails'></textarea>
     </div>
-    <button class="btn btn-outline-dark" (click)="sendFeedback(feedbackType.value)" [disabled]="!feedbackDetails || 0 === feedbackDetails.trim().length" style="width: 100%;">{{ 'Send' | translate }}</button>
+    <button class="btn btn-outline-primary" (click)="sendFeedback(feedbackType.value)" [disabled]="!feedbackDetails || 0 === feedbackDetails.trim().length" style="width: 100%;">{{ 'Send' | translate }}</button>
   </div>
 </ng-template>
 
@@ -128,7 +129,7 @@
       </div>
 
       <div *ngIf="verificationStatus.profileImageId" style="margin-top: 20px;">
-        <button class="btn btn-outline-dark" style="width: 100%;" (click)="verifying = true">{{ 'Start verification' | translate }}</button>
+        <button class="btn btn-outline-primary" style="width: 100%;" (click)="verifying = true">{{ 'Start verification' | translate }}</button>
       </div>
     </div>
     <div *ngIf="verifying">
@@ -151,6 +152,8 @@
     </div>
   </div>
 </ng-template>
+
+<preferences-modal></preferences-modal>
 
 <notifier-container></notifier-container>
 

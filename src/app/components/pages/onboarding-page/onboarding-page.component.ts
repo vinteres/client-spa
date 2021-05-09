@@ -195,6 +195,8 @@ export class OnboardingPageComponent implements OnInit {
       body: ['', Validators.required],
       children_status: ['', Validators.required],
       pet_status: ['', Validators.required],
+      education_status:  ['', Validators.required],
+      employment_status:  ['', Validators.required],
     })
   }
 
@@ -229,6 +231,8 @@ export class OnboardingPageComponent implements OnInit {
   get body() { return this.profileInfoForm.get('body') }
   get children_status() { return this.profileInfoForm.get('children_status') }
   get pet_status() { return this.profileInfoForm.get('pet_status') }
+  get education_status() { return this.profileInfoForm.get('education_status') }
+  get employment_status() { return this.profileInfoForm.get('employment_status') }
 
   get hobbies() { return this.interestsForm.get('hobbies') }
   get activities() { return this.interestsForm.get('activities') }

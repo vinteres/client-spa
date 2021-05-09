@@ -7,7 +7,7 @@
     {{ 'There are 5 steps and the progress is saved till your current step. You can return and continue any time.' | translate }}
   </div>
   <div class="info-button-cont">
-    <button class="btn btn-outline-dark" (click)="showIntroText = false">{{ 'Start' | translate }}</button>
+    <button class="btn btn-outline-primary" (click)="showIntroText = false">{{ 'Start' | translate }}</button>
   </div>
 </div>
 
@@ -115,7 +115,7 @@
       </div>
     </form>
     <div class="btn-cont">
-      <button class="btn btn-outline-dark" (click)="saveAccountInfo()" [disabled]="loading">{{ 'Save' | translate }}</button>
+      <button class="btn btn-outline-primary" (click)="saveAccountInfo()" [disabled]="loading">{{ 'Save' | translate }}</button>
       <div class="clearfix"></div>
     </div>
   </div>
@@ -125,6 +125,47 @@
   <h2 class="section-title">{{ 'Profile Info' | translate }} ({{ 'Step' | translate }} {{ step + '/' + TOTAL_STEPS }})</h2>
   <div class="onboarding-step-cont border shadow-sm">
     <form [formGroup]="profileInfoForm">
+
+      <h3>{{ 'Appearance' | translate }}</h3>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="inputPassword">{{ 'Body type' | translate }}</label>
+          <div class="radio">
+            <label><input type="radio" value="fit" name="body" formControlName="body">{{ 'Fit' | translate }}</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" value="curvy" name="body" formControlName="body">{{ 'Curvy' | translate }}</label>
+          </div>
+          <div class="radio disabled">
+            <label><input type="radio" value="average" name="body" formControlName="body">{{ 'Average' | translate}}</label>
+          </div>
+          <div class="radio disabled">
+            <label><input type="radio" value="skinny" name="body" formControlName="body">{{ 'Skinny' | translate }}</label>
+          </div>
+          <div>
+            <small *ngIf="body.invalid && (body.dirty || body.touched)" class="text-danger">
+              {{ 'Required field' | translate }}
+            </small>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label>{{ 'Height' | translate}}</label>
+          <div>
+            <input type="number" class="form-control" formControlName="height" name="height"
+              style="width: 70px; display: inline-block;">
+            {{ 'cm' | translate }}
+          </div>
+          <div>
+            <small *ngIf="height.invalid && (height.dirty || height.touched)" class="text-danger">
+              {{ 'Invalid height' | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <hr/>
+
+      <h3>{{ 'Lifestyle' | translate }}</h3>
       <div class="row field-row-sep">
         <div class="col-sm-6">
           <label for="inputPassword">{{ 'Smoking' | translate }}</label>
@@ -162,6 +203,9 @@
         </div>
       </div>
 
+      <hr/>
+
+      <h3>{{ 'Family' | translate }}</h3>
       <div class="row field-row-sep">
         <div class="col-sm-6">
           <label for="inputPassword">{{ 'Do you have children?' | translate }}</label>
@@ -170,8 +214,13 @@
             <label><input type="radio" value="has" name="children_status" formControlName="children_status">{{ 'Yes' | translate }}</label>
           </div>
           <div class="radio">
-            <label><input type="radio" value="does_not_have" name="children_status"
-                formControlName="children_status">{{ 'No' | translate }}</label>
+            <label><input type="radio" value="does_not_have" name="children_status" formControlName="children_status">{{ 'No' | translate }}</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" value="does_not_have_but_wants" name="children_status" formControlName="children_status">{{ 'No, but I want them' | translate }}</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" value="does_not_have_and_does_not_want" name="children_status" formControlName="children_status">{{ 'No and I don\'t them' | translate }}</label>
           </div>
           <div>
             <small *ngIf="children_status.invalid && (children_status.dirty || children_status.touched)"
@@ -202,37 +251,59 @@
         </div>
       </div>
 
-      <div class="row">
+      <hr/>
+
+      <h3>{{ 'Work & Education' | translate }}</h3>
+      <div class="row field-row-sep">
         <div class="col-sm-6">
-          <label for="inputPassword">{{ 'Body type' | translate }}</label>
+          <label for="inputPassword" class="col-form-label">{{ 'Work' | translate }}</label>
           <div class="radio">
-            <label><input type="radio" value="fit" name="body" formControlName="body">{{ 'Fit' | translate }}</label>
+            <label><input type="radio" value="not_tell" name="employment_status" formControlName="employment_status">{{ 'Rather not tell' | translate }}</label>
           </div>
           <div class="radio">
-            <label><input type="radio" value="curvy" name="body" formControlName="body">{{ 'Curvy' | translate }}</label>
+            <label><input type="radio" value="full_time" name="employment_status" formControlName="employment_status">{{ 'Full-time' | translate }}</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" value="part_time" name="employment_status" formControlName="employment_status">{{ 'Part-time' | translate }}</label>
           </div>
           <div class="radio disabled">
-            <label><input type="radio" value="average" name="body" formControlName="body">{{ 'Average' | translate}}</label>
+            <label><input type="radio" value="freelance" name="employment_status" formControlName="employment_status">{{ 'Freelancer' | translate }}</label>
           </div>
           <div class="radio disabled">
-            <label><input type="radio" value="skinny" name="body" formControlName="body">{{ 'Skinny' | translate }}</label>
+            <label><input type="radio" value="self_employed" name="employment_status" formControlName="employment_status">{{ 'Self-employed' | translate }}</label>
+          </div>
+          <div class="radio disabled">
+            <label><input type="radio" value="unemployed" name="employment_status" formControlName="employment_status">{{ 'Unemployed' | translate }}</label>
+          </div>
+          <div class="radio disabled">
+            <label><input type="radio" value="retired" name="employment_status" formControlName="employment_status">{{ 'Retired' | translate }}</label>
           </div>
           <div>
-            <small *ngIf="body.invalid && (body.dirty || body.touched)" class="text-danger">
+            <small *ngIf="employment_status.invalid && (employment_status.dirty || employment_status.touched)" class="text-danger">
               {{ 'Required field' | translate }}
             </small>
           </div>
         </div>
         <div class="col-sm-6">
-          <label>{{ 'Height' | translate}}</label>
-          <div>
-            <input type="number" class="form-control" formControlName="height" name="height"
-              style="width: 70px; display: inline-block;">
-            {{ 'cm' | translate }}
+          <label for="inputPassword" class="col-form-label">{{ 'Education' | translate }}</label>
+          <div class="radio">
+            <label><input type="radio" value="not_tell" name="education_status" formControlName="education_status">{{ 'Rather not tell' | translate }}</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" value="none" name="education_status" formControlName="education_status">Нямам</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" value="entry" name="education_status" formControlName="education_status">Основно</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" value="mid" name="education_status" formControlName="education_status">Средно</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" value="higher" name="education_status" formControlName="education_status">Визше</label>
           </div>
           <div>
-            <small *ngIf="height.invalid && (height.dirty || height.touched)" class="text-danger">
-              {{ 'Invalid height' | translate }}
+            <small *ngIf="education_status.invalid && (education_status.dirty || education_status.touched)" class="text-danger">
+              {{ 'Required field' | translate }}
             </small>
           </div>
         </div>
@@ -240,7 +311,7 @@
     </form>
 
     <div class="btn-cont">
-      <button class="btn btn-outline-dark" (click)="saveProfileInfo()">{{ 'Save' | translate}}</button>
+      <button class="btn btn-outline-primary" (click)="saveProfileInfo()">{{ 'Save' | translate}}</button>
       <div class="clearfix"></div>
     </div>
   </div>
@@ -265,7 +336,7 @@
     </div>
 
     <div class="btn-cont">
-      <button class="btn btn-outline-dark" (click)="saveInterests()" [disabled]="loading">{{ 'Save' | translate }}</button>
+      <button class="btn btn-outline-primary" (click)="saveInterests()" [disabled]="loading">{{ 'Save' | translate }}</button>
       <div class="clearfix"></div>
     </div>
   </div>
@@ -281,7 +352,7 @@
       {{ 'To find a better match try to answer honestly.' | translate }}
     </div>
     <div class="info-button-cont">
-      <button class="btn btn-outline-dark" (click)="showQuizIntroText = false">{{ 'Start Quiz' | translate}}</button>
+      <button class="btn btn-outline-primary" (click)="showQuizIntroText = false">{{ 'Start Quiz' | translate}}</button>
     </div>
   </div>
 
@@ -318,7 +389,7 @@
       </div>
     </form>
 
-    <button class="btn btn-outline-dark" (click)="saveQuiz()">{{ 'Next' | translate }}</button>
+    <button class="btn btn-outline-primary" (click)="saveQuiz()">{{ 'Next' | translate }}</button>
   </div>
 </div>
 
@@ -337,7 +408,7 @@
   </div>
 
   <div style="text-align: center; margin-top: 35px;">
-    <button class="btn btn-outline-outline-dark" (click)="newImage.click()" [disabled]="uploadingImage">{{ 'Upload' | translate }}</button>
+    <button class="btn btn-outline-outline-primary" (click)="newImage.click()" [disabled]="uploadingImage">{{ 'Upload' | translate }}</button>
   </div>
 
   <input type="file" accept="image/*" (change)="uploadImage($event.target.files)" style="display: none;" #newImage>

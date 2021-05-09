@@ -42,7 +42,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { OnlineComponent } from './components/misc/online/online.component';
 import { CameraImageCaptureComponent } from './components/misc/camera-image-capture/camera-image-capture.component';
 import { LinkifyPipe } from './pipes/linkify.pipe'
-import { HTMLEscapeUnescapeModule } from 'html-escape-unescape'
+import { HTMLEscapeUnescapeModule } from 'html-escape-unescape';
+import { PreferencesModalComponent } from './components/modals/preferences-modal/preferences-modal.component'
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -123,6 +124,7 @@ const customNotifierOptions: NotifierOptions = {
     OnlineComponent,
     CameraImageCaptureComponent,
     LinkifyPipe,
+    PreferencesModalComponent,
   ],
   imports: [
     BrowserModule,

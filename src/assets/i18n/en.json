@@ -12,5 +12,11 @@
   "MONTH_AGO": "month ago",
   "MONTHS_AGO": "{{d}} months ago",
   "YEAR_AGO": "year ago",
-  "YEARS_AGO": "{{d}} years ago"
+  "YEARS_AGO": "{{d}} years ago",
+  "male:looking_for": "Male",
+  "female:looking_for": "Female",
+  "male:wants": "Male",
+  "female:wants": "Female",
+  "Selected LOOKING_FOR:": "",
+  "No selected LOOKING_FOR.": ""
 }

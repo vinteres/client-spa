@@ -78,6 +78,6 @@
       <label class="control-label" for="details">{{ 'Details' | translate }}</label>
       <textarea id="details" class="form-control" placeholder="{{ 'Give us more details..' | translate }}" [(ngModel)]='reportDetails'></textarea>
     </div>
-    <button class="btn btn-outline-dark" (click)="sendReport(reportType.value)" [disabled]="reporting[reportIntro.user.id] || !reportDetails || 0 === reportDetails.trim().length" style="width: 100%;">{{ 'Send' | translate }}</button>
+    <button class="btn btn-outline-primary" (click)="sendReport(reportType.value)" [disabled]="reporting[reportIntro.user.id] || !reportDetails || 0 === reportDetails.trim().length" style="width: 100%;">{{ 'Send' | translate }}</button>
   </div>
 </ng-template>

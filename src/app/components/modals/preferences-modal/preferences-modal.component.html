@@ -1,0 +1,49 @@
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <span class="close" aria-label="Close" style="position: absolute; top: -30px;right: 0; color: #fff; cursor: pointer;" (click)="modal.dismiss('Cross click')">&times;</span>
+    <h3>{{ 'Search preferences' | translate }}</h3>
+
+    <div>
+      <div class="pref-item">
+        <h5>{{ 'Age' | translate }}</h5>
+        <div class="row" style="padding: 0 15px;">
+          <div class="col-6">
+            <select class="form-control" [value]="editSearchPref.fromAge" (change)="changePref('fromAge', +$event.target.value)">
+              <option *ngFor="let age of ages" [value]="age" [selected]="age == editSearchPref.fromAge">{{age}}</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <select class="form-control" [value]="editSearchPref.toAge" (change)="changePref('toAge', +$event.target.value)">
+              <option *ngFor="let age of agesTo" [value]="age" [selected]="age == editSearchPref.toAge">{{age}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="pref-item">
+        <h5>{{ 'What I\'m looking for here' | translate }}</h5>
+        <div class="form-check">
+          <label class="form-check-label"><input type="checkbox" value="1" [checked]="shouldBeChecked(1)" (change)="lookingForChanged($event.target.value, $event.target.checked)">{{ 'Friends' | translate }}</label>
+        </div>
+        <div class="form-check">
+          <label class="form-check-label"><input type="checkbox" value="2" [checked]="shouldBeChecked(2)" (change)="lookingForChanged($event.target.value, $event.target.checked)">{{ 'Long-term dating' | translate }}</label>
+        </div>
+        <div class="form-check">
+          <label class="form-check-label"><input type="checkbox" value="4" [checked]="shouldBeChecked(4)" (change)="lookingForChanged($event.target.value, $event.target.checked)">{{ 'Short-term dating' | translate }}</label>
+        </div>
+        <div class="form-check">
+          <label class="form-check-label"><input type="checkbox" value="8" [checked]="shouldBeChecked(8)" (change)="lookingForChanged($event.target.value, $event.target.checked)">{{ 'Hookups' | translate }}</label>
+        </div>
+      </div>
+
+      <div class="pref-item">
+        <h5>{{ 'Where I\'m looking' | translate }}</h5>
+        <div style="padding: 0 15px;">
+          <location-select [location]="editSearchPref.location" (locationChanged)="locationChanged($event)"></location-select>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-outline-primary" style="width: 100%; margin-top: 20px;" (click)="save()">{{ 'Save' | translate }}</button>
+  </div>
+</ng-template>

@@ -13,7 +13,15 @@ import {
   faCat,
   faChild,
   faDumbbell,
-  faPlus
+  faPlus,
+  faGraduationCap,
+  faBriefcase,
+  faSmileBeam,
+  faComment,
+  faCommentDots,
+  faTimesCircle,
+  faEye,
+  faUserFriends
 } from '@fortawesome/free-solid-svg-icons'
 import { AuthService } from 'src/app/services/auth.service'
 import { CHttp } from 'src/app/services/chttp.service'
@@ -21,10 +29,12 @@ import { environment } from 'src/environments/environment'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { HobbiesService } from 'src/app/services/hobbies.service'
 import { NotifierService } from 'angular-notifier'
-import { Subject } from 'rxjs'
+import { Subject, Subscription } from 'rxjs'
 import { IntrosService } from 'src/app/services/intros.service'
 import { TranslateService } from '@ngx-translate/core'
 import { VerificationService } from 'src/app/services/verification.service'
+import { ModalService } from 'src/app/services/modal.service'
+import { SearchPreferenceService } from 'src/app/services/search-preference.service'
 
 @Component({
   selector: 'user-page',
@@ -37,13 +47,21 @@ export class UserPageComponent implements OnInit {
   faSave = faSave
   faFlag = faFlag
   faHeart = faHeart
-  faTimesCircle = faTimes
+  faTimes = faTimes
   faBody = faDumbbell
   faSmoking = faSmoking
   faCocktail = faCocktail
   faCat = faCat
   faChild = faChild
   faPlus = faPlus
+  faEducation = faGraduationCap
+  faEmployment = faBriefcase
+  faSmile = faSmileBeam
+  faSendMessage = faComment
+  faSendIntro = faCommentDots
+  faUnmatch = faTimesCircle
+  faLookingFor = faEye
+  faLookingForRelation = faUserFriends
 
   userId: string
   user: any = null
@@ -85,6 +103,8 @@ export class UserPageComponent implements OnInit {
   reportDetails: string
   reporting: boolean
 
+  searchPreferenceSubscription: Subscription;
+
   constructor(
     private route: ActivatedRoute,
     private usersService: UsersService,
@@ -96,7 +116,9 @@ export class UserPageComponent implements OnInit {
     private notifierService: NotifierService,
     private translate: TranslateService,
     private verificationService: VerificationService,
+    private appModalService: ModalService,
     public introsService: IntrosService,
+    searchPreferenceService: SearchPreferenceService,
   ) {
     hobbiesService.getAll()
       .then(hobbies => {
@@ -107,6 +129,11 @@ export class UserPageComponent implements OnInit {
       .then(activities => {
         this.allActivities = activities
       })
+
+    this.searchPreferenceSubscription = searchPreferenceService.changedSubject$
+      .subscribe(({ lookingFor }) => {
+        this.user.looking_for_type = lookingFor;
+      })
   }
 
   ngOnInit(): void {
@@ -115,6 +142,10 @@ export class UserPageComponent implements OnInit {
 
       this.changeUser(userId)
    })
+  }
+
+  ngOnDestroy(): void {
+    this.searchPreferenceSubscription.unsubscribe();
   }
 
   changeUser(userId) {
@@ -438,11 +469,40 @@ export class UserPageComponent implements OnInit {
       })
   }
 
+  openSearchPrefModal() {
+    this.appModalService.actionSubject$.next({
+      action: 'open',
+      modal: 'edit-preferences'
+    });
+  }
+
   get isLoggedUser() {
     return this.authService.isLoggedUser(this.userId)
   }
 
   get loggedUser() {
     return this.authService.getLoggedUser();
+  }
+
+  get lookingFor() {
+    if (!this.user.looking_for_type) return [];
+
+    const result = [];
+
+    Object.entries(UsersService.LOOKING_FOR_TYPES).forEach(([k, v]) => {
+      const type = +k;
+      if ((this.user.looking_for_type & type) === type) {
+        result.push(v)
+      }
+    });
+
+    return result.map((item, ix) => {
+      let s = ''
+
+      if (ix === result.length - 2) s = ' &';
+      else if (ix < result.length - 2) s = ',';
+
+      return { item, s }
+    });
   }
 }

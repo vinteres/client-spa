@@ -16,7 +16,6 @@ export class FindPeoplePageComponent implements OnInit {
   faSearchPref = faSlidersH
 
   loading: boolean
-  noMoreCards = false
   page = 1
   totalPages: number
 

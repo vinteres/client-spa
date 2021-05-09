@@ -38,9 +38,13 @@
     margin: 5px
     padding: 0 5px
     display: inline-block
-    border: 1px solid #bec4c0
+    #border: 1px solid #bec4c0
+    #background-color: #e5f0d1
+    color: #fff
+    background-color: #ff6060ff
+    font-weight: bold
+    border: 0px
     border-radius: 5px
-    background-color: #e5f0d1
     cursor: default
 
 .sep
@@ -53,10 +57,30 @@
 h5
   margin: 0
 
+button.user-action-item
+  margin-right: 10px
+  padding: 0 5px
+
+  .user-action-icon
+    font-size: 25px
+    vertical-align: middle
+
+  .user-action-icon.smile-icon
+    color: #c9a212
+
+  .user-action-icon.message-icon
+    color: #24789c
+
+  .user-action-icon.unmatch-icon
+    color: #5c4c43
+
+  &:hover
+    .user-action-icon
+      color: #fff
+
+
 .edit-btn
-  cursor: pointer
-  margin-left: 7px
-  font-size: initial
+  font-size: 1.25rem
 
 .images-content
   .image
@@ -103,9 +127,6 @@ button.vbtn
 ul
   list-style-type: circle
 
-.user-info-item
-  margin-bottom: 5px
-
 .intro-response
   border-bottom: 4px solid #de7ec8
   display: inline-block
@@ -115,9 +136,22 @@ ul
   vertical-align: middle
 
 .user-info-item
+  margin-bottom: 10px
+
+  &.user-info-title
+    font-size: 1.25rem
+
+  .info-text
+    font-size: .9rem
+    margin-left: 30px
+    display: inline-block
+
   .info-icon
     width: 30px
+    font-size: 18px
+    vertical-align: middle
     display: inline-block
+    position: absolute
 
 .profile-info-container
   padding: 15px

@@ -96,6 +96,8 @@ export class SettingsPageComponent implements OnInit {
       body:  [this.settings.profileSettings.body, Validators.required],
       children_status:  [this.settings.profileSettings.children_status, Validators.required],
       pet_status:  [this.settings.profileSettings.pet_status, Validators.required],
+      education_status:  [this.settings.profileSettings.education_status, Validators.required],
+      employment_status:  [this.settings.profileSettings.employment_status, Validators.required],
     })
   }
 
@@ -122,6 +124,8 @@ export class SettingsPageComponent implements OnInit {
   get body() { return this.profileInfoForm.get('body') }
   get children_status() { return this.profileInfoForm.get('children_status') }
   get pet_status() { return this.profileInfoForm.get('pet_status') }
+  get education_status() { return this.profileInfoForm.get('education_status') }
+  get employment_status() { return this.profileInfoForm.get('employment_status') }
 
   get password() { return this.securityForm.get('password') }
   get newPassword() { return this.securityForm.get('newPassword') }
