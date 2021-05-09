@@ -94,6 +94,9 @@
         <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Body type' | translate }}</label>
         <div class="col-sm-9">
           <div class="radio">
+            <label><input type="radio" value="not_tell" name="body" formControlName="body">{{ 'Rather not tell' | translate }}</label>
+          </div>
+          <div class="radio">
             <label><input type="radio" value="fit" name="body" formControlName="body">{{ 'Fit' | translate }}</label>
           </div>
           <div class="radio">
@@ -135,6 +138,9 @@
         <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Smoking' | translate }}</label>
         <div class="col-sm-9">
           <div class="radio">
+            <label><input type="radio" value="not_tell" name="smoking" formControlName="smoking">{{ 'Rather not tell' | translate }}</label>
+          </div>
+          <div class="radio">
             <label><input type="radio" value="regularly" name="smoking" formControlName="smoking">{{ 'Regularly' | translate }}</label>
           </div>
           <div class="radio">
@@ -154,6 +160,9 @@
       <div class="form-group row">
         <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Drinking' | translate }}</label>
         <div class="col-sm-9">
+          <div class="radio">
+            <label><input type="radio" value="not_tell" name="drinking" formControlName="drinking">{{ 'Rather not tell' | translate }}</label>
+          </div>
           <div class="radio">
             <label><input type="radio" value="regularly" name="drinking" formControlName="drinking">{{ 'Regularly' | translate }}</label>
           </div>
@@ -178,6 +187,9 @@
         <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Do you have children?' | translate }}</label>
         <div class="col-sm-9">
           <div class="radio">
+            <label><input type="radio" value="not_tell" name="children_status" formControlName="children_status">{{ 'Rather not tell' | translate }}</label>
+          </div>
+          <div class="radio">
             <label><input type="radio" value="has" name="children_status" formControlName="children_status">{{ 'Yes' | translate }}</label>
           </div>
           <div class="radio">
@@ -200,6 +212,9 @@
       <div class="form-group row">
         <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Do you have pets?' | translate }}</label>
         <div class="col-sm-9">
+          <div class="radio">
+            <label><input type="radio" value="not_tell" name="pet_status" formControlName="pet_status">{{ 'Rather not tell' | translate }}</label>
+          </div>
           <div class="radio">
             <label><input type="radio" value="cat" name="pet_status" formControlName="pet_status">{{ 'Cat(s)' | translate }}</label>
           </div>
