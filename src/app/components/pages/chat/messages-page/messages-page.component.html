@@ -2,11 +2,11 @@
   <div class="rounded shadow-sm inner-cont" (click)="menuHidden = true">
     <div class="chat-members-cont" [ngClass]="{'menu-hidden': menuHidden}">
       <div style="height: 100%; overflow-y: auto;">
-        <loader *ngIf="loading"></loader>
-
         <div style="padding: 12px 10px; font-weight: bold; font-size: 18px; border-bottom: 1px solid #b0b0b0;">
           {{ 'Messages' | translate }}
         </div>
+
+        <loader *ngIf="loading"></loader>
 
         <div *ngIf="!loading && 0 === users.length" style="padding: 10px; font-weight: bold;">
           {{ 'No matches yet.' | translate }}

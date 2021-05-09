@@ -57,9 +57,10 @@
             <small class="text-danger" *ngIf="(password.dirty || password.touched) && !password.valid" class="text-danger">
               <div class="alert alert-warning">
                 <div class="pwd-item">
-                  <fa-icon *ngIf="password.value.length >= 8" [icon]="faCheck"></fa-icon> 8+ {{ 'length' | translate }}
+                  <fa-icon *ngIf="password.value.length >= 8" [icon]="faCheck"></fa-icon>
+                  {{ 'Enter' | translate }} 8+ {{ 'symbols' | translate }}
                 </div>
-                <div class="pwd-item">
+                <!-- <div class="pwd-item">
                   <fa-icon *ngIf="hasUppercase(password.value)" [icon]="faCheck"></fa-icon> [A-Z]
                 </div>
                 <div class="pwd-item">
@@ -70,7 +71,7 @@
                 </div>
                 <div class="pwd-item">
                   <fa-icon *ngIf="hasSpecialChar(password.value)" [icon]="faCheck"></fa-icon> [#?!@$%^&*-]
-                </div>
+                </div> -->
               </div>
               <div>{{ 'Invalid password' | translate }}</div>
             </small>

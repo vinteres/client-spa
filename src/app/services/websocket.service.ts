@@ -8,6 +8,7 @@ import { AuthService } from './auth.service'
 })
 export class WebsocketService {
 
+  private messagesQueue: Array<string> = []
   private websocket: WebSocket
   websocketMessageSubject$: Subject<any> = new Subject()
   websocketOpenSubject$: Subject<any> = new Subject()
@@ -31,7 +32,14 @@ export class WebsocketService {
   }
 
   send(data) {
-    this.websocket.send(JSON.stringify(data))
+    const message = JSON.stringify(data)
+    if (!this.isOpen()) {
+      this.messagesQueue.push(message);
+
+      return;
+    }
+
+    this.websocket.send(message)
   }
 
   close() {
@@ -45,11 +53,19 @@ export class WebsocketService {
 
     this.websocket = new WebSocket(environment.ws_url + `?x-auth-token=${this.authService.getLoggedUser().token}`)
     this.websocket.onopen = (event) => {
+      while (0 < this.messagesQueue.length) {
+        this.websocket.send(this.messagesQueue.shift())
+      }
+
       this.websocketOpenSubject$.next()
     }
     this.websocket.onmessage = (event) => {
       const data = JSON.parse(event.data)
       this.websocketMessageSubject$.next(data)
     }
+  }
+
+  private isOpen(): boolean {
+    return this.websocket && this.websocket.readyState === WebSocket.OPEN
   }
 }

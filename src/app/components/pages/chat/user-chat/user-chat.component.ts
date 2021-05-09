@@ -179,15 +179,13 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     return bd
   }
 
-  isNextMsgFromDifferentDay(msgIx) {
+  isFromDifferentDay(msgIx) {
+    const prevMsg = this.chat.messages[msgIx - 1]
     const currMsg = this.chat.messages[msgIx]
-    const nextMsg = this.chat.messages[msgIx + 1]
 
-    if (!nextMsg) {
-      return false
-    }
+    if (!prevMsg) return true;
 
-    return 0 !== this.days(nextMsg.created_at / 1000) - this.days(currMsg.created_at / 1000)
+    return 0 !== this.days(prevMsg.created_at / 1000) - this.days(currMsg.created_at / 1000)
   }
 
   messageTime(msg) {

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core'
+import { Subject } from 'rxjs'
 import { environment } from 'src/environments/environment'
 import { CHttp } from './chttp.service'
 
@@ -6,6 +7,7 @@ import { CHttp } from './chttp.service'
   providedIn: 'root'
 })
 export class OnboardingService {
+  completedSubject$: Subject<void> = new Subject();
 
   constructor(private http: CHttp) { }
 

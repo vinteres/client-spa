@@ -243,7 +243,7 @@
   "No interests yet.": "Няма интереси.",
   "No activities yet.": "Няма дейности.",
   "No person info yet.": "Няма информация.",
-  "Free time activities": "Дейности",
+  "Free time activities": "Какво харесвам да правя",
   "Info": "Повече информация",
   "No location yet.": "Няма посочена локация.",
   "Change image": "Качи снимка",
@@ -380,5 +380,8 @@
   "Take a photo (from your current device) with the target gesture and submit it. The verification photo will be compared to your profile picture": "Снимай се (от текущото ти устройство) с дадената поза и изпрати заявката. Снимката от верификацията се сравнява с профилната ви снимка",
   "Start verification": "Започни",
   "You must be verified to send": "Трябва да сте верифицирани, за да можете",
-  "an intros to this user.": "да изпратите въведение към този потребител."
+  "an intros to this user.": "да изпратите въведение към този потребител.",
+  "Enter": "Въведете",
+  "symbols": "символа",
+  "Underage not allowed": "Не е разрешено за лица под 18 години"
 }

@@ -9,6 +9,7 @@ export class DatePickerComponent implements OnInit {
 
   @Input() date: any
   @Output() dateChange: EventEmitter<any> = new EventEmitter()
+  @Output() changed: EventEmitter<any> = new EventEmitter()
 
   yearOptions: any = []
   monthOptions: any = [
@@ -57,19 +58,19 @@ export class DatePickerComponent implements OnInit {
   changeYear(event) {
     this.selectedYear = +event.target.value
 
-    this.changeDate()
+    if (!this.changeDate()) this.changed.emit(this.value)
   }
 
   changeMonth(event) {
     this.selectedMonth = +event.target.value
 
-    this.changeDate()
+    if (!this.changeDate()) this.changed.emit(this.value)
   }
 
   changeDay(event) {
     this.selectedDay = +event.target.value
 
-    this.changeDate()
+    if (!this.changeDate()) this.changed.emit(this.value)
   }
 
   changeDate() {
@@ -77,13 +78,19 @@ export class DatePickerComponent implements OnInit {
         !Number.isInteger(this.selectedMonth) ||
         !Number.isInteger(this.selectedDay)
     ) {
-      return
+      return false
     }
 
+    this.dateChange.emit(this.value)
+
+    return true
+  }
+
+  get value() {
     const month = this.selectedMonth < 10 ? `0${this.selectedMonth + 1}` : (this.selectedMonth  + 1)
     const day = this.selectedDay < 10 ? `0${this.selectedDay}` : this.selectedDay
     const date = `${this.selectedYear}/${month}/${day}`
 
-    this.dateChange.emit(date)
+    return date
   }
 }

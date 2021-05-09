@@ -9,12 +9,12 @@
           </a>
         </div>
         <div class="user-data">
-          <a *ngIf="isActiveUser()" class="header-item" [routerLink]="['/user/' + loggedUser().id]"><fa-icon [icon]="faProfile" title="My profile"></fa-icon></a>
-          <a *ngIf="isActiveUser()" class="header-item" routerLink="/chat" style="position: relative;" title="Chat">
+          <a *ngIf="isActiveUser" class="header-item" [routerLink]="['/user/' + loggedUser().id]"><fa-icon [icon]="faProfile" title="My profile"></fa-icon></a>
+          <a *ngIf="isActiveUser" class="header-item" routerLink="/chat" style="position: relative;" title="Chat">
             <fa-icon [icon]="faEnvelope"></fa-icon>
             <span *ngIf="notifsCount.msg > 0" class="badge rounded-pill bg-danger" style="top: 8px; right: -8px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{notifsCount.msg}}</span>
           </a>
-          <a *ngIf="isActiveUser()" class="header-item" routerLink="/notifications" style="position: relative;" title="Notifications">
+          <a *ngIf="isActiveUser" class="header-item" routerLink="/notifications" style="position: relative;" title="Notifications">
             <fa-icon [icon]="faBell"></fa-icon>
             <span *ngIf="notifsCount.notif > 0" class="badge rounded-pill bg-danger" style="top: 8px; right: -8px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{notifsCount.notif}}</span>
           </a>
@@ -24,7 +24,7 @@
               <fa-icon [icon]="faEllipsisV"></fa-icon>
             </a>
             <div class="dropdown-menu" style="margin-top: -10px;">
-              <a *ngIf="isActiveUser()" class="dropdown-item" routerLink="/settings">
+              <a *ngIf="isActiveUser" class="dropdown-item" routerLink="/settings">
                 <fa-icon [icon]="faSettings"></fa-icon>
                 {{ 'Settings' | translate }}
               </a>
@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <div *ngIf="isActiveUser()" class="left-menu">
+    <div *ngIf="isActiveUser" class="left-menu">
       <a routerLink="/intros" class="item">
         <fa-icon [icon]="faIntro"></fa-icon>
         {{ 'Intros' | translate }} <span *ngIf="notifsCount.intro > 0" class="badge rounded-pill bg-danger" style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{notifsCount.intro}}</span>
@@ -67,7 +67,7 @@
   </div>
 
   <div class="page-container">
-    <div *ngIf="isActiveUser() && showVerifyAlert" class="alert alert-warning" role="alert" style="position: relative;">
+    <div *ngIf="isActiveUser && showVerifyAlert" class="alert alert-warning" role="alert" style="position: relative;">
       <a href="javascript:void(0)" (click)="openVerifyModal()" style="color: #4798b5;">
         {{ 'Verify your profile' | translate }}
       </a> {{ 'and show that it is really you!' | translate }}

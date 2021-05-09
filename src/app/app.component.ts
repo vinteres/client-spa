@@ -28,6 +28,8 @@ import { ChatService } from './services/chat.service'
 import { UsersService } from './services/users.service'
 import { TranslateService } from '@ngx-translate/core'
 import { VerificationService } from './services/verification.service'
+import { OnboardingService } from './services/onboarding.service'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-root',
@@ -52,6 +54,8 @@ export class AppComponent implements OnDestroy {
 
   @ViewChild('verifyDialog') verifyDialog
 
+  private isInit: boolean = false;
+
   supportedLanguage = [
     { code: 'en', label: 'English' },
     { code: 'bg', label: 'Български' },
@@ -71,19 +75,19 @@ export class AppComponent implements OnDestroy {
 
   showVerifyAlert: boolean = false
 
-  private wsSubscription
-  private countSubscription
-  private loginSubscription
-  private logoutSubscription
-  private websocketOpenSubscription
-  private verificationModalSubscription
+  private wsSubscription: Subscription;
+  private countSubscription: Subscription;
+  private loginSubscription: Subscription;
+  private logoutSubscription: Subscription;
+  private websocketOpenSubscription: Subscription;
+  private verificationModalSubscription: Subscription;
 
   private loadingVerificationStatus: boolean = false
   private verificationImageBlob: Blob;
   verifying: boolean = false;
   verificationStatus: {
-    profileImageId: string|null,
-    verificationStatus: 'verified'|'unverified'|'pending'|'unverified'|null
+    profileImageId: string | null,
+    verificationStatus: 'verified' | 'unverified' | 'pending' | 'unverified' | null
   };
   hasVerificationBLob: boolean;
 
@@ -103,18 +107,20 @@ export class AppComponent implements OnDestroy {
     private http: CHttp,
     private titleService: Title,
     private translate: TranslateService,
-    private verificationService: VerificationService
+    private verificationService: VerificationService,
+    onboardingService: OnboardingService
   ) {
     this.currentLang = localStorage.getItem('lang') || 'bg'
     translate.setDefaultLang('en');
     translate.use(this.currentLang);
 
-    this.init()
+    this.init();
+
+    onboardingService.completedSubject$
+      .subscribe(() => this.init())
 
     this.loginSubscription = authService.loggedInSubject$
-      .subscribe(() => {
-        this.init()
-      })
+      .subscribe(() => this.init())
 
     this.logoutSubscription = authService.logoutSubject$
       .subscribe(() => {
@@ -125,6 +131,10 @@ export class AppComponent implements OnDestroy {
         }
         if (this.wsSubscription) { this.wsSubscription.unsubscribe() }
         if (this.countSubscription) { this.countSubscription.unsubscribe() }
+        if (this.websocketOpenSubscription) { this.websocketOpenSubscription.unsubscribe() }
+        if (this.verificationModalSubscription) { this.verificationModalSubscription.unsubscribe() }
+
+        this.isInit = false;
       })
 
     this.websocketOpenSubscription = this.websocketService.websocketOpenSubject$
@@ -137,23 +147,14 @@ export class AppComponent implements OnDestroy {
     if (this.wsSubscription) { this.wsSubscription.unsubscribe() }
     if (this.countSubscription) { this.countSubscription.unsubscribe() }
     if (this.websocketOpenSubscription) { this.websocketOpenSubscription.unsubscribe() }
+    if (this.verificationModalSubscription) { this.verificationModalSubscription.unsubscribe() }
     this.loginSubscription.unsubscribe()
     this.logoutSubscription.unsubscribe()
-    this.verificationModalSubscription.unsubscribe()
-  }
-
-  hideVerifyAlert() {
-    localStorage.setItem('hide_verify_item', this.authService.getLoggedUser().id)
-    this.showVerifyAlert = false
-  }
-
-  changeLanguage(languageCode) {
-    this.translate.use(languageCode);
-    localStorage.setItem('lang', languageCode);
   }
 
   init() {
-    if (!this.isActiveUser()) { return }
+    if (this.isInit) { return }
+    if (!this.isActiveUser) { return }
 
     this.showVerifyAlert = !['pending', 'verified'].includes(this.authService.getLoggedUser().verificationStatus) &&
       this.authService.getLoggedUser().id !== localStorage.getItem('hide_verify_item')
@@ -209,6 +210,20 @@ export class AppComponent implements OnDestroy {
 
         this.openVerifyModal();
       })
+
+    this.websocketService.send({ type: 'notifs_count' })
+
+    this.isInit = true;
+  }
+
+  hideVerifyAlert() {
+    localStorage.setItem('hide_verify_item', this.authService.getLoggedUser().id)
+    this.showVerifyAlert = false
+  }
+
+  changeLanguage(languageCode) {
+    this.translate.use(languageCode);
+    localStorage.setItem('lang', languageCode);
   }
 
   private setTitle() {
@@ -218,10 +233,6 @@ export class AppComponent implements OnDestroy {
 
   private notSeenCount() {
     return this.notifsCount.msg + this.notifsCount.intro + this.notifsCount.notif
-  }
-
-  isActiveUser() {
-    return this.isLoggedIn() && 'active' === this.authService.getLoggedUser().status
   }
 
   isLoggedIn() {
@@ -331,5 +342,9 @@ export class AppComponent implements OnDestroy {
         this.translate.get('Error')
           .subscribe(translatedText => this.notifierService.notify('error', translatedText))
       })
+  }
+
+  get isActiveUser() {
+    return this.isLoggedIn() && 'active' === this.authService.getLoggedUser().status
   }
 }

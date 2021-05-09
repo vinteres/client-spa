@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { TranslateService } from '@ngx-translate/core'
@@ -40,7 +40,8 @@ export class SettingsPageComponent implements OnInit {
     private modalService: NgbModal,
     private authService: AuthService,
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private userService: UsersService
   ) {
     this.route.queryParams.subscribe(params => {
       this.activeTab = ['account_info', 'profile_info', 'security', 'account'].includes(params.type) ?
@@ -69,10 +70,22 @@ export class SettingsPageComponent implements OnInit {
     this.accountInfoForm = this.formBuilder.group({
       name: [this.settings.accountSettings.name, [Validators.required, Validators.min(3), Validators.max(255)]],
       email: [this.settings.accountSettings.email, [Validators.required]],
-      birthday:  [this.settings.accountSettings.birthday, [Validators.required]],
+      birthday:  [this.settings.accountSettings.birthday, [this.ageValidator(), Validators.required]],
       title: [this.settings.accountSettings.title, [Validators.required, Validators.min(1), Validators.max(70)]],
       description:  [this.settings.accountSettings.description, [Validators.required, Validators.min(1), Validators.max(255)]],
     })
+  }
+
+  private ageValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (18 > this.userService.calculateAge(control.value)) {
+        return {
+          underage: 'Underage not allowed'
+        }
+      }
+
+      return null
+    }
   }
 
   private createProfileInfoForm() {
@@ -87,12 +100,13 @@ export class SettingsPageComponent implements OnInit {
   }
 
   private createSecurityForm() {
-    const passowrdValidator = Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')
+    // const passowrdValidator = Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')
+    const passwordValidator = Validators.pattern('^.{8,}$')
 
     this.securityForm = this.formBuilder.group({
       password: ['', [Validators.required]],
-      newPassword:  ['', [Validators.required, passowrdValidator]],
-      confirmPassword:  ['', [Validators.required, passowrdValidator]],
+      newPassword:  ['', [Validators.required, passwordValidator]],
+      confirmPassword:  ['', [Validators.required, passwordValidator]],
     })
   }
 
@@ -117,6 +131,7 @@ export class SettingsPageComponent implements OnInit {
   }
 
   dateChange(e) {
+    this.birthday.markAsDirty()
     this.birthday.setValue(e)
   }
 

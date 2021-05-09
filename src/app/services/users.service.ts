@@ -72,4 +72,11 @@ export class UsersService {
   setSearchPref(settings) {
     return this.http.post(environment.api_url + 'search-preferences', settings)
   }
+
+  calculateAge(birthday: string) {
+    const ageDifMs = Date.now() - new Date(birthday).getTime()
+    const ageDate = new Date(ageDifMs)
+
+    return Math.abs(ageDate.getUTCFullYear() - 1970)
+  }
 }

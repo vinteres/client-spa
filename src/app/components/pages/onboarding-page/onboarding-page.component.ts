@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { TranslateService } from '@ngx-translate/core'
 import { NotifierService } from 'angular-notifier'
@@ -8,6 +8,7 @@ import { HobbiesService } from 'src/app/services/hobbies.service'
 import { OnboardingService } from 'src/app/services/onboarding.service'
 import { environment } from 'src/environments/environment'
 import { CHttp } from 'src/app/services/chttp.service'
+import { UsersService } from 'src/app/services/users.service'
 
 @Component({
   selector: 'onboarding-page',
@@ -60,7 +61,8 @@ export class OnboardingPageComponent implements OnInit {
     private authService: AuthService,
     private hobbiesService: HobbiesService,
     private translate: TranslateService,
-    private http: CHttp
+    private http: CHttp,
+    private userService: UsersService
   ) {
     this.onboardingService.getStep()
       .subscribe(response => {
@@ -69,7 +71,7 @@ export class OnboardingPageComponent implements OnInit {
         }
 
         this.setStep(response.step)
-        this. showQuizIntroText = true
+        this.showQuizIntroText = true
       })
   }
 
@@ -80,6 +82,8 @@ export class OnboardingPageComponent implements OnInit {
     const user = this.authService.getLoggedUser()
     user.status = 'active'
     this.authService.addUserToStorage(user)
+
+    this.onboardingService.completedSubject$.next()
 
     return this.router.navigateByUrl('/find-people')
   }
@@ -113,32 +117,32 @@ export class OnboardingPageComponent implements OnInit {
         })
     } else if (4 === step) {
       this.onboardingService.getQuiz()
-      .subscribe(({ questions, answers }) => {
-        const h = {}
-        const c = 1
-        this.questions = []
-        for (const question of questions) {
-          this.questions.push(question.id)
+        .subscribe(({ questions, answers }) => {
+          const h = {}
+          const c = 1
+          this.questions = []
+          for (const question of questions) {
+            this.questions.push(question.id)
 
-          h[question.id] = {
-            id: question.id,
-            step: question.quiz_step,
-            text: question.text,
-            answers: []
+            h[question.id] = {
+              id: question.id,
+              step: question.quiz_step,
+              text: question.text,
+              answers: []
+            }
           }
-        }
-        for (const answer of answers) {
-          h[answer.question_id].answers.push({
-            id: answer.id,
-            text: answer.text
-          })
-        }
+          for (const answer of answers) {
+            h[answer.question_id].answers.push({
+              id: answer.id,
+              text: answer.text
+            })
+          }
 
-        this.questionMap = h
-        this.createQuizForm(1)
+          this.questionMap = h
+          this.createQuizForm(1)
 
-        this.step = step
-      })
+          this.step = step
+        })
     } else if (5 === step) {
       this.initDefaultUserImage()
 
@@ -162,23 +166,35 @@ export class OnboardingPageComponent implements OnInit {
 
   private createAccountInfoForm() {
     this.accountInfoForm = this.formBuilder.group({
-      birthday:  ['', [Validators.required]],
+      birthday: ['', [this.ageValidator(), Validators.required]],
       gender: ['', [Validators.required]],
-      interested_in:  ['', [Validators.required]],
+      interested_in: ['', [Validators.required]],
       title: ['', [Validators.required, Validators.min(1), Validators.max(70)]],
-      description:  ['', [Validators.required, Validators.min(1), Validators.max(255)]],
-      city:  ['', [Validators.required]],
+      description: ['', [Validators.required, Validators.min(1), Validators.max(255)]],
+      city: ['', [Validators.required]],
     })
+  }
+
+  private ageValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (18 > this.userService.calculateAge(control.value)) {
+        return {
+          underage: 'Underage not allowed'
+        }
+      }
+
+      return null
+    }
   }
 
   private createProfileInfoForm() {
     this.profileInfoForm = this.formBuilder.group({
       height: ['', [Validators.required, Validators.min(100), Validators.max(250)]],
-      smoking:  ['', Validators.required],
-      drinking:  ['', Validators.required],
-      body:  ['', Validators.required],
-      children_status:  ['', Validators.required],
-      pet_status:  ['', Validators.required],
+      smoking: ['', Validators.required],
+      drinking: ['', Validators.required],
+      body: ['', Validators.required],
+      children_status: ['', Validators.required],
+      pet_status: ['', Validators.required],
     })
   }
 
@@ -220,6 +236,7 @@ export class OnboardingPageComponent implements OnInit {
   quest(qId) { return this.quizForm.get(qId) }
 
   dateChange(e) {
+    this.birthday.markAsDirty()
     this.birthday.setValue(e)
   }
 

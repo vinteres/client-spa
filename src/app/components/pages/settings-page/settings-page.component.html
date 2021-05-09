@@ -59,7 +59,13 @@
       <div class="form-group row">
         <label for="inputPassword" class="col-sm-2 col-form-label">{{ 'Birthday' | translate }}</label>
         <div class="col-sm-10">
-          <date-picker [date]="birthday.value" (dateChange)="dateChange($event)"></date-picker>
+          <date-picker [date]="birthday.value" (dateChange)="dateChange($event)" (changed)="birthday.markAsDirty()"></date-picker>
+          <div>
+            <small *ngIf="birthday.invalid && (birthday.dirty || birthday.touched)" class="text-danger">
+              <span *ngIf="birthday.errors.underage">{{ birthday.errors.underage | translate }}</span>
+              <span *ngIf="!birthday.errors.underage">{{ 'Required field' | translate }}</span>
+            </small>
+          </div>
         </div>
       </div>
 
@@ -232,9 +238,10 @@
             <small *ngIf="newPassword.invalid && (newPassword.dirty || newPassword.touched)" class="text-danger">
               <div class="alert alert-warning">
                 <div class="pwd-item">
-                  <fa-icon *ngIf="newPassword.value.length >= 8" [icon]="faCheck"></fa-icon> 8+ {{ 'length' | translate }}
+                  <fa-icon *ngIf="newPassword.value.length >= 8" [icon]="faCheck"></fa-icon>
+                  {{ 'Enter' | translate }} 8+ {{ 'symbols' | translate }}
                 </div>
-                <div class="pwd-item">
+                <!-- <div class="pwd-item">
                   <fa-icon *ngIf="hasUppercase(newPassword.value)" [icon]="faCheck"></fa-icon> [A-Z]
                 </div>
                 <div class="pwd-item">
@@ -245,7 +252,7 @@
                 </div>
                 <div class="pwd-item">
                   <fa-icon *ngIf="hasSpecialChar(newPassword.value)" [icon]="faCheck"></fa-icon> [#?!@$%^&*-]
-                </div>
+                </div> -->
               </div>
               <div>{{ 'Invalid password' | translate }}</div>
             </small>

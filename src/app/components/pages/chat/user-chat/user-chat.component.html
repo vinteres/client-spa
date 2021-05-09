@@ -4,7 +4,8 @@
     <div
       style="height: 52px; padding: 5px; border-bottom: 1px solid #b0b0b0; background-color: #fff; position: absolute; top: 0; width: 100%;">
       <img [src]="chat.user.profileImage" style="height: 40px; margin-right: 5px;" />
-      <a [routerLink]="['/user/' + chat.user.id]" style="color: #000; text-decoration: initial;">{{ chat.user.name }}</a>
+      <a *ngIf="'page' !== chat.user.type" [routerLink]="['/user/' + chat.user.id]" style="color: #000; text-decoration: initial;">{{ chat.user.name }}</a>
+      <span *ngIf="'page' === chat.user.type" style="color: #000; text-decoration: initial; cursor: default;">{{ chat.user.name }}</span>
     </div>
 
     <div style="height: 100%; padding-top: 52px; background-color: #f0f0f0; padding-bottom: 80px;">
@@ -15,26 +16,28 @@
           <div *ngIf="chat.hasMoreMsgs" style="text-align: center;">
             <button class="btn btn-outline-primary" (click)="loadMore()" [disabled]="loadingMore">{{ 'Show older' | translate }}</button>
           </div>
+
           <div *ngFor="let msg of chat.messages; let ix = index">
+            <div *ngIf="isFromDifferentDay(ix)" style="margin: 15px 0;">
+              <span style="font-size: 14px;">{{ getMessageDate(chat.messages[ix]) }}</span>
+              <hr style="margin: 0;">
+            </div>
+
             <div style="position: relative; margin-top: 5px;">
               <div class="message-item"
-                [ngStyle]="{'background-color': isFromLoggedUser(msg.user_id) ? 'turquoise' : 'pink', 'float': isFromLoggedUser(msg.user_id) ? 'right' : 'left'}"
-                innerHtml="{{ msg.text | escape | linkify }}"
+                   [ngStyle]="{'background-color': isFromLoggedUser(msg.user_id) ? 'turquoise' : 'pink', 'float': isFromLoggedUser(msg.user_id) ? 'right' : 'left'}"
+                   innerHtml="{{ msg.text | escape | linkify }}"
                 >
               </div>
               <div style="clear: both;"></div>
             </div>
             <div *ngIf="isNextMsgFromMe(ix)" class="posted-ago"
-              [ngStyle]="{'text-align': isFromLoggedUser(msg.user_id) ? 'right' : 'left'}">
+                 [ngStyle]="{'text-align': isFromLoggedUser(msg.user_id) ? 'right' : 'left'}"
+                 >
               {{ postedAgo(msg) | translate }} {{ messageTime(msg) }}
-            </div>
-            <div *ngIf="isNextMsgFromDifferentDay(ix)" style="margin: 15px 0;">
-              <span style="font-size: 14px;">{{ getMessageDate(chat.messages[ix + 1]) }}</span>
-              <hr style="margin: 0;">
             </div>
           </div>
         </div>
-
       </div>
     </div>
 

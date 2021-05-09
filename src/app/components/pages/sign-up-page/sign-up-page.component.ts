@@ -72,7 +72,8 @@ export class SignUpPageComponent implements OnInit {
   }
 
   private createForm() {
-    const passwordValidator = Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')
+    // const passwordValidator = Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')
+    const passwordValidator = Validators.pattern('^.{8,}$')
 
     this.form = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email], [this.emailValidator.bind(this)]),
