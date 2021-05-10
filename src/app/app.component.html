@@ -82,7 +82,6 @@
 
 <ng-template #feedbackDialog let-modal>
   <div class="modal-body">
-    <span class="close" aria-label="Close" style="position: absolute; top: -30px;right: 0; color: #fff; cursor: pointer;" (click)="modal.dismiss('Cross click')">&times;</span>
     <div class="alert alert-secondary" role="alert">
       {{ 'If you have found a bug, hove some ideas to improve the app or just want to send general feedback - leave a message!' | translate }}
     </div>
@@ -100,13 +99,18 @@
       <textarea id="details" class="form-control" placeholder="{{ 'Give us more details..' | translate }}" [(ngModel)]='feedbackDetails'></textarea>
     </div>
     <button class="btn btn-outline-primary" (click)="sendFeedback(feedbackType.value)" [disabled]="!feedbackDetails || 0 === feedbackDetails.trim().length" style="width: 100%;">{{ 'Send' | translate }}</button>
+    <button type="button" class="btn btn-outline-primary" style="width: 100%; margin-top: 10px;" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      {{ 'Close' | translate }}
+    </button>
   </div>
 </ng-template>
 
 <ng-template #verifyDialog let-modal>
   <div class="modal-header">
-    <span class="close" aria-label="Close" style="position: absolute; top: -30px;right: 0; color: #fff; cursor: pointer;" (click)="modal.dismiss('Cross click')">&times;</span>
     <h4 class="modal-title">{{ 'Verification Request' | translate }}</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
   <div class="modal-body">
     <div *ngIf="!verifying">

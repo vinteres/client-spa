@@ -58,8 +58,10 @@
 
 <ng-template #reportDialog let-modal>
   <div class="modal-header">
-    <span class="close" aria-label="Close" style="position: absolute; top: -30px;right: 0; color: #fff; cursor: pointer;" (click)="modal.dismiss('Cross click')">&times;</span>
     <h4 class="modal-title">{{ 'Report' | translate }}</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
   <div class="modal-body">
     <div class="form-group">

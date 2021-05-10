@@ -1,6 +1,8 @@
 <ng-template #content let-modal>
   <div class="modal-body">
-    <span class="close" aria-label="Close" style="position: absolute; top: -30px;right: 0; color: #fff; cursor: pointer;" (click)="modal.dismiss('Cross click')">&times;</span>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
     <h3>{{ 'Search preferences' | translate }}</h3>
 
     <div>
