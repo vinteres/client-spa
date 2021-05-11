@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ViewChild } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { UsersService } from 'src/app/services/users.service'
 import {
@@ -35,6 +35,7 @@ import { TranslateService } from '@ngx-translate/core'
 import { VerificationService } from 'src/app/services/verification.service'
 import { ModalService } from 'src/app/services/modal.service'
 import { SearchPreferenceService } from 'src/app/services/search-preference.service'
+import { ProfileQuestionService } from 'src/app/services/profile-question.service'
 
 @Component({
   selector: 'user-page',
@@ -63,8 +64,25 @@ export class UserPageComponent implements OnInit {
   faLookingFor = faEye
   faLookingForRelation = faUserFriends
 
+  @ViewChild('editAnswerDialog') editAnswerDialog
+
   userId: string
   user: any = null
+
+  allProfileQuestions: {
+    [key: number]: Array<{
+      question_id: number,
+      question_text: string
+    }>
+  };
+  profileAnswers = []
+  editingQuestion: {
+    categoryId: number,
+    questionId: number,
+    answer: string
+  };
+
+  loadings = {}
 
   editingBio = false
   editingInterests = false
@@ -117,6 +135,7 @@ export class UserPageComponent implements OnInit {
     private translate: TranslateService,
     private verificationService: VerificationService,
     private appModalService: ModalService,
+    private profileQuestionService: ProfileQuestionService,
     public introsService: IntrosService,
     searchPreferenceService: SearchPreferenceService,
   ) {
@@ -158,6 +177,65 @@ export class UserPageComponent implements OnInit {
         this.loading = false
       }, error => {
         this.router.navigate(['/'])
+      })
+
+    this.profileQuestionService.getUserAnswers(this.userId)
+      .subscribe(({ answers, questions }) => {
+        this.allProfileQuestions = questions
+
+        if (this.isLoggedUser) {
+          const categories = Object.keys(questions).map(cId => +cId);
+          const answersRes = categories.map(categoryId => {
+            const answer = answers.find(answ => answ.category_id == categoryId)
+
+            if (!answer) {
+              return {
+                category_id: categoryId,
+                question_text: questions[categoryId][0].question_text,
+                noAnswer: true
+              }
+            }
+
+            return answer
+          })
+
+          this.profileAnswers = answersRes;
+        } else {
+          this.profileAnswers = answers
+        }
+      })
+  }
+
+  editAnswer(answer) {
+    this.editingQuestion = {
+      categoryId: answer.category_id,
+      questionId: answer.question_id,
+      answer: answer.answer_text || ''
+    }
+
+    this.modalService.open(this.editAnswerDialog, { backdrop: 'static', centered: true })
+  }
+
+  saveAsnwer() {
+    if (this.loadings['editAnswer'] || '' === this.editingQuestion.answer.trim()) return;
+
+    this.loadings['editAnswer'] = true
+
+    this.profileQuestionService.saveAnswer(this.editingQuestion)
+      .subscribe(() => {
+        const answer = this.profileAnswers.find(answ => answ.category_id == this.editingQuestion.categoryId)
+
+        answer.question_text = this.allProfileQuestions[answer.category_id]
+          .find(question => question.question_id == this.editingQuestion.questionId)
+          .question_text
+        answer.question_id = this.editingQuestion.questionId
+        answer.answer_text = this.editingQuestion.answer
+        answer.noAnswer = false
+
+        this.loadings['editAnswer'] = false
+        this.modalService.dismissAll()
+      }, () => {
+        this.loadings['editAnswer'] = false
       })
   }
 

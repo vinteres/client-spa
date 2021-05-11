@@ -20,7 +20,7 @@ import { WebsocketService } from './services/websocket.service'
 import { NotificationsService } from './services/notifications.service'
 import { environment } from 'src/environments/environment'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
-import { Router } from '@angular/router'
+import { NavigationStart, Router } from '@angular/router'
 import { NotifierService } from 'angular-notifier'
 import { CHttp } from './services/chttp.service'
 import { Title } from '@angular/platform-browser'
@@ -115,6 +115,15 @@ export class AppComponent implements OnDestroy {
     translate.use(this.currentLang);
 
     this.init();
+
+    this.router.events
+      .subscribe(event => {
+        if (!(event instanceof NavigationStart)) return;
+
+        if (modalService.hasOpenModals()) {
+          modalService.dismissAll();
+        }
+      })
 
     onboardingService.completedSubject$
       .subscribe(() => this.init())
@@ -235,10 +244,6 @@ export class AppComponent implements OnDestroy {
     return this.notifsCount.msg + this.notifsCount.intro + this.notifsCount.notif
   }
 
-  isLoggedIn() {
-    return this.authService.isLoggedIn()
-  }
-
   loggedUser() {
     return this.authService.getLoggedUser()
   }
@@ -345,6 +350,10 @@ export class AppComponent implements OnDestroy {
   }
 
   get isActiveUser() {
-    return this.isLoggedIn() && 'active' === this.authService.getLoggedUser().status
+    return this.isLoggedIn && 'active' === this.authService.getLoggedUser().status
+  }
+
+  get isLoggedIn() {
+    return this.authService.isLoggedIn()
   }
 }

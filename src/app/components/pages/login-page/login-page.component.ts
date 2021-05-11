@@ -43,7 +43,7 @@ export class LoginPageComponent implements OnInit {
         if ('onboarding' === resp.status) {
           this.router.navigateByUrl('/onboarding')
         } else {
-          this.router.navigateByUrl('/find-people')
+          this.router.navigateByUrl(`/user/${this.authService.getLoggedUser().id}`)
         }
       })
       .catch(resp => {
