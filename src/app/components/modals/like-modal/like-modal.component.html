@@ -1,0 +1,18 @@
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <h4 class="modal-title" id="modal-basic-title">{{ 'Like' | translate }} {{ params.userName }}</h4>
+    <div class="form-group">
+      <div style="margin-top: 15px;">
+        <textarea class="form-control" style="border: 0; min-height: 150px;"
+          placeholder="{{ 'Write optional intro message...' | translate }}" [(ngModel)]="message"></textarea>
+      </div>
+    </div>
+
+    <div style="text-align: right;">
+      <button type="button" class="btn btn-outline-dark" style="margin-right: 15px;"
+        (click)="modal.close('Close click')" [disabled]="loading">{{ 'Cancel' | translate }}</button>
+      <button type="button" class="btn btn-outline-primary" (click)="save()"
+        [disabled]="loading">{{ 'Like' | translate }}</button>
+    </div>
+  </div>
+</ng-template>

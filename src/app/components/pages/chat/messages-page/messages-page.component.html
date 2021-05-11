@@ -31,8 +31,6 @@
       -ms-transform: translateY(-50%);
       transform: translateY(-50%);">
         {{ 'No one to chat with. You don\'t have any matches yet.' | translate }}
-        <br/>
-        {{ 'To get matched with someone' | translate }} <a routerLink="/intros">{{ 'like intros' | translate }}</a> {{ 'sent to you or' | translate }} <a routerLink="/find-people">{{ 'find people' | translate }}</a> {{ 'and send intros to them.' | translate }}
       </h4>
       <fa-icon class="toggle-menu" [icon]="faMenuItem" (click)="showMenu($event)"></fa-icon>
       <router-outlet></router-outlet>

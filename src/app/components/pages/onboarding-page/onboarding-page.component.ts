@@ -373,7 +373,7 @@ export class OnboardingPageComponent implements OnInit {
     formData.append('image', files[0], files[0].name)
 
     this.uploadingImage = true
-    this.http.post(environment.api_url + `image/upload?position=${1}`, formData)
+    this.http.post(environment.api_url + `users/image/upload?position=${1}`, formData)
       .subscribe(response => {
         this.userImage = response.images[0]
 

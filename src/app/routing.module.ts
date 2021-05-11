@@ -32,7 +32,7 @@ const routes: Routes = [
     ],
     canActivate: [AuthGuard, SuspendedGuard, IsOnboardingGuard]
   },
-  { path: 'intros', component: IntroPageComponent, canActivate: [AuthGuard, SuspendedGuard, IsOnboardingGuard] },
+  { path: 'likes', component: IntroPageComponent, canActivate: [AuthGuard, SuspendedGuard, IsOnboardingGuard] },
   { path: 'user/:id', component: UserPageComponent, canActivate: [AuthGuard, SuspendedGuard, IsOnboardingGuard] },
   { path: 'settings', component: SettingsPageComponent, canActivate: [AuthGuard, SuspendedGuard, IsOnboardingGuard] },
   { path: 'notifications', component: NotificationPageComponent, canActivate: [AuthGuard, SuspendedGuard, IsOnboardingGuard] },

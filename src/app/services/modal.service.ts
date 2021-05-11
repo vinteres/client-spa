@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class ModalService {
-  actionSubject$: Subject<{ action: 'open' | 'close', modal: string }> = new Subject();
+  actionSubject$: Subject<{ action: 'open' | 'close', modal: string, params?: {} }> = new Subject();
 
   constructor() { }
 }

@@ -8,6 +8,7 @@ import { CHttp } from './chttp.service'
 })
 export class IntrosService {
   modalSubject$: Subject<'open' | 'close'> = new Subject();
+  likeSentSubject$: Subject<void> = new Subject();
 
   constructor(private http: CHttp) { }
 
@@ -18,19 +19,8 @@ export class IntrosService {
   getFromUser(page: number) {
     return this.http.get(environment.api_url + 'intros-from?page=' + page)
   }
+
   like(id: string) {
     return this.http.post(environment.api_url + `intros/${id}/like`)
-  }
-
-  sentMessage(intro, begginning) {
-    let msg = begginning || 'Sent '
-
-    if ('audio' === intro.type) {
-      msg += 'an audio'
-    } else {
-      msg += `a ${intro.type}`
-    }
-
-    return msg
   }
 }

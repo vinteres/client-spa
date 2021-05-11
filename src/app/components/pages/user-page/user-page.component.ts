@@ -100,8 +100,6 @@ export class UserPageComponent implements OnInit {
   showInterestList: boolean
 
   gallerySubject: Subject<any> = new Subject()
-  parentSubject: Subject<any> = new Subject()
-
   editHobbies: any = []
   editActivities: any = []
 
@@ -112,16 +110,13 @@ export class UserPageComponent implements OnInit {
 
   loadingImages: { [key: number]: boolean } = {}
 
-  introType: 'message' | 'audio' | 'video'
-  introData: any
-  introMsg: string
-
   // Report
   reportType: string
   reportDetails: string
   reporting: boolean
 
   searchPreferenceSubscription: Subscription;
+  likeSentSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -153,6 +148,11 @@ export class UserPageComponent implements OnInit {
       .subscribe(({ lookingFor }) => {
         this.user.looking_for_type = lookingFor;
       })
+
+    this.likeSentSubscription = this.introsService.likeSentSubject$
+      .subscribe(() => {
+        this.user.relation_status = 'intro_from_me';
+      });
   }
 
   ngOnInit(): void {
@@ -165,6 +165,7 @@ export class UserPageComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.searchPreferenceSubscription.unsubscribe();
+    this.likeSentSubscription.unsubscribe();
   }
 
   changeUser(userId) {
@@ -211,6 +212,10 @@ export class UserPageComponent implements OnInit {
       categoryId: answer.category_id,
       questionId: answer.question_id,
       answer: answer.answer_text || ''
+    }
+
+    if (!this.editingQuestion.questionId) {
+      this.editingQuestion.questionId = this.allProfileQuestions[this.editingQuestion.categoryId][0].question_id;
     }
 
     this.modalService.open(this.editAnswerDialog, { backdrop: 'static', centered: true })
@@ -342,7 +347,7 @@ export class UserPageComponent implements OnInit {
   uploadImage(position, files, image) {
     const formData: FormData = new FormData()
     formData.append('image', files[0], files[0].name)
-    this.http.post(environment.api_url + `image/upload?position=${position}`, formData)
+    this.http.post(environment.api_url + `users/image/upload?position=${position}`, formData)
       .subscribe(response => {
         this.user.images = response.images
         if (1 === position) {
@@ -357,7 +362,7 @@ export class UserPageComponent implements OnInit {
     if (this.loadingImages[position]) { return }
 
     this.loadingImages[position] = true
-    this.http.delete(environment.api_url + `image?position=${position}`)
+    this.http.delete(environment.api_url + `users/image?position=${position}`)
       .subscribe(response => {
         this.user.images = response.images
 
@@ -398,26 +403,32 @@ export class UserPageComponent implements OnInit {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'sm' })
   }
 
-  openIntroDialog(content) {
-    this.introType = 'message'
-    this.introData = null
-    this.introMsg = ''
-    this.modalService.open(content, { centered: true, size: 'lg' })
-      .result.then((result) => {
-        this.introsService.modalSubject$.next('close');
-      }, () => {
-        this.introsService.modalSubject$.next('close');
-      });
-  }
-
   openVerifyModal() {
     this.verificationService.modalSubject$.next('open')
   }
 
-  changeIntroType(type) {
-    this.introType = type
-    this.introData = null
-    this.introMsg = ''
+  openLikeModal() {
+    if ('intro_to_me' === this.user.relation_status) {
+      this.like();
+
+      return;
+    }
+
+    this.appModalService.actionSubject$.next({
+      action: 'open',
+      modal: 'like',
+      params: {
+        userId: this.user.id,
+        userName: this.user.name,
+      }
+    });
+  }
+
+  openSearchPrefModal() {
+    this.appModalService.actionSubject$.next({
+      action: 'open',
+      modal: 'edit-preferences'
+    });
   }
 
   hasUserData() {
@@ -447,55 +458,10 @@ export class UserPageComponent implements OnInit {
       })
   }
 
-  sendIntro() {
-    const formData = new FormData()
-    formData.append('introType', this.introType)
-    formData.append('userId', this.userId)
-
-    if ('message' === this.introType) {
-      formData.append('message', this.introMsg)
-    } else {
-      formData.append('media-blob', this.introData)
-    }
-
-    this.http.post(environment.api_url + 'media/upload', formData)
-      .subscribe(response => {
-        this.user.relation_status = 'intro_from_me'
-        this.modalService.dismissAll()
-        this.translate.get('Intro sent')
-          .subscribe(translatedText => this.notifierService.notify('success', translatedText))
-      }, () => {
-        this.translate.get('Error sending intro')
-          .subscribe(translatedText => this.notifierService.notify('error', translatedText))
-      })
-  }
-
-  sendSmile() {
-    this.http.post(environment.api_url + 'smile', {
-      introType: 'smile',
-      userId: this.userId
-    })
-      .subscribe(response => {
-        this.user.relation_status = 'intro_from_me'
-
-        this.translate.get('Intro sent')
-          .subscribe(translatedText => this.notifierService.notify('success', translatedText))
-      }, () => {
-        this.translate.get('Error sending intro')
-          .subscribe(translatedText => this.notifierService.notify('error', translatedText))
-      })
-  }
-
-  changeMedia(blob) {
-    this.introData = blob
-  }
-
   unmatch() {
     this.usersService.unmatch(this.userId)
       .subscribe(result => {
-        if (result && 'success' === result.status) {
-          this.user.relation_status = null
-        }
+        this.user.relation_status = null
       }, () => {
         this.translate.get('Error')
           .subscribe(translatedText => this.notifierService.notify('error', translatedText))
@@ -527,16 +493,16 @@ export class UserPageComponent implements OnInit {
     return images
   }
 
-  like(intro) {
+  like() {
+    const intro = this.user.intro;
+
     this.likingIntro = true
     this.introsService.like(intro.id)
       .subscribe(result => {
         intro.liked_at = Date.now()
 
-        if ('success' === result.status) {
-          this.translate.get('You are now matched!')
-            .subscribe(translatedText => this.notifierService.notify('success', translatedText))
-        }
+        this.translate.get('You are now matched!')
+          .subscribe(translatedText => this.notifierService.notify('success', translatedText))
 
         if (result.status) {
           this.user.intro.liked_at = true
@@ -545,13 +511,6 @@ export class UserPageComponent implements OnInit {
       }, () => {
         this.likingIntro = false
       })
-  }
-
-  openSearchPrefModal() {
-    this.appModalService.actionSubject$.next({
-      action: 'open',
-      modal: 'edit-preferences'
-    });
   }
 
   get isLoggedUser() {

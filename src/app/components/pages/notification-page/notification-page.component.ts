@@ -30,7 +30,7 @@ export class NotificationPageComponent implements OnInit {
   text(notification) {
     let text
     if ('intro_like' === notification.type) {
-      text = 'has liked your intro. You are now matched!'
+      text = 'has liked you. You are now matched!'
     } else if ('matched' === notification.type) {
       text = 'and you are now matched!'
     } else if ('view' === notification.type) {

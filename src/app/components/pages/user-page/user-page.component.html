@@ -53,21 +53,14 @@
               <div
                 *ngIf="'verified' !== loggedUser.verificationStatus && 'verified' === user.verification_status; else actionBtns"
                 class="alert alert-warning" role="alert">
-                {{ 'You must be verified to send' | translate }}
-                <br />
-                {{ 'an intros to this user.' | translate }}
+                {{ 'You must be verified to like this user.' | translate }}
               </div>
               <ng-template #actionBtns>
-                <button *ngIf="!user.relation_status" class="btn btn-outline-primary user-action-item"
-                  (click)="sendSmile()">
-                  <fa-icon class="user-action-icon smile-icon" [icon]="faSmile"></fa-icon>
-                  {{ 'Smile' | translate }}
-                </button>
-
-                <button *ngIf="!user.relation_status" class="btn btn-outline-primary user-action-item"
-                  (click)="openIntroDialog(introDialog)">
-                  <fa-icon class="user-action-icon message-icon" [icon]="faSendIntro"></fa-icon>
-                  {{ 'Send intro' | translate }}
+                <button *ngIf="!user.relation_status || 'intro_to_me' === user.relation_status" class="btn btn-outline-primary"
+                  style="margin-right: 10px;"
+                  (click)="openLikeModal()"
+                  [disabled]="likingIntro">
+                  {{ 'Like' | translate }}
                 </button>
 
                 <button *ngIf="'matched' === user.relation_status" class="btn btn-outline-primary user-action-item"
@@ -76,12 +69,8 @@
                   {{ 'Unmatch' | translate }}
                 </button>
 
-                <div *ngIf="'intro_to_me' === user.relation_status" class="intro-response">
-                  {{ 'They have sent you an intro!' | translate }}
-                </div>
-
                 <div *ngIf="'intro_from_me' === user.relation_status" class="intro-response">
-                  {{ 'You have sent an intro to them' | translate }}
+                  {{ 'You have liked them' | translate }}
                 </div>
 
                 <button *ngIf="'matched' === user.relation_status" class="btn btn-outline-primary user-action-item"
@@ -96,53 +85,6 @@
                 </button>
               </ng-template>
             </div>
-          </div>
-
-          <div *ngIf="0 && !isLoggedUser" class="user-actions-cont">
-            <div
-              *ngIf="'verified' !== loggedUser.verificationStatus && 'verified' === user.verification_status; else actionBtns"
-              class="alert alert-warning" role="alert">
-              {{ 'You must be verified to send' | translate }}
-              <br />
-              {{ 'an intros to this user.' | translate }}
-            </div>
-            <ng-template #actionBtns>
-              <button *ngIf="!user.relation_status" class="btn btn-outline-primary user-action-item"
-                (click)="sendSmile()">
-                <fa-icon class="user-action-icon smile-icon" [icon]="faSmile"></fa-icon>
-                {{ 'Smile' | translate }}
-              </button>
-
-              <button *ngIf="!user.relation_status" class="btn btn-outline-primary user-action-item"
-                (click)="openIntroDialog(introDialog)">
-                <fa-icon class="user-action-icon message-icon" [icon]="faSendIntro"></fa-icon>
-                {{ 'Send intro' | translate }}
-              </button>
-
-              <button *ngIf="'matched' === user.relation_status" class="btn btn-outline-primary user-action-item"
-                style="margin-right: 10px;" (click)="unmatch()">
-                <fa-icon class="user-action-icon unmatch-icon" [icon]="faUnmatch"></fa-icon>
-                {{ 'Unmatch' | translate }}
-              </button>
-
-              <div *ngIf="'intro_to_me' === user.relation_status" class="intro-response">
-                {{ 'They have sent you an intro!' | translate }}
-              </div>
-
-              <div *ngIf="'intro_from_me' === user.relation_status" class="intro-response">
-                {{ 'You have sent an intro to them' | translate }}
-              </div>
-
-              <button *ngIf="'matched' === user.relation_status" class="btn btn-outline-primary user-action-item"
-                [routerLink]="['/chat/user/' + userId]">
-                <fa-icon class="user-action-icon message-icon" [icon]="faSendMessage"></fa-icon>
-                {{ 'Message' | translate }}
-              </button>
-
-              <button class="btn btn-outline-dark" (click)="openReportModal(reportDialog)">
-                <fa-icon [icon]="faFlag"></fa-icon>
-              </button>
-            </ng-template>
           </div>
 
           <div *ngIf="isLoggedUser" class="image-content shadow-sm"
@@ -165,6 +107,22 @@
       <div class="container">
         <div class="row">
           <div class="col-sm">
+
+            <div *ngIf="user.intro && 'intro_to_me' === user.relation_status && 'message' !== user.intro.type" style="margin-bottom: 20px; text-align: center; width: 100%;">
+              <h5 class="intro-response">
+                {{ 'They have liked you!' | translate }}
+              </h5>
+            </div>
+            <div *ngIf="user.intro && 'intro_to_me' === user.relation_status && 'message' === user.intro.type" class="shadow-sm rounded intro-item"
+                style="background-color: #fff; padding: 10px; position: relative;  margin-bottom: 30px;">
+              <div class="arrow-right" style="position: absolute; left: -20px; top: 20px"></div>
+              <div style="font-size: 13px; margin-bottom: 5px;">
+                {{ 'They have liked you' | translate }}
+                {{ user.intro.timeAgo.key | translate:{'d': user.intro.timeAgo.d} }}
+              </div>
+              <pre>{{user.intro.message}}</pre>
+            </div>
+
             <div class="shadow-sm rounded" style="padding: 15px; background-color: #fff; margin-bottom: 30px;">
               <div style="position: relative;">
                 <h5>{{ 'About' | translate }}</h5>
@@ -249,36 +207,6 @@
                   </div>
                 </div>
 
-            </div>
-
-            <div *ngIf="user.intro && 'intro_to_me' === user.relation_status" class="shadow-sm rounded intro-item"
-              (mouseenter)="parentSubject.next({ play: 0 })" (mouseleave)="parentSubject.next({ pause: 0 })"
-              style="background-color: #fff; padding: 10px; position: relative; "
-              [ngStyle]="{ 'width': 'smile' === user.intro.type ? '250px' : '' }">
-              <div class="arrow-right" style="position: absolute; left: -20px; top: 20px"></div>
-              <div style="font-size: 13px; margin-bottom: 5px;">
-                {{ introsService.sentMessage(user.intro, 'They sent you ') | translate }}
-                {{ user.intro.timeAgo.key | translate:{'d': user.intro.timeAgo.d} }}
-              </div>
-              <pre *ngIf="'message' === user.intro.type">{{user.intro.message}}</pre>
-              <div *ngIf="'video' === user.intro.type" style="position: relative;">
-                <video-player [src]="user.intro.mediaPath" [index]="0" [parentSubject]="parentSubject"></video-player>
-              </div>
-              <div *ngIf="'audio' === user.intro.type">
-                <audio-player [src]="user.intro.mediaPath" [index]="0" [parentSubject]="parentSubject"></audio-player>
-              </div>
-              <div *ngIf="'smile' === user.intro.type">
-                <smile></smile>
-              </div>
-
-              <div style="position: absolute; top: 0; right: -50px; z-index: 1;">
-                <div *ngIf="!user.intro.liked_at" style="margin-bottom: 5px; text-align: right;">
-                  <button class="btn btn-outline-success like-btn" title="Like intro" [disabled]="likingIntro"
-                    (click)="like(user.intro)">
-                    <fa-icon [icon]="faHeart"></fa-icon>
-                  </button>
-                </div>
-              </div>
             </div>
 
           </div>
@@ -524,12 +452,6 @@
   </ng-template>
 
   <ng-template #editAnswerDialog let-modal>
-    <!-- <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">{{ 'Image upload' | translate }}</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">×</span>
-      </button>
-    </div> -->
     <div class="modal-body">
       <div class="form-group">
         <select class="form-control" id="exampleFormControlSelect1" (change)="editingQuestion.questionId = $event.target.value">
@@ -556,8 +478,6 @@
           (click)="saveAsnwer()" [disabled]="loadings['editAnswer']">{{ 'Save' | translate }}</button>
       </div>
     </div>
-    <!-- <div class="modal-footer">
-    </div> -->
   </ng-template>
 
 

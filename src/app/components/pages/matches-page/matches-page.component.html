@@ -2,12 +2,6 @@
 
 <loader *ngIf="loading"></loader>
 <div *ngIf="!loading && 0 === users.length">
-  <div class="alert alert-primary" role="alert">
-    {{ 'To get matched with someone' | translate }} <a routerLink="/intros">{{ 'like intros' | translate }}</a> {{ 'sent to you or' | translate }} <a routerLink="/find-people">{{ 'find people' | translate }}</a> {{ 'and send intros to them.' | translate }}
-    <br/>
-    {{ 'Check people with' | translate }} <a routerLink="/compatabilities">{{ 'higher compatability percentage' | translate }}</a> {{ 'to you.' | translate }}
-  </div>
-
   {{ 'No matches yet.' | translate }}
 </div>
 <user-item *ngFor="let user of users" [user]="user"></user-item>
