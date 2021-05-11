@@ -125,10 +125,16 @@
 
             <div class="shadow-sm rounded" style="padding: 15px; background-color: #fff; margin-bottom: 30px;">
               <div style="position: relative;">
-                <h5>{{ 'About' | translate }}</h5>
-                <textarea *ngIf="editingBio" class="bio"
-                  (change)="setEditBioText($event.target.value)">{{ editBioText }}</textarea>
-                <div *ngIf="!editingBio" class="bio">
+                <h5>
+                  {{ 'About' | translate }}
+                  <fa-icon *ngIf="!editingBio && isLoggedUser" class="edit-btn primary-item"
+                    (click)="editBio()" [icon]="faPen"></fa-icon>
+                  <fa-icon *ngIf="editingBio && isLoggedUser" class="edit-btn primary-item"
+                    (click)="saveBio()" [icon]="faSave"></fa-icon>
+                </h5>
+                <textarea *ngIf="editingBio" class="form-control" style="border: 0px;" placeholder="{{ 'Write something about you...' | translate }}"
+                          [(ngModel)]="editBioText">{{ editBioText }}</textarea>
+                <div *ngIf="!editingBio">
                   <span *ngIf="hasBio()">{{ user.description }}</span>
                   <span *ngIf="!hasBio()">{{ 'No bio yet.' | translate }}</span>
                 </div>

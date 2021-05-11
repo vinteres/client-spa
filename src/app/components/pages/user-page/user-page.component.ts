@@ -84,10 +84,10 @@ export class UserPageComponent implements OnInit {
 
   loadings = {}
 
-  editingBio = false
-  editingInterests = false
-  editingActivities = false
-  editingFrom = false
+  editingBio: boolean = false
+  editingInterests: boolean = false
+  editingActivities: boolean = false
+  editingFrom: boolean = false
 
   likingIntro: boolean
 
@@ -305,13 +305,24 @@ export class UserPageComponent implements OnInit {
   }
 
   editBio() {
-    this.editBioText = this.user.bio
+    this.editBioText = this.user.description
     this.editingBio = true
   }
 
   saveBio() {
-    this.user.bio = this.editBioText
-    this.editingBio = false
+    if (this.loadings['bio']) return;
+
+    this.loadings['bio'] = true;
+
+    const description = this.editBioText;
+
+    this.http.post(environment.api_url + 'users/bio', { description })
+      .subscribe(() => {
+        this.user.description = description;
+        this.editingBio = false;
+
+        this.loadings['bio'] = false;
+      });
   }
 
   editFrom() {
@@ -334,10 +345,6 @@ export class UserPageComponent implements OnInit {
       this.translate.get('Location changed')
         .subscribe(translatedText => this.notifierService.notify('success', translatedText))
     })
-  }
-
-  setEditBioText(text) {
-    this.editBioText = text
   }
 
   changeEditHobbies(e) {
