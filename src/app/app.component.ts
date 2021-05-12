@@ -281,7 +281,7 @@ export class AppComponent implements OnDestroy {
 
         this.clearCapturedImage();
 
-        this.modalService.open(this.verifyDialog, { ariaLabelledBy: 'modal-basic-title', size: 'lg' })
+        this.modalService.open(this.verifyDialog, { ariaLabelledBy: 'modal-basic-title', size: 'sm' })
           .result.then((result) => {
             this.verificationService.modalSubject$.next('close');
           }, () => {

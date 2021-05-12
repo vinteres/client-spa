@@ -304,7 +304,9 @@
               </div>
               <div *ngIf="0 < lookingFor.length" class="user-info-item">
                 <fa-icon [icon]="faLookingForRelation" class="info-icon"></fa-icon>
-                <span *ngFor="let item of lookingFor" class="info-text">{{ item.item | translate }}{{ item.s }} </span>
+                <span class="info-text">
+                  <ng-template ngFor let-item [ngForOf]="lookingFor">{{ item.item | translate }}{{ item.s }} </ng-template>
+                </span>
               </div>
             </div>
 

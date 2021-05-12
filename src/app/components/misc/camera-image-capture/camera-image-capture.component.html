@@ -1,7 +1,7 @@
 
 <div class="camera" (click)="takePicture()" style="overflow: hidden;">
-  <span style="margin-bottom: 10px" [ngStyle]="{ 'display': (streaming ? 'block' : 'none') }">{{ 'Tap on video to capture image' | translate }}</span>
-  <span style="margin-bottom: 10px" [ngStyle]="{ 'display': (!streaming ? 'block' : 'none') }">{{ 'Tap on image to retake image' | translate }}</span>
+  <!-- <span style="margin-bottom: 10px" [ngStyle]="{ 'display': (streaming ? 'block' : 'none') }">{{ 'Tap on video to capture image' | translate }}</span>
+  <span style="margin-bottom: 10px" [ngStyle]="{ 'display': (!streaming ? 'block' : 'none') }">{{ 'Tap on image to retake image' | translate }}</span> -->
   <video class="border" [ngStyle]="{ 'display': (streaming ? 'block' : 'none') }" #video>Video stream not available.</video>
 </div>
 <canvas #canvas></canvas>
@@ -16,6 +16,9 @@
   </div> -->
   <img class="photo border" [ngStyle]="{ 'display': ((!streaming && data) ? 'block' : 'none') }" (click)="start()" #photo>
 </div>
+<button *ngIf="streaming" class="btn btn-outline-primary" style="width: 100%; margin-top: 10px;" (click)="takePicture()">{{ 'Take photo' | translate }}</button>
+<button *ngIf="!streaming" class="btn btn-outline-primary" style="width: 100%; margin-top: 10px;" (click)="takePicture()">{{ 'Retake photo' | translate }}</button>
+
 <!-- <div style="margin-top: 20px;">
   <button class="btn btn-outline-primary take-btn" [ngStyle]="{ 'display': (!streaming && data ? 'block' : 'none') }" (click)="done()">
     {{ 'Send for verification' | translate }}

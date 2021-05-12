@@ -137,17 +137,17 @@
       </div>
     </div>
     <div *ngIf="verifying">
-      <div class="row">
-        <div class="col-md-6 col-sm-12">
-          <div style="margin-bottom: 15px;">
-            <div style="margin-bottom: 10px;">
-              {{ 'Please take a photo with the following gesture:' | translate }}
-            </div>
-            <img src="/assets/verify_gesture.jpg" class="border" style="width: 100%;" />
-          </div>
+      <div style="width: 100%; padding: 15px;">
+        <div style="margin-bottom: 10px;">
+          {{ 'Please take a photo with the following gesture:' | translate }}
         </div>
-        <div class="col-md-6 col-sm-12">
-          <camera-image-capture (imageCaptured)="imageCaptured($event)" (captureStarted)="clearCapturedImage()"></camera-image-capture>
+        <div style="padding: 0 20px; position: relative;">
+          <img src="/assets/verify_gesture.jpg" class="border" style="width: 100%;" [ngStyle]="{ 'position': takingPhoto ? 'absolute' : '', top: takingPhoto ? '0px' : '', width: takingPhoto ? '110px' : '100%' }" />
+          <camera-image-capture *ngIf="takingPhoto" (imageCaptured)="imageCaptured($event)" (captureStarted)="clearCapturedImage()"></camera-image-capture>
+        </div>
+        <button *ngIf="!takingPhoto" class="btn btn-outline-primary" style="width: 100%; margin-top: 10px;" (click)="takingPhoto = true">{{ 'Next' | translate }}</button>
+        <div style="margin-top: 10px;">
+          {{ 'Don\'t worry - no one else will see the photo.' | translate }}
         </div>
       </div>
       <div *ngIf="hasVerificationBLob" style="text-align: center;">

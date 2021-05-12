@@ -79,7 +79,8 @@ export class UserPageComponent implements OnInit {
   editingQuestion: {
     categoryId: number,
     questionId: number,
-    answer: string
+    answer: string,
+    oldAnswer: string
   };
 
   loadings = {}
@@ -190,7 +191,7 @@ export class UserPageComponent implements OnInit {
           const answersRes = categories.map(categoryId => {
             const answer = answers.find(answ => answ.category_id == categoryId)
 
-            if (!answer) {
+            if (!answer || 'string' !== typeof answer.answer_text || '' === answer.answer_text.trim()) {
               return {
                 category_id: categoryId,
                 question_text: questions[categoryId][0].question_text,
@@ -212,7 +213,8 @@ export class UserPageComponent implements OnInit {
     this.editingQuestion = {
       categoryId: answer.category_id,
       questionId: answer.question_id,
-      answer: answer.answer_text || ''
+      answer: answer.answer_text || '',
+      oldAnswer: answer.answer_text || ''
     }
 
     if (!this.editingQuestion.questionId) {
@@ -223,7 +225,7 @@ export class UserPageComponent implements OnInit {
   }
 
   saveAsnwer() {
-    if (this.loadings['editAnswer'] || '' === this.editingQuestion.answer.trim()) return;
+    if (this.loadings['editAnswer'] || this.editingQuestion.oldAnswer === this.editingQuestion.answer.trim()) return;
 
     this.loadings['editAnswer'] = true
 
@@ -236,7 +238,7 @@ export class UserPageComponent implements OnInit {
           .question_text
         answer.question_id = this.editingQuestion.questionId
         answer.answer_text = this.editingQuestion.answer
-        answer.noAnswer = false
+        answer.noAnswer = '' === this.editingQuestion.answer.trim()
 
         this.loadings['editAnswer'] = false
         this.modalService.dismissAll()
