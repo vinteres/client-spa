@@ -1,4 +1,4 @@
-<div class="user-item rounded shadow-sm">
+<div class="user-item rounded shadow-sm" title="{{ user?.intro?.message }}">
   <div class="image-cont rounded" [routerLink]="['/user/' + user.id]">
     <img class="rounded" [src]="user.profile_image" />
     <div class="img-text">

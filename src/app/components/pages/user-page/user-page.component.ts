@@ -175,6 +175,7 @@ export class UserPageComponent implements OnInit {
       .subscribe(user => {
         user.location = user.location || { fullName: '' }
         this.user = user
+        if (!this.user.description) this.user.description = '';
         this.loading = false
       }, error => {
         this.router.navigate(['/'])
@@ -311,6 +312,11 @@ export class UserPageComponent implements OnInit {
 
   saveBio() {
     if (this.loadings['bio']) return;
+    if (this.user.description.trim() === this.editBioText.trim()) {
+      this.editingBio = false;
+
+      return;
+    }
 
     this.loadings['bio'] = true;
 

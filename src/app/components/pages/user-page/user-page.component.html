@@ -4,9 +4,9 @@
   <div class="name-cont">
     <span class="align-middle">
       {{user.name}}, {{user.age}}
-      <verified-badge *ngIf="'verified' === user.verification_status"></verified-badge>
       <online *ngIf="user.online"></online>
-      <span *ngIf="'verified' === user.verification_status" class="verification-status-text" style="cursor: default;">
+      <verified-badge *ngIf="'verified' === user.verification_status"></verified-badge>
+      <span *ngIf="'verified' === user.verification_status" class="verification-status-text" style="cursor: default;" title="{{ 'Verified with photo' | translate }}">
         {{ 'verified' | translate }}
       </span>
       <span *ngIf="isLoggedUser && 'pending' === user.verification_status" class="verification-status-text"
