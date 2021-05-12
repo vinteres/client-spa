@@ -44,7 +44,8 @@ import { CameraImageCaptureComponent } from './components/misc/camera-image-capt
 import { LinkifyPipe } from './pipes/linkify.pipe'
 import { HTMLEscapeUnescapeModule } from 'html-escape-unescape';
 import { PreferencesModalComponent } from './components/modals/preferences-modal/preferences-modal.component';
-import { LikeModalComponent } from './components/modals/like-modal/like-modal.component'
+import { LikeModalComponent } from './components/modals/like-modal/like-modal.component';
+import { CreatedByComponent } from './components/misc/created-by/created-by.component'
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -127,6 +128,7 @@ const customNotifierOptions: NotifierOptions = {
     LinkifyPipe,
     PreferencesModalComponent,
     LikeModalComponent,
+    CreatedByComponent,
   ],
   imports: [
     BrowserModule,
