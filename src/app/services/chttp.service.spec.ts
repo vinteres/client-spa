@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing'
 
-import { ChttpService } from './chttp.service'
+import { CHttp } from './chttp.service'
 
 describe('ChttpService', () => {
-  let service: ChttpService
+  let service: CHttp
 
   beforeEach(() => {
     TestBed.configureTestingModule({})
-    service = TestBed.inject(ChttpService)
+    service = TestBed.inject(CHttp)
   })
 
   it('should be created', () => {
