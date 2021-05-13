@@ -46,7 +46,7 @@ export class AppComponent implements OnDestroy {
   faFindPeople = faUsers
   faMatch = faHeartbeat
   faViews = faBinoculars
-  faCompatability = faUserFriends
+  faCompatibility = faUserFriends
   faProfile = faUserCircle
   faFeedback = faClipboardList
   faLogout = faSignOutAlt
@@ -65,7 +65,7 @@ export class AppComponent implements OnDestroy {
   baseTitle = 'Vinteres - Match with people by personality and interests.'
   title = this.baseTitle
 
-  compatabilityCount: number
+  compatibilityCount: number
 
   notifsCount = {
     msg: 0,
@@ -201,9 +201,9 @@ export class AppComponent implements OnDestroy {
         this.setTitle()
       })
 
-    this.userService.getCompatabilityCount()
+    this.userService.getCompatibilityCount()
       .subscribe((result) => {
-        this.compatabilityCount = result.compatabilityCount
+        this.compatibilityCount = result.compatibilityCount
       })
 
     this.countSubscription = this.notificationsService.countSubject$

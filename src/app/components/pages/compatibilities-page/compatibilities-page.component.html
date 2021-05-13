@@ -1,0 +1,8 @@
+<h1>{{ 'Compatibilities' | translate }}</h1>
+<h5>{{ 'People with high compatibility percentage to me.' | translate }}</h5>
+
+<loader *ngIf="loading"></loader>
+<div *ngIf="!loading && users.length == 0">
+  {{ 'No compatibilities yet.' | translate }}
+</div>
+<user-item *ngFor="let user of users" [user]="user"></user-item>

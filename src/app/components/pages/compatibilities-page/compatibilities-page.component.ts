@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core'
 import { UsersService } from 'src/app/services/users.service'
 
 @Component({
-  selector: 'compatabilities-page',
-  templateUrl: './compatabilities-page.component.html',
-  styleUrls: ['./compatabilities-page.component.sass']
+  selector: 'compatibilities-page',
+  templateUrl: './compatibilities-page.component.html',
+  styleUrls: ['./compatibilities-page.component.sass']
 })
-export class CompatabilitiesPageComponent implements OnInit {
+export class CompatibilitiesPageComponent implements OnInit {
   users: any = []
   loading: boolean
 
   constructor(private usersService: UsersService) {
     this.loading = true
-    this.usersService.getCompatabilities()
+    this.usersService.getCompatibilities()
       .subscribe(result => {
         this.users = result
         this.loading = false

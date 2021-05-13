@@ -18,8 +18,8 @@
         {{ 'verify profile' | translate }}
       </a>
     </span>
-    <span *ngIf="user.compatability" class="badge badge-pill badge-secondary align-middle compatability-badge"
-      style="margin-left: 10px;" title="Compatability percentage to me">{{ user.compatability }}%</span>
+    <span *ngIf="user.compatibility" class="badge badge-pill badge-secondary align-middle compatibility-badge"
+      style="margin-left: 10px;" title="{{ 'Compatibility percentage to me' | translate }}">{{ user.compatibility }}%</span>
   </div>
   <div>
     {{ user.title }}

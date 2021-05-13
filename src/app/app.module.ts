@@ -31,7 +31,7 @@ import { LocationSelectComponent } from './components/misc/location-select/locat
 import { SignUpPageComponent } from './components/pages/sign-up-page/sign-up-page.component'
 import { OnboardingPageComponent } from './components/pages/onboarding-page/onboarding-page.component'
 import { ViewsPageComponent } from './components/pages/views-page/views-page.component'
-import { CompatabilitiesPageComponent } from './components/pages/compatabilities-page/compatabilities-page.component'
+import { CompatibilitiesPageComponent } from './components/pages/compatibilities-page/compatibilities-page.component'
 import { SmileComponent } from './components/misc/smile/smile.component'
 import { MatchesPageComponent } from './components/pages/matches-page/matches-page.component';
 import { AppTitleComponent } from './components/misc/app-title/app-title.component';
@@ -118,7 +118,7 @@ const customNotifierOptions: NotifierOptions = {
     SignUpPageComponent,
     OnboardingPageComponent,
     ViewsPageComponent,
-    CompatabilitiesPageComponent,
+    CompatibilitiesPageComponent,
     SmileComponent,
     AppTitleComponent,
     AppInfoComponent,

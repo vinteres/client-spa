@@ -23,7 +23,7 @@ Webapp for finding people by personality. When the user signs up he takes a quiz
 - See who viewed your profile
 - See your mathces
 - Upload photos (up to 6). The first photo is your profile picture. You can delete any of them or replace them with another. If you delete or replace the first image then the profile image is changed also. For dev the images are stored in `~/uploads` and for production usage - on AWS S3
-- See people with high compatability percentage to you
+- See people with high compatibility percentage to you
 - See how many initerests and activities you have in common with every user you see
 - Real time notifications. You receive a notification when:
     - receive an intro
