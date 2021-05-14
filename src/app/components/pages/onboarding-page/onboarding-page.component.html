@@ -11,10 +11,27 @@
   </div>
 </div>
 
+<stepper [activeStep]=step></stepper>
+
 <div *ngIf="1 == step && !showIntroText">
-  <h2 class="section-title">{{ 'Account Info' | translate }} ({{ 'Step' | translate }} {{ step + '/' + TOTAL_STEPS }})</h2>
+  <h2 class="section-title">{{ 'About me' | translate }}</h2>
   <div class="onboarding-step-cont border shadow-sm">
     <form [formGroup]="accountInfoForm">
+      <div class="form-group row">
+        <label for="inputPassword" class="col-sm-2 col-form-label">{{ 'Name' | translate }}</label>
+        <div class="col-sm-10">
+          <div class="radio">
+            <input class="form-control" type="text" name="name" formControlName="name"
+              placeholder="{{ 'e.g. Georgi Petrov' | translate }}">
+          </div>
+          <div>
+            <small *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger">
+              {{ 'Required field' | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-sm-6">
           <div class="form-group row">
@@ -71,6 +88,30 @@
       </div>
 
       <div class="form-group row">
+        <label for="inputPassword" class="col-sm-2 col-form-label">{{ 'From' | translate}}</label>
+        <div class="col-sm-10">
+          <div class="radio">
+            <location-select [location]="location" (locationChanged)="locationChanged($event)"></location-select>
+          </div>
+          <div>
+            <small *ngIf="city.invalid && (city.dirty || city.touched)" class="text-danger">
+              {{ 'Required field' | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="btn-cont">
+      <button class="btn btn-outline-primary" (click)="saveAccountInfo()" [disabled]="loading">{{ 'Save' | translate }}</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="2 == step">
+  <h2 class="section-title">{{ 'Description about you' | translate }}</h2>
+  <div class="onboarding-step-cont border shadow-sm">
+    <form [formGroup]="aboutForm">
+      <div class="form-group row">
         <label for="inputPassword" class="col-sm-2 col-form-label">{{ 'Title' | translate }}</label>
         <div class="col-sm-10">
           <div class="radio">
@@ -89,7 +130,7 @@
         <label for="inputPassword" class="col-sm-2 col-form-label">{{ 'About' | translate }}</label>
         <div class="col-sm-10">
           <div class="radio">
-            <textarea class="form-control" name="description" formControlName="description"
+            <textarea class="form-control" name="description" formControlName="description" style="min-height: 100px;"
               placeholder="{{ 'Tell something about you' | translate }}"></textarea>
           </div>
           <div>
@@ -99,33 +140,18 @@
           </div>
         </div>
       </div>
-
-      <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">{{ 'From' | translate}}</label>
-        <div class="col-sm-10">
-          <div class="radio">
-            <location-select [location]="location" (locationChanged)="locationChanged($event)"></location-select>
-          </div>
-          <div>
-            <small *ngIf="city.invalid && (city.dirty || city.touched)" class="text-danger">
-              {{ 'Required field' | translate }}
-            </small>
-          </div>
-        </div>
-      </div>
     </form>
     <div class="btn-cont">
-      <button class="btn btn-outline-primary" (click)="saveAccountInfo()" [disabled]="loading">{{ 'Save' | translate }}</button>
-      <div class="clearfix"></div>
+      <a role="button"  class="btn-skip" (click)="skipAbout()" [disabled]="loading">{{ 'Skip' | translate }}</a>
+      <button class="btn btn-outline-primary" (click)="saveAbout()" [disabled]="loading">{{ 'Save' | translate }}</button>
     </div>
   </div>
 </div>
 
-<div *ngIf="2 == step" class="ob-small">
-  <h2 class="section-title">{{ 'Profile Info' | translate }} ({{ 'Step' | translate }} {{ step + '/' + TOTAL_STEPS }})</h2>
+<div *ngIf="3 == step" class="ob-small">
+  <h2 class="section-title">{{ 'Profile Info' | translate }}</h2>
   <div class="onboarding-step-cont border shadow-sm">
     <form [formGroup]="profileInfoForm">
-
       <h3>{{ 'Appearance' | translate }}</h3>
       <div class="row">
         <div class="col-sm-6">
@@ -326,14 +352,14 @@
     </form>
 
     <div class="btn-cont">
+      <a role="button"  class="btn-skip" (click)="skipPofileInfo()" [disabled]="loading">{{ 'Skip' | translate }}</a>
       <button class="btn btn-outline-primary" (click)="saveProfileInfo()">{{ 'Save' | translate}}</button>
-      <div class="clearfix"></div>
     </div>
   </div>
 </div>
 
-<div *ngIf="3 == step">
-  <h2 class="section-title">{{ 'Interests' | translate }} ({{ 'Step' | translate }} {{ step + '/' + TOTAL_STEPS }})</h2>
+<div *ngIf="4 == step">
+  <h2 class="section-title">{{ 'Interests' | translate }}</h2>
   <div class="onboarding-step-cont rounded shadow-sm">
     <div style="margin-bottom: 25px;">
       <hobbie-picker [selectedHobbies]="selectedHobbies" [list]="allHobbies" type="hobbies"
@@ -351,14 +377,35 @@
     </div>
 
     <div class="btn-cont">
+      <a role="button"  class="btn-skip" (click)="skipInterests()" [disabled]="loading">{{ 'Skip' | translate }}</a>
       <button class="btn btn-outline-primary" (click)="saveInterests()" [disabled]="loading">{{ 'Save' | translate }}</button>
-      <div class="clearfix"></div>
     </div>
   </div>
 </div>
 
-<div *ngIf="4 == step" style="padding-top: 20px;">
-  <h2 class="section-title">{{ 'Personality Quiz' | translate }} ({{ 'Step' | translate }} {{ step + '/' + TOTAL_STEPS }})</h2>
+<div *ngIf="5 == step" style="width: 450px; max-width: 100%; padding-top: 20px; margin: auto;">
+  <h2 class="section-title">{{ 'Upload Photo' | translate }}</h2>
+  <div>
+    {{ 'Give a face to your profile. Having a photo drastically increases your chance for a match.' | translate }}
+  </div>
+
+  <div class="add-image-item" style="width: 200px; margin: auto;">
+    <img [src]="userImage.small" style="border-radius: 100%; width: 100%;" (click)="newImage.click()" />
+  </div>
+
+  <div style="text-align: center; margin-top: 20px;">
+    <a role="button"  class="btn-skip" (click)="skipUpload()" [disabled]="uploadingImage">{{ 'Skip' | translate }}</a>
+  </div>
+
+  <div style="text-align: center; margin-top: 35px;">
+    <button class="btn btn-outline-outline-primary" (click)="newImage.click()" [disabled]="uploadingImage">{{ 'Upload' | translate }}</button>
+  </div>
+
+  <input type="file" accept="image/*" (change)="uploadImage($event.target.files)" style="display: none;" #newImage>
+</div>
+
+<div *ngIf="6 == step" style="padding-top: 20px;">
+  <h2 class="section-title">{{ 'Personality Quiz' | translate }}</h2>
 
   <div *ngIf="showQuizIntroText">
     <div class="alert alert-info" role="alert">
@@ -408,28 +455,7 @@
   </div>
 </div>
 
-<div *ngIf="5 == step" style="width: 450px; max-width: 100%; padding-top: 20px; margin: auto;">
-  <h2 class="section-title">{{ 'Upload Photo' | translate }} ({{ 'Step' | translate }} {{ step + '/' + TOTAL_STEPS }})</h2>
-  <div>
-    {{ 'Give a face to your profile. Having a photo drastically increases your chance for a match.' | translate }}
-  </div>
-
-  <div class="add-image-item" style="width: 200px; margin: auto;">
-    <img [src]="userImage.small" style="border-radius: 100%; width: 100%;" (click)="newImage.click()" />
-  </div>
-
-  <div style="text-align: center; margin-top: 20px;">
-    <a role="button" style="color: #000;" (click)="skipUpload()" [disabled]="uploadingImage">{{ 'Skip' | translate }}</a>
-  </div>
-
-  <div style="text-align: center; margin-top: 35px;">
-    <button class="btn btn-outline-outline-primary" (click)="newImage.click()" [disabled]="uploadingImage">{{ 'Upload' | translate }}</button>
-  </div>
-
-  <input type="file" accept="image/*" (change)="uploadImage($event.target.files)" style="display: none;" #newImage>
-</div>
-
-<div *ngIf="6 == step" style="width: 450px; margin: auto; text-align: center;">
+<div *ngIf="7 == step" style="width: 450px; margin: auto; text-align: center;">
   <h2 class="section-title">{{ 'Congratulations!' | translate }}</h2>
   <div class="alert alert-success" role="alert">
     {{ 'You have successfully completed the onboarding!' | translate }}

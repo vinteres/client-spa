@@ -16,11 +16,9 @@ import { UsersService } from 'src/app/services/users.service'
   styleUrls: ['./onboarding-page.component.sass']
 })
 export class OnboardingPageComponent implements OnInit {
-
-  readonly TOTAL_STEPS: number = 5
-
   loading: boolean
   accountInfoForm = new FormGroup({})
+  aboutForm = new FormGroup({})
   profileInfoForm = new FormGroup({})
   interestsForm = new FormGroup({})
   quizForm = new FormGroup({})
@@ -39,7 +37,7 @@ export class OnboardingPageComponent implements OnInit {
 
   location: any = { name: '', fullName: 'Your current city' }
 
-  showIntroText: boolean = true
+  showIntroText: boolean = false
   showQuizIntroText: boolean = true
   step: number
   quizStep: number = 1
@@ -93,9 +91,12 @@ export class OnboardingPageComponent implements OnInit {
       this.createAccountInfoForm()
       this.step = step
     } else if (2 === step) {
-      this.createProfileInfoForm()
+      this.createAboutForm()
       this.step = step
     } else if (3 === step) {
+      this.createProfileInfoForm()
+      this.step = step
+    } else if (4 === step) {
       const setupInterests = () => {
         if (!this.allHobbies || !this.allActivities) { return }
 
@@ -115,7 +116,11 @@ export class OnboardingPageComponent implements OnInit {
 
           setupInterests()
         })
-    } else if (4 === step) {
+    } else if (5 === step) {
+      this.initDefaultUserImage()
+
+      this.step = step
+    } else if (6 === step) {
       this.onboardingService.getQuiz()
         .subscribe(({ questions, answers }) => {
           const h = {}
@@ -143,11 +148,7 @@ export class OnboardingPageComponent implements OnInit {
 
           this.step = step
         })
-    } else if (5 === step) {
-      this.initDefaultUserImage()
-
-      this.step = step
-    } else if (6 === step) {
+    } else if (7 === step) {
       this.step = step
     }
   }
@@ -168,10 +169,16 @@ export class OnboardingPageComponent implements OnInit {
     this.accountInfoForm = this.formBuilder.group({
       birthday: ['', [this.ageValidator(), Validators.required]],
       gender: ['', [Validators.required]],
+      name: ['', [Validators.required]],
       interested_in: ['', [Validators.required]],
-      title: ['', [Validators.required, Validators.min(1), Validators.max(70)]],
-      description: ['', [Validators.required, Validators.min(1), Validators.max(255)]],
       city: ['', [Validators.required]],
+    })
+  }
+
+  private createAboutForm() {
+    this.aboutForm = this.formBuilder.group({
+      title: ['', [Validators.required, Validators.min(10), Validators.max(70)]],
+      description: ['', [Validators.required, Validators.min(10), Validators.max(255)]],
     })
   }
 
@@ -220,10 +227,12 @@ export class OnboardingPageComponent implements OnInit {
 
   get birthday() { return this.accountInfoForm.get('birthday') }
   get gender() { return this.accountInfoForm.get('gender') }
+  get name() { return this.accountInfoForm.get('name') }
   get interested_in() { return this.accountInfoForm.get('interested_in') }
-  get title() { return this.accountInfoForm.get('title') }
-  get description() { return this.accountInfoForm.get('description') }
   get city() { return this.accountInfoForm.get('city') }
+
+  get title() { return this.aboutForm.get('title') }
+  get description() { return this.aboutForm.get('description') }
 
   get height() { return this.profileInfoForm.get('height') }
   get smoking() { return this.profileInfoForm.get('smoking') }
@@ -291,6 +300,38 @@ export class OnboardingPageComponent implements OnInit {
       }, (err) => this.handleError(err))
   }
 
+  saveAbout() {
+    if (this.aboutForm.invalid) {
+      this.markFormAsDirty(this.aboutForm)
+
+      return
+    }
+
+    if (this.loading) { return }
+    if (this.aboutForm.invalid && this.aboutForm.dirty) { return }
+
+    this.loading = true
+    this.onboardingService.setAbout(this.aboutForm.value)
+      .subscribe(response => {
+        this.loading = false
+        this.setStep(response.step)
+      }, (err) => this.handleError(err))
+  }
+
+  skipAbout() {
+    if (this.loading) { return }
+
+    this.loading = true
+    this.onboardingService.setAbout({
+      title: '',
+      description: ''
+    })
+      .subscribe(response => {
+        this.loading = false
+        this.setStep(response.step)
+      }, (err) => this.handleError(err))
+  }
+
   saveProfileInfo() {
     if (this.profileInfoForm.invalid) {
       this.markFormAsDirty(this.profileInfoForm)
@@ -309,6 +350,26 @@ export class OnboardingPageComponent implements OnInit {
       }, (err) => this.handleError(err))
   }
 
+  skipPofileInfo() {
+    if (this.loading) { return }
+
+    this.loading = true
+    this.onboardingService.setProfileInfo({
+      body: null,
+      children_status: null,
+      drinking: null,
+      education_status: null,
+      employment_status: null,
+      height: null,
+      pet_status: null,
+      smoking: null
+    })
+      .subscribe(response => {
+        this.loading = false
+        this.setStep(response.step)
+      }, (err) => this.handleError(err))
+  }
+
   saveInterests() {
     if (this.interestsForm.invalid) {
       this.markFormAsDirty(this.interestsForm)
@@ -321,6 +382,19 @@ export class OnboardingPageComponent implements OnInit {
 
 
     this.onboardingService.setInterests(this.interestsForm.value)
+      .subscribe(response => {
+        this.loading = false
+        this.setStep(response.step)
+      }, (err) => this.handleError(err))
+  }
+
+  skipInterests() {
+    if (this.loading) { return }
+
+    this.onboardingService.setInterests({
+      activities: [],
+      hobbies: []
+    })
       .subscribe(response => {
         this.loading = false
         this.setStep(response.step)

@@ -45,7 +45,8 @@ import { LinkifyPipe } from './pipes/linkify.pipe'
 import { HTMLEscapeUnescapeModule } from 'html-escape-unescape';
 import { PreferencesModalComponent } from './components/modals/preferences-modal/preferences-modal.component';
 import { LikeModalComponent } from './components/modals/like-modal/like-modal.component';
-import { CreatedByComponent } from './components/misc/created-by/created-by.component'
+import { CreatedByComponent } from './components/misc/created-by/created-by.component';
+import { StepperComponent } from './components/misc/stepper/stepper.component'
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -129,6 +130,7 @@ const customNotifierOptions: NotifierOptions = {
     PreferencesModalComponent,
     LikeModalComponent,
     CreatedByComponent,
+    StepperComponent,
   ],
   imports: [
     BrowserModule,

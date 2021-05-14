@@ -15,6 +15,10 @@ export class OnboardingService {
     return this.http.post(environment.api_url + 'onboarding/account-info', settings)
   }
 
+  setAbout(settings) {
+    return this.http.post(environment.api_url + 'onboarding/about', settings)
+  }
+
   setProfileInfo(settings) {
     return this.http.post(environment.api_url + 'onboarding/profile-info', settings)
   }

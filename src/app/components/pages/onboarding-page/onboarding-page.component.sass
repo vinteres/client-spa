@@ -1,10 +1,17 @@
 .section-title
   padding: 10px 0 20px 0
   margin: 0
+  margin-top: 30px
 
 .onboarding-step-cont
-  padding: 25px
+  padding: 35px
   background-color: #fff
+  border-radius: 7px
+
+  &:after
+    content: ""
+    display: table
+    clear: both
 
 .ob-small
   width: 600px
@@ -24,10 +31,11 @@ progress::-webkit-progress-value
   border-radius: 10px
 
 .btn-cont
-  position: relative
+  float: right
+  margin-top: 20px
 
-  button
-    float: right
+  a, button
+    vertical-align: middle
 
 .field-row-sep
   margin-bottom: 40px
@@ -35,6 +43,16 @@ progress::-webkit-progress-value
 .info-button-cont
   margin-top: 20px
   text-align: center
+
+h2
+  text-align: center
+
+.btn-outline-dark
+  margin-right: 10px
+
+.btn-skip
+  color: #000
+  margin-right: 10px
 
 @media only screen and (max-width: 1260px)
   .section-title

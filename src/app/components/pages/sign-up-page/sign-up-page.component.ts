@@ -72,12 +72,10 @@ export class SignUpPageComponent implements OnInit {
   }
 
   private createForm() {
-    // const passwordValidator = Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')
     const passwordValidator = Validators.pattern('^.{8,}$')
 
     this.form = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email], [this.emailValidator.bind(this)]),
-      name: new FormControl('', [Validators.required, Validators.minLength(2)]),
       password: new FormControl('', [Validators.required, passwordValidator]),
       confirmPassword: new FormControl('', [Validators.required, passwordValidator])
     })
@@ -88,7 +86,6 @@ export class SignUpPageComponent implements OnInit {
   }
 
   get email() { return this.form.get('email') }
-  get name() { return this.form.get('name') }
   get password() { return this.form.get('password') }
   get confirmPassword() { return this.form.get('confirmPassword') }
 

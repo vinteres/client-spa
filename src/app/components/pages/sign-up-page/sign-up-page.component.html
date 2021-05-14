@@ -27,19 +27,6 @@
           </small>
         </div>
         <div class="form-group inp-cont">
-          <input type="text"
-                 class="form-control"
-                 name="name"
-                 placeholder="{{ 'Name' | translate }}"
-                 formControlName="name"
-                 [ngClass]="{'error-inp': ((name.dirty || name.touched) && !name.valid)}"
-                 [readonly]="loading"
-                 required>
-          <small class="text-danger" *ngIf="(name.dirty || name.touched) && !name.valid" class="text-danger">
-            {{ 'Invalid name' | translate }}
-          </small>
-        </div>
-        <div class="form-group inp-cont">
           <input type="password"
                  class="form-control auth-inp"
                  name="password"
