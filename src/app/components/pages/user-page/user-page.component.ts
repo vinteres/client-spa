@@ -21,7 +21,8 @@ import {
   faCommentDots,
   faTimesCircle,
   faEye,
-  faUserFriends
+  faUserFriends,
+  faChevronDown
 } from '@fortawesome/free-solid-svg-icons'
 import { AuthService } from 'src/app/services/auth.service'
 import { CHttp } from 'src/app/services/chttp.service'
@@ -63,6 +64,7 @@ export class UserPageComponent implements OnInit {
   faUnmatch = faTimesCircle
   faLookingFor = faEye
   faLookingForRelation = faUserFriends
+  faArrowDown = faChevronDown
 
   @ViewChild('editAnswerDialog') editAnswerDialog
 
@@ -210,6 +212,8 @@ export class UserPageComponent implements OnInit {
   }
 
   editAnswer(answer) {
+    if (!this.isLoggedUser) return;
+
     this.editingQuestion = {
       categoryId: answer.category_id,
       questionId: answer.question_id,
@@ -526,6 +530,12 @@ export class UserPageComponent implements OnInit {
       }, () => {
         this.likingIntro = false
       })
+  }
+
+  hasMoreThanOneQuestion(categoryId) {
+    return this.allProfileQuestions &&
+           this.allProfileQuestions[categoryId] &&
+           this.allProfileQuestions[categoryId].length > 1
   }
 
   get isLoggedUser() {

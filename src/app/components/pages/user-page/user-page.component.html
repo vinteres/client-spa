@@ -201,9 +201,14 @@
                 (locationChanged)="locationChanged($event)"></location-select>
             </div>
 
-            <div  *ngFor="let answer of profileAnswers" class="shadow-sm rounded" style="padding: 15px; background-color: #fff; margin-bottom: 30px; position: relative;">
-              <fa-icon *ngIf="isLoggedUser" class="edit-btn primary-item" style="position: absolute; right: 0; top: 0;" [icon]="faPen" (click)="editAnswer(answer)"></fa-icon>
-                <h5>{{ answer.question_text }}</h5>
+            <div *ngFor="let answer of profileAnswers" class="shadow-sm rounded question-cont">
+              <fa-icon *ngIf="isLoggedUser" class="edit-btn primary-item" [icon]="faPen" (click)="editAnswer(answer)"></fa-icon>
+                <h5 class="question-listing-title"
+                    [ngStyle]="{ 'padding-right': hasMoreThanOneQuestion(answer.category_id) ? '25px' : '', 'cursor' : !isLoggedUser ? 'initial' : '' }"
+                    (click)="editAnswer(answer)"
+                    >{{ answer.question_text }}
+                  <fa-icon [icon]="faArrowDown" *ngIf="hasMoreThanOneQuestion(answer.category_id)" class="icon"></fa-icon>
+                </h5>
                 <div style="margin-top: 10px;">
                   <div *ngIf="answer.noAnswer" style="color: thistle; cursor: pointer; word-wrap: break-word;" (click)="editAnswer(answer)">
                     {{ 'Write something here...' | translate }}
@@ -212,7 +217,6 @@
                     {{ answer.answer_text }}
                   </div>
                 </div>
-
             </div>
 
           </div>

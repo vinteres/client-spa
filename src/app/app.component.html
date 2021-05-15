@@ -72,8 +72,6 @@
       <a href="javascript:void(0)" (click)="openVerifyModal()" style="color: #4798b5;">
         {{ 'Verify yourself' | translate }}
       </a> {{ 'and show that it is really you!' | translate }}
-      <br>
-      {{ 'Verified profiles are prioritised in searches and listings.' | translate }}
       <fa-icon [icon]="faClose" style="font-size: 25px; position: absolute; right: 5px; top: 5px;" (click)="hideVerifyAlert()"></fa-icon>
     </div>
     <router-outlet></router-outlet>
@@ -119,7 +117,6 @@
       </div>
       <ul style="padding-left: 20px;">
         <li>{{ 'You show people that it\'s really you' | translate }}</li>
-        <li>{{ 'Your profile will be prioritised in searches and listings' | translate }}</li>
         <li>{{ 'When you\'re verified then ONLY other verified people can contact you' | translate }}</li>
       </ul>
 
