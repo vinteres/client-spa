@@ -165,8 +165,8 @@ export class AppComponent implements OnDestroy {
     if (this.isInit) { return }
     if (!this.isActiveUser) { return }
 
-    this.showVerifyAlert = !['pending', 'verified'].includes(this.authService.getLoggedUser().verificationStatus) &&
-      this.authService.getLoggedUser().id !== localStorage.getItem('hide_verify_item')
+    // this.showVerifyAlert = !['pending', 'verified'].includes(this.authService.getLoggedUser().verificationStatus) &&
+    //   this.authService.getLoggedUser().id !== localStorage.getItem('hide_verify_item')
 
     this.wsSubscription = this.websocketService.websocketMessageSubject$
       .subscribe((data) => {

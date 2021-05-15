@@ -13,10 +13,6 @@
         style="cursor: default;">
         {{ 'verification pending' | translate }}
       </span>
-      <a *ngIf="isLoggedUser && !['pending', 'verified'].includes(user.verification_status)" href="javascript:void(0)"
-        (click)="openVerifyModal()" class="verification-status-text">
-        {{ 'verify profile' | translate }}
-      </a>
     </span>
     <span *ngIf="user.compatibility" class="badge badge-pill badge-secondary align-middle compatibility-badge"
       style="margin-left: 10px;" title="{{ 'Compatibility percentage to me' | translate }}">{{ user.compatibility }}%</span>
