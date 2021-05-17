@@ -202,7 +202,7 @@
                 <h5 class="question-listing-title"
                     [ngStyle]="{ 'padding-right': hasMoreThanOneQuestion(answer.category_id) ? '25px' : '', 'cursor' : !isLoggedUser ? 'initial' : '' }"
                     (click)="editAnswer(answer)"
-                    >{{ answer.question_text }}
+                    >{{ answer.question_text | translate }}
                   <fa-icon [icon]="faArrowDown" *ngIf="hasMoreThanOneQuestion(answer.category_id)" class="icon"></fa-icon>
                 </h5>
                 <div style="margin-top: 10px;">
@@ -467,7 +467,7 @@
                   [selected]="question.question_id == editingQuestion.questionId"
                   [value]="question.question_id"
                   >
-            <h4>{{ question.question_text }}</h4>
+            <h4>{{ question.question_text | translate }}</h4>
           </option>
         </select>
         <div style="margin-top: 15px;">

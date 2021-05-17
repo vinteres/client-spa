@@ -410,8 +410,12 @@
   <div *ngIf="showQuizIntroText">
     <div class="alert alert-info" role="alert">
       {{ 'The goal of the personality quiz is to determine part of what your personality and beliefs are so that
-      we can find better matches for you.' | translate }} <br/>
+      we can find better matches for you.' | translate }}
+      <br/>
       {{ 'To find a better match try to answer honestly.' | translate }}
+      <br/>
+      <br/>
+      {{ 'No one else will be able to see your answers.' | translate }}
     </div>
     <div class="info-button-cont">
       <button class="btn btn-outline-primary" (click)="showQuizIntroText = false">{{ 'Start Quiz' | translate}}</button>
