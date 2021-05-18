@@ -57,7 +57,7 @@ export class LoginPageComponent implements OnInit {
       let errors: any = { serverError: true }
       errors = { invalidCredentials: true }
 
-      this.loginForm.form.get('password').setErrors(errors)
+      this.loginForm.form.setErrors(errors)
     }
   }
 }
