@@ -124,7 +124,6 @@ export class OnboardingPageComponent implements OnInit {
       this.onboardingService.getQuiz()
         .subscribe(({ questions, answers }) => {
           const h = {}
-          const c = 1
           this.questions = []
           for (const question of questions) {
             this.questions.push(question.id)
@@ -420,6 +419,7 @@ export class OnboardingPageComponent implements OnInit {
       return
     }
 
+    this.quizComplete = true
     this.onboardingService.setQuiz({ answers: this.questionAnswers })
       .subscribe(response => {
         this.loading = false
@@ -429,9 +429,10 @@ export class OnboardingPageComponent implements OnInit {
 
           return
         }
-
+      }, (err) => {
         this.quizComplete = true
-      }, (err) => this.handleError(err))
+        this.handleError(err)
+      })
   }
 
   skipUpload() {

@@ -426,9 +426,6 @@
     <div class="alert alert-success" role="alert">
       {{ 'You have completed the personality quiz!' | translate }}
     </div>
-    <div class="info-button-cont">
-      <button class="btn btn-success" (click)="setStep(5)">{{ 'Next' | translate }}</button>
-    </div>
   </div>
 
   <progress *ngIf="!showQuizIntroText && !quizComplete" class="border shadow-sm"
