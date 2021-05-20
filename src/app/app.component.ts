@@ -62,7 +62,7 @@ export class AppComponent implements OnDestroy {
   ]
   currentLang: string
 
-  baseTitle = 'Vinteres - Match with people by personality and interests.'
+  baseTitle = 'Vinteres - Dating by personality and interests.'
   title = this.baseTitle
 
   compatibilityCount: number
@@ -113,6 +113,8 @@ export class AppComponent implements OnDestroy {
     this.currentLang = localStorage.getItem('lang') || 'bg'
     translate.setDefaultLang('en');
     translate.use(this.currentLang);
+
+    this.translateTitle()
 
     this.init();
 
@@ -233,6 +235,15 @@ export class AppComponent implements OnDestroy {
   changeLanguage(languageCode) {
     this.translate.use(languageCode);
     localStorage.setItem('lang', languageCode);
+    this.translateTitle()
+  }
+
+  private translateTitle() {
+    this.translate.get('Dating by personality and interests.')
+      .subscribe(translatedText => {
+        this.baseTitle = `Vinteres - ${translatedText}`
+        this.setTitle()
+      })
   }
 
   private setTitle() {
