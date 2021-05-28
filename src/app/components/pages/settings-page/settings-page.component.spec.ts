@@ -1,25 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SettingsPageComponent } from './settings-page.component'
+import { SettingsPageComponent } from './settings-page.component';
 
 describe('SettingsPageComponent', () => {
-  let component: SettingsPageComponent
-  let fixture: ComponentFixture<SettingsPageComponent>
+  let component: SettingsPageComponent;
+  let fixture: ComponentFixture<SettingsPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ SettingsPageComponent ]
     })
-    .compileComponents()
-  })
+    .compileComponents();
+  });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SettingsPageComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    fixture = TestBed.createComponent(SettingsPageComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
   it('should create', () => {
-    expect(component).toBeTruthy()
-  })
-})
+    expect(component).toBeTruthy();
+  });
+});

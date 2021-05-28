@@ -1,23 +1,23 @@
-import { Component, OnInit, ViewChild } from '@angular/core'
-import { UsersService } from 'src/app/services/users.service'
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
-import { ModalService } from 'src/app/services/modal.service'
-import { Subscription } from 'rxjs'
-import { SearchPreferenceService } from 'src/app/services/search-preference.service'
-import { CHttp } from 'src/app/services/chttp.service'
-import { environment } from 'src/environments/environment'
-import { IntrosService } from 'src/app/services/intros.service'
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { UsersService } from 'src/app/services/users.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalService } from 'src/app/services/modal.service';
+import { Subscription } from 'rxjs';
+import { SearchPreferenceService } from 'src/app/services/search-preference.service';
+import { CHttp } from 'src/app/services/chttp.service';
+import { environment } from 'src/environments/environment';
+import { IntrosService } from 'src/app/services/intros.service';
 
 @Component({
   selector: 'like-modal',
   templateUrl: './like-modal.component.html',
   styleUrls: ['./like-modal.component.sass']
 })
-export class LikeModalComponent implements OnInit {
+export class LikeModalComponent implements OnInit, OnDestroy {
 
   @ViewChild('content') content;
   message: string;
-  loading: boolean = false;
+  loading = false;
   params: any;
   private modalSubscription: Subscription;
 
@@ -29,10 +29,10 @@ export class LikeModalComponent implements OnInit {
   ) {
     this.modalSubscription = appModalService.actionSubject$
       .subscribe(({ action, modal, params }) => {
-        if ('like' !== modal) return;
-        if ('open' !== action) return;
+        if ('like' !== modal) { return; }
+        if ('open' !== action) { return; }
 
-        this.params = params || {}
+        this.params = params || {};
         this.openModal();
       });
   }
@@ -45,7 +45,7 @@ export class LikeModalComponent implements OnInit {
   }
 
   openModal() {
-    this.message = ''
+    this.message = '';
 
     this.modalService.open(this.content, {
       size: 'sm',
@@ -57,15 +57,15 @@ export class LikeModalComponent implements OnInit {
   save() {
     const payload = {
       message: this.message,
-    }
+    };
 
     this.http
       .post(environment.api_url + `users/${this.params.userId}/like`, payload)
       .subscribe(() => {
-        this.modalService.dismissAll()
+        this.modalService.dismissAll();
 
         this.introService.likeSentSubject$.next();
-      })
+      });
   }
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core'
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import {
   faHome,
   faEnvelope,
@@ -14,22 +14,22 @@ import {
   faBinoculars,
   faUserFriends,
   faTimesCircle
-} from '@fortawesome/free-solid-svg-icons'
-import { AuthService } from './services/auth.service'
-import { WebsocketService } from './services/websocket.service'
-import { NotificationsService } from './services/notifications.service'
-import { environment } from 'src/environments/environment'
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
-import { NavigationStart, Router } from '@angular/router'
-import { NotifierService } from 'angular-notifier'
-import { CHttp } from './services/chttp.service'
-import { Title } from '@angular/platform-browser'
-import { ChatService } from './services/chat.service'
-import { UsersService } from './services/users.service'
-import { TranslateService } from '@ngx-translate/core'
-import { VerificationService } from './services/verification.service'
-import { OnboardingService } from './services/onboarding.service'
-import { Subscription } from 'rxjs'
+} from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from './services/auth.service';
+import { WebsocketService } from './services/websocket.service';
+import { NotificationsService } from './services/notifications.service';
+import { environment } from 'src/environments/environment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NavigationStart, Router } from '@angular/router';
+import { NotifierService } from 'angular-notifier';
+import { CHttp } from './services/chttp.service';
+import { Title } from '@angular/platform-browser';
+import { ChatService } from './services/chat.service';
+import { UsersService } from './services/users.service';
+import { TranslateService } from '@ngx-translate/core';
+import { VerificationService } from './services/verification.service';
+import { OnboardingService } from './services/onboarding.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -37,43 +37,43 @@ import { Subscription } from 'rxjs'
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent implements OnDestroy {
-  faHome = faHome
-  faEnvelope = faEnvelope
-  faBell = faBell
-  faSettings = faCogs
-  faEllipsisV = faEllipsisV
-  faIntro = faCommentDots
-  faFindPeople = faUsers
-  faMatch = faHeartbeat
-  faViews = faBinoculars
-  faCompatibility = faUserFriends
-  faProfile = faUserCircle
-  faFeedback = faClipboardList
-  faLogout = faSignOutAlt
-  faClose = faTimesCircle
+  faHome = faHome;
+  faEnvelope = faEnvelope;
+  faBell = faBell;
+  faSettings = faCogs;
+  faEllipsisV = faEllipsisV;
+  faIntro = faCommentDots;
+  faFindPeople = faUsers;
+  faMatch = faHeartbeat;
+  faViews = faBinoculars;
+  faCompatibility = faUserFriends;
+  faProfile = faUserCircle;
+  faFeedback = faClipboardList;
+  faLogout = faSignOutAlt;
+  faClose = faTimesCircle;
 
-  @ViewChild('verifyDialog') verifyDialog
+  @ViewChild('verifyDialog') verifyDialog;
 
-  private isInit: boolean = false;
+  private isInit = false;
 
   supportedLanguage = [
     { code: 'en', label: 'English' },
     { code: 'bg', label: 'Български' },
-  ]
-  currentLang: string
+  ];
+  currentLang: string;
 
-  baseTitle = 'Vinteres - Dating by personality and interests.'
-  title = this.baseTitle
+  baseTitle = 'Vinteres - Dating by personality and interests.';
+  title = this.baseTitle;
 
-  compatibilityCount: number
+  compatibilityCount: number;
 
   notifsCount = {
     msg: 0,
     notif: 0,
     intro: 0
-  }
+  };
 
-  showVerifyAlert: boolean = false
+  showVerifyAlert = false;
 
   private wsSubscription: Subscription;
   private countSubscription: Subscription;
@@ -82,9 +82,9 @@ export class AppComponent implements OnDestroy {
   private websocketOpenSubscription: Subscription;
   private verificationModalSubscription: Subscription;
 
-  private loadingVerificationStatus: boolean = false
+  private loadingVerificationStatus = false;
   private verificationImageBlob: Blob;
-  verifying: boolean = false;
+  verifying = false;
   verificationStatus: {
     profileImageId: string | null,
     verificationStatus: 'verified' | 'unverified' | 'pending' | 'unverified' | null
@@ -92,8 +92,8 @@ export class AppComponent implements OnDestroy {
   hasVerificationBLob: boolean;
 
   // Feedback
-  feedbackType: string
-  feedbackDetails: string
+  feedbackType: string;
+  feedbackDetails: string;
 
   constructor(
     private authService: AuthService,
@@ -110,28 +110,28 @@ export class AppComponent implements OnDestroy {
     private verificationService: VerificationService,
     onboardingService: OnboardingService
   ) {
-    this.currentLang = localStorage.getItem('lang') || 'bg'
+    this.currentLang = localStorage.getItem('lang') || 'bg';
     translate.setDefaultLang('en');
     translate.use(this.currentLang);
 
-    this.translateTitle()
+    this.translateTitle();
 
     this.init();
 
     this.router.events
       .subscribe(event => {
-        if (!(event instanceof NavigationStart)) return;
+        if (!(event instanceof NavigationStart)) { return; }
 
         if (modalService.hasOpenModals()) {
           modalService.dismissAll();
         }
-      })
+      });
 
     onboardingService.completedSubject$
-      .subscribe(() => this.init())
+      .subscribe(() => this.init());
 
     this.loginSubscription = authService.loggedInSubject$
-      .subscribe(() => this.init())
+      .subscribe(() => this.init());
 
     this.logoutSubscription = authService.logoutSubject$
       .subscribe(() => {
@@ -139,33 +139,33 @@ export class AppComponent implements OnDestroy {
           msg: 0,
           notif: 0,
           intro: 0
-        }
-        if (this.wsSubscription) { this.wsSubscription.unsubscribe() }
-        if (this.countSubscription) { this.countSubscription.unsubscribe() }
-        if (this.websocketOpenSubscription) { this.websocketOpenSubscription.unsubscribe() }
-        if (this.verificationModalSubscription) { this.verificationModalSubscription.unsubscribe() }
+        };
+        if (this.wsSubscription) { this.wsSubscription.unsubscribe(); }
+        if (this.countSubscription) { this.countSubscription.unsubscribe(); }
+        if (this.websocketOpenSubscription) { this.websocketOpenSubscription.unsubscribe(); }
+        if (this.verificationModalSubscription) { this.verificationModalSubscription.unsubscribe(); }
 
         this.isInit = false;
-      })
+      });
 
     this.websocketOpenSubscription = this.websocketService.websocketOpenSubject$
       .subscribe(() => {
-        this.websocketService.send({ type: 'notifs_count' })
-      })
+        this.websocketService.send({ type: 'notifs_count' });
+      });
   }
 
   ngOnDestroy() {
-    if (this.wsSubscription) { this.wsSubscription.unsubscribe() }
-    if (this.countSubscription) { this.countSubscription.unsubscribe() }
-    if (this.websocketOpenSubscription) { this.websocketOpenSubscription.unsubscribe() }
-    if (this.verificationModalSubscription) { this.verificationModalSubscription.unsubscribe() }
-    this.loginSubscription.unsubscribe()
-    this.logoutSubscription.unsubscribe()
+    if (this.wsSubscription) { this.wsSubscription.unsubscribe(); }
+    if (this.countSubscription) { this.countSubscription.unsubscribe(); }
+    if (this.websocketOpenSubscription) { this.websocketOpenSubscription.unsubscribe(); }
+    if (this.verificationModalSubscription) { this.verificationModalSubscription.unsubscribe(); }
+    this.loginSubscription.unsubscribe();
+    this.logoutSubscription.unsubscribe();
   }
 
   init() {
-    if (this.isInit) { return }
-    if (!this.isActiveUser) { return }
+    if (this.isInit) { return; }
+    if (!this.isActiveUser) { return; }
 
     // this.showVerifyAlert = !['pending', 'verified'].includes(this.authService.getLoggedUser().verificationStatus) &&
     //   this.authService.getLoggedUser().id !== localStorage.getItem('hide_verify_item')
@@ -173,105 +173,105 @@ export class AppComponent implements OnDestroy {
     this.wsSubscription = this.websocketService.websocketMessageSubject$
       .subscribe((data) => {
         if ('notif' === data.type) {
-          this.notifsCount.notif++
-          this.notificationsService.playSound()
+          this.notifsCount.notif++;
+          this.notificationsService.playSound();
         } else if (
           'msg' === data.type &&
           !this.authService.isLoggedUser(data.user_id) &&
           this.chatService.getActiveUserId() !== data.user_id
         ) {
-          this.notifsCount.msg++
-          this.notificationsService.playSound()
+          this.notifsCount.msg++;
+          this.notificationsService.playSound();
         } else if ('intro' === data.type) {
-          this.notifsCount.intro++
+          this.notifsCount.intro++;
         } else if ('notifs_count' === data.type) {
-          const notifData = { ...data }
-          let notSeenMsgs = 0
-          Object.keys(data.msg).forEach(chatId => notSeenMsgs += data.msg[chatId])
-          notifData.msg = notSeenMsgs
-          this.notifsCount = notifData
+          const notifData = { ...data };
+          let notSeenMsgs = 0;
+          Object.keys(data.msg).forEach(chatId => notSeenMsgs += data.msg[chatId]);
+          notifData.msg = notSeenMsgs;
+          this.notifsCount = notifData;
         } else if ('see_msg' === data.type) {
-          let notSeenMsgs = 0
-          Object.keys(data.msg).forEach(chatId => notSeenMsgs += data.msg[chatId])
-          this.notifsCount.msg = notSeenMsgs
+          let notSeenMsgs = 0;
+          Object.keys(data.msg).forEach(chatId => notSeenMsgs += data.msg[chatId]);
+          this.notifsCount.msg = notSeenMsgs;
         } else if ('see_intros' === data.type) {
-          this.notifsCount.intro = 0
+          this.notifsCount.intro = 0;
         } else if ('see_notifs' === data.type) {
-          this.notifsCount.notif = 0
+          this.notifsCount.notif = 0;
         }
 
-        this.setTitle()
-      })
+        this.setTitle();
+      });
 
     this.userService.getCompatibilityCount()
       .subscribe((result) => {
-        this.compatibilityCount = result.compatibilityCount
-      })
+        this.compatibilityCount = result.compatibilityCount;
+      });
 
     this.countSubscription = this.notificationsService.countSubject$
       .subscribe(({ type, count }: { type: 'msg' | 'notif' | 'intro', count: number }) => {
-        this.notifsCount[type] = count
+        this.notifsCount[type] = count;
 
-        this.setTitle()
-      })
+        this.setTitle();
+      });
 
     this.verificationModalSubscription = this.verificationService.modalSubject$
       .subscribe(command => {
-        if ('open' !== command) return;
+        if ('open' !== command) { return; }
 
         this.openVerifyModal();
-      })
+      });
 
-    this.websocketService.send({ type: 'notifs_count' })
+    this.websocketService.send({ type: 'notifs_count' });
 
     this.isInit = true;
   }
 
   hideVerifyAlert() {
-    localStorage.setItem('hide_verify_item', this.authService.getLoggedUser().id)
-    this.showVerifyAlert = false
+    localStorage.setItem('hide_verify_item', this.authService.getLoggedUser().id);
+    this.showVerifyAlert = false;
   }
 
   changeLanguage(languageCode) {
     this.translate.use(languageCode);
     localStorage.setItem('lang', languageCode);
-    this.translateTitle()
+    this.translateTitle();
   }
 
   private translateTitle() {
     this.translate.get('Dating by personality and interests.')
       .subscribe(translatedText => {
-        this.baseTitle = `Vinteres - ${translatedText}`
-        this.setTitle()
-      })
+        this.baseTitle = `Vinteres - ${translatedText}`;
+        this.setTitle();
+      });
   }
 
   private setTitle() {
-    const title = this.notSeenCount() ? `(${this.notSeenCount()}) ${this.baseTitle}` : this.baseTitle
-    this.titleService.setTitle(title)
+    const title = this.notSeenCount() ? `(${this.notSeenCount()}) ${this.baseTitle}` : this.baseTitle;
+    this.titleService.setTitle(title);
   }
 
   private notSeenCount() {
-    return this.notifsCount.msg + this.notifsCount.intro + this.notifsCount.notif
+    return this.notifsCount.msg + this.notifsCount.intro + this.notifsCount.notif;
   }
 
   loggedUser() {
-    return this.authService.getLoggedUser()
+    return this.authService.getLoggedUser();
   }
 
   openIntroDialog(content) {
-    this.modalService.open(content, { centered: true })
+    this.modalService.open(content, { centered: true });
   }
 
   logout() {
     this.authService.logout()
       .then(() => {
-        this.router.navigate(['/login'])
-      })
+        this.router.navigate(['/login']);
+      });
   }
 
   openVerifyModal() {
-    if (this.loadingVerificationStatus) return;
+    if (this.loadingVerificationStatus) { return; }
 
     this.loadingVerificationStatus = true;
     this.verificationService.getStatus()
@@ -280,7 +280,7 @@ export class AppComponent implements OnDestroy {
         this.verificationStatus = result;
         const user = this.authService.getLoggedUser();
 
-        if (user.verificationStatus != this.verificationStatus.verificationStatus) {
+        if (user.verificationStatus !== this.verificationStatus.verificationStatus) {
           user.verificationStatus = this.verificationStatus.verificationStatus;
           this.authService.addUserToStorage(user);
         }
@@ -293,18 +293,18 @@ export class AppComponent implements OnDestroy {
         this.clearCapturedImage();
 
         this.modalService.open(this.verifyDialog, { ariaLabelledBy: 'modal-basic-title', size: 'sm' })
-          .result.then((result) => {
+          .result.then(() => {
             this.verificationService.modalSubject$.next('close');
           }, () => {
             this.verificationService.modalSubject$.next('close');
           });
-      })
+      });
   }
 
   openFeedbackModal(content) {
-    this.feedbackType = ''
-    this.feedbackDetails = ''
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'sm' })
+    this.feedbackType = '';
+    this.feedbackDetails = '';
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'sm' });
   }
 
   imageCaptured(blob) {
@@ -322,8 +322,8 @@ export class AppComponent implements OnDestroy {
       return;
     }
 
-    const formData = new FormData()
-    formData.append('media-blob', this.verificationImageBlob)
+    const formData = new FormData();
+    formData.append('media-blob', this.verificationImageBlob);
 
     this.http.post(environment.api_url + 'verification/upload', formData)
       .subscribe(() => {
@@ -336,35 +336,35 @@ export class AppComponent implements OnDestroy {
         this.showVerifyAlert = false;
 
         this.translate.get('Verification request sent')
-          .subscribe(translatedText => this.notifierService.notify('success', translatedText))
+          .subscribe(translatedText => this.notifierService.notify('success', translatedText));
       }, () => {
         this.translate.get('Error')
-          .subscribe(translatedText => this.notifierService.notify('error', translatedText))
-      })
+          .subscribe(translatedText => this.notifierService.notify('error', translatedText));
+      });
   }
 
   sendFeedback(type) {
     const payload = {
       type,
       details: this.feedbackDetails
-    }
+    };
 
     this.http.post(environment.api_url + 'feedback', payload)
       .subscribe(response => {
-        this.modalService.dismissAll()
+        this.modalService.dismissAll();
         this.translate.get('Feedback sent')
-          .subscribe(translatedText => this.notifierService.notify('success', translatedText))
+          .subscribe(translatedText => this.notifierService.notify('success', translatedText));
       }, () => {
         this.translate.get('Error')
-          .subscribe(translatedText => this.notifierService.notify('error', translatedText))
-      })
+          .subscribe(translatedText => this.notifierService.notify('error', translatedText));
+      });
   }
 
   get isActiveUser() {
-    return this.isLoggedIn && 'active' === this.authService.getLoggedUser().status
+    return this.isLoggedIn && 'active' === this.authService.getLoggedUser().status;
   }
 
   get isLoggedIn() {
-    return this.authService.isLoggedIn()
+    return this.authService.isLoggedIn();
   }
 }

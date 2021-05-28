@@ -10,10 +10,10 @@ export class ProfileQuestionService {
   constructor(private http: CHttp) { }
 
   getUserAnswers(userId) {
-    return this.http.get(environment.api_url + `users/${userId}/profile-answers`)
+    return this.http.get(environment.api_url + `users/${userId}/profile-answers`);
   }
 
   saveAnswer(answer) {
-    return this.http.post(environment.api_url + `users/profile-answer`, answer)
+    return this.http.post(environment.api_url + `users/profile-answer`, answer);
   }
 }

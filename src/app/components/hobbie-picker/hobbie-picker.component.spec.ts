@@ -1,25 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HobbiePickerComponent } from './hobbie-picker.component'
+import { HobbiePickerComponent } from './hobbie-picker.component';
 
 describe('HobbiePickerComponent', () => {
-  let component: HobbiePickerComponent
-  let fixture: ComponentFixture<HobbiePickerComponent>
+  let component: HobbiePickerComponent;
+  let fixture: ComponentFixture<HobbiePickerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ HobbiePickerComponent ]
     })
-    .compileComponents()
-  })
+    .compileComponents();
+  });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HobbiePickerComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    fixture = TestBed.createComponent(HobbiePickerComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
   it('should create', () => {
-    expect(component).toBeTruthy()
-  })
-})
+    expect(component).toBeTruthy();
+  });
+});

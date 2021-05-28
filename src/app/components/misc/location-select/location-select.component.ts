@@ -1,5 +1,5 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
-import { LocationsService } from 'src/app/services/locations.service'
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { LocationsService } from 'src/app/services/locations.service';
 
 @Component({
   selector: 'location-select',
@@ -8,20 +8,20 @@ import { LocationsService } from 'src/app/services/locations.service'
 })
 export class LocationSelectComponent implements OnInit {
 
-  @Input() location: any = { name: '' }
-  @Output() locationChanged: EventEmitter<any> = new EventEmitter()
+  @Input() location: any = { name: '' };
+  @Output() locationChanged: EventEmitter<any> = new EventEmitter();
 
-  loading: boolean
-  loadingCities: boolean
-  showCountries: boolean
-  selectedCountry
+  loading: boolean;
+  loadingCities: boolean;
+  showCountries: boolean;
+  selectedCountry;
 
-  selectedInterestCategory: any
-  interestSearchTimer: any
-  matches: any
-  showHighlight: boolean
+  selectedInterestCategory: any;
+  interestSearchTimer: any;
+  matches: any;
+  showHighlight: boolean;
 
-  cities: any = []
+  cities: any = [];
 
   constructor(private locationService: LocationsService) { }
 
@@ -30,62 +30,62 @@ export class LocationSelectComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
   clickout(event) {
-    const target = event.target
-    const classesOf = (ele) => ('string' === typeof ele.className) ? ele.className.split(' ') : []
+    const target = event.target;
+    const classesOf = (ele) => ('string' === typeof ele.className) ? ele.className.split(' ') : [];
     const hasClass = (cls, classes) => {
       for (const clsI of classes) {
-        if (cls === clsI) { return true }
+        if (cls === clsI) { return true; }
       }
 
-      return false
-    }
+      return false;
+    };
     const hasClassAncestor = (ele) => {
-      const targetClass = 'locations-dropdown'
-      let targetEle = ele
+      const targetClass = 'locations-dropdown';
+      let targetEle = ele;
       while (targetEle) {
-        if (hasClass(targetClass, classesOf(targetEle))) { return true }
+        if (hasClass(targetClass, classesOf(targetEle))) { return true; }
 
-        targetEle = targetEle.parentNode
+        targetEle = targetEle.parentNode;
       }
 
-      return false
-    }
+      return false;
+    };
 
     if (!hasClassAncestor(target)) {
-      this.showHighlight = false
+      this.showHighlight = false;
     }
   }
 
   interestKeyUp(event) {
-    clearTimeout(this.interestSearchTimer)
+    clearTimeout(this.interestSearchTimer);
     this.interestSearchTimer = setTimeout(() => {
-      this.startLoading()
+      this.startLoading();
 
-      const search = event.target.value
-      this.showCountries = false
-      this.selectedCountry = null
+      const search = event.target.value;
+      this.showCountries = false;
+      this.selectedCountry = null;
 
       if (search.length) {
         this.locationService.search(search)
           .subscribe(locations => {
-            this.matches = locations
-            this.loading = false
-          })
-        this.showHighlight = true
+            this.matches = locations;
+            this.loading = false;
+          });
+        this.showHighlight = true;
       } else {
-        this.matches = []
-        this.loading = false
+        this.matches = [];
+        this.loading = false;
       }
-    }, 200)
+    }, 200);
   }
 
   interestKeyDown() {
-    clearTimeout(this.interestSearchTimer)
+    clearTimeout(this.interestSearchTimer);
   }
 
   select(location) {
-    this.locationChanged.emit(location)
-    this.matches = []
+    this.locationChanged.emit(location);
+    this.matches = [];
   }
 
   selectCity({ id, name }: { id: string, name: string}) {
@@ -93,30 +93,30 @@ export class LocationSelectComponent implements OnInit {
       id,
       name: null,
       fullName: name
-    })
-    this.matches = []
-    this.selectedCountry = null
-    this.showHighlight = true
+    });
+    this.matches = [];
+    this.selectedCountry = null;
+    this.showHighlight = true;
   }
 
   inputFocus() {
-    this.showHighlight = true
+    this.showHighlight = true;
   }
 
   showCitiesOf(country) {
-    this.showCountries = false
-    this.selectedCountry = country
-    this.loadingCities = true
+    this.showCountries = false;
+    this.selectedCountry = country;
+    this.loadingCities = true;
 
     this.locationService.getCities(country.id)
       .subscribe(cities => {
-        this.cities = cities
-        this.loadingCities = false
-      })
+        this.cities = cities;
+        this.loadingCities = false;
+      });
   }
 
   private startLoading() {
-    this.loading = true
-    this.matches = []
+    this.loading = true;
+    this.matches = [];
   }
 }

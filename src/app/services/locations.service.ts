@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core'
-import { environment } from 'src/environments/environment'
-import { CHttp } from './chttp.service'
+import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
+import { CHttp } from './chttp.service';
 
 @Injectable({
   providedIn: 'root'
@@ -41,17 +41,17 @@ export class LocationsService {
     { id: '09aa4f0c-78d8-412e-944c-262bf98a1f2a', name: 'Slovenia' },
     { id: 'b6f8d331-0a84-481e-a1b0-fc1c1543e130', name: 'Montenegro' },
     { id: 'c1ad0bc9-72a6-4e53-87ec-cd6c1ada8519', name: 'Kosovo' },
-  ]
+  ];
 
   constructor(private http: CHttp) { }
 
   search(search: string) {
-    search = search.toLowerCase()
+    search = search.toLowerCase();
 
-    return this.http.get(environment.api_url + 'locations/search?text=' + search)
+    return this.http.get(environment.api_url + 'locations/search?text=' + search);
   }
 
   getCities(countryId: string) {
-    return this.http.get(environment.api_url + 'locations/cities?countryId=' + countryId)
+    return this.http.get(environment.api_url + 'locations/cities?countryId=' + countryId);
   }
 }

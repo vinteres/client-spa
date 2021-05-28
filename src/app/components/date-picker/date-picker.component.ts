@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'date-picker',
@@ -7,11 +7,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 })
 export class DatePickerComponent implements OnInit {
 
-  @Input() date: any
-  @Output() dateChange: EventEmitter<any> = new EventEmitter()
-  @Output() changed: EventEmitter<any> = new EventEmitter()
+  @Input() date: any;
+  @Output() dateChange: EventEmitter<any> = new EventEmitter();
+  @Output() changed: EventEmitter<any> = new EventEmitter();
 
-  yearOptions: any = []
+  yearOptions: any = [];
   monthOptions: any = [
     'Jan',
     'Feb',
@@ -25,52 +25,52 @@ export class DatePickerComponent implements OnInit {
     'Oct',
     'Nov',
     'Dec',
-  ]
+  ];
 
-  selectedYear: any
-  selectedMonth: any
-  selectedDay: any
+  selectedYear: any;
+  selectedMonth: any;
+  selectedDay: any;
 
   constructor() {
-    const currentYear = new Date().getFullYear()
+    const currentYear = new Date().getFullYear();
     for (let i = 18; i <= 100; i++) {
-      this.yearOptions.push(currentYear - i)
+      this.yearOptions.push(currentYear - i);
     }
   }
 
   ngOnInit(): void {
-    const date = new Date(this.date)
-    this.selectedYear = date.getFullYear()
-    this.selectedMonth = date.getMonth()
-    this.selectedDay = date.getDate()
+    const date = new Date(this.date);
+    this.selectedYear = date.getFullYear();
+    this.selectedMonth = date.getMonth();
+    this.selectedDay = date.getDate();
   }
 
   getMonthDays() {
-    const daysInMonth: number = new Date(this.selectedYear, this.selectedMonth + 1, 0).getDate()
-    const daysOptions = []
+    const daysInMonth: number = new Date(this.selectedYear, this.selectedMonth + 1, 0).getDate();
+    const daysOptions = [];
     for (let i = 0; i < daysInMonth; i++) {
-      daysOptions.push(daysInMonth - i)
+      daysOptions.push(daysInMonth - i);
     }
 
-    return daysOptions
+    return daysOptions;
   }
 
   changeYear(event) {
-    this.selectedYear = +event.target.value
+    this.selectedYear = +event.target.value;
 
-    if (!this.changeDate()) this.changed.emit(this.value)
+    if (!this.changeDate()) { this.changed.emit(this.value); }
   }
 
   changeMonth(event) {
-    this.selectedMonth = +event.target.value
+    this.selectedMonth = +event.target.value;
 
-    if (!this.changeDate()) this.changed.emit(this.value)
+    if (!this.changeDate()) { this.changed.emit(this.value); }
   }
 
   changeDay(event) {
-    this.selectedDay = +event.target.value
+    this.selectedDay = +event.target.value;
 
-    if (!this.changeDate()) this.changed.emit(this.value)
+    if (!this.changeDate()) { this.changed.emit(this.value); }
   }
 
   changeDate() {
@@ -78,19 +78,19 @@ export class DatePickerComponent implements OnInit {
         !Number.isInteger(this.selectedMonth) ||
         !Number.isInteger(this.selectedDay)
     ) {
-      return false
+      return false;
     }
 
-    this.dateChange.emit(this.value)
+    this.dateChange.emit(this.value);
 
-    return true
+    return true;
   }
 
   get value() {
-    const month = this.selectedMonth < 10 ? `0${this.selectedMonth + 1}` : (this.selectedMonth  + 1)
-    const day = this.selectedDay < 10 ? `0${this.selectedDay}` : this.selectedDay
-    const date = `${this.selectedYear}/${month}/${day}`
+    const month = this.selectedMonth < 10 ? `0${this.selectedMonth + 1}` : (this.selectedMonth  + 1);
+    const day = this.selectedDay < 10 ? `0${this.selectedDay}` : this.selectedDay;
+    const date = `${this.selectedYear}/${month}/${day}`;
 
-    return date
+    return date;
   }
 }

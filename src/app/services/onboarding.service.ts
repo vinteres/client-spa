@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core'
-import { Subject } from 'rxjs'
-import { environment } from 'src/environments/environment'
-import { CHttp } from './chttp.service'
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { CHttp } from './chttp.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,38 +12,38 @@ export class OnboardingService {
   constructor(private http: CHttp) { }
 
   setAccountInfo(settings) {
-    return this.http.post(environment.api_url + 'onboarding/account-info', settings)
+    return this.http.post(environment.api_url + 'onboarding/account-info', settings);
   }
 
   setAbout(settings) {
-    return this.http.post(environment.api_url + 'onboarding/about', settings)
+    return this.http.post(environment.api_url + 'onboarding/about', settings);
   }
 
   setProfileInfo(settings) {
-    return this.http.post(environment.api_url + 'onboarding/profile-info', settings)
+    return this.http.post(environment.api_url + 'onboarding/profile-info', settings);
   }
 
   setInterests(settings) {
-    return this.http.post(environment.api_url + 'onboarding/interests', settings)
+    return this.http.post(environment.api_url + 'onboarding/interests', settings);
   }
 
   getStep() {
-    return this.http.get(environment.api_url + 'onboarding/step')
+    return this.http.get(environment.api_url + 'onboarding/step');
   }
 
   getQuiz() {
-    return this.http.get(environment.api_url + 'onboarding/quiz')
+    return this.http.get(environment.api_url + 'onboarding/quiz');
   }
 
   setQuiz(quiz) {
-    return this.http.post(environment.api_url + 'onboarding/quiz', quiz)
+    return this.http.post(environment.api_url + 'onboarding/quiz', quiz);
   }
 
   imagePass() {
-    return this.http.post(environment.api_url + 'onboarding/image-pass')
+    return this.http.post(environment.api_url + 'onboarding/image-pass');
   }
 
   complete() {
-    return this.http.post(environment.api_url + 'onboarding/complete')
+    return this.http.post(environment.api_url + 'onboarding/complete');
   }
 }

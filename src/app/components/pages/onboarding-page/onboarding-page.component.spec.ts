@@ -1,25 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OnboardingPageComponent } from './onboarding-page.component'
+import { OnboardingPageComponent } from './onboarding-page.component';
 
 describe('OnboardingPageComponent', () => {
-  let component: OnboardingPageComponent
-  let fixture: ComponentFixture<OnboardingPageComponent>
+  let component: OnboardingPageComponent;
+  let fixture: ComponentFixture<OnboardingPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ OnboardingPageComponent ]
     })
-    .compileComponents()
-  })
+    .compileComponents();
+  });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OnboardingPageComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
+    fixture = TestBed.createComponent(OnboardingPageComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
   it('should create', () => {
-    expect(component).toBeTruthy()
-  })
-})
+    expect(component).toBeTruthy();
+  });
+});

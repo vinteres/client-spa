@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core'
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router'
-import { Observable } from 'rxjs'
-import { AuthService } from './auth.service'
+import { Injectable } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +13,11 @@ export class IsNotOnboardingGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if ('onboarding' === this.authService.getLoggedUser().status) {
-      return true
+      return true;
     }
 
-    this.router.navigate(['/find-people'])
+    this.router.navigate(['/find-people']);
 
-    return false
+    return false;
   }
 }

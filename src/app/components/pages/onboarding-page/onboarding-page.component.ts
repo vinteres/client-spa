@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core'
-import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms'
-import { Router } from '@angular/router'
-import { TranslateService } from '@ngx-translate/core'
-import { NotifierService } from 'angular-notifier'
-import { AuthService } from 'src/app/services/auth.service'
-import { HobbiesService } from 'src/app/services/hobbies.service'
-import { OnboardingService } from 'src/app/services/onboarding.service'
-import { environment } from 'src/environments/environment'
-import { CHttp } from 'src/app/services/chttp.service'
-import { UsersService } from 'src/app/services/users.service'
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { NotifierService } from 'angular-notifier';
+import { AuthService } from 'src/app/services/auth.service';
+import { HobbiesService } from 'src/app/services/hobbies.service';
+import { OnboardingService } from 'src/app/services/onboarding.service';
+import { environment } from 'src/environments/environment';
+import { CHttp } from 'src/app/services/chttp.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'onboarding-page',
@@ -16,40 +16,40 @@ import { UsersService } from 'src/app/services/users.service'
   styleUrls: ['./onboarding-page.component.sass']
 })
 export class OnboardingPageComponent implements OnInit {
-  loading: boolean
-  accountInfoForm = new FormGroup({})
-  aboutForm = new FormGroup({})
-  profileInfoForm = new FormGroup({})
-  interestsForm = new FormGroup({})
-  quizForm = new FormGroup({})
+  loading: boolean;
+  accountInfoForm = new FormGroup({});
+  aboutForm = new FormGroup({});
+  profileInfoForm = new FormGroup({});
+  interestsForm = new FormGroup({});
+  quizForm = new FormGroup({});
 
-  quiz
+  quiz;
 
-  allHobbies: any = []
-  allActivities: any = []
+  allHobbies: any = [];
+  allActivities: any = [];
 
-  selectedHobbies: any = []
-  selectedActivities: any = []
+  selectedHobbies: any = [];
+  selectedActivities: any = [];
 
-  questions = []
-  questionMap = {}
-  questionAnswers = {}
+  questions = [];
+  questionMap = {};
+  questionAnswers = {};
 
-  location: any = { name: '', fullName: 'Your current city' }
+  location: any = { name: '', fullName: 'Your current city' };
 
-  showIntroText: boolean = false
-  showQuizIntroText: boolean = true
-  step: number
-  quizStep: number = 1
+  showIntroText = false;
+  showQuizIntroText = true;
+  step: number;
+  quizStep = 1;
 
-  quizComplete: boolean = false
-  uploadingImage: boolean = false
+  quizComplete = false;
+  uploadingImage = false;
 
   userImage: {
     position: number,
     small: string,
     big: string
-  }
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -68,100 +68,100 @@ export class OnboardingPageComponent implements OnInit {
           return this.handleComplete();
         }
 
-        this.setStep(response.step)
-        this.showQuizIntroText = true
-      })
+        this.setStep(response.step);
+        this.showQuizIntroText = true;
+      });
   }
 
   ngOnInit(): void {
   }
 
   private handleComplete() {
-    const user = this.authService.getLoggedUser()
-    user.status = 'active'
-    this.authService.addUserToStorage(user)
+    const user = this.authService.getLoggedUser();
+    user.status = 'active';
+    this.authService.addUserToStorage(user);
 
-    this.onboardingService.completedSubject$.next()
+    this.onboardingService.completedSubject$.next();
 
-    return this.router.navigateByUrl(`/user/${user.id}`)
+    return this.router.navigateByUrl(`/user/${user.id}`);
   }
 
   private setStep(step) {
     if (1 === step) {
-      this.createAccountInfoForm()
-      this.step = step
+      this.createAccountInfoForm();
+      this.step = step;
     } else if (2 === step) {
-      this.createAboutForm()
-      this.step = step
+      this.createAboutForm();
+      this.step = step;
     } else if (3 === step) {
-      this.createProfileInfoForm()
-      this.step = step
+      this.createProfileInfoForm();
+      this.step = step;
     } else if (4 === step) {
       const setupInterests = () => {
-        if (!this.allHobbies || !this.allActivities) { return }
+        if (!this.allHobbies || !this.allActivities) { return; }
 
-        this.createInterestsForm()
-        this.step = step
-      }
+        this.createInterestsForm();
+        this.step = step;
+      };
       this.hobbiesService.getAll()
         .then(hobbies => {
-          this.allHobbies = hobbies
+          this.allHobbies = hobbies;
 
-          setupInterests()
-        })
+          setupInterests();
+        });
 
       this.hobbiesService.getAllActivities()
         .then(activities => {
-          this.allActivities = activities
+          this.allActivities = activities;
 
-          setupInterests()
-        })
+          setupInterests();
+        });
     } else if (5 === step) {
-      this.initDefaultUserImage()
+      this.initDefaultUserImage();
 
-      this.step = step
+      this.step = step;
     } else if (6 === step) {
       this.onboardingService.getQuiz()
         .subscribe(({ questions, answers }) => {
-          const h = {}
-          this.questions = []
+          const h = {};
+          this.questions = [];
           for (const question of questions) {
-            this.questions.push(question.id)
+            this.questions.push(question.id);
 
             h[question.id] = {
               id: question.id,
               step: question.quiz_step,
               text: question.text,
               answers: []
-            }
+            };
           }
           for (const answer of answers) {
             h[answer.question_id].answers.push({
               id: answer.id,
               text: answer.text
-            })
+            });
           }
 
-          this.questionMap = h
-          this.createQuizForm(1)
+          this.questionMap = h;
+          this.createQuizForm(1);
 
-          this.step = step
-        })
+          this.step = step;
+        });
     } else if (7 === step) {
-      this.step = step
+      this.step = step;
     }
   }
 
   private createQuizForm(step) {
-    const formControls = {}
+    const formControls = {};
     for (const questionId of Object.keys(this.questionMap)) {
-      const question = this.questionMap[questionId]
+      const question = this.questionMap[questionId];
 
-      if (question.step !== step) { continue }
+      if (question.step !== step) { continue; }
 
-      formControls[question.id] = ['', [Validators.required]]
+      formControls[question.id] = ['', [Validators.required]];
     }
-    this.quizForm = this.formBuilder.group(formControls)
+    this.quizForm = this.formBuilder.group(formControls);
   }
 
   private createAccountInfoForm() {
@@ -171,14 +171,14 @@ export class OnboardingPageComponent implements OnInit {
       name: ['', [Validators.required]],
       interested_in: ['', [Validators.required]],
       city: ['', [Validators.required]],
-    })
+    });
   }
 
   private createAboutForm() {
     this.aboutForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.min(10), Validators.max(70)]],
       description: ['', [Validators.required, Validators.min(10), Validators.max(255)]],
-    })
+    });
   }
 
   private ageValidator(): ValidatorFn {
@@ -186,11 +186,11 @@ export class OnboardingPageComponent implements OnInit {
       if (18 > this.userService.calculateAge(control.value)) {
         return {
           underage: 'Underage not allowed'
-        }
+        };
       }
 
-      return null
-    }
+      return null;
+    };
   }
 
   private createProfileInfoForm() {
@@ -203,156 +203,156 @@ export class OnboardingPageComponent implements OnInit {
       pet_status: ['', Validators.required],
       education_status:  ['', Validators.required],
       employment_status:  ['', Validators.required],
-    })
+    });
   }
 
   private createInterestsForm() {
     this.interestsForm = this.formBuilder.group({
       hobbies: [[], [Validators.required, Validators.min(1)]],
       activities: [[], Validators.required],
-    })
+    });
   }
 
   private initDefaultUserImage() {
-    const { gender } = this.authService.getLoggedUser()
-    const imageName = `${'male' === gender ? 'man' : 'female'}.jpg`
+    const { gender } = this.authService.getLoggedUser();
+    const imageName = `${'male' === gender ? 'man' : 'female'}.jpg`;
 
     this.userImage = {
       position: 0,
       small: `/assets/${imageName}`,
       big: `/assets/${imageName}`
-    }
+    };
   }
 
-  get birthday() { return this.accountInfoForm.get('birthday') }
-  get gender() { return this.accountInfoForm.get('gender') }
-  get name() { return this.accountInfoForm.get('name') }
-  get interested_in() { return this.accountInfoForm.get('interested_in') }
-  get city() { return this.accountInfoForm.get('city') }
+  get birthday() { return this.accountInfoForm.get('birthday'); }
+  get gender() { return this.accountInfoForm.get('gender'); }
+  get name() { return this.accountInfoForm.get('name'); }
+  get interested_in() { return this.accountInfoForm.get('interested_in'); }
+  get city() { return this.accountInfoForm.get('city'); }
 
-  get title() { return this.aboutForm.get('title') }
-  get description() { return this.aboutForm.get('description') }
+  get title() { return this.aboutForm.get('title'); }
+  get description() { return this.aboutForm.get('description'); }
 
-  get height() { return this.profileInfoForm.get('height') }
-  get smoking() { return this.profileInfoForm.get('smoking') }
-  get drinking() { return this.profileInfoForm.get('drinking') }
-  get body() { return this.profileInfoForm.get('body') }
-  get children_status() { return this.profileInfoForm.get('children_status') }
-  get pet_status() { return this.profileInfoForm.get('pet_status') }
-  get education_status() { return this.profileInfoForm.get('education_status') }
-  get employment_status() { return this.profileInfoForm.get('employment_status') }
+  get height() { return this.profileInfoForm.get('height'); }
+  get smoking() { return this.profileInfoForm.get('smoking'); }
+  get drinking() { return this.profileInfoForm.get('drinking'); }
+  get body() { return this.profileInfoForm.get('body'); }
+  get children_status() { return this.profileInfoForm.get('children_status'); }
+  get pet_status() { return this.profileInfoForm.get('pet_status'); }
+  get education_status() { return this.profileInfoForm.get('education_status'); }
+  get employment_status() { return this.profileInfoForm.get('employment_status'); }
 
-  get hobbies() { return this.interestsForm.get('hobbies') }
-  get activities() { return this.interestsForm.get('activities') }
+  get hobbies() { return this.interestsForm.get('hobbies'); }
+  get activities() { return this.interestsForm.get('activities'); }
 
-  quest(qId) { return this.quizForm.get(qId) }
+  quest(qId) { return this.quizForm.get(qId); }
 
   dateChange(e) {
-    this.birthday.markAsDirty()
-    this.birthday.setValue(e)
+    this.birthday.markAsDirty();
+    this.birthday.setValue(e);
   }
 
   locationChanged(location) {
-    this.location = { name: location.fullName }
-    this.city.setValue(location.id)
+    this.location = { name: location.fullName };
+    this.city.setValue(location.id);
   }
 
   hobbiesChanged(selected) {
-    this.hobbies.setValue(selected)
+    this.hobbies.setValue(selected);
   }
 
   interestsChanged(selected) {
-    this.activities.setValue(selected)
+    this.activities.setValue(selected);
   }
 
   stepQustions(step) {
-    const r = []
+    const r = [];
     for (const k of Object.keys(this.questionMap)) {
       if (this.questionMap[k].step === step) {
-        r.push(this.questionMap[k])
+        r.push(this.questionMap[k]);
       }
     }
 
-    return r
+    return r;
   }
 
   saveAccountInfo() {
     if (this.accountInfoForm.invalid) {
-      this.markFormAsDirty(this.accountInfoForm)
+      this.markFormAsDirty(this.accountInfoForm);
 
-      return
+      return;
     }
 
-    if (this.loading) { return }
-    if (this.accountInfoForm.invalid && this.accountInfoForm.dirty) { return }
+    if (this.loading) { return; }
+    if (this.accountInfoForm.invalid && this.accountInfoForm.dirty) { return; }
 
-    this.loading = true
+    this.loading = true;
     this.onboardingService.setAccountInfo(this.accountInfoForm.value)
       .subscribe(response => {
-        this.loading = false
+        this.loading = false;
 
-        const user = this.authService.getLoggedUser()
-        user.gender = this.accountInfoForm.value.gender
-        this.authService.addUserToStorage(user)
+        const user = this.authService.getLoggedUser();
+        user.gender = this.accountInfoForm.value.gender;
+        this.authService.addUserToStorage(user);
 
-        this.setStep(response.step)
-      }, (err) => this.handleError(err))
+        this.setStep(response.step);
+      }, (err) => this.handleError(err));
   }
 
   saveAbout() {
     if (this.aboutForm.invalid) {
-      this.markFormAsDirty(this.aboutForm)
+      this.markFormAsDirty(this.aboutForm);
 
-      return
+      return;
     }
 
-    if (this.loading) { return }
-    if (this.aboutForm.invalid && this.aboutForm.dirty) { return }
+    if (this.loading) { return; }
+    if (this.aboutForm.invalid && this.aboutForm.dirty) { return; }
 
-    this.loading = true
+    this.loading = true;
     this.onboardingService.setAbout(this.aboutForm.value)
       .subscribe(response => {
-        this.loading = false
-        this.setStep(response.step)
-      }, (err) => this.handleError(err))
+        this.loading = false;
+        this.setStep(response.step);
+      }, (err) => this.handleError(err));
   }
 
   skipAbout() {
-    if (this.loading) { return }
+    if (this.loading) { return; }
 
-    this.loading = true
+    this.loading = true;
     this.onboardingService.setAbout({
       title: '',
       description: ''
     })
       .subscribe(response => {
-        this.loading = false
-        this.setStep(response.step)
-      }, (err) => this.handleError(err))
+        this.loading = false;
+        this.setStep(response.step);
+      }, (err) => this.handleError(err));
   }
 
   saveProfileInfo() {
     if (this.profileInfoForm.invalid) {
-      this.markFormAsDirty(this.profileInfoForm)
+      this.markFormAsDirty(this.profileInfoForm);
 
-      return
+      return;
     }
 
-    if (this.loading) { return }
-    if (this.profileInfoForm.invalid && this.profileInfoForm.dirty) { return }
+    if (this.loading) { return; }
+    if (this.profileInfoForm.invalid && this.profileInfoForm.dirty) { return; }
 
-    this.loading = true
+    this.loading = true;
     this.onboardingService.setProfileInfo(this.profileInfoForm.value)
       .subscribe(response => {
-        this.loading = false
-        this.setStep(response.step)
-      }, (err) => this.handleError(err))
+        this.loading = false;
+        this.setStep(response.step);
+      }, (err) => this.handleError(err));
   }
 
   skipPofileInfo() {
-    if (this.loading) { return }
+    if (this.loading) { return; }
 
-    this.loading = true
+    this.loading = true;
     this.onboardingService.setProfileInfo({
       body: null,
       children_status: null,
@@ -364,142 +364,142 @@ export class OnboardingPageComponent implements OnInit {
       smoking: null
     })
       .subscribe(response => {
-        this.loading = false
-        this.setStep(response.step)
-      }, (err) => this.handleError(err))
+        this.loading = false;
+        this.setStep(response.step);
+      }, (err) => this.handleError(err));
   }
 
   saveInterests() {
     if (this.interestsForm.invalid) {
-      this.markFormAsDirty(this.interestsForm)
+      this.markFormAsDirty(this.interestsForm);
 
-      return
+      return;
     }
 
-    if (this.loading) { return }
-    if (this.interestsForm.invalid && this.interestsForm.dirty) { return }
+    if (this.loading) { return; }
+    if (this.interestsForm.invalid && this.interestsForm.dirty) { return; }
 
 
     this.onboardingService.setInterests(this.interestsForm.value)
       .subscribe(response => {
-        this.loading = false
-        this.setStep(response.step)
-      }, (err) => this.handleError(err))
+        this.loading = false;
+        this.setStep(response.step);
+      }, (err) => this.handleError(err));
   }
 
   skipInterests() {
-    if (this.loading) { return }
+    if (this.loading) { return; }
 
     this.onboardingService.setInterests({
       activities: [],
       hobbies: []
     })
       .subscribe(response => {
-        this.loading = false
-        this.setStep(response.step)
-      }, (err) => this.handleError(err))
+        this.loading = false;
+        this.setStep(response.step);
+      }, (err) => this.handleError(err));
   }
 
   saveQuiz() {
     if (this.quizForm.invalid) {
-      this.markFormAsDirty(this.quizForm)
+      this.markFormAsDirty(this.quizForm);
 
-      return
+      return;
     }
 
     for (const qId of Object.keys(this.quizForm.value)) {
-      this.questionAnswers[qId] = this.quizForm.value[qId]
+      this.questionAnswers[qId] = this.quizForm.value[qId];
     }
 
-    this.quizStep += 1
+    this.quizStep += 1;
 
     if (Object.keys(this.questionAnswers).length < this.questions.length) {
-      this.createQuizForm(this.quizStep)
+      this.createQuizForm(this.quizStep);
 
-      return
+      return;
     }
 
-    this.quizComplete = true
+    this.quizComplete = true;
     this.onboardingService.setQuiz({ answers: this.questionAnswers })
       .subscribe(response => {
-        this.loading = false
+        this.loading = false;
 
         if (5 !== response.step) {
           this.setStep(response.step);
 
-          return
+          return;
         }
       }, (err) => {
-        this.quizComplete = true
-        this.handleError(err)
-      })
+        this.quizComplete = true;
+        this.handleError(err);
+      });
   }
 
   skipUpload() {
-    if (this.uploadingImage) return;
+    if (this.uploadingImage) { return; }
 
-    this.passImageStep()
+    this.passImageStep();
   }
 
   uploadImage(files) {
-    if (this.uploadingImage) return;
+    if (this.uploadingImage) { return; }
 
-    const formData: FormData = new FormData()
-    formData.append('image', files[0], files[0].name)
+    const formData: FormData = new FormData();
+    formData.append('image', files[0], files[0].name);
 
-    this.uploadingImage = true
+    this.uploadingImage = true;
     this.http.post(environment.api_url + `users/image/upload?position=${1}`, formData)
       .subscribe(response => {
-        this.userImage = response.images[0]
+        this.userImage = response.images[0];
 
-        this.passImageStep()
-      })
+        this.passImageStep();
+      });
   }
 
   complete() {
     this.onboardingService.complete()
       .subscribe(response => {
         if (response.completed) {
-          this.handleComplete()
+          this.handleComplete();
         }
-      })
+      });
   }
 
   private passImageStep() {
     this.onboardingService.imagePass()
       .subscribe(response => {
-        this.loading = false
-        this.setStep(response.step)
-      }, (err) => this.handleError(err))
+        this.loading = false;
+        this.setStep(response.step);
+      }, (err) => this.handleError(err));
   }
 
   private handleError({ error }) {
-    this.loading = false
+    this.loading = false;
 
     if (error.completed) {
-      this.handleComplete()
+      this.handleComplete();
     } else if (error.step) {
-      this.setStep(error.step)
+      this.setStep(error.step);
     } else {
       this.translate.get('Error saving')
-        .subscribe(translatedText => this.notifierService.notify('error', translatedText))
+        .subscribe(translatedText => this.notifierService.notify('error', translatedText));
     }
   }
 
   private markFormAsDirty(form: FormGroup) {
     Object.values(form.controls).forEach(control => {
-      control.markAsTouched()
+      control.markAsTouched();
 
-      control.markAsDirty()
-    })
+      control.markAsDirty();
+    });
   }
 
   get stepProgress() {
-    let r = 0
+    let r = 0;
     for (let i = 0; i < this.quizStep; i++) {
-      r += this.stepQustions(i).length
+      r += this.stepQustions(i).length;
     }
 
-    return r
+    return r;
   }
 }

@@ -1,16 +1,16 @@
-import { TestBed } from '@angular/core/testing'
+import { TestBed } from '@angular/core/testing';
 
-import { CHttp } from './chttp.service'
+import { CHttp } from './chttp.service';
 
 describe('ChttpService', () => {
-  let service: CHttp
+  let service: CHttp;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({})
-    service = TestBed.inject(CHttp)
-  })
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(CHttp);
+  });
 
   it('should be created', () => {
-    expect(service).toBeTruthy()
-  })
-})
+    expect(service).toBeTruthy();
+  });
+});

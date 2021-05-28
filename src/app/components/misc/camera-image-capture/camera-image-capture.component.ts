@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { VerificationService } from 'src/app/services/verification.service';
 
@@ -7,7 +7,7 @@ import { VerificationService } from 'src/app/services/verification.service';
   templateUrl: './camera-image-capture.component.html',
   styleUrls: ['./camera-image-capture.component.sass']
 })
-export class CameraImageCaptureComponent implements OnInit {
+export class CameraImageCaptureComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('video') video;
   @ViewChild('canvas') canvas;
@@ -16,11 +16,11 @@ export class CameraImageCaptureComponent implements OnInit {
   @Output() imageCaptured: EventEmitter<Blob> = new EventEmitter();
   @Output() captureStarted: EventEmitter<void> = new EventEmitter();
 
-  private width: number = 320;
-  private height: number = 0;
+  private width = 320;
+  private height = 0;
   private stream: any;
 
-  streaming: boolean = false;
+  streaming = false;
   data: any;
 
   verificationModalSubscription: Subscription;
@@ -33,17 +33,17 @@ export class CameraImageCaptureComponent implements OnInit {
   constructor(verificationService: VerificationService) {
     this.verificationModalSubscription = verificationService.modalSubject$
       .subscribe(command => {
-        if ('close' !== command) return;
+        if ('close' !== command) { return; }
 
         this.done();
-      })
+      });
   }
 
   ngOnInit(): void {
   }
 
   ngAfterViewInit() {
-    this.start()
+    this.start();
   }
 
   ngOnDestroy() {
@@ -58,9 +58,9 @@ export class CameraImageCaptureComponent implements OnInit {
     video.height = targetSize;
     photo.height = targetSize;
 
-    const d = Math.floor((video.videoWidth - video.videoHeight) / 2)
+    const d = Math.floor((video.videoWidth - video.videoHeight) / 2);
 
-    video.style.marginLeft = photo.style.marginLeft = `-${d * (targetSize / video.videoHeight)}px`
+    video.style.marginLeft = photo.style.marginLeft = `-${d * (targetSize / video.videoHeight)}px`;
   }
 
   start() {
@@ -72,20 +72,20 @@ export class CameraImageCaptureComponent implements OnInit {
       audio: false
     })
       .then((stream) => {
-        this.captureStarted.emit()
+        this.captureStarted.emit();
 
         this.stream = stream;
         video.srcObject = stream;
         video.play();
       })
       .catch((err) => {
-        console.log("An error occurred: " + err);
+        console.log('An error occurred: ' + err);
       });
 
     video.addEventListener('canplay', (ev) => {
       this.clearImage();
 
-      if (this.streaming) return;
+      if (this.streaming) { return; }
 
       this.resizeVideo();
 
@@ -128,7 +128,7 @@ export class CameraImageCaptureComponent implements OnInit {
     const photo = this.photo.nativeElement;
 
     const context = canvas.getContext('2d');
-    context.fillStyle = "#AAA";
+    context.fillStyle = '#AAA';
     context.fillRect(0, 0, 0, 0);
 
     const data = canvas.toDataURL('image/png');

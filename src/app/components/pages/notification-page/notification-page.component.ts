@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core'
-import { NotificationsService } from 'src/app/services/notifications.service'
+import { Component, OnInit } from '@angular/core';
+import { NotificationsService } from 'src/app/services/notifications.service';
 
 @Component({
   selector: 'notification-page',
@@ -8,36 +8,36 @@ import { NotificationsService } from 'src/app/services/notifications.service'
 })
 export class NotificationPageComponent implements OnInit {
 
-  notifications: any
-  loading: boolean
+  notifications: any;
+  loading: boolean;
 
   constructor(private notificationsService: NotificationsService) {
-    this.loading = true
+    this.loading = true;
     notificationsService.getAll()
       .subscribe(notifications => {
-        this.notifications = notifications
-        this.loading = false
+        this.notifications = notifications;
+        this.loading = false;
 
-        notificationsService.countSubject$.next({ type: 'notif', count: 0 })
+        notificationsService.countSubject$.next({ type: 'notif', count: 0 });
       }, () => {
-        this.loading = false
-      })
+        this.loading = false;
+      });
   }
 
   ngOnInit(): void {
   }
 
   text(notification) {
-    let text
+    let text;
     if ('intro_like' === notification.type) {
-      text = 'has liked you. You are now matched!'
+      text = 'has liked you. You are now matched!';
     } else if ('matched' === notification.type) {
-      text = 'and you are now matched!'
+      text = 'and you are now matched!';
     } else if ('view' === notification.type) {
-      text = 'has viewed your profile.'
+      text = 'has viewed your profile.';
     }
 
-    return text
+    return text;
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'user-item',
@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core'
   styleUrls: ['./user-item.component.sass']
 })
 export class UserItemComponent implements OnInit {
-  @Input() user: any
+  @Input() user: any;
 
   constructor() { }
 

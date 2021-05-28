@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core'
-import { AuthService } from 'src/app/services/auth.service'
-import { NgForm } from '@angular/forms'
-import { Router } from '@angular/router'
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'login-page',
@@ -9,13 +9,13 @@ import { Router } from '@angular/router'
   styleUrls: ['./login-page.component.sass']
 })
 export class LoginPageComponent implements OnInit {
-  @ViewChild('loginForm') public loginForm: NgForm
+  @ViewChild('loginForm') public loginForm: NgForm;
 
   public loginData: any = {
     remember: true
-  }
+  };
 
-  public loading: boolean
+  public loading: boolean;
 
   constructor(
     private authService: AuthService,
@@ -28,36 +28,36 @@ export class LoginPageComponent implements OnInit {
   public login(form) {
     if (!form.valid) {
       Object.keys(form.controls).forEach((name) => {
-        form.controls[name].markAsTouched()
-      })
+        form.controls[name].markAsTouched();
+      });
 
-      return
+      return;
     }
 
-    this.loading = true
+    this.loading = true;
     this.authService.login(this.loginData)
       .then((resp: any) => {
-        this.setErrors(resp)
+        this.setErrors(resp);
 
-        this.loading = false
+        this.loading = false;
         if ('onboarding' === resp.status) {
-          this.router.navigateByUrl('/onboarding')
+          this.router.navigateByUrl('/onboarding');
         } else {
-          this.router.navigateByUrl(`/user/${this.authService.getLoggedUser().id}`)
+          this.router.navigateByUrl(`/user/${this.authService.getLoggedUser().id}`);
         }
       })
       .catch(resp => {
-        this.setErrors(resp)
-        this.loading = false
-      })
+        this.setErrors(resp);
+        this.loading = false;
+      });
   }
 
   setErrors(resp: any) {
     if (!resp.loggedIn) {
-      let errors: any = { serverError: true }
-      errors = { invalidCredentials: true }
+      let errors: any = { serverError: true };
+      errors = { invalidCredentials: true };
 
-      this.loginForm.form.setErrors(errors)
+      this.loginForm.form.setErrors(errors);
     }
   }
 }

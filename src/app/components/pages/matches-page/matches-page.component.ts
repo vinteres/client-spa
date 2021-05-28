@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core'
-import { UsersService } from 'src/app/services/users.service'
+import { Component, OnInit } from '@angular/core';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'matches-page',
@@ -7,16 +7,16 @@ import { UsersService } from 'src/app/services/users.service'
   styleUrls: ['./matches-page.component.sass']
 })
 export class MatchesPageComponent implements OnInit {
-  users: any = []
-  loading: boolean
+  users: any = [];
+  loading: boolean;
 
   constructor(private usersService: UsersService) {
-    this.loading = true
+    this.loading = true;
     this.usersService.getMatches()
       .subscribe(result => {
-        this.users = result
-        this.loading = false
-      })
+        this.users = result;
+        this.loading = false;
+      });
   }
 
   ngOnInit(): void {
