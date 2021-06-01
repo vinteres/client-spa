@@ -159,7 +159,7 @@ export class OnboardingPageComponent implements OnInit {
 
       if (question.step !== step) { continue; }
 
-      formControls[question.id] = ['', [Validators.required]];
+      formControls[question.id] = [this.questionAnswers[question.id] || '', [Validators.required]];
     }
     this.quizForm = this.formBuilder.group(formControls);
   }
@@ -245,7 +245,9 @@ export class OnboardingPageComponent implements OnInit {
   get hobbies() { return this.interestsForm.get('hobbies'); }
   get activities() { return this.interestsForm.get('activities'); }
 
-  quest(qId) { return this.quizForm.get(qId); }
+  quest(qId) {
+    return this.quizForm.get(qId);
+  }
 
   dateChange(e) {
     this.birthday.markAsDirty();
@@ -398,6 +400,15 @@ export class OnboardingPageComponent implements OnInit {
         this.loading = false;
         this.setStep(response.step);
       }, (err) => this.handleError(err));
+  }
+
+  prevQuizStep() {
+    if (1 >= this.quizStep) {
+      return;
+    }
+
+    this.quizStep--;
+    this.createQuizForm(this.quizStep);
   }
 
   saveQuiz() {

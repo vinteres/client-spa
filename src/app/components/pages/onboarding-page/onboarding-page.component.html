@@ -452,6 +452,7 @@
       </div>
     </form>
 
+    <a *ngIf="quizStep > 1" role="button" class="btn-skip" style="margin-right: 15px;" (click)="prevQuizStep()">{{ 'Previous' | translate }}</a>
     <button class="btn btn-outline-primary" (click)="saveQuiz()">{{ 'Next' | translate }}</button>
   </div>
 </div>
