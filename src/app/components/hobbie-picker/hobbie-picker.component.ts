@@ -18,6 +18,8 @@ export class HobbiePickerComponent implements OnInit {
   showInterestHighlight: boolean;
   matches: any = [];
 
+  inpValue: string = '';
+
   ngOnInit(): void {
   }
 
@@ -49,5 +51,14 @@ export class HobbiePickerComponent implements OnInit {
     }
 
     return false;
+  }
+
+  keydownInput(e) {
+    if (e.keyCode !== 13) return;
+
+    this.selectedHobbies.push({ name: this.inpValue, custom: true });
+    this.changed.emit(this.selectedHobbies);
+
+    this.inpValue = '';
   }
 }

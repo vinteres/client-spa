@@ -11,4 +11,5 @@
     <h5>{{ 'All ' + type + ':' | translate }}</h5>
     <span *ngFor="let hobbie of list" class="hobbie-item" (click)="add(hobbie)">{{ hobbie.name | translate }}</span>
   </div>
+  <input class="form-control" style="margin-top: 10px;" (keydown)="keydownInput($event)" [(ngModel)]="inpValue" placeholder="{{ 'Add other ' + type + '...' | translate }}" />
 </div>
