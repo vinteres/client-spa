@@ -163,7 +163,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
       const userId = params.id;
 
       this.changeUser(userId);
-   });
+    });
   }
 
   ngOnDestroy(): void {
