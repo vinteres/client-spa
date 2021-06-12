@@ -1,4 +1,4 @@
-# SPA front-end for [Vinteres.io](https://app.vinteres.io/) - Find and match with people by personality and interests.
+# SPA front-end for Vinteres - Find people by personality and interests.
 
 ## Description
 
@@ -13,13 +13,13 @@ Webapp for finding people by personality. When the user signs up he takes a quiz
 - Update profile info:
     - name
     - age (Calculated from bithday)
-    - title (job, education etc), about, height, smoking & drinking status, does the user have children or pets.
+    - title (job, education etc), about, height, smoking & drinking status, does the user have children or pets etc.
     - interests & activities list
     - set current city
     - change password
     - deactivate account
-- Send intros to other people. A intro can be a message, audio or video recording, a smile. A user can send only one intro to another user.
-- Match with other people. The match happens after after you have sent an intro to someone and the other person has liked the intro.
+- Like people and send optional message on like.
+- Match with other people. The match happens after after you have liked someone that has liked you too.
 - See who viewed your profile
 - See your mathces
 - Upload photos (up to 6). The first photo is your profile picture. You can delete any of them or replace them with another. If you delete or replace the first image then the profile image is changed also. For dev the images are stored in `~/uploads` and for production usage - on AWS S3
@@ -37,13 +37,16 @@ Webapp for finding people by personality. When the user signs up he takes a quiz
 
 ## Screenshots
 
+### Login page:
+![Screenshot](images/image0.png)
+
 ### Profile page:
 ![Screenshot](images/image1.png)
 
 ### Find people page:
 ![Screenshot](images/image2.png)
 
-### Intros page (intros sent to me):
+### Likes page (intros sent to me):
 ![Screenshot](images/image3.png)
 
 ### Settings page:
