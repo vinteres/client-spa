@@ -512,7 +512,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     return images;
   }
 
-  like() {
+  private like() {
     const intro = this.user.intro;
 
     this.likingIntro = true;
@@ -523,10 +523,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
         this.translate.get('You are now matched!')
           .subscribe(translatedText => this.notifierService.notify('success', translatedText));
 
-        if (result.status) {
-          this.user.intro.liked_at = true;
-          this.user.relation_status = result.relationStatus;
-        }
+        this.user.intro.liked_at = true;
+        this.user.relation_status = result.relationStatus;
       }, () => {
         this.likingIntro = false;
       });
