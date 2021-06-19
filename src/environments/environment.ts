@@ -5,7 +5,9 @@
 export const environment = {
   production: false,
   api_url: 'http://localhost:4000/api/',
-  ws_url: 'ws://localhost:4000'
+  ws_url: 'ws://localhost:4000',
+  terms_and_usage_url: 'http://localhost:3000/terms-of-usage',
+  privacy_policy_url: 'http://localhost:3000/privacy-policy',
 };
 
 /*

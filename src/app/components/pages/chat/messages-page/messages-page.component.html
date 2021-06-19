@@ -1,9 +1,10 @@
 <div class="msg-page-cont">
   <div class="rounded shadow-sm inner-cont" (click)="menuHidden = true">
-    <div class="chat-members-cont" [ngClass]="{'menu-hidden': menuHidden}">
-      <div style="height: 100%; overflow-y: auto;">
-        <div style="padding: 12px 10px; font-weight: bold; font-size: 18px; border-bottom: 1px solid #b0b0b0;">
-          {{ 'Messages' | translate }}
+    <div class="chat-members-cont" style="overflow-y: auto;">
+      <div style="height: 100%; width: 100%; overflow-y: auto;">
+        <div class="messages-title-cont">
+          <span class="messages-title">{{ 'Messages' | translate }}</span>
+          <fa-icon class="toggle-menu" [icon]="faMenuItem" (click)="showMenu($event)"></fa-icon>
         </div>
 
         <loader *ngIf="loading"></loader>
@@ -18,11 +19,11 @@
              (click)="changeUser(user)"
              >
           <img [src]="user.profileImage" class="rounded" style="width: 40px;" />
-          {{ user.name }}
+          <span class="member-name">{{ user.name }}</span>
         </div>
       </div>
     </div>
-    <div class="chat-cont">
+    <div class="chat-cont" style="margin: 0;">
       <h4 *ngIf="!loading && 0 === users.length" style="display: inline-block; position: absolute;
       top: 50%;
       width: 100%;

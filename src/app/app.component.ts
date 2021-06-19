@@ -367,4 +367,12 @@ export class AppComponent implements OnDestroy {
   get isLoggedIn() {
     return this.authService.isLoggedIn();
   }
+
+  get termsAndUsageUrl() {
+    return environment.terms_and_usage_url;
+  }
+
+  get privacyPolicyUrl() {
+    return environment.privacy_policy_url;
+  }
 }
