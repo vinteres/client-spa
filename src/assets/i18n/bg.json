@@ -493,5 +493,21 @@
   "Dating by personality and interests.": "Запознанства по характер и интереси.",
   "Add other hobbies...": "Добави други хобита...",
   "Add other activities...": "Добави други дейности...",
-  "People with whom you have like each other and matched.": "Хора, с които сте се харесали и съвпадали."
+  "People with whom you have like each other and matched.": "Хора, с които сте се харесали и съвпадали.",
+  "Introvert": "Интровърт",
+  "Extrovert": "Екстровърт",
+  "Mixed": "По средата",
+  "Zodiac": "Зодия",
+  "Aries": "Овен",
+  "Taurus": "Телец",
+  "Gemini": "Близнаци",
+  "Cancer": "Рак",
+  "Leo": "Лъв",
+  "Virgo": "Дева",
+  "Libra": "Везни",
+  "Scorpio": "Скорпион",
+  "Sagittarius": "Стрелец",
+  "Capricorn": "Козирог",
+  "Aquarius": "Водолей",
+  "Pisces": "Риби"
 }

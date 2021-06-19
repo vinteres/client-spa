@@ -203,6 +203,9 @@ export class OnboardingPageComponent implements OnInit {
       pet_status: ['', Validators.required],
       education_status:  ['', Validators.required],
       employment_status:  ['', Validators.required],
+      personality: ['', [Validators.required]],
+      zodiac: ['', [Validators.required]],
+      
     });
   }
 
@@ -241,6 +244,8 @@ export class OnboardingPageComponent implements OnInit {
   get pet_status() { return this.profileInfoForm.get('pet_status'); }
   get education_status() { return this.profileInfoForm.get('education_status'); }
   get employment_status() { return this.profileInfoForm.get('employment_status'); }
+  get personality() { return this.profileInfoForm.get('personality'); }
+  get zodiac() { return this.profileInfoForm.get('zodiac'); }
 
   get hobbies() { return this.interestsForm.get('hobbies'); }
   get activities() { return this.interestsForm.get('activities'); }
@@ -512,5 +517,9 @@ export class OnboardingPageComponent implements OnInit {
     }
 
     return r;
+  }
+
+  get zodiacs() {
+    return this.userService.ZODIAC_SIGNS;
   }
 }

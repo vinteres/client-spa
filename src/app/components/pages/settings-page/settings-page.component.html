@@ -1,5 +1,5 @@
 <h1>{{ 'Settings' | translate }}</h1>
-<div *ngIf="!loading" class="accordion" id="accordionExample">
+<div *ngIf="!loading" class="accordion">
 
   <div class="container">
     <div class="nav-tabs-wrapper">
@@ -15,7 +15,7 @@
   <div *ngIf="'account_info' === activeTab" class="option-body rounded shadow">
     <form [formGroup]="accountInfoForm">
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">{{ 'Name' | translate }}</label>
+        <label class="col-sm-2 col-form-label">{{ 'Name' | translate }}</label>
         <div class="col-sm-10">
           <div class="radio">
             <input class="form-control" type="text" name="name" formControlName="name">
@@ -29,7 +29,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">{{ 'Title' | translate }}</label>
+        <label class="col-sm-2 col-form-label">{{ 'Title' | translate }}</label>
         <div class="col-sm-10">
           <div class="radio">
             <input class="form-control" type="text" name="title" formControlName="title">
@@ -43,7 +43,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">{{ 'Email' | translate }}</label>
+        <label class="col-sm-2 col-form-label">{{ 'Email' | translate }}</label>
         <div class="col-sm-10">
           <div class="radio">
             <input class="form-control" disabled type="text" name="email" formControlName="email">
@@ -57,7 +57,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">{{ 'Birthday' | translate }}</label>
+        <label class="col-sm-2 col-form-label">{{ 'Birthday' | translate }}</label>
         <div class="col-sm-10">
           <date-picker [date]="birthday.value" (dateChange)="dateChange($event)" (changed)="birthday.markAsDirty()"></date-picker>
           <div>
@@ -70,7 +70,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">{{ 'About' | translate }}</label>
+        <label class="col-sm-2 col-form-label">{{ 'About' | translate }}</label>
         <div class="col-sm-10">
           <div class="radio">
             <textarea class="form-control" name="description" formControlName="description"></textarea>
@@ -91,7 +91,7 @@
     <form [formGroup]="profileInfoForm">
       <h3>{{ 'Appearance' | translate }}</h3>
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Body type' | translate }}</label>
+        <label class="col-sm-3 col-form-label">{{ 'Body type' | translate }}</label>
         <div class="col-sm-9">
           <div class="radio">
             <label><input type="radio" value="not_tell" name="body" formControlName="body">{{ 'Rather not tell' | translate }}</label>
@@ -133,9 +133,50 @@
 
       <hr/>
 
+      <h3>{{ 'About' | translate }}</h3>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">{{ 'Personality' | translate }}</label>
+        <div class="col-sm-9">
+          <div class="radio">
+            <label><input type="radio" value="not_tell" name="personality" formControlName="personality">{{ 'Rather not tell' | translate }}</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" value="introvert" name="personality" formControlName="personality">{{ 'Introvert' | translate }}</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" value="extrovert" name="personality" formControlName="personality">{{ 'Extrovert' | translate }}</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" value="mixed" name="personality" formControlName="personality">{{ 'Mixed' | translate }}</label>
+          </div>
+          <div>
+            <small *ngIf="personality.invalid && (personality.dirty || personality.touched)" class="text-danger">
+              {{ 'Required field' | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">{{ 'Zodiac' | translate }}</label>
+        <div class="col-sm-9">
+          <select class="form-control" style="max-width: 270px;" formControlName="zodiac">
+            <option value="not_tell">{{ 'Rather not tell' | translate }}</option>
+            <option *ngFor="let sign of zodiacs" [value]="sign.value">{{ sign.label | translate }}</option>
+          </select>
+          <div>
+            <small *ngIf="zodiac.invalid && (zodiac.dirty || zodiac.touched)" class="text-danger">
+              {{ 'Required field' | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <hr/>
+
       <h3>{{ 'Lifestyle' | translate }}</h3>
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Smoking' | translate }}</label>
+        <label class="col-sm-3 col-form-label">{{ 'Smoking' | translate }}</label>
         <div class="col-sm-9">
           <div class="radio">
             <label><input type="radio" value="not_tell" name="smoking" formControlName="smoking">{{ 'Rather not tell' | translate }}</label>
@@ -158,7 +199,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Drinking' | translate }}</label>
+        <label class="col-sm-3 col-form-label">{{ 'Drinking' | translate }}</label>
         <div class="col-sm-9">
           <div class="radio">
             <label><input type="radio" value="not_tell" name="drinking" formControlName="drinking">{{ 'Rather not tell' | translate }}</label>
@@ -184,7 +225,7 @@
 
       <h3>{{ 'Family' | translate }}</h3>
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Do you have children?' | translate }}</label>
+        <label class="col-sm-3 col-form-label">{{ 'Do you have children?' | translate }}</label>
         <div class="col-sm-9">
           <div class="radio">
             <label><input type="radio" value="not_tell" name="children_status" formControlName="children_status">{{ 'Rather not tell' | translate }}</label>
@@ -210,7 +251,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Do you have pets?' | translate }}</label>
+        <label class="col-sm-3 col-form-label">{{ 'Do you have pets?' | translate }}</label>
         <div class="col-sm-9">
           <div class="radio">
             <label><input type="radio" value="not_tell" name="pet_status" formControlName="pet_status">{{ 'Rather not tell' | translate }}</label>
@@ -239,7 +280,7 @@
 
       <h3>{{ 'Work & Education' | translate }}</h3>
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Education' | translate }}</label>
+        <label class="col-sm-3 col-form-label">{{ 'Education' | translate }}</label>
         <div class="col-sm-9">
           <div class="radio">
             <label><input type="radio" value="not_tell" name="education_status" formControlName="education_status">{{ 'Rather not tell' | translate }}</label>
@@ -265,7 +306,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Work' | translate }}</label>
+        <label class="col-sm-3 col-form-label">{{ 'Work' | translate }}</label>
         <div class="col-sm-9">
           <div class="radio">
             <label><input type="radio" value="not_tell" name="employment_status" formControlName="employment_status">{{ 'Rather not tell' | translate }}</label>
@@ -303,7 +344,7 @@
   <div *ngIf="'security' === activeTab" class="option-body rounded shadow">
     <form [formGroup]="securityForm">
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Current password' | translate }}</label>
+        <label class="col-sm-3 col-form-label">{{ 'Current password' | translate }}</label>
         <div class="col-sm-9">
           <div class="radio">
             <input class="form-control" type="password" name="password" formControlName="password">
@@ -318,7 +359,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'New password' | translate }}</label>
+        <label class="col-sm-3 col-form-label">{{ 'New password' | translate }}</label>
         <div class="col-sm-9">
           <div class="radio">
             <input class="form-control" type="password" name="newPassword" formControlName="newPassword">
@@ -350,7 +391,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="inputPassword" class="col-sm-3 col-form-label">{{ 'Confirm password' | translate }}</label>
+        <label class="col-sm-3 col-form-label">{{ 'Confirm password' | translate }}</label>
         <div class="col-sm-9">
           <div class="radio">
             <input class="form-control" type="password" name="confirmPassword" formControlName="confirmPassword">
@@ -369,7 +410,6 @@
   </div>
 
   <div *ngIf="'account' === activeTab" class="option-body rounded shadow">
-
     <button class="btn btn-danger" (click)="openConfirmPassword(confirmPasswordDialog)">{{ 'Deactivate account' | translate }}</button>
   </div>
 </div>

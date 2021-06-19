@@ -85,7 +85,7 @@
     </div>
     <div class="form-group">
       <label for="reason">{{ 'Type' | translate}}</label>
-      <select id="reason" class="form-control" #feedbackType>
+      <select class="form-control" #feedbackType>
         <option value="bug">{{'Found a bug' | translate }}</option>
         <option value="feature">{{ 'New feature' | translate }}</option>
         <option value="other">{{ 'Other' | translate }}</option>
@@ -94,7 +94,7 @@
 
     <div class="form-group required">
       <label class="control-label" for="details">{{ 'Message' | translate }}</label>
-      <textarea id="details" class="form-control" placeholder="{{ 'Give us more details..' | translate }}" [(ngModel)]='feedbackDetails'></textarea>
+      <textarea class="form-control" placeholder="{{ 'Give us more details..' | translate }}" [(ngModel)]='feedbackDetails'></textarea>
     </div>
     <button class="btn btn-outline-primary" (click)="sendFeedback(feedbackType.value)" [disabled]="!feedbackDetails || 0 === feedbackDetails.trim().length" style="width: 100%;">{{ 'Send' | translate }}</button>
     <button type="button" class="btn btn-outline-primary" style="width: 100%; margin-top: 10px;" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')">

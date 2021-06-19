@@ -16,6 +16,8 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 export class SettingsPageComponent implements OnInit {
   faCheck = faCheck;
 
+  private static readonly MIN_AGE = 18;
+
   activeTab: string;
 
   loading: boolean;
@@ -78,7 +80,7 @@ export class SettingsPageComponent implements OnInit {
 
   private ageValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      if (18 > this.userService.calculateAge(control.value)) {
+      if (SettingsPageComponent.MIN_AGE > this.userService.calculateAge(control.value)) {
         return {
           underage: 'Underage not allowed'
         };
@@ -91,6 +93,8 @@ export class SettingsPageComponent implements OnInit {
   private createProfileInfoForm() {
     this.profileInfoForm = this.formBuilder.group({
       height: [this.settings.profileSettings.height, [Validators.required, Validators.min(100), Validators.max(250)]],
+      personality: [this.settings.profileSettings.personality, [Validators.required]],
+      zodiac: [this.settings.profileSettings.zodiac, [Validators.required]],
       smoking:  [this.settings.profileSettings.smoking, Validators.required],
       drinking:  [this.settings.profileSettings.drinking, Validators.required],
       body:  [this.settings.profileSettings.body, Validators.required],
@@ -119,6 +123,8 @@ export class SettingsPageComponent implements OnInit {
   get description() { return this.accountInfoForm.get('description'); }
 
   get height() { return this.profileInfoForm.get('height'); }
+  get personality() { return this.profileInfoForm.get('personality'); }
+  get zodiac() { return this.profileInfoForm.get('zodiac'); }
   get smoking() { return this.profileInfoForm.get('smoking'); }
   get drinking() { return this.profileInfoForm.get('drinking'); }
   get body() { return this.profileInfoForm.get('body'); }
@@ -252,5 +258,9 @@ export class SettingsPageComponent implements OnInit {
 
       control.markAsDirty();
     });
+  }
+
+  get zodiacs() {
+    return this.userService.ZODIAC_SIGNS;
   }
 }
