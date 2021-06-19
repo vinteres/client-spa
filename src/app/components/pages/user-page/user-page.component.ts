@@ -22,7 +22,9 @@ import {
   faTimesCircle,
   faEye,
   faUserFriends,
-  faChevronDown
+  faChevronDown,
+  faUser,
+  faStar
 } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/services/auth.service';
 import { CHttp } from 'src/app/services/chttp.service';
@@ -65,6 +67,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
   faLookingFor = faEye;
   faLookingForRelation = faUserFriends;
   faArrowDown = faChevronDown;
+  faPersonality = faUser;
+  faZodiac = faStar;
 
   @ViewChild('editAnswerDialog') editAnswerDialog;
 
@@ -149,7 +153,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
     this.searchPreferenceSubscription = searchPreferenceService.changedSubject$
       .subscribe(({ lookingFor }) => {
-        this.user.looking_for_type = lookingFor;
+        this.user.lookingFor = this.getLookingForList(lookingFor);
       });
 
     this.likeSentSubscription = this.introsService.likeSentSubject$
@@ -177,6 +181,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.usersService.getById(userId)
       .subscribe(user => {
         user.location = user.location || { fullName: '' };
+        user.lookingFor = this.getLookingForList(user.looking_for_type);
+        user.zodiac = this.usersService.ZODIAC_SIGNS.find(({ value }) => value === user.zodiac)?.label;
         this.user = user;
         if (!this.user.description) { this.user.description = ''; }
         this.loading = false;
@@ -512,6 +518,12 @@ export class UserPageComponent implements OnInit, OnDestroy {
     return images;
   }
 
+  hasMoreThanOneQuestion(categoryId) {
+    return this.allProfileQuestions &&
+           this.allProfileQuestions[categoryId] &&
+           this.allProfileQuestions[categoryId].length > 1;
+  }
+
   private like() {
     const intro = this.user.intro;
 
@@ -530,28 +542,13 @@ export class UserPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  hasMoreThanOneQuestion(categoryId) {
-    return this.allProfileQuestions &&
-           this.allProfileQuestions[categoryId] &&
-           this.allProfileQuestions[categoryId].length > 1;
-  }
-
-  get isLoggedUser() {
-    return this.authService.isLoggedUser(this.userId);
-  }
-
-  get loggedUser() {
-    return this.authService.getLoggedUser();
-  }
-
-  get lookingFor() {
-    if (!this.user.looking_for_type) { return []; }
+  private getLookingForList(lookingForType: number) {
+    if (!lookingForType) { return []; }
 
     const result = [];
-
-    Object.entries(UsersService.LOOKING_FOR_TYPES).forEach(([k, v]) => {
+    Object.entries(this.usersService.LOOKING_FOR_TYPES).forEach(([k, v]) => {
       const type = +k;
-      if ((this.user.looking_for_type & type) === type) {
+      if ((lookingForType & type) === type) {
         result.push(v);
       }
     });
@@ -564,5 +561,13 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
       return { item, s };
     });
+  }
+
+  get isLoggedUser() {
+    return this.authService.isLoggedUser(this.userId);
+  }
+
+  get loggedUser() {
+    return this.authService.getLoggedUser();
   }
 }

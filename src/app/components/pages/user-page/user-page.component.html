@@ -287,6 +287,16 @@
                   class="info-text">{{ 'Unemployed' | translate }}</span>
                 <span *ngIf="'retired' === user.employment_status" class="info-text">{{ 'Retired' | translate }}</span>
               </div>
+              <div *ngIf="user.personality" class="user-info-item">
+                <fa-icon [icon]="faPersonality" class="info-icon"></fa-icon>
+                <span *ngIf="user.personality == 'introvert'" class="info-text">{{ 'Introvert' | translate }}</span>
+                <span *ngIf="user.personality == 'extrovert'" class="info-text">{{ 'Extrovert' | translate }}</span>
+                <span *ngIf="user.personality == 'mixed'" class="info-text">{{ 'Mixed' | translate }}</span>
+              </div>
+              <div *ngIf="user.zodiac" class="user-info-item">
+                <fa-icon [icon]="faZodiac" class="info-icon"></fa-icon>
+                <span class="info-text">{{ user.zodiac | translate }}</span>
+              </div>
             </div>
 
             <div class="shadow-sm rounded profile-info-container" style="margin-top: 30px;">
@@ -302,10 +312,10 @@
                   {{ user.interested_in + ':wants' | translate }}
                 </span>
               </div>
-              <div *ngIf="0 < lookingFor.length" class="user-info-item">
+              <div *ngIf="0 < user.lookingFor.length" class="user-info-item">
                 <fa-icon [icon]="faLookingForRelation" class="info-icon"></fa-icon>
                 <span class="info-text">
-                  <ng-template ngFor let-item [ngForOf]="lookingFor">{{ item.item | translate }}{{ item.s }} </ng-template>
+                  <ng-template ngFor let-item [ngForOf]="user.lookingFor">{{ item.item | translate }}{{ item.s }} </ng-template>
                 </span>
               </div>
             </div>

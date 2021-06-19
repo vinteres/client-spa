@@ -7,7 +7,7 @@ import { CHttp } from './chttp.service';
 })
 export class UsersService {
 
-  public static readonly LOOKING_FOR_TYPES = {
+  public readonly LOOKING_FOR_TYPES = {
     1: 'Friends',
     2: 'Long-term dating',
     4: 'Short-term dating',
