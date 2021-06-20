@@ -3,7 +3,7 @@
 <ng-template #userInfo>
   <div class="name-cont">
     <span class="align-middle">
-      {{user.name}}, {{user.age}}
+      <span style="vertical-align: middle;">{{user.name}}, {{user.age}}</span>
       <online *ngIf="user.online"></online>
       <div *ngIf="!isLoggedUser" class="btn-group">
         <a data-toggle="dropdown" class="header-item" style="color: #000; font-size: 20px; cursor: pointer;">
