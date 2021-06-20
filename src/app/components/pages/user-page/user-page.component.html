@@ -5,6 +5,17 @@
     <span class="align-middle">
       {{user.name}}, {{user.age}}
       <online *ngIf="user.online"></online>
+      <div *ngIf="!isLoggedUser" class="btn-group">
+        <a data-toggle="dropdown" class="header-item" style="color: #000; font-size: 20px; cursor: pointer;">
+          <fa-icon class="primary-item" [icon]="faEllipsisH"></fa-icon>
+        </a>
+        <div class="dropdown-menu" style="margin-top: -10px;">
+          <a class="dropdown-item" (click)="openReportModal(reportDialog)" style="cursor: pointer;">
+            <fa-icon [icon]="faFlag"></fa-icon>
+            {{ 'Report' | translate }}
+          </a>
+        </div>
+      </div>
       <verified-badge *ngIf="'verified' === user.verification_status"></verified-badge>
       <span *ngIf="'verified' === user.verification_status" class="verification-status-text" style="cursor: default;" title="{{ 'Verified with photo' | translate }}">
         {{ 'verified' | translate }}
@@ -26,8 +37,8 @@
   <div class="profile-content">
 
     <div class="profile-data-content">
-      <div class="container" style="margin-bottom: 30px; position: relative; margin-top: 100px">
-        <div class="name-main" style="position: absolute; margin-left: 210px; margin-top: -60px;">
+      <div style="margin-bottom: 30px; position: relative; margin-top: 100px">
+        <div class="name-main" style="position: absolute; margin-left: 210px; bottom: 100%; margin-bottom: 10px;">
           <ng-container *ngTemplateOutlet="userInfo"></ng-container>
         </div>
 
@@ -75,10 +86,10 @@
                   {{ 'Message' | translate }}
                 </button>
 
-                <button class="btn btn-outline-dark" (click)="openReportModal(reportDialog)">
+                <!-- <button class="btn btn-outline-dark" (click)="openReportModal(reportDialog)">
                   <fa-icon [icon]="faFlag"></fa-icon>
                   {{ 'Report' | translate }}
-                </button>
+                </button> -->
               </ng-template>
             </div>
           </div>
@@ -100,7 +111,7 @@
     </div>
 
     <div>
-      <div class="container">
+      <div class="">
         <div class="row">
           <div class="col-sm">
 

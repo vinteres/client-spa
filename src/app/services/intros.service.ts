@@ -13,11 +13,7 @@ export class IntrosService {
   constructor(private http: CHttp) { }
 
   getForUser(page: number) {
-    return this.http.get(environment.api_url + 'intros-to?page=' + page);
-  }
-
-  getFromUser(page: number) {
-    return this.http.get(environment.api_url + 'intros-from?page=' + page);
+    return this.http.get(environment.api_url + 'likes?page=' + page);
   }
 
   like(id: string) {
