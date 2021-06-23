@@ -110,4 +110,12 @@ export class SignUpPageComponent implements OnInit {
   hasSpecialChar(value) {
     return /[#?!@$%^&*-]+/.test(value);
   }
+
+  get termsAndUsageUrl() {
+    return environment.terms_and_usage_url;
+  }
+
+  get privacyPolicyUrl() {
+    return environment.privacy_policy_url;
+  }
 }

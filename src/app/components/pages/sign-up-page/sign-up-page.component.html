@@ -76,6 +76,11 @@
           </small>
         </div>
         <button class="btn btn-outline-primary" type="submit" [disabled]="loading">{{ 'Sign up' | translate }}</button>
+        <div class="terms-msg">
+          {{ "By continuing, you're confirming that you've read and agree to our" | translate }}
+          <a [href]="termsAndUsageUrl" target="_blank">{{ 'Terms of Usage' | translate }}</a> {{ 'and' | translate }}
+          <a [href]="privacyPolicyUrl" target="_blank">{{ 'Privacy Policy' | translate }}</a>.
+        </div>
         <div style="margin: 15px 0">
           {{ 'If you already have an account you can' | translate }} <a routerLink="/login">{{ 'sign in here' | translate }}</a>.
         </div>
