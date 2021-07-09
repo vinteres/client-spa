@@ -6,7 +6,7 @@
       <span style="vertical-align: middle;">{{user.name}}, {{user.age}}</span>
       <online *ngIf="user.online"></online>
       <div *ngIf="!isLoggedUser" class="btn-group">
-        <a data-toggle="dropdown" class="header-item" style="color: #000; font-size: 20px; cursor: pointer;">
+        <a data-toggle="dropdown" class="header-item" style="color: #000; font-size: 20px; cursor: pointer; margin-left: 10px;">
           <fa-icon class="primary-item" [icon]="faEllipsisH"></fa-icon>
         </a>
         <div class="dropdown-menu" style="margin-top: -10px;">
@@ -50,8 +50,8 @@
           </div>
 
           <div class="user-images-cont2">
-            <div class="user-images">
-              <img *ngFor="let img of previewImages(); let ix = index" [src]="img.small" class="border"
+            <div *ngIf="previewImages.length > 0" class="user-images">
+              <img *ngFor="let img of previewImages; let ix = index" [src]="img.small" class="border"
                 style="width: 50px; border-radius: 100%; margin-right: 5px; cursor: pointer;"
                 (click)="showGalleryModal(ix + 1)" />
             </div>

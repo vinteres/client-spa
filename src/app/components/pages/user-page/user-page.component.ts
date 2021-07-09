@@ -509,15 +509,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
     return this.user.activities;
   }
 
-  previewImages() {
-    const images = [];
-    for (let i = 1; i < this.user.images.length; i++) {
-      images.push(this.user.images[i]);
-    }
-
-    return images;
-  }
-
   hasMoreThanOneQuestion(categoryId) {
     return this.allProfileQuestions &&
            this.allProfileQuestions[categoryId] &&
@@ -569,5 +560,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
   get loggedUser() {
     return this.authService.getLoggedUser();
+  }
+
+  get previewImages() {
+    return (Array.isArray(this.user.images) ? this.user.images : []).slice(1);
   }
 }
