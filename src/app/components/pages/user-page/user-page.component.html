@@ -36,8 +36,8 @@
 <div *ngIf="!loading && user">
   <div class="profile-content">
 
-    <div class="profile-data-content">
-      <div style="margin-bottom: 30px; position: relative; margin-top: 100px">
+    <div class="profile-data-content" style="padding: 0 5px;">
+      <div style="margin-bottom: 10px; position: relative; margin-top: 100px">
         <div class="name-main" style="position: absolute; margin-left: 210px; bottom: 100%; margin-bottom: 10px;">
           <ng-container *ngTemplateOutlet="userInfo"></ng-container>
         </div>
@@ -110,229 +110,225 @@
       </div>
     </div>
 
-    <div>
-      <div class="">
-        <div class="row">
-          <div class="col-sm">
+    <div class="row" style="margin: 0;">
+      <div class="col-sm" style="padding: 0 5px;">
 
-            <div *ngIf="user.intro && 'intro_to_me' === user.relation_status && 'message' !== user.intro.type" style="margin-bottom: 20px; text-align: center; width: 100%;">
-              <h5 class="intro-response">
-                {{ 'They have liked you!' | translate }}
-              </h5>
-            </div>
-            <div *ngIf="user.intro && 'intro_to_me' === user.relation_status && 'message' === user.intro.type" class="shadow-sm rounded intro-item"
-                style="background-color: #fff; padding: 10px; position: relative;  margin-bottom: 30px;">
-              <div class="arrow-right" style="position: absolute; left: -20px; top: 20px"></div>
-              <div style="font-size: 13px; margin-bottom: 5px;">
-                {{ 'They have liked you' | translate }}
-                {{ user.intro.timeAgo.key | translate:{'d': user.intro.timeAgo.d} }}
-              </div>
-              <pre>{{user.intro.message}}</pre>
-            </div>
-
-            <div class="shadow-sm rounded" style="padding: 15px; background-color: #fff; margin-bottom: 30px;">
-              <div style="position: relative;">
-                <h5>
-                  {{ 'About' | translate }}
-                  <fa-icon *ngIf="!editingBio && isLoggedUser" class="edit-btn primary-item"
-                    (click)="editBio()" [icon]="faPen"></fa-icon>
-                  <fa-icon *ngIf="editingBio && isLoggedUser" class="edit-btn primary-item"
-                    (click)="saveBio()" [icon]="faSave"></fa-icon>
-                </h5>
-                <textarea *ngIf="editingBio" class="form-control" style="border: 0px;" placeholder="{{ 'Write something about you...' | translate }}"
-                          [(ngModel)]="editBioText">{{ editBioText }}</textarea>
-                <div *ngIf="!editingBio">
-                  <span *ngIf="hasBio()">{{ user.description }}</span>
-                  <span *ngIf="!hasBio()">{{ 'No bio yet.' | translate }}</span>
-                </div>
-              </div>
-
-              <hr>
-
-              <h5>
-                {{ 'Interests' | translate }}
-                <fa-icon *ngIf="!editingInterests && isLoggedUser" class="edit-btn primary-item"
-                  (click)="editInterests()" [icon]="faPen"></fa-icon>
-                <fa-icon *ngIf="editingInterests && isLoggedUser" class="edit-btn primary-item"
-                  (click)="saveInterests()" [icon]="faSave"></fa-icon>
-              </h5>
-              <div *ngIf="!editingInterests">
-                <div *ngIf="getInterests().length === 0">{{ 'No interests yet.' | translate }}</div>
-                <span *ngFor="let interest of getInterests()" class="interest-item"
-                  [ngClass]="{'mutual': interest.mutual}">
-                  {{ interest.name | translate }}
-                </span>
-              </div>
-              <div *ngIf="editingInterests">
-                <hobbie-picker (changed)="changeEditHobbies($event)" [selectedHobbies]="editHobbies" [list]="allHobbies"
-                  type="hobbies">
-                </hobbie-picker>
-              </div>
-
-              <hr>
-
-              <h5>
-                {{ 'Free time activities' | translate }}
-                <fa-icon *ngIf="!editingActivities && isLoggedUser" class="edit-btn primary-item"
-                  (click)="editFreeActivities()" [icon]="faPen"></fa-icon>
-                <fa-icon *ngIf="editingActivities && isLoggedUser" class="edit-btn primary-item"
-                  (click)="saveActivities()" [icon]="faSave"></fa-icon>
-              </h5>
-              <div *ngIf="!editingActivities">
-                <div *ngIf="getActivities().length === 0">{{ 'No activities yet.' | translate }}</div>
-                <span *ngFor="let interest of getActivities()" class="interest-item">
-                  {{ interest.name | translate }}
-                </span>
-              </div>
-              <div *ngIf="editingActivities">
-                <hobbie-picker (changed)="changeEditHobbies($event)" [selectedHobbies]="editActivities"
-                  [list]="allActivities" type="activities"></hobbie-picker>
-              </div>
-
-              <hr>
-
-              <h5>
-                {{ 'From' | translate }}
-                <fa-icon *ngIf="!editingFrom && isLoggedUser" class="edit-btn primary-item" (click)="editFrom()"
-                  [icon]="faPen"></fa-icon>
-                <fa-icon *ngIf="editingFrom && isLoggedUser" class="edit-btn primary-item" (click)="saveFrom()"
-                  [icon]="faSave"></fa-icon>
-              </h5>
-              <div *ngIf="!editingFrom">
-                {{user.location?.fullName}}
-                <span *ngIf="!user.location || !user.location.fullName || user.location.fullName.trim() === ''">
-                  {{ 'No location yet.' | translate }}
-                </span>
-              </div>
-              <location-select *ngIf="editingFrom" [location]="editFromData"
-                (locationChanged)="locationChanged($event)"></location-select>
-            </div>
-
-            <div *ngFor="let answer of profileAnswers" class="shadow-sm rounded question-cont">
-              <fa-icon *ngIf="isLoggedUser" class="edit-btn primary-item" [icon]="faPen" (click)="editAnswer(answer)"></fa-icon>
-                <h5 class="question-listing-title"
-                    [ngStyle]="{ 'padding-right': hasMoreThanOneQuestion(answer.category_id) ? '25px' : '', 'cursor' : !isLoggedUser ? 'initial' : '' }"
-                    (click)="editAnswer(answer)"
-                    >{{ answer.question_text | translate }}
-                  <fa-icon [icon]="faArrowDown" *ngIf="hasMoreThanOneQuestion(answer.category_id)" class="icon"></fa-icon>
-                </h5>
-                <div style="margin-top: 10px;">
-                  <div *ngIf="answer.noAnswer" style="color: thistle; cursor: pointer; word-wrap: break-word;" (click)="editAnswer(answer)">
-                    {{ 'Write something here...' | translate }}
-                  </div>
-                  <div *ngIf="!answer.noAnswer" style="word-wrap: break-word;">
-                    {{ answer.answer_text }}
-                  </div>
-                </div>
-            </div>
-
+        <div *ngIf="user.intro && 'intro_to_me' === user.relation_status && 'message' !== user.intro.type" style="margin-bottom: 20px; text-align: center; width: 100%;">
+          <h5 class="intro-response">
+            {{ 'They have liked you!' | translate }}
+          </h5>
+        </div>
+        <div *ngIf="user.intro && 'intro_to_me' === user.relation_status && 'message' === user.intro.type" class="shadow-sm rounded intro-item"
+            style="background-color: #fff; padding: 10px; position: relative;  margin-bottom: 10px;">
+          <div class="arrow-right" style="position: absolute; left: -20px; top: 20px"></div>
+          <div style="font-size: 13px; margin-bottom: 5px;">
+            {{ 'They have liked you' | translate }}
+            {{ user.intro.timeAgo.key | translate:{'d': user.intro.timeAgo.d} }}
           </div>
-          <div class="col-sm-4">
-            <div class="shadow-sm rounded profile-info-container">
-              <fa-icon *ngIf="isLoggedUser" class="edit-btn primary-item" [icon]="faPen" [routerLink]="['/settings']"
-                [queryParams]="{type: 'profile_info'}"></fa-icon>
+          <pre>{{user.intro.message}}</pre>
+        </div>
 
-              <h5 class="user-info-item user-info-title">{{ 'Info' | translate }}</h5>
+        <div class="shadow-sm rounded" style="padding: 15px; background-color: #fff; margin-bottom: 10px;">
+          <div style="position: relative;">
+            <h5>
+              {{ 'About' | translate }}
+              <fa-icon *ngIf="!editingBio && isLoggedUser" class="edit-btn primary-item"
+                (click)="editBio()" [icon]="faPen"></fa-icon>
+              <fa-icon *ngIf="editingBio && isLoggedUser" class="edit-btn primary-item"
+                (click)="saveBio()" [icon]="faSave"></fa-icon>
+            </h5>
+            <textarea *ngIf="editingBio" class="form-control" style="border: 0px;" placeholder="{{ 'Write something about you...' | translate }}"
+                      [(ngModel)]="editBioText">{{ editBioText }}</textarea>
+            <div *ngIf="!editingBio">
+              <span *ngIf="hasBio()">{{ user.description }}</span>
+              <span *ngIf="!hasBio()">{{ 'No bio yet.' | translate }}</span>
+            </div>
+          </div>
 
-              <div *ngIf="!hasUserData()">
-                {{ 'No person info yet.' | translate }}
-              </div>
+          <hr>
 
-              <div *ngIf="user.height || user.body" class="user-info-item">
-                <fa-icon [icon]="faBody" class="info-icon"></fa-icon>
-                <span class="info-text">
-                  <span *ngIf="user.height">{{ 'HEIGHT' | translate:{'height': user.height } }}</span>
-                  <span *ngIf="user.body">
-                    <span *ngIf="user.height">,</span>
-                    {{ user.body | translate }}
-                  </span>
-                </span>
+          <h5>
+            {{ 'Interests' | translate }}
+            <fa-icon *ngIf="!editingInterests && isLoggedUser" class="edit-btn primary-item"
+              (click)="editInterests()" [icon]="faPen"></fa-icon>
+            <fa-icon *ngIf="editingInterests && isLoggedUser" class="edit-btn primary-item"
+              (click)="saveInterests()" [icon]="faSave"></fa-icon>
+          </h5>
+          <div *ngIf="!editingInterests">
+            <div *ngIf="getInterests().length === 0">{{ 'No interests yet.' | translate }}</div>
+            <span *ngFor="let interest of getInterests()" class="interest-item"
+              [ngClass]="{'mutual': interest.mutual}">
+              {{ interest.name | translate }}
+            </span>
+          </div>
+          <div *ngIf="editingInterests">
+            <hobbie-picker (changed)="changeEditHobbies($event)" [selectedHobbies]="editHobbies" [list]="allHobbies"
+              type="hobbies">
+            </hobbie-picker>
+          </div>
+
+          <hr>
+
+          <h5>
+            {{ 'Free time activities' | translate }}
+            <fa-icon *ngIf="!editingActivities && isLoggedUser" class="edit-btn primary-item"
+              (click)="editFreeActivities()" [icon]="faPen"></fa-icon>
+            <fa-icon *ngIf="editingActivities && isLoggedUser" class="edit-btn primary-item"
+              (click)="saveActivities()" [icon]="faSave"></fa-icon>
+          </h5>
+          <div *ngIf="!editingActivities">
+            <div *ngIf="getActivities().length === 0">{{ 'No activities yet.' | translate }}</div>
+            <span *ngFor="let interest of getActivities()" class="interest-item">
+              {{ interest.name | translate }}
+            </span>
+          </div>
+          <div *ngIf="editingActivities">
+            <hobbie-picker (changed)="changeEditHobbies($event)" [selectedHobbies]="editActivities"
+              [list]="allActivities" type="activities"></hobbie-picker>
+          </div>
+
+          <hr>
+
+          <h5>
+            {{ 'From' | translate }}
+            <fa-icon *ngIf="!editingFrom && isLoggedUser" class="edit-btn primary-item" (click)="editFrom()"
+              [icon]="faPen"></fa-icon>
+            <fa-icon *ngIf="editingFrom && isLoggedUser" class="edit-btn primary-item" (click)="saveFrom()"
+              [icon]="faSave"></fa-icon>
+          </h5>
+          <div *ngIf="!editingFrom">
+            {{user.location?.fullName}}
+            <span *ngIf="!user.location || !user.location.fullName || user.location.fullName.trim() === ''">
+              {{ 'No location yet.' | translate }}
+            </span>
+          </div>
+          <location-select *ngIf="editingFrom" [location]="editFromData"
+            (locationChanged)="locationChanged($event)"></location-select>
+        </div>
+
+        <div *ngFor="let answer of profileAnswers" class="shadow-sm rounded question-cont">
+          <fa-icon *ngIf="isLoggedUser" class="edit-btn primary-item" [icon]="faPen" (click)="editAnswer(answer)"></fa-icon>
+            <h5 class="question-listing-title"
+                [ngStyle]="{ 'padding-right': hasMoreThanOneQuestion(answer.category_id) ? '25px' : '', 'cursor' : !isLoggedUser ? 'initial' : '' }"
+                (click)="editAnswer(answer)"
+                >{{ answer.question_text | translate }}
+              <fa-icon [icon]="faArrowDown" *ngIf="hasMoreThanOneQuestion(answer.category_id)" class="icon"></fa-icon>
+            </h5>
+            <div style="margin-top: 10px;">
+              <div *ngIf="answer.noAnswer" style="color: thistle; cursor: pointer; word-wrap: break-word;" (click)="editAnswer(answer)">
+                {{ 'Write something here...' | translate }}
               </div>
-              <div *ngIf="user.smoking" class="user-info-item">
-                <fa-icon [icon]="faSmoking" class="info-icon"></fa-icon>
-                <span *ngIf="user.smoking == 'regularly'" class="info-text">{{ 'Smokes regularly' | translate }}</span>
-                <span *ngIf="user.smoking == 'sometimes'" class="info-text">{{ 'Smokes sometimes' | translate }}</span>
-                <span *ngIf="user.smoking == 'never'" class="info-text">{{ 'Doesn\'t smoke' | translate }}</span>
-              </div>
-              <div *ngIf="user.drinking" class="user-info-item">
-                <fa-icon [icon]="faCocktail" class="info-icon"></fa-icon>
-                <span *ngIf="user.drinking == 'regularly'" class="info-text">{{ 'Drinks regularly' | translate }}</span>
-                <span *ngIf="user.drinking == 'sometimes'" class="info-text">{{ 'Drinks socially' | translate }}</span>
-                <span *ngIf="user.drinking == 'never'" class="info-text">{{ 'Doesn\'t drink' | translate }}</span>
-              </div>
-              <div *ngIf="user.children_status" class="user-info-item">
-                <fa-icon [icon]="faChild" class="info-icon"></fa-icon>
-                <span *ngIf="user.children_status === 'has'" class="info-text">{{ 'Has childen' | translate }}</span>
-                <span *ngIf="user.children_status === 'does_not_have'"
-                  class="info-text">{{ 'Doesn\'t have children' | translate }}</span>
-                <span *ngIf="user.children_status === 'does_not_have_but_wants'"
-                  class="info-text">{{ 'Doesn\'t have children, but wants them' | translate }}</span>
-                <span *ngIf="user.children_status === 'does_not_have_and_does_not_want'"
-                  class="info-text">{{ 'Doesn\'t have children and doesn\'t want them' | translate }}</span>
-              </div>
-              <div *ngIf="user.pet_status" class="user-info-item">
-                <fa-icon [icon]="faCat" class="info-icon"></fa-icon>
-                <span *ngIf="user.pet_status == 'cat'" class="info-text">{{ 'Has cat(s)' | translate }}</span>
-                <span *ngIf="user.pet_status == 'dog'" class="info-text">{{ 'Has dog(s)' | translate }}</span>
-                <span *ngIf="user.pet_status == 'other'" class="info-text">{{ 'Has other pet(s)' | translate }}</span>
-                <span *ngIf="user.pet_status == 'none'" class="info-text">{{ 'Doesn\'t have pets' | translate }}</span>
-              </div>
-              <div *ngIf="user.education_status" class="user-info-item">
-                <fa-icon [icon]="faEducation" class="info-icon"></fa-icon>
-                <span *ngIf="'none' === user.education_status" class="info-text">Без образование</span>
-                <span *ngIf="'entry' === user.education_status" class="info-text">Основно образование</span>
-                <span *ngIf="'mid' === user.education_status" class="info-text">Средно образование</span>
-                <span *ngIf="'higher' === user.education_status" class="info-text">Визше образование</span>
-              </div>
-              <div *ngIf="user.employment_status" class="user-info-item">
-                <fa-icon [icon]="faEmployment" class="info-icon"></fa-icon>
-                <span *ngIf="'full_time' === user.employment_status"
-                  class="info-text">{{ 'Full-time' | translate }}</span>
-                <span *ngIf="'part_time' === user.employment_status"
-                  class="info-text">{{ 'Part-time' | translate }}</span>
-                <span *ngIf="'self_employed' === user.employment_status"
-                  class="info-text">{{ 'Self-employed' | translate }}</span>
-                <span *ngIf="'freelance' === user.employment_status"
-                  class="info-text">{{ 'Freelancer' | translate }}</span>
-                <span *ngIf="'unemployed' === user.employment_status"
-                  class="info-text">{{ 'Unemployed' | translate }}</span>
-                <span *ngIf="'retired' === user.employment_status" class="info-text">{{ 'Retired' | translate }}</span>
-              </div>
-              <div *ngIf="user.personality" class="user-info-item">
-                <fa-icon [icon]="faPersonality" class="info-icon"></fa-icon>
-                <span *ngIf="user.personality == 'introvert'" class="info-text">{{ 'Introvert' | translate }}</span>
-                <span *ngIf="user.personality == 'extrovert'" class="info-text">{{ 'Extrovert' | translate }}</span>
-                <span *ngIf="user.personality == 'mixed'" class="info-text">{{ 'Mixed' | translate }}</span>
-              </div>
-              <div *ngIf="user.zodiac" class="user-info-item">
-                <fa-icon [icon]="faZodiac" class="info-icon"></fa-icon>
-                <span class="info-text">{{ user.zodiac | translate }}</span>
+              <div *ngIf="!answer.noAnswer" style="word-wrap: break-word;">
+                {{ answer.answer_text }}
               </div>
             </div>
+        </div>
 
-            <div class="shadow-sm rounded profile-info-container" style="margin-top: 30px;">
-              <fa-icon *ngIf="isLoggedUser" class="edit-btn primary-item" [icon]="faPen"
-                (click)="openSearchPrefModal()"></fa-icon>
+      </div>
+      <div class="col-sm-4" style="padding: 0 5px;">
+        <div class="shadow-sm rounded profile-info-container">
+          <fa-icon *ngIf="isLoggedUser" class="edit-btn primary-item" [icon]="faPen" [routerLink]="['/settings']"
+            [queryParams]="{type: 'profile_info'}"></fa-icon>
 
-              <h5 class="user-info-item user-info-title">{{ 'What\'s looking for' | translate }}</h5>
+          <h5 class="user-info-item user-info-title">{{ 'Info' | translate }}</h5>
 
-              <div class="user-info-item">
-                <fa-icon [icon]="faLookingFor" class="info-icon"></fa-icon>
-                <span class="info-text">
-                  {{ user.gender + ':wants' | translate }} {{ 'looks for' | translate }}
-                  {{ user.interested_in + ':wants' | translate }}
-                </span>
-              </div>
-              <div *ngIf="0 < user.lookingFor.length" class="user-info-item">
-                <fa-icon [icon]="faLookingForRelation" class="info-icon"></fa-icon>
-                <span class="info-text">
-                  <ng-template ngFor let-item [ngForOf]="user.lookingFor">{{ item.item | translate }}{{ item.s }} </ng-template>
-                </span>
-              </div>
-            </div>
+          <div *ngIf="!hasUserData()">
+            {{ 'No person info yet.' | translate }}
+          </div>
 
+          <div *ngIf="user.height || user.body" class="user-info-item">
+            <fa-icon [icon]="faBody" class="info-icon"></fa-icon>
+            <span class="info-text">
+              <span *ngIf="user.height">{{ 'HEIGHT' | translate:{'height': user.height } }}</span>
+              <span *ngIf="user.body">
+                <span *ngIf="user.height">,</span>
+                {{ user.body | translate }}
+              </span>
+            </span>
+          </div>
+          <div *ngIf="user.smoking" class="user-info-item">
+            <fa-icon [icon]="faSmoking" class="info-icon"></fa-icon>
+            <span *ngIf="user.smoking == 'regularly'" class="info-text">{{ 'Smokes regularly' | translate }}</span>
+            <span *ngIf="user.smoking == 'sometimes'" class="info-text">{{ 'Smokes sometimes' | translate }}</span>
+            <span *ngIf="user.smoking == 'never'" class="info-text">{{ 'Doesn\'t smoke' | translate }}</span>
+          </div>
+          <div *ngIf="user.drinking" class="user-info-item">
+            <fa-icon [icon]="faCocktail" class="info-icon"></fa-icon>
+            <span *ngIf="user.drinking == 'regularly'" class="info-text">{{ 'Drinks regularly' | translate }}</span>
+            <span *ngIf="user.drinking == 'sometimes'" class="info-text">{{ 'Drinks socially' | translate }}</span>
+            <span *ngIf="user.drinking == 'never'" class="info-text">{{ 'Doesn\'t drink' | translate }}</span>
+          </div>
+          <div *ngIf="user.children_status" class="user-info-item">
+            <fa-icon [icon]="faChild" class="info-icon"></fa-icon>
+            <span *ngIf="user.children_status === 'has'" class="info-text">{{ 'Has childen' | translate }}</span>
+            <span *ngIf="user.children_status === 'does_not_have'"
+              class="info-text">{{ 'Doesn\'t have children' | translate }}</span>
+            <span *ngIf="user.children_status === 'does_not_have_but_wants'"
+              class="info-text">{{ 'Doesn\'t have children, but wants them' | translate }}</span>
+            <span *ngIf="user.children_status === 'does_not_have_and_does_not_want'"
+              class="info-text">{{ 'Doesn\'t have children and doesn\'t want them' | translate }}</span>
+          </div>
+          <div *ngIf="user.pet_status" class="user-info-item">
+            <fa-icon [icon]="faCat" class="info-icon"></fa-icon>
+            <span *ngIf="user.pet_status == 'cat'" class="info-text">{{ 'Has cat(s)' | translate }}</span>
+            <span *ngIf="user.pet_status == 'dog'" class="info-text">{{ 'Has dog(s)' | translate }}</span>
+            <span *ngIf="user.pet_status == 'other'" class="info-text">{{ 'Has other pet(s)' | translate }}</span>
+            <span *ngIf="user.pet_status == 'none'" class="info-text">{{ 'Doesn\'t have pets' | translate }}</span>
+          </div>
+          <div *ngIf="user.education_status" class="user-info-item">
+            <fa-icon [icon]="faEducation" class="info-icon"></fa-icon>
+            <span *ngIf="'none' === user.education_status" class="info-text">Без образование</span>
+            <span *ngIf="'entry' === user.education_status" class="info-text">Основно образование</span>
+            <span *ngIf="'mid' === user.education_status" class="info-text">Средно образование</span>
+            <span *ngIf="'higher' === user.education_status" class="info-text">Визше образование</span>
+          </div>
+          <div *ngIf="user.employment_status" class="user-info-item">
+            <fa-icon [icon]="faEmployment" class="info-icon"></fa-icon>
+            <span *ngIf="'full_time' === user.employment_status"
+              class="info-text">{{ 'Full-time' | translate }}</span>
+            <span *ngIf="'part_time' === user.employment_status"
+              class="info-text">{{ 'Part-time' | translate }}</span>
+            <span *ngIf="'self_employed' === user.employment_status"
+              class="info-text">{{ 'Self-employed' | translate }}</span>
+            <span *ngIf="'freelance' === user.employment_status"
+              class="info-text">{{ 'Freelancer' | translate }}</span>
+            <span *ngIf="'unemployed' === user.employment_status"
+              class="info-text">{{ 'Unemployed' | translate }}</span>
+            <span *ngIf="'retired' === user.employment_status" class="info-text">{{ 'Retired' | translate }}</span>
+          </div>
+          <div *ngIf="user.personality" class="user-info-item">
+            <fa-icon [icon]="faPersonality" class="info-icon"></fa-icon>
+            <span *ngIf="user.personality == 'introvert'" class="info-text">{{ 'Introvert' | translate }}</span>
+            <span *ngIf="user.personality == 'extrovert'" class="info-text">{{ 'Extrovert' | translate }}</span>
+            <span *ngIf="user.personality == 'mixed'" class="info-text">{{ 'Mixed' | translate }}</span>
+          </div>
+          <div *ngIf="user.zodiac" class="user-info-item">
+            <fa-icon [icon]="faZodiac" class="info-icon"></fa-icon>
+            <span class="info-text">{{ user.zodiac | translate }}</span>
           </div>
         </div>
+
+        <div class="shadow-sm rounded profile-info-container" style="margin-top: 10px;">
+          <fa-icon *ngIf="isLoggedUser" class="edit-btn primary-item" [icon]="faPen"
+            (click)="openSearchPrefModal()"></fa-icon>
+
+          <h5 class="user-info-item user-info-title">{{ 'What\'s looking for' | translate }}</h5>
+
+          <div class="user-info-item">
+            <fa-icon [icon]="faLookingFor" class="info-icon"></fa-icon>
+            <span class="info-text">
+              {{ user.gender + ':wants' | translate }} {{ 'looks for' | translate }}
+              {{ user.interested_in + ':wants' | translate }}
+            </span>
+          </div>
+          <div *ngIf="0 < user.lookingFor.length" class="user-info-item">
+            <fa-icon [icon]="faLookingForRelation" class="info-icon"></fa-icon>
+            <span class="info-text">
+              <ng-template ngFor let-item [ngForOf]="user.lookingFor">{{ item.item | translate }}{{ item.s }} </ng-template>
+            </span>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

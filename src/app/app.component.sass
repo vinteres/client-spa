@@ -65,7 +65,6 @@ $contentWidth: 1000px
     float: left
 
 .left-menu
-  width: 255px
   position: fixed
   left: 0
   top: 50px
@@ -74,6 +73,7 @@ $contentWidth: 1000px
   a
     font-weight: bold
     font-size: 17px
+    position: relative
     i.icon
       display: inline-block
 
@@ -81,11 +81,14 @@ $contentWidth: 1000px
     &:hover
       background-color: rgba(46, 62, 72, 0.1)
 
+    fa-icon
+      margin-right: 2px
+
     display: block
     height: 40px
     line-height: 40px
-    font-size: 20px
-    padding: 0 25px
+    font-size: 16px
+    padding: 0 10px
     color: #000
     text-decoration: none
     cursor: pointer
@@ -130,20 +133,10 @@ $contentWidth: 1000px
   background-color: purple
   margin-left: 5px
 
-@media only screen and (max-width: 1260px)
-  .page-container
-    padding: 5px
-    margin-top: 20px
-
-  .left-menu
-    position: initial
-    width: 840px
-    margin: auto
-    margin-top: 60px
-    text-align: center
-
-    .item
-      display: inline-block
+@media only screen and (max-width: 1170px)
+  .item
+    .label
+      display: none
 
 @media only screen and (max-width: 1000px)
   .header
@@ -151,9 +144,10 @@ $contentWidth: 1000px
       width: 100%
       margin: 0
 
-@media only screen and (max-width: 840px)
+@media only screen and (max-width: 940px)
   .page-container
     width: 100%
+    padding-left: 45px
 
   .left-menu
-    width: 100%
+    z-index: 1

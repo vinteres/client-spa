@@ -2,6 +2,10 @@
   background-color: #e0e0e0
   cursor: pointer
 
+.chat-user-item
+  img
+    width: 40px
+
 .not-seen
   background-color: #dedcdc
 
@@ -62,14 +66,21 @@
       width: calc(100% - 250px)
 
 @media only screen and (max-width: 700px)
+  .messages-title-cont
+    display: none
+
   .chat-members-cont
-    width: initial !important
+    width: 50px !important
 
     .member-name
       display: none
 
     .messages-title
       display: none
+
+  .chat-user-item
+    img
+      width: 100%
 
   .msg-page-cont
     .toggle-menu

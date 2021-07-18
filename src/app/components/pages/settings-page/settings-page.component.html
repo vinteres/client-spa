@@ -1,18 +1,16 @@
 <h1>{{ 'Settings' | translate }}</h1>
 <div *ngIf="!loading" class="accordion">
 
-  <div class="container">
-    <div class="nav-tabs-wrapper">
-      <div class="vnav-tabs">
-        <a [ngClass]="{'active' : ('account_info' === activeTab)}" (click)="changeTab('account_info')">{{ 'Account Info' | translate }}</a>
-        <a [ngClass]="{'active' : ('profile_info' === activeTab)}" (click)="changeTab('profile_info')">{{ 'Profile Info' | translate }}</a>
-        <a [ngClass]="{'active' : ('security' === activeTab)}" (click)="changeTab('security')">{{ 'Security' | translate }}</a>
-        <a [ngClass]="{'active' : ('account' === activeTab)}" (click)="changeTab('account')">{{ 'Deactivate Account' | translate }}</a>
-      </div>
+  <div class="nav-tabs-wrapper">
+    <div class="vnav-tabs">
+      <a [ngClass]="{'active' : ('account_info' === activeTab)}" (click)="changeTab('account_info')">{{ 'Account Info' | translate }}</a>
+      <a [ngClass]="{'active' : ('profile_info' === activeTab)}" (click)="changeTab('profile_info')">{{ 'Profile Info' | translate }}</a>
+      <a [ngClass]="{'active' : ('security' === activeTab)}" (click)="changeTab('security')">{{ 'Security' | translate }}</a>
+      <a [ngClass]="{'active' : ('account' === activeTab)}" (click)="changeTab('account')">{{ 'Deactivate Account' | translate }}</a>
     </div>
   </div>
 
-  <div *ngIf="'account_info' === activeTab" class="option-body rounded shadow">
+    <div *ngIf="'account_info' === activeTab" class="option-body rounded shadow">
     <form [formGroup]="accountInfoForm">
       <div class="form-group row">
         <label class="col-sm-2 col-form-label">{{ 'Name' | translate }}</label>
