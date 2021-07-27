@@ -9,14 +9,6 @@ $contentWidth: 500px;
   overflow: auto;
 }
 
-.bg-img {
-  background-image: url("../assets/bg.jpeg");
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
 .header {
   height: 50px;
   width: 100%;
@@ -57,14 +49,6 @@ $contentWidth: 500px;
   cursor: pointer;
 }
 
-.page-content {
-  width: $contentWidth;
-  margin: auto;
-  margin-top: 60px;
-}
-.page-content:after {
-  clear: both;
-}
 .page-content .content {
   width: 800px;
   float: left;
@@ -99,12 +83,6 @@ $contentWidth: 500px;
 }
 .left-menu .item fa-icon {
   margin-right: 2px;
-}
-
-.menu-btn {
-  font-weight: bold;
-  font-size: 17px;
-  display: inline-block;
 }
 
 .page-container {

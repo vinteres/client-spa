@@ -98,17 +98,6 @@ body {
   max-width: 400px;
 }
 
-button.like-btn {
-  color: #de7ec8;
-  border-color: #de7ec8;
-  margin-left: 10px;
-}
-
-button.like-btn:hover {
-  background-color: #de7ec8 !important;
-  color: #fff;
-}
-
 .form-group.required .control-label:after {
   content: "*";
   color: red;
