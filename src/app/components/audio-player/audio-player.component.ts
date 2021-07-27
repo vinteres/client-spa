@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'audio-player',
   templateUrl: './audio-player.component.html',
-  styleUrls: ['./audio-player.component.sass']
+  styleUrls: ['./audio-player.component.scss']
 })
 export class AudioPlayerComponent implements OnInit, OnDestroy {
   faPlay = faPlay;

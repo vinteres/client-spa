@@ -4,7 +4,7 @@ import { LocationsService } from 'src/app/services/locations.service';
 @Component({
   selector: 'location-select',
   templateUrl: './location-select.component.html',
-  styleUrls: ['./location-select.component.sass']
+  styleUrls: ['./location-select.component.scss']
 })
 export class LocationSelectComponent implements OnInit {
 

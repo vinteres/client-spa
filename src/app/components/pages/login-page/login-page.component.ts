@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'login-page',
   templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.sass']
+  styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent implements OnInit {
   @ViewChild('loginForm') public loginForm: NgForm;

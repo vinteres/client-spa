@@ -4,7 +4,7 @@ import { UsersService } from 'src/app/services/users.service';
 @Component({
   selector: 'matches-page',
   templateUrl: './matches-page.component.html',
-  styleUrls: ['./matches-page.component.sass']
+  styleUrls: ['./matches-page.component.scss']
 })
 export class MatchesPageComponent implements OnInit {
   users: any = [];

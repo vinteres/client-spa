@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'user-chat',
   templateUrl: './user-chat.component.html',
-  styleUrls: ['./user-chat.component.sass']
+  styleUrls: ['./user-chat.component.scss']
 })
 export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked, OnDestroy {
   chat = null;

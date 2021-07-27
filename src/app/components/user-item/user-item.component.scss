@@ -1,0 +1,69 @@
+.user-item {
+  width: calc(25% - 10px);
+  overflow: hidden;
+  float: left;
+  margin: 5px;
+  position: relative;
+  background-color: #fff;
+}
+.user-item .image-cont img {
+  width: 100%;
+  height: 100%;
+}
+.user-item .image-cont .img-text {
+  position: absolute;
+  font-size: 14px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 0px 5px;
+}
+.user-item .item-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+  color: #fff;
+  font-size: 13px;
+}
+.user-item .text-container {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 5px;
+}
+
+.user-item:hover {
+  cursor: pointer;
+}
+
+.intro-message {
+  padding: 5px;
+  border-radius: 5px;
+  background-color: rgba(192, 56, 182, 0.4);
+  margin: 5px;
+  max-width: 100%;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media only screen and (max-width: 840px) {
+  .user-item {
+    width: calc(33% - 10px);
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .user-item {
+    width: calc(50% - 10px);
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .user-item {
+    width: 100%;
+  }
+}

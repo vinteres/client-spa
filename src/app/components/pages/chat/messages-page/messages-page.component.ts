@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'messages-page',
   templateUrl: './messages-page.component.html',
-  styleUrls: ['./messages-page.component.sass']
+  styleUrls: ['./messages-page.component.scss']
 })
 export class MessagesPageComponent implements OnInit, OnDestroy {
   faMenuItem = faAlignJustify;

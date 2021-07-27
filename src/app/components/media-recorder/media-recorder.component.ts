@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'media-recorder',
   templateUrl: './media-recorder.component.html',
-  styleUrls: ['./media-recorder.component.sass']
+  styleUrls: ['./media-recorder.component.scss']
 })
 export class MediaRecorderComponent implements OnInit, OnDestroy {
   faPlay = faPlay;

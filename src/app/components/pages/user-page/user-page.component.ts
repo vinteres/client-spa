@@ -43,7 +43,7 @@ import { ProfileQuestionService } from 'src/app/services/profile-question.servic
 @Component({
   selector: 'user-page',
   templateUrl: './user-page.component.html',
-  styleUrls: ['./user-page.component.sass']
+  styleUrls: ['./user-page.component.scss']
 })
 export class UserPageComponent implements OnInit, OnDestroy {
   faEllipsisH = faEllipsisH;

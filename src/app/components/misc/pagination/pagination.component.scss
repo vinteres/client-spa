@@ -1,0 +1,13 @@
+.pagination {
+  margin: 20px 0;
+}
+.pagination .page-item:not(.disabled) .page-link {
+  color: #000;
+}
+.pagination .page-item.active .page-link {
+  background-color: #000;
+  color: #fff;
+}
+.pagination .page-item .page-link:hover {
+  cursor: pointer;
+}

@@ -1,0 +1,26 @@
+.media-btn {
+  display: none;
+  color: #fff;
+  position: absolute;
+}
+
+.play-btn {
+  left: 20px;
+  bottom: 20px;
+}
+
+progress {
+  border-radius: 5px;
+  width: 80%;
+  height: 22px;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #e9ecef;
+  border-radius: 5px;
+}
+
+progress::-webkit-progress-value {
+  background-color: #007bff;
+  border-radius: 5px;
+}

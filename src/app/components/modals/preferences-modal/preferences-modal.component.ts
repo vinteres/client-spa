@@ -9,7 +9,7 @@ import { SearchPreferenceService } from 'src/app/services/search-preference.serv
 @Component({
   selector: 'preferences-modal',
   templateUrl: './preferences-modal.component.html',
-  styleUrls: ['./preferences-modal.component.sass']
+  styleUrls: ['./preferences-modal.component.scss']
 })
 export class PreferencesModalComponent implements OnInit, OnDestroy {
   @ViewChild('content') content;

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'created-by',
   templateUrl: './created-by.component.html',
-  styleUrls: ['./created-by.component.sass']
+  styleUrls: ['./created-by.component.scss']
 })
 export class CreatedByComponent implements OnInit {
 

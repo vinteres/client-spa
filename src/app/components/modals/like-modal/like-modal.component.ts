@@ -11,7 +11,7 @@ import { IntrosService } from 'src/app/services/intros.service';
 @Component({
   selector: 'like-modal',
   templateUrl: './like-modal.component.html',
-  styleUrls: ['./like-modal.component.sass']
+  styleUrls: ['./like-modal.component.scss']
 })
 export class LikeModalComponent implements OnInit, OnDestroy {
 

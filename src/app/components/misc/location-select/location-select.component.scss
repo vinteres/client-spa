@@ -1,0 +1,32 @@
+.select-container {
+  position: relative;
+}
+
+.dropdown {
+  position: absolute;
+  width: 100%;
+  background-color: #fff;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1;
+}
+.dropdown .dropdown-item {
+  padding: 5px;
+}
+.dropdown .dropdown-item:hover {
+  cursor: pointer;
+  background-color: #e0e0e0;
+}
+
+.no-locations {
+  padding: 10px;
+}
+
+.show-more-countries {
+  margin-bottom: 10px;
+}
+
+.show-more-countries:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

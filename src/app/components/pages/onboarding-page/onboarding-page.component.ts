@@ -13,7 +13,7 @@ import { UsersService } from 'src/app/services/users.service';
 @Component({
   selector: 'onboarding-page',
   templateUrl: './onboarding-page.component.html',
-  styleUrls: ['./onboarding-page.component.sass']
+  styleUrls: ['./onboarding-page.component.scss']
 })
 export class OnboardingPageComponent implements OnInit {
   loading: boolean;

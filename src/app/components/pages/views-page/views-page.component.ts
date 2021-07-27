@@ -4,7 +4,7 @@ import { UsersService } from 'src/app/services/users.service';
 @Component({
   selector: 'views-page',
   templateUrl: './views-page.component.html',
-  styleUrls: ['./views-page.component.sass']
+  styleUrls: ['./views-page.component.scss']
 })
 export class ViewsPageComponent implements OnInit {
   users: any = [];

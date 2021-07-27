@@ -4,7 +4,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'verified-badge',
   templateUrl: './verified-badge.component.html',
-  styleUrls: ['./verified-badge.component.sass']
+  styleUrls: ['./verified-badge.component.scss']
 })
 export class VerifiedBadgeComponent implements OnInit {
   faVerified = faStar;

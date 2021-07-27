@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'suspended-page',
   templateUrl: './suspended-page.component.html',
-  styleUrls: ['./suspended-page.component.sass']
+  styleUrls: ['./suspended-page.component.scss']
 })
 export class SuspendedPageComponent implements OnInit {
 

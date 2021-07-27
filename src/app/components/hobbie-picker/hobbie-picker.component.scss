@@ -1,0 +1,33 @@
+.interest-picker-container {
+  position: relative;
+  padding: 10px;
+  background-color: #f2f2f2;
+}
+.interest-picker-container .selected-container {
+  margin-bottom: 10px;
+}
+.interest-picker-container h5 {
+  margin: 0;
+}
+
+.hobbie-item {
+  margin: 5px;
+  padding: 0 5px;
+  display: inline-block;
+  border: 0px;
+  color: #fff;
+  background-color: #ff6060ff;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.hobbie-item.mutual {
+  background-color: #bec4c0;
+}
+.hobbie-item:hover {
+  background-color: red;
+}
+
+.item-close {
+  margin-left: 10px;
+}

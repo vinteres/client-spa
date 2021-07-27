@@ -4,7 +4,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'hobbie-picker',
   templateUrl: './hobbie-picker.component.html',
-  styleUrls: ['./hobbie-picker.component.sass']
+  styleUrls: ['./hobbie-picker.component.scss']
 })
 export class HobbiePickerComponent implements OnInit {
   faTimes = faTimes;

@@ -11,7 +11,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'settings-page',
   templateUrl: './settings-page.component.html',
-  styleUrls: ['./settings-page.component.sass']
+  styleUrls: ['./settings-page.component.scss']
 })
 export class SettingsPageComponent implements OnInit {
   faCheck = faCheck;

@@ -4,7 +4,7 @@ import { UsersService } from 'src/app/services/users.service';
 @Component({
   selector: 'compatibilities-page',
   templateUrl: './compatibilities-page.component.html',
-  styleUrls: ['./compatibilities-page.component.sass']
+  styleUrls: ['./compatibilities-page.component.scss']
 })
 export class CompatibilitiesPageComponent implements OnInit {
   users: any = [];

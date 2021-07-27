@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'modal-gallery',
   templateUrl: './modal-gallery.component.html',
-  styleUrls: ['./modal-gallery.component.sass']
+  styleUrls: ['./modal-gallery.component.scss']
 })
 export class ModalGalleryComponent implements OnInit, OnDestroy {
 

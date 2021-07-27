@@ -8,7 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'find-people-page',
   templateUrl: './find-people-page.component.html',
-  styleUrls: ['./find-people-page.component.sass']
+  styleUrls: ['./find-people-page.component.scss']
 })
 export class FindPeoplePageComponent implements OnInit {
   faMessage = faComments;

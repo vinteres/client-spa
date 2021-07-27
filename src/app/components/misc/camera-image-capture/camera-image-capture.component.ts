@@ -5,7 +5,7 @@ import { VerificationService } from 'src/app/services/verification.service';
 @Component({
   selector: 'camera-image-capture',
   templateUrl: './camera-image-capture.component.html',
-  styleUrls: ['./camera-image-capture.component.sass']
+  styleUrls: ['./camera-image-capture.component.scss']
 })
 export class CameraImageCaptureComponent implements OnInit, OnDestroy, AfterViewInit {
 
