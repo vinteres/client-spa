@@ -326,7 +326,8 @@
   "No cities found.": "Няма намерени резултати.",
   "mutual interests": "общи интереси",
   "mutual activities": "общи дейности",
-  "Compatibility percentage to me": "Процент съвместимост с мен",
+  "Compatibility percentage to me": "Процент съвместимост на личност с мен",
+  "Interests compatibility percentage to me": "Процент съвместимост на интереси с мен",
   "Your account has been suspended.": "Вашият акаунт е спрян.",
   "length": "символа",
   "Vinteres is a dating website with the main goal to match people by personality and interests. For building serious relationships.": "Vinteres е сайт за запознанства, който се цели да сближи хора по общ характер и взаимни интереси. За изграждане на серйозни връзки.",
@@ -513,5 +514,8 @@
   "Terms of Usage": "Условия за Ползване",
   "Privacy Policy": "Политика за Поверителност",
   "By continuing, you're confirming that you've read and agree to our": "Продължавайки, вие потвърждавате, че сте прочели и приемате нашите",
-  "and": "и"
+  "and": "и",
+  "Favorite interest": "Любим интерес",
+  "Set as favorite. Favorite interests have priority.": "Направи този интерес любим. Любимите интереси се приотеризират.",
+  "You can't have more than 3 favorite interests.": "Не може да имате повече от 3 любими интереса."
 }

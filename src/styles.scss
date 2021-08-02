@@ -4,6 +4,10 @@
 @import "~angular-notifier/styles.css";
 @import "~bootstrap/scss/bootstrap";
 
+:root {
+  --favorite: #e8e81a;
+}
+
 @font-face {
   font-family: BalsamiqSans;
   src: url(assets/font/BalsamiqSans-Regular.ttf) format("opentype");

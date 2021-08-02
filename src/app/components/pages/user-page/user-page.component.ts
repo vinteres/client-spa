@@ -24,7 +24,9 @@ import {
   faUserFriends,
   faChevronDown,
   faUser,
-  faStar
+  faStar,
+  faCrown,
+  faIcons
 } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/services/auth.service';
 import { CHttp } from 'src/app/services/chttp.service';
@@ -69,6 +71,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
   faArrowDown = faChevronDown;
   faPersonality = faUser;
   faZodiac = faStar;
+  faFavorite = faCrown;
+  faCompPersonality = faUserFriends;
+  faCompInterests = faIcons;
 
   @ViewChild('editAnswerDialog') editAnswerDialog;
 
@@ -180,6 +185,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.userId = userId;
     this.usersService.getById(userId)
       .subscribe(user => {
+        user.interests.sort((a, b) => b.favorite - a.favorite);
+        user.activities.sort((a, b) => b.favorite - a.favorite);
+
         user.location = user.location || { fullName: '' };
         user.lookingFor = this.getLookingForList(user.looking_for_type);
         user.zodiac = this.usersService.ZODIAC_SIGNS.find(({ value }) => value === user.zodiac)?.label;

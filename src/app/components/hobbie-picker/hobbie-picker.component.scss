@@ -20,6 +20,15 @@
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
+
+  > * {
+    display: inline-block;
+    vertical-align: middle;
+
+    &:first-child {
+      margin-right: 10px;
+    }
+  }
 }
 .hobbie-item.mutual {
   background-color: #bec4c0;

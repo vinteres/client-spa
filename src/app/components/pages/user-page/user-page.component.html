@@ -26,7 +26,16 @@
       </span>
     </span>
     <span *ngIf="user.compatibility" class="badge badge-pill badge-secondary align-middle compatibility-badge"
-      style="margin-left: 10px;" title="{{ 'Compatibility percentage to me' | translate }}">{{ user.compatibility }}%</span>
+      style="margin-left: 10px;" title="{{ 'Compatibility percentage to me' | translate }}">
+      <fa-icon [icon]="faCompPersonality"></fa-icon>
+      {{ user.compatibility }}%
+    </span>
+
+    <span *ngIf="user.interestCompatibility" class="badge badge-pill badge-secondary align-middle compatibility-badge"
+      style="margin-left: 10px; background-color: #bf45f7;" title="{{ 'Interests compatibility percentage to me' | translate }}">
+      <fa-icon [icon]="faCompInterests"></fa-icon>
+      {{ user.interestCompatibility }}%
+    </span>
   </div>
   <div>
     {{ user.title }}
@@ -156,8 +165,8 @@
           </h5>
           <div *ngIf="!editingInterests">
             <div *ngIf="getInterests().length === 0">{{ 'No interests yet.' | translate }}</div>
-            <span *ngFor="let interest of getInterests()" class="interest-item"
-              [ngClass]="{'mutual': interest.mutual}">
+            <span *ngFor="let interest of getInterests()" class="interest-item" [ngClass]="{'mutual': interest.mutual}">
+              <fa-icon *ngIf="interest.favorite" [icon]="faFavorite" style="color: var(--favorite)"></fa-icon>
               {{ interest.name | translate }}
             </span>
           </div>
@@ -179,6 +188,7 @@
           <div *ngIf="!editingActivities">
             <div *ngIf="getActivities().length === 0">{{ 'No activities yet.' | translate }}</div>
             <span *ngFor="let interest of getActivities()" class="interest-item">
+              <fa-icon *ngIf="interest.favorite" [icon]="faFavorite" style="color: var(--favorite)" title="{{ 'Favorite interest' | translate }}"></fa-icon>
               {{ interest.name | translate }}
             </span>
           </div>

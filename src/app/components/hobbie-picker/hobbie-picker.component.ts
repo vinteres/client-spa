@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faCrown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'hobbie-picker',
@@ -8,6 +8,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 })
 export class HobbiePickerComponent implements OnInit {
   faTimes = faTimes;
+  faFavorite = faCrown;
 
   @Input() selectedHobbies: any;
   @Input() list: any;
@@ -17,6 +18,8 @@ export class HobbiePickerComponent implements OnInit {
   interestSearchTimer: any;
   showInterestHighlight: boolean;
   matches: any = [];
+
+  error: boolean = false;
 
   inpValue: string = '';
 
@@ -28,7 +31,7 @@ export class HobbiePickerComponent implements OnInit {
 
     this.selectedHobbies.push(hobbie);
 
-    this.changed.emit(this.selectedHobbies);
+    this.emitEvent();
   }
 
   remove(hobbie) {
@@ -40,7 +43,34 @@ export class HobbiePickerComponent implements OnInit {
       }
     }
 
-    this.changed.emit(this.selectedHobbies);
+    this.emitEvent();
+  }
+
+  setFavorite(item) {
+    let c = 0;
+    item.favorite = !item.favorite;
+    for (const item of this.selectedHobbies) {
+      if (!item.favorite) {
+        continue;
+      }
+
+      c++;
+    };
+
+    if (c > 3) {
+      this.error = true;
+      setTimeout(() => {
+        this.error = false;
+      }, 5000);
+
+      item.favorite = !item.favorite;
+
+      return;
+    }
+
+    this.emitEvent();
+
+    this.selectedHobbies.sort((a, b) => b.favorite - a.favorite);
   }
 
   hasHobbie(targetHobbie) {
@@ -57,8 +87,12 @@ export class HobbiePickerComponent implements OnInit {
     if (e.keyCode !== 13) return;
 
     this.selectedHobbies.push({ name: this.inpValue, custom: true });
-    this.changed.emit(this.selectedHobbies);
+    this.emitEvent();
 
     this.inpValue = '';
+  }
+
+  private emitEvent() {
+    this.changed.emit(this.selectedHobbies);
   }
 }

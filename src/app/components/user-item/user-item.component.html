@@ -17,6 +17,24 @@
       </div>
     </div>
 
-    <span *ngIf="user.compatibility" class="badge badge-pill badge-secondary compatibility-badge" title="{{ 'Compatibility percentage to me' | translate }}" style="position: absolute; right: 5px; top: 5px;">{{ user.compatibility }}%</span>
+    <div style="position: absolute; right: 5px; top: 5px;">
+      <span *ngIf="user.compatibility"
+            class="badge badge-pill badge-secondary compatibility-badge"
+            title="{{ 'Compatibility percentage to me' | translate }}"
+            style="margin-right: 5px; "
+            >
+        <fa-icon [icon]="faPersonality"></fa-icon>
+        {{ user.compatibility }}%
+      </span>
+
+      <span *ngIf="user.interestCompatibility"
+            class="badge badge-pill badge-secondary compatibility-badge"
+            title="{{ 'Interests compatibility percentage to me' | translate }}"
+            style="background-color: #bf45f7;"
+            >
+        <fa-icon [icon]="faInterests"></fa-icon>
+        {{ user.interestCompatibility }}%
+      </span>
+    </div>
   </div>
 </div>

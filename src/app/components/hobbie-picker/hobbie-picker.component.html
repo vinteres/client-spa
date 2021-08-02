@@ -2,14 +2,29 @@
   <div *ngIf="selectedHobbies" class="selected-container">
     <h5> {{ 'Selected ' + type + ':' | translate }}</h5>
     <div *ngIf="0 === selectedHobbies.length">{{ 'No selected ' + type + '.' | translate }}</div>
-    <span *ngFor="let hobbie of selectedHobbies" class="hobbie-item" (click)="remove(hobbie)" style="display: inline-block;">
-      <span class="align-middle">{{ hobbie.name | translate }}</span> <fa-icon class="align-middle item-close" [icon]="faTimes"></fa-icon>
+    <span *ngFor="let hobbie of selectedHobbies" class="hobbie-item" style="display: inline-block;">
+      <fa-icon
+        [icon]="faFavorite"
+        [ngStyle]="{ 'color': (hobbie.favorite ? 'var(--favorite)': '') }"
+        (click)="setFavorite(hobbie)"
+        title="{{ 'Set as favorite. Favorite interests have priority.' | translate }}"
+        ></fa-icon>
+      <span class="align-middle">{{ hobbie.name | translate }}</span>
+      <fa-icon class="align-middle item-close" [icon]="faTimes" (click)="remove(hobbie)"></fa-icon>
     </span>
+
+    <div *ngIf="error" style="margin: 5px;">
+      <small class="text-danger">
+        {{ 'You can\'t have more than 3 favorite interests.' | translate }}
+      </small>
+    </div>
   </div>
 
   <div>
     <h5>{{ 'All ' + type + ':' | translate }}</h5>
-    <span *ngFor="let hobbie of list" class="hobbie-item" (click)="add(hobbie)">{{ hobbie.name | translate }}</span>
+    <span *ngFor="let hobbie of list" class="hobbie-item" (click)="add(hobbie)">
+      {{ hobbie.name | translate }}
+    </span>
   </div>
   <input class="form-control" style="margin-top: 10px;" (keydown)="keydownInput($event)" [(ngModel)]="inpValue" placeholder="{{ 'Add other ' + type + '...' | translate }}" />
 </div>
