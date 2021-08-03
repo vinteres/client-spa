@@ -76,6 +76,13 @@
           </small>
         </div>
         <button class="btn btn-outline-primary" type="submit" [disabled]="loading">{{ 'Sign up' | translate }}</button>
+
+        <div style="text-align: center; margin: 10px 0;">
+          {{ 'Or sign up with' | translate }}
+        </div>
+
+        <sign-in-with (loadingChanged)="loadingChanged($event)"></sign-in-with>
+
         <div class="terms-msg">
           {{ "By continuing, you're confirming that you've read and agree to our" | translate }}
           <a [href]="termsAndUsageUrl" target="_blank">{{ 'Terms of Usage' | translate }}</a> {{ 'and' | translate }}

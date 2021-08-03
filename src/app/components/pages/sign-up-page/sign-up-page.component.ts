@@ -115,6 +115,10 @@ export class SignUpPageComponent implements OnInit {
     return environment.terms_and_usage_url;
   }
 
+  loadingChanged(loading: boolean) {
+    this.loading = loading;
+  }
+
   get privacyPolicyUrl() {
     return environment.privacy_policy_url;
   }

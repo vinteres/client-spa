@@ -60,5 +60,9 @@ export class LoginPageComponent implements OnInit {
       this.loginForm.form.setErrors(errors);
     }
   }
+
+  loadingChanged(loading: boolean) {
+    this.loading = loading;
+  }
 }
 

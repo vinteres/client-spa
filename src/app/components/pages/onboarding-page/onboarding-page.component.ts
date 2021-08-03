@@ -88,8 +88,11 @@ export class OnboardingPageComponent implements OnInit {
 
   private setStep(step) {
     if (1 === step) {
-      this.createAccountInfoForm();
-      this.step = step;
+      this.http.get(environment.api_url + 'onboarding/account-info')
+        .subscribe(resp => {
+          this.createAccountInfoForm(resp);
+          this.step = step;
+        });
     } else if (2 === step) {
       this.createAboutForm();
       this.step = step;
@@ -164,13 +167,13 @@ export class OnboardingPageComponent implements OnInit {
     this.quizForm = this.formBuilder.group(formControls);
   }
 
-  private createAccountInfoForm() {
+  private createAccountInfoForm(accountInfo: any) {
     this.accountInfoForm = this.formBuilder.group({
-      birthday: ['', [this.ageValidator(), Validators.required]],
-      gender: ['', [Validators.required]],
-      name: ['', [Validators.required]],
-      interested_in: ['', [Validators.required]],
-      city: ['', [Validators.required]],
+      birthday: [accountInfo.birthday ?? '', [this.ageValidator(), Validators.required]],
+      gender: [accountInfo.gender ?? '', [Validators.required]],
+      name: [accountInfo.name ?? '', [Validators.required]],
+      interested_in: [accountInfo.interested_in ?? '', [Validators.required]],
+      city: [accountInfo.city ?? '', [Validators.required]],
     });
   }
 
@@ -205,7 +208,6 @@ export class OnboardingPageComponent implements OnInit {
       employment_status:  ['', Validators.required],
       personality: ['', [Validators.required]],
       zodiac: ['', [Validators.required]],
-      
     });
   }
 

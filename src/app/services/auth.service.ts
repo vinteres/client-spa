@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 
+declare var gapi: any;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +14,8 @@ export class AuthService {
 
   loggedInSubject$: Subject<any> = new Subject();
   logoutSubject$: Subject<any> = new Subject();
+
+  public googleAuth2: Promise<any>;
 
   constructor(
     private router: Router,
@@ -28,6 +32,16 @@ export class AuthService {
         this.emitUserLoggedInEvent();
         this.router.navigate(['/']);
       }
+    });
+
+    this.googleAuth2 = new Promise((resolve) => {
+      gapi.load('auth2', () => {
+        const auth2 = gapi.auth2.init({
+          client_id: environment.google_client_id,
+        });
+
+        resolve(auth2);
+      });
     });
   }
 
@@ -49,6 +63,15 @@ export class AuthService {
           reject(error);
         });
     });
+  }
+
+  public loginUser(data: any) {
+    this.addUserToStorage(data);
+    this.emitUserLoggedInEvent();
+  }
+
+  public loginWith(data: any) {
+    return this.http.post(environment.api_url + 'login-with', data);
   }
 
   public create(data: any) {

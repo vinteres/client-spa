@@ -26,6 +26,8 @@
     "@ng-bootstrap/ng-bootstrap": "^9.0.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
+    "@types/gapi": "^0.0.41",
+    "@types/gapi.auth2": "^0.0.55",
     "angular-notifier": "^6.0.1",
     "bootstrap": "^4.5.3",
     "css.gg": "^2.0.0",
