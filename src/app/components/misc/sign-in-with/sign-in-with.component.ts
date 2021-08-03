@@ -39,6 +39,8 @@ export class SignInWithComponent implements OnInit {
               } else {
                 this.router.navigateByUrl(`/user/${this.authService.getLoggedUser().id}`);
               }
+            }, (error) => {
+              this.setLoading(false);
             });
           }, (error) => {
             this.setLoading(false);
