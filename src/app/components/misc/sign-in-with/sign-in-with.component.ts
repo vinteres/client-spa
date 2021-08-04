@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, ViewChild, EventEmitter, ChangeDetectorRef, ApplicationRef, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -16,7 +16,8 @@ export class SignInWithComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private zone: NgZone
   ) { }
 
   ngOnInit(): void {
@@ -25,20 +26,24 @@ export class SignInWithComponent implements OnInit {
   ngAfterViewInit() {
     this.authService.googleAuth2
       .then((auth2) => {
-        auth2.attachClickHandler(this.btn.nativeElement, {},
+        auth2.attachClickHandler(
+          this.btn.nativeElement,
+          {},
           (googleUser) => {
             this.authService.loginWith({
               name: googleUser.Os.getName(),
               email: googleUser.Os.getEmail(),
               token: googleUser.Zb.access_token
             }).subscribe((resp: any) => {
-              this.authService.loginUser(resp);
+              this.zone.run(() => {
+                this.authService.loginUser(resp);
 
-              if ('onboarding' === resp.status) {
-                this.router.navigateByUrl('/onboarding');
-              } else {
-                this.router.navigateByUrl(`/user/${this.authService.getLoggedUser().id}`);
-              }
+                if ('onboarding' === resp.status) {
+                  this.router.navigateByUrl('/onboarding');
+                } else {
+                  this.router.navigateByUrl(`/user/${this.authService.getLoggedUser().id}`);
+                }
+              });
             }, (error) => {
               this.setLoading(false);
             });
