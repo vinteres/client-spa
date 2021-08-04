@@ -337,6 +337,13 @@
               <ng-template ngFor let-item [ngForOf]="user.lookingFor">{{ item.item | translate }}{{ item.s }} </ng-template>
             </span>
           </div>
+
+          <div *ngIf="user?.searchPreferences?.ageRangeSet" class="user-info-item">
+            <fa-icon [icon]="faAge" class="info-icon"></fa-icon>
+            <span class="info-text">
+              {{ 'Age' | translate }} {{ user.searchPreferences.fromAge }}-{{ user.searchPreferences.toAge }}
+            </span>
+          </div>
         </div>
 
       </div>

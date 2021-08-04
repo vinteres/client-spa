@@ -26,7 +26,8 @@ import {
   faUser,
   faStar,
   faCrown,
-  faIcons
+  faIcons,
+  faHourglassHalf
 } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/services/auth.service';
 import { CHttp } from 'src/app/services/chttp.service';
@@ -74,6 +75,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   faFavorite = faCrown;
   faCompPersonality = faUserFriends;
   faCompInterests = faIcons;
+  faAge = faHourglassHalf;
 
   @ViewChild('editAnswerDialog') editAnswerDialog;
 
@@ -157,8 +159,16 @@ export class UserPageComponent implements OnInit, OnDestroy {
       });
 
     this.searchPreferenceSubscription = searchPreferenceService.changedSubject$
-      .subscribe(({ lookingFor }) => {
+      .subscribe(({ fromAge, toAge, lookingFor }) => {
         this.user.lookingFor = this.getLookingForList(lookingFor);
+
+        if (!this.user.searchPreferences) this.user.searchPreferences = {};
+
+        this.user.searchPreferences = {
+          ageRangeSet: Boolean(fromAge && fromAge),
+          fromAge: fromAge,
+          toAge: toAge
+        };
       });
 
     this.likeSentSubscription = this.introsService.likeSentSubject$
@@ -365,12 +375,12 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
 
     this.http.post(environment.api_url + 'user/location/' + this.editFromData.id)
-    .subscribe(response => {
-      this.user.location = this.editFromData;
-      this.editingFrom = false;
-      this.translate.get('Location changed')
-        .subscribe(translatedText => this.notifierService.notify('success', translatedText));
-    });
+      .subscribe(response => {
+        this.user.location = this.editFromData;
+        this.editingFrom = false;
+        this.translate.get('Location changed')
+          .subscribe(translatedText => this.notifierService.notify('success', translatedText));
+      });
   }
 
   changeEditHobbies(e) {
@@ -519,8 +529,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
   hasMoreThanOneQuestion(categoryId) {
     return this.allProfileQuestions &&
-           this.allProfileQuestions[categoryId] &&
-           this.allProfileQuestions[categoryId].length > 1;
+      this.allProfileQuestions[categoryId] &&
+      this.allProfileQuestions[categoryId].length > 1;
   }
 
   private like() {

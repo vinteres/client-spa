@@ -1,4 +1,6 @@
-<h1>{{ 'Compatibilities' | translate }}</h1>
+<h1>{{ 'Compatibilities' | translate }}
+  <fa-icon [icon]="faSearchPref" class="primary-item" style="margin-left: 10px;" (click)="openModal(content)"></fa-icon>
+</h1>
 <h5>{{ 'People with high compatibility percentage to me.' | translate }}</h5>
 
 <loader *ngIf="loading"></loader>
@@ -6,3 +8,28 @@
   {{ 'No compatibilities yet.' | translate }}
 </div>
 <user-item *ngFor="let user of users" [user]="user"></user-item>
+
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <div>
+      <h4>{{ 'Age' | translate }}</h4>
+      <div class="row">
+        <div class="col-6">
+          <select class="form-control" [value]="editSearchPref.fromAge" (change)="changePref('fromAge', +$event.target.value)">
+            <option *ngFor="let age of ages" [value]="age" [selected]="age == editSearchPref.fromAge">{{age}}</option>
+          </select>
+        </div>
+        <div class="col-6">
+          <select class="form-control" [value]="editSearchPref.toAge" (change)="changePref('toAge', +$event.target.value)">
+            <option *ngFor="let age of agesTo" [value]="age" [selected]="age == editSearchPref.toAge">{{age}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-outline-primary" style="width: 100%; margin-top: 20px;" (click)="saveSearchPref()">{{ 'Save' | translate }}</button>
+  </div>
+</ng-template>
