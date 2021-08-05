@@ -35,7 +35,6 @@ const routes: Routes = [
   { path: 'likes', component: IntroPageComponent, canActivate: [AuthGuard, SuspendedGuard, IsOnboardingGuard] },
   { path: 'user/:id', component: UserPageComponent, canActivate: [AuthGuard, SuspendedGuard, IsOnboardingGuard] },
   { path: 'settings', component: SettingsPageComponent, canActivate: [AuthGuard, SuspendedGuard, IsOnboardingGuard] },
-  { path: 'notifications', component: NotificationPageComponent, canActivate: [AuthGuard, SuspendedGuard, IsOnboardingGuard] },
   { path: 'suspended', component: SuspendedPageComponent, canActivate: [AuthGuard, IsOnboardingGuard] },
   { path: 'onboarding', component: OnboardingPageComponent, canActivate: [AuthGuard, IsNotOnboardingGuard] },
   { path: 'login', component: LoginPageComponent, canActivate: [LoggedInGuard] },

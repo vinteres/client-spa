@@ -13,11 +13,7 @@
         </a>
         <a *ngIf="isActiveUser" class="header-item" routerLink="/chat" style="position: relative;" title="{{ 'Chat' | translate}}">
           <fa-icon class="primary-item" [icon]="faEnvelope"></fa-icon>
-          <span *ngIf="notifsCount.msg > 0" class="badge rounded-pill bg-danger" style="top: 8px; right: -8px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{notifsCount.msg}}</span>
-        </a>
-        <a *ngIf="isActiveUser" class="header-item" routerLink="/notifications" style="position: relative;" title="{{ 'Notifications' | translate }}">
-          <fa-icon class="primary-item" [icon]="faBell"></fa-icon>
-          <span *ngIf="notifsCount.notif > 0" class="badge rounded-pill bg-danger" style="top: 8px; right: -8px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{notifsCount.notif}}</span>
+          <span *ngIf="notifsCount.msg > 0" class="badge rounded-pill bg-danger notif-badge">{{notifsCount.msg}}</span>
         </a>
         <div class="btn-group">
           <a data-toggle="dropdown" class="header-item" style="width: 15px; cursor: pointer;">
@@ -55,10 +51,12 @@
     <a routerLink="/matches" class="item">
       <fa-icon [icon]="faMatch"></fa-icon>
       <span class="label">{{ 'Matches' | translate }}</span>
+      <span *ngIf="notifsCount.matches > 0" class="badge rounded-pill bg-danger" style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{notifsCount.matches}}</span>
     </a>
     <a routerLink="/views" class="item">
       <fa-icon [icon]="faViews"></fa-icon>
       <span class="label">{{ 'Views' | translate }}</span>
+      <span *ngIf="notifsCount.visits > 0" class="badge rounded-pill bg-danger" style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{notifsCount.visits}}</span>
     </a>
     <a routerLink="/compatibilities" class="item">
       <fa-icon [icon]="faCompatibility"></fa-icon>

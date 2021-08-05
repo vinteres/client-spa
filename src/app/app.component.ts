@@ -69,8 +69,9 @@ export class AppComponent implements OnDestroy {
 
   notifsCount = {
     msg: 0,
-    notif: 0,
-    intro: 0
+    intro: 0,
+    visits: 0,
+    matches: 0
   };
 
   showVerifyAlert = false;
@@ -137,8 +138,9 @@ export class AppComponent implements OnDestroy {
       .subscribe(() => {
         this.notifsCount = {
           msg: 0,
-          notif: 0,
-          intro: 0
+          intro: 0,
+          visits: 0,
+          matches: 0
         };
         if (this.wsSubscription) { this.wsSubscription.unsubscribe(); }
         if (this.countSubscription) { this.countSubscription.unsubscribe(); }
@@ -173,8 +175,13 @@ export class AppComponent implements OnDestroy {
     this.wsSubscription = this.websocketService.websocketMessageSubject$
       .subscribe((data) => {
         if ('notif' === data.type) {
-          this.notifsCount.notif++;
-          this.notificationsService.playSound();
+          if (data?.notification?.type === 'view') {
+            this.notifsCount.visits++;
+            this.notificationsService.playSound();
+          } else if (['matched', 'intro_like'].includes(data?.notification?.type)) {
+            this.notifsCount.matches++;
+            this.notificationsService.playSound();
+          }
         } else if (
           'msg' === data.type &&
           !this.authService.isLoggedUser(data.user_id) &&
@@ -196,8 +203,10 @@ export class AppComponent implements OnDestroy {
           this.notifsCount.msg = notSeenMsgs;
         } else if ('see_intros' === data.type) {
           this.notifsCount.intro = 0;
-        } else if ('see_notifs' === data.type) {
-          this.notifsCount.notif = 0;
+        } else if ('see_visits' === data.type) {
+          this.notifsCount.visits = 0;
+        } else if ('see_matches' === data.type) {
+          this.notifsCount.matches = 0;
         }
 
         this.setTitle();
@@ -252,7 +261,7 @@ export class AppComponent implements OnDestroy {
   }
 
   private notSeenCount() {
-    return this.notifsCount.msg + this.notifsCount.intro + this.notifsCount.notif;
+    return this.notifsCount.msg + this.notifsCount.intro + this.notifsCount.matches + this.notifsCount.visits;
   }
 
   loggedUser() {

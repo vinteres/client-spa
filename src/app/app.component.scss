@@ -9,6 +9,16 @@ $contentWidth: 800px;
   overflow: auto;
 }
 
+.notif-badge {
+  top: 8px;
+  right: -8px;
+  color: #fff;
+  font-size: 11px;
+  font-family: initial;
+  font-weight: 800;
+  position: absolute;
+}
+
 .header {
   height: 50px;
   width: 100%;
