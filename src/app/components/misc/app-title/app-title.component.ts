@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-title',
@@ -12,4 +13,7 @@ export class AppTitleComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  get websiteUrl() {
+    return environment.website_url;
+  }
 }

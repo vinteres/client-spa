@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   api_url: 'http://localhost:4000/api/',
   ws_url: 'ws://localhost:4000',
+  website_url: 'http://localhost:3000',
   terms_and_usage_url: 'http://localhost:3000/terms-of-usage',
   privacy_policy_url: 'http://localhost:3000/privacy-policy',
   google_client_id: '766499224314-sccorlbnqno2dpp8e6vg6c28k6gii4a4.apps.googleusercontent.com',
