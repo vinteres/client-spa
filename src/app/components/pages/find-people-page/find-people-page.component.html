@@ -1,4 +1,4 @@
-<h1>{{ 'Find people' | translate }} <span *ngIf="searchPref && searchPref.location">{{ 'in' | translate }} {{ searchPref.location.fullName }}</span>
+<h1>{{ 'Find people' | translate }} <span *ngIf="searchPref?.location?.fullName">{{ 'in' | translate }} {{ searchPref.location.fullName }}</span>
   <fa-icon [icon]="faSearchPref" class="primary-item" style="margin-left: 10px;" (click)="openModal(content)"></fa-icon>
 </h1>
 
@@ -38,6 +38,6 @@
       </div>
     </div>
 
-    <button class="btn btn-outline-primary" style="width: 100%; margin-top: 20px;" (click)="saveSearchPref()">{{ 'Save' | translate }}</button>
+    <button class="btn btn-outline-primary" style="width: 100%; margin-top: 20px;" (click)="saveSearchPref()">{{ 'Search' | translate }}</button>
   </div>
 </ng-template>

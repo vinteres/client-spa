@@ -27,7 +27,7 @@ export class FindPeoplePageComponent implements OnInit {
   searchPref: {
     fromAge: number,
     toAge: number,
-    location: { cityId?: string, name: string, fullName: string }
+    location?: { cityId?: string, name: string, fullName: string }
   };
 
   editSearchPref: {
@@ -43,6 +43,12 @@ export class FindPeoplePageComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private modalService: NgbModal
   ) {
+    this.searchPref = {
+      fromAge: 18,
+      toAge: 70,
+      location: { name: '', fullName: '' }
+    };
+
     this.activatedRoute.queryParams
       .subscribe(params => {
 
@@ -60,13 +66,16 @@ export class FindPeoplePageComponent implements OnInit {
         this.loadUsers();
       });
 
-    this.userService.getSearchPref()
-      .subscribe((searchPreference) => {
-        this.searchPref = searchPreference;
+    this.ages = this.getAges(18);
+    this.agesTo = this.getAges(this.searchPref.fromAge);
 
-        this.ages = this.getAges(18);
-        this.agesTo = this.getAges(this.searchPref.fromAge);
-      });
+    // this.userService.getSearchPref()
+    //   .subscribe((searchPreference) => {
+    //     this.searchPref = searchPreference;
+
+    //     this.ages = this.getAges(18);
+    //     this.agesTo = this.getAges(this.searchPref.fromAge);
+    //   });
   }
 
   ngOnInit(): void {
@@ -80,7 +89,7 @@ export class FindPeoplePageComponent implements OnInit {
     this.agesTo = this.getAges(this.editSearchPref.fromAge);
   }
 
-  locationChanged(location: {id: string, name: string, fullName: string}) {
+  locationChanged(location: { id: string, name: string, fullName: string }) {
     this.editSearchPref.location = {
       cityId: location.id,
       name: null,
@@ -100,7 +109,11 @@ export class FindPeoplePageComponent implements OnInit {
   loadUsers() {
     this.loading = true;
 
-    this.userService.getUsers(this.page)
+    this.userService.getUsers(this.page, {
+      fromAge: this.searchPref.fromAge,
+      toAge: this.searchPref.toAge,
+      cityId: this.searchPref?.location?.cityId
+    })
       .subscribe(response => {
         this.users = response.users;
         this.loading = false;
@@ -127,25 +140,35 @@ export class FindPeoplePageComponent implements OnInit {
   }
 
   saveSearchPref() {
-    const payload = {
+    // const payload = {
+    //   fromAge: this.editSearchPref.fromAge,
+    //   toAge: this.editSearchPref.toAge,
+    //   cityId: this.editSearchPref.location.cityId,
+    // };
+
+    this.searchPref = {
       fromAge: this.editSearchPref.fromAge,
       toAge: this.editSearchPref.toAge,
-      cityId: this.editSearchPref.location.cityId,
+      location: { ...this.editSearchPref.location },
     };
 
-    this.userService.setSearchPref(payload)
-      .subscribe(() => {
-        this.searchPref = {
-          fromAge: this.editSearchPref.fromAge,
-          toAge: this.editSearchPref.toAge,
-          location: { ...this.editSearchPref.location },
-        };
+    this.modalService.dismissAll();
 
-        this.modalService.dismissAll();
+    this.pageChange(1);
+    this.loadUsers();
+    // this.userService.setSearchPref(payload)
+    //   .subscribe(() => {
+    //     this.searchPref = {
+    //       fromAge: this.editSearchPref.fromAge,
+    //       toAge: this.editSearchPref.toAge,
+    //       location: { ...this.editSearchPref.location },
+    //     };
 
-        this.pageChange(1);
+    //     this.modalService.dismissAll();
 
-        this.loadUsers();
-      });
+    //     this.pageChange(1);
+
+    //     this.loadUsers();
+    //   });
   }
 }

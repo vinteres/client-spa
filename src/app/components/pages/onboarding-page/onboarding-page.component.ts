@@ -83,7 +83,7 @@ export class OnboardingPageComponent implements OnInit {
 
     this.onboardingService.completedSubject$.next();
 
-    return this.router.navigateByUrl(`/user/${user.id}`);
+    return this.router.navigateByUrl('/find-people');
   }
 
   private setStep(step) {

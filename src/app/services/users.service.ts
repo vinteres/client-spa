@@ -71,8 +71,10 @@ export class UsersService {
     return this.http.get(environment.api_url + `user/${id}`);
   }
 
-  getUsers(page) {
-    return this.http.get(environment.api_url + 'users?page=' + page);
+  getUsers(page, payload) {
+    const q = { page, ...payload };
+
+    return this.http.get(environment.api_url + 'users?' + Object.keys(q).filter(k => q[k]).map(k => `${k}=${q[k]}`).join('&'));
   }
 
   getMatches() {

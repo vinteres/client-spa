@@ -43,14 +43,14 @@
   </div>
 
   <div *ngIf="isActiveUser" class="left-menu">
+    <a routerLink="/find-people" class="item">
+      <fa-icon [icon]="faFindPeople"></fa-icon>
+      <span class="label">{{ 'Find people' | translate }}</span>
+    </a>
     <a routerLink="/likes" class="item">
       <fa-icon [icon]="faIntro"></fa-icon>
       <span class="label">{{ 'Likes' | translate }}</span>
       <span *ngIf="notifsCount.intro > 0" class="badge rounded-pill bg-danger" style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{notifsCount.intro}}</span>
-    </a>
-    <a routerLink="/find-people" class="item">
-      <fa-icon [icon]="faFindPeople"></fa-icon>
-      <span class="label">{{ 'Find people' | translate }}</span>
     </a>
     <a routerLink="/matches" class="item">
       <fa-icon [icon]="faMatch"></fa-icon>
