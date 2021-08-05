@@ -95,6 +95,7 @@ export class SettingsPageComponent implements OnInit {
       height: [this.settings.profileSettings.height, [Validators.required, Validators.min(100), Validators.max(250)]],
       personality: [this.settings.profileSettings.personality, [Validators.required]],
       zodiac: [this.settings.profileSettings.zodiac, [Validators.required]],
+      income: [this.settings.profileSettings.income, [Validators.required]],
       smoking:  [this.settings.profileSettings.smoking, Validators.required],
       drinking:  [this.settings.profileSettings.drinking, Validators.required],
       body:  [this.settings.profileSettings.body, Validators.required],
@@ -125,6 +126,7 @@ export class SettingsPageComponent implements OnInit {
   get height() { return this.profileInfoForm.get('height'); }
   get personality() { return this.profileInfoForm.get('personality'); }
   get zodiac() { return this.profileInfoForm.get('zodiac'); }
+  get income() { return this.profileInfoForm.get('income'); }
   get smoking() { return this.profileInfoForm.get('smoking'); }
   get drinking() { return this.profileInfoForm.get('drinking'); }
   get body() { return this.profileInfoForm.get('body'); }

@@ -316,6 +316,12 @@
             <fa-icon [icon]="faZodiac" class="info-icon"></fa-icon>
             <span class="info-text">{{ user.zodiac | translate }}</span>
           </div>
+          <div *ngIf="user.income" class="user-info-item">
+            <fa-icon [icon]="faIncome" class="info-icon"></fa-icon>
+            <span class="info-text">
+              {{ user.income + ' income' | translate }}
+            </span>
+          </div>
         </div>
 
         <div class="shadow-sm rounded profile-info-container" style="margin-top: 10px;">
@@ -344,8 +350,14 @@
               {{ 'Age' | translate }} {{ user.searchPreferences.fromAge }}-{{ user.searchPreferences.toAge }}
             </span>
           </div>
-        </div>
 
+          <div *ngIf="user?.searchPreferences?.income" class="user-info-item">
+            <fa-icon [icon]="faIncome" class="info-icon"></fa-icon>
+            <span class="info-text">
+              {{ user.searchPreferences.income + ' income' | translate }}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

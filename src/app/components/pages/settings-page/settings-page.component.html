@@ -334,6 +334,32 @@
           </div>
         </div>
       </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">{{ 'Income' | translate }}</label>
+        <div class="col-sm-9">
+          <div class="radio">
+            <label><input type="radio" value="not_tell" name="income" formControlName="income">{{ 'Rather not tell' | translate }}</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" value="none" name="income" formControlName="income">{{ 'None' | translate }}</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" value="low" name="income" formControlName="income">{{ 'Low' | translate }}</label>
+          </div>
+          <div class="radio disabled">
+            <label><input type="radio" value="middle" name="income" formControlName="income">{{ 'Average:income' | translate }}</label>
+          </div>
+          <div class="radio disabled">
+            <label><input type="radio" value="high" name="income" formControlName="income">{{ 'High' | translate }}</label>
+          </div>
+          <div>
+            <small *ngIf="income.invalid && (income.dirty || income.touched)" class="text-danger">
+              {{ 'Required field' | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
     </form>
 
     <button class="btn btn-outline-primary" (click)="saveProfileInfo()">{{ 'Save' | translate }}</button>

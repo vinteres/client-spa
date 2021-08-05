@@ -19,5 +19,10 @@
   "female:wants": "Female",
   "Selected LOOKING_FOR:": "",
   "No selected LOOKING_FOR.": "",
-  "Personality:stepper": "Personality"
+  "Personality:stepper": "Personality",
+  "none income": "No income",
+  "low income": "Low income",
+  "middle income": "Average income",
+  "high income": "High доход",
+  "None:income": "No income"
 }

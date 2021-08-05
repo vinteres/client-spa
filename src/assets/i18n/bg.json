@@ -519,5 +519,15 @@
   "Set as favorite. Favorite interests have priority.": "Направи този интерес любим. Любимите интереси се приотеризират.",
   "You can't have more than 3 favorite interests.": "Не може да имате повече от 3 любими интереса.",
   "Or login with": "Или влез с",
-  "Or sign up with": "Или влез с"
+  "Or sign up with": "Или влез с",
+  "Income": "Доход",
+  "Low": "Нисък",
+  "Average:income": "Среден",
+  "High": "Висок",
+  "none income": "Без доход",
+  "low income": "Нисък доход",
+  "middle income": "Среден доход",
+  "high income": "Висок доход",
+  "Doesn't matter": "Няма значение",
+  "None:income": "Без доход"
 }

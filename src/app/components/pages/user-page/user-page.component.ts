@@ -27,7 +27,8 @@ import {
   faStar,
   faCrown,
   faIcons,
-  faHourglassHalf
+  faHourglassHalf,
+  faWallet
 } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/services/auth.service';
 import { CHttp } from 'src/app/services/chttp.service';
@@ -76,6 +77,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   faCompPersonality = faUserFriends;
   faCompInterests = faIcons;
   faAge = faHourglassHalf;
+  faIncome = faWallet;
 
   @ViewChild('editAnswerDialog') editAnswerDialog;
 
@@ -159,15 +161,16 @@ export class UserPageComponent implements OnInit, OnDestroy {
       });
 
     this.searchPreferenceSubscription = searchPreferenceService.changedSubject$
-      .subscribe(({ fromAge, toAge, lookingFor }) => {
+      .subscribe(({ fromAge, toAge, lookingFor, income }) => {
         this.user.lookingFor = this.getLookingForList(lookingFor);
 
         if (!this.user.searchPreferences) this.user.searchPreferences = {};
 
         this.user.searchPreferences = {
           ageRangeSet: Boolean(fromAge && fromAge),
-          fromAge: fromAge,
-          toAge: toAge
+          fromAge,
+          toAge,
+          income
         };
       });
 
@@ -476,7 +479,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
   hasUserData() {
     return this.user.smoking || this.user.drinking || this.user.children_status ||
-      this.user.pet_status || this.user.height || this.user.body;
+      this.user.pet_status || this.user.height || this.user.body || this.user.income;
   }
 
   sendReport(type) {

@@ -23,6 +23,29 @@
       </div>
 
       <div class="pref-item">
+        <h5>{{ 'Income' | translate }}</h5>
+        <div class="row" style="padding: 0 15px;">
+          <div class="col-12">
+            <div class="radio">
+              <label><input type="radio" value="" name="income" (change)="incomeChange($event)" [checked]="!editSearchPref.income">{{ 'Doesn\'t matter' | translate }}</label>
+            </div>
+            <div class="radio">
+              <label><input type="radio" value="none" name="income" (change)="incomeChange($event)" [checked]="editSearchPref.income === 'none'">{{ 'None:income' | translate }}</label>
+            </div>
+            <div class="radio">
+              <label><input type="radio" value="low" name="income" (change)="incomeChange($event)" [checked]="editSearchPref.income === 'low'">{{ 'Low' | translate }}</label>
+            </div>
+            <div class="radio disabled">
+              <label><input type="radio" value="middle" name="income" (change)="incomeChange($event)" [checked]="editSearchPref.income === 'middle'">{{ 'Average:income' | translate }}</label>
+            </div>
+            <div class="radio disabled">
+              <label><input type="radio" value="high" name="income" (change)="incomeChange($event)" [checked]="editSearchPref.income === 'high'">{{ 'High' | translate }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pref-item">
         <h5>{{ 'What I\'m looking for here' | translate }}</h5>
         <div class="form-check">
           <label class="form-check-label"><input type="checkbox" value="1" [checked]="shouldBeChecked(1)" (change)="lookingForChanged($event.target.value, $event.target.checked)">{{ 'Friends' | translate }}</label>

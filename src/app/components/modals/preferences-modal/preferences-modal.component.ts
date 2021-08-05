@@ -21,7 +21,8 @@ export class PreferencesModalComponent implements OnInit, OnDestroy {
     fromAge: number,
     toAge: number,
     lookingFor: number,
-    location: { cityId?: string, name: string, fullName: string }
+    location: { cityId?: string, name: string, fullName: string },
+    income: string
   };
 
   private modalSubscription: Subscription;
@@ -47,6 +48,10 @@ export class PreferencesModalComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.modalSubscription.unsubscribe();
+  }
+
+  incomeChange(event) {
+    this.editSearchPref.income = event.target.value;
   }
 
   changePref(option, value) {
@@ -103,7 +108,8 @@ export class PreferencesModalComponent implements OnInit, OnDestroy {
       fromAge: this.editSearchPref.fromAge,
       toAge: this.editSearchPref.toAge,
       cityId: this.editSearchPref.location.cityId,
-      lookingFor: this.editSearchPref.lookingFor
+      lookingFor: this.editSearchPref.lookingFor,
+      income: this.editSearchPref.income
     };
 
     this.userService.setSearchPref(payload)

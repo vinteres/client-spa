@@ -208,6 +208,7 @@ export class OnboardingPageComponent implements OnInit {
       employment_status:  ['', Validators.required],
       personality: ['', [Validators.required]],
       zodiac: ['', [Validators.required]],
+      income: ['', [Validators.required]]
     });
   }
 
@@ -248,6 +249,7 @@ export class OnboardingPageComponent implements OnInit {
   get employment_status() { return this.profileInfoForm.get('employment_status'); }
   get personality() { return this.profileInfoForm.get('personality'); }
   get zodiac() { return this.profileInfoForm.get('zodiac'); }
+  get income() { return this.profileInfoForm.get('income'); }
 
   get hobbies() { return this.interestsForm.get('hobbies'); }
   get activities() { return this.interestsForm.get('activities'); }

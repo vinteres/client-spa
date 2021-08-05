@@ -385,6 +385,29 @@
             </small>
           </div>
         </div>
+        <div class="col-sm-6">
+          <label class="col-form-label">{{ 'Income' | translate }}</label>
+          <div class="radio">
+            <label><input type="radio" value="not_tell" name="income" formControlName="income">{{ 'Rather not tell' | translate }}</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" value="none" name="income" formControlName="income">{{ 'None' | translate }}</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" value="low" name="income" formControlName="income">{{ 'Low' | translate }}</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" value="middle" name="income" formControlName="income">{{ 'Average:income' | translate }}</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" value="high" name="income" formControlName="income">{{ 'High' | translate }}</label>
+          </div>
+          <div>
+            <small *ngIf="income.invalid && (income.dirty || income.touched)" class="text-danger">
+              {{ 'Required field' | translate }}
+            </small>
+          </div>
+        </div>
       </div>
     </form>
 
