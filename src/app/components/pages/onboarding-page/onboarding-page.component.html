@@ -22,11 +22,13 @@
         <div class="col-sm-10">
           <div class="radio">
             <input class="form-control" type="text" name="name" formControlName="name"
-              placeholder="{{ 'e.g. Georgi Petrov' | translate }}">
+              placeholder="{{ 'Your name' | translate }}">
           </div>
           <div>
             <small *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger">
-              {{ 'Required field' | translate }}
+              <span *ngIf="name?.errors?.minlength">{{ 'Min length required' | translate:{'requiredLength': name?.errors?.minlength?.requiredLength} }}</span>
+              <span *ngIf="name?.errors?.maxlength">{{ 'Max length required' | translate:{'requiredLength': name?.errors?.maxlength?.requiredLength} }}</span>
+              <span *ngIf="!name?.errors?.minlength && !name?.errors?.maxlength">{{ 'Required field' | translate }}</span>
             </small>
           </div>
         </div>
@@ -120,7 +122,9 @@
           </div>
           <div>
             <small *ngIf="title.invalid && (title.dirty || title.touched)" class="text-danger">
-              {{ 'Required field' | translate }}
+              <span *ngIf="title?.errors?.minlength">{{ 'Min length required' | translate:{'requiredLength': title?.errors?.minlength?.requiredLength} }}</span>
+              <span *ngIf="title?.errors?.maxlength">{{ 'Max length required' | translate:{'requiredLength': title?.errors?.maxlength?.requiredLength} }}</span>
+              <span *ngIf="!title?.errors?.minlength && !title?.errors?.maxlength">{{ 'Required field' | translate }}</span>
             </small>
           </div>
         </div>
@@ -135,7 +139,9 @@
           </div>
           <div>
             <small *ngIf="description.invalid && (description.dirty || description.touched)" class="text-danger">
-              {{ 'Required field' | translate }}
+              <span *ngIf="description?.errors?.minlength">{{ 'Min length required' | translate:{'requiredLength': description?.errors?.minlength?.requiredLength} }}</span>
+              <span *ngIf="description?.errors?.maxlength">{{ 'Max length required' | translate:{'requiredLength': description?.errors?.maxlength?.requiredLength} }}</span>
+              <span *ngIf="!description?.errors?.minlength && !description?.errors?.maxlength">{{ 'Required field' | translate }}</span>
             </small>
           </div>
         </div>

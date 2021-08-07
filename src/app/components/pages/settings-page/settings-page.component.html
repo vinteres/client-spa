@@ -20,7 +20,9 @@
           </div>
           <div>
             <small *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger">
-              {{ 'Invalid name' | translate }}
+              <span *ngIf="name?.errors?.minlength">{{ 'Min length required' | translate:{'requiredLength': name?.errors?.minlength?.requiredLength} }}</span>
+              <span *ngIf="name?.errors?.maxlength">{{ 'Max length required' | translate:{'requiredLength': name?.errors?.maxlength?.requiredLength} }}</span>
+              <span *ngIf="!name?.errors?.minlength && !name?.errors?.maxlength">{{ 'Invalid name' | translate }}</span>
             </small>
           </div>
         </div>
@@ -34,7 +36,9 @@
           </div>
           <div>
             <small *ngIf="title.invalid && (title.dirty || title.touched)" class="text-danger">
-              {{ 'Invalid title' | translate }}
+              <span *ngIf="title?.errors?.minlength">{{ 'Min length required' | translate:{'requiredLength': title?.errors?.minlength?.requiredLength} }}</span>
+              <span *ngIf="title?.errors?.maxlength">{{ 'Max length required' | translate:{'requiredLength': title?.errors?.maxlength?.requiredLength} }}</span>
+              <span *ngIf="!title?.errors?.minlength && !title?.errors?.maxlength">{{ 'Invalid title' | translate }}</span>
             </small>
           </div>
         </div>
@@ -75,7 +79,9 @@
           </div>
           <div>
             <small *ngIf="description.invalid && (description.dirty || description.touched)" class="text-danger">
-              {{ 'Invalid description' | translate }}
+              <span *ngIf="description?.errors?.minlength">{{ 'Min length required' | translate:{'requiredLength': description?.errors?.minlength?.requiredLength} }}</span>
+              <span *ngIf="description?.errors?.maxlength">{{ 'Max length required' | translate:{'requiredLength': description?.errors?.maxlength?.requiredLength} }}</span>
+              <span *ngIf="!description?.errors?.minlength && !description?.errors?.maxlength">{{ 'Invalid description' | translate }}</span>
             </small>
           </div>
         </div>
@@ -92,11 +98,6 @@
                 {{ language.label + ' (' + language.code + ')' }}
               </option>
             </select>
-          </div>
-          <div>
-            <small *ngIf="description.invalid && (description.dirty || description.touched)" class="text-danger">
-              {{ 'Invalid description' | translate }}
-            </small>
           </div>
         </div>
       </div>

@@ -1,5 +1,7 @@
 {
   "Remaining sec for recording.": "Remaining {{timeElapsed}} sec for recording.",
+  "Min length required": "Required {{requiredLength}} or more characters",
+  "Max length required": "Required no more than {{requiredLength}} characters",
   "HEIGHT": "{{height}}cm",
   "MINUTE_AGO": "minute ago",
   "MINUTES_AGO": "{{d}} minutes ago",

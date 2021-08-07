@@ -171,7 +171,7 @@ export class OnboardingPageComponent implements OnInit {
     this.accountInfoForm = this.formBuilder.group({
       birthday: [accountInfo.birthday ?? '', [this.ageValidator(), Validators.required]],
       gender: [accountInfo.gender ?? '', [Validators.required]],
-      name: [accountInfo.name ?? '', [Validators.required]],
+      name: [accountInfo.name ?? '', [Validators.minLength(3), Validators.maxLength(255), Validators.required]],
       interested_in: [accountInfo.interested_in ?? '', [Validators.required]],
       city: [accountInfo.city ?? '', [Validators.required]],
     });
@@ -179,8 +179,8 @@ export class OnboardingPageComponent implements OnInit {
 
   private createAboutForm() {
     this.aboutForm = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.min(10), Validators.max(70)]],
-      description: ['', [Validators.required, Validators.min(10), Validators.max(255)]],
+      title: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(70)]],
+      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(255)]],
     });
   }
 
@@ -204,8 +204,8 @@ export class OnboardingPageComponent implements OnInit {
       body: ['', Validators.required],
       children_status: ['', Validators.required],
       pet_status: ['', Validators.required],
-      education_status:  ['', Validators.required],
-      employment_status:  ['', Validators.required],
+      education_status: ['', Validators.required],
+      employment_status: ['', Validators.required],
       personality: ['', [Validators.required]],
       zodiac: ['', [Validators.required]],
       income: ['', [Validators.required]]

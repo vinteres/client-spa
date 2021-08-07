@@ -82,11 +82,11 @@ export class SettingsPageComponent implements OnInit {
 
   private createAccountInfoForm() {
     this.accountInfoForm = this.formBuilder.group({
-      name: [this.settings.accountSettings.name, [Validators.required, Validators.min(3), Validators.max(255)]],
+      name: [this.settings.accountSettings.name, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
       email: [this.settings.accountSettings.email, [Validators.required]],
       birthday:  [this.settings.accountSettings.birthday, [this.ageValidator(), Validators.required]],
-      title: [this.settings.accountSettings.title, [Validators.required, Validators.min(1), Validators.max(70)]],
-      description:  [this.settings.accountSettings.description, [Validators.required, Validators.min(1), Validators.max(255)]],
+      title: [this.settings.accountSettings.title, [Validators.required, Validators.minLength(5), Validators.maxLength(70)]],
+      description:  [this.settings.accountSettings.description, [Validators.required, Validators.maxLength(255)]],
     });
   }
 
