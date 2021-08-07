@@ -7,6 +7,7 @@ import { NotifierService } from 'angular-notifier';
 import { AuthService } from 'src/app/services/auth.service';
 import { UsersService } from 'src/app/services/users.service';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { LanguageService } from 'src/app/services/language.service';
 
 @Component({
   selector: 'settings-page',
@@ -34,6 +35,9 @@ export class SettingsPageComponent implements OnInit {
   confirmPasswordModal: string;
   confirmPasswordError: boolean;
 
+  supportedLanguage: any[];
+  currentLang: string;
+
   constructor(
     private usersService: UsersService,
     private notifierService: NotifierService,
@@ -43,8 +47,12 @@ export class SettingsPageComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private translate: TranslateService,
-    private userService: UsersService
+    private userService: UsersService,
+    private languageService: LanguageService
   ) {
+    this.currentLang = languageService.getCurrentLang();
+    this.supportedLanguage = languageService.getSupportedLanguages();
+
     this.route.queryParams.subscribe(params => {
       this.activeTab = ['account_info', 'profile_info', 'security', 'account'].includes(params.type) ?
         params.type :
@@ -66,6 +74,10 @@ export class SettingsPageComponent implements OnInit {
 
   changeTab(tab) {
     this.activeTab = tab;
+  }
+
+  changeLanguage(languageCode) {
+    this.languageService.langChangeSubject$.next(languageCode);
   }
 
   private createAccountInfoForm() {

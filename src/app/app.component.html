@@ -155,17 +155,5 @@
 </ng-template>
 
 <preferences-modal></preferences-modal>
-
 <like-modal></like-modal>
-
 <notifier-container></notifier-container>
-
-<span class="change-lang">
-  <select class="form-control" #select (change)="changeLanguage(select.value)" style="font-size: 13px; padding: 2px; background-color: transparent;">
-    <option *ngFor="let language of supportedLanguage"
-            [selected]="currentLang === language.code"
-            [value]="language.code">
-      {{ language.label + ' (' + language.code + ')' }}
-    </option>
-  </select>
-</span>

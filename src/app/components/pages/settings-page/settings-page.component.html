@@ -81,6 +81,25 @@
         </div>
       </div>
 
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">{{ 'Language' | translate }}</label>
+        <div class="col-sm-10">
+          <div class="radio">
+            <select class="form-control" #select (change)="changeLanguage(select.value)" style="font-size: 13px; padding: 2px; background-color: transparent;">
+              <option *ngFor="let language of supportedLanguage"
+                      [selected]="currentLang === language.code"
+                      [value]="language.code">
+                {{ language.label + ' (' + language.code + ')' }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <small *ngIf="description.invalid && (description.dirty || description.touched)" class="text-danger">
+              {{ 'Invalid description' | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
     </form>
     <button class="btn btn-outline-primary" (click)="saveAccountInfo()">{{ 'Save' | translate }}</button>
   </div>

@@ -30,6 +30,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { VerificationService } from './services/verification.service';
 import { OnboardingService } from './services/onboarding.service';
 import { Subscription } from 'rxjs';
+import { LanguageService } from './services/language.service';
 
 @Component({
   selector: 'app-root',
@@ -56,10 +57,7 @@ export class AppComponent implements OnDestroy {
 
   private isInit = false;
 
-  supportedLanguage = [
-    { code: 'en', label: 'English' },
-    { code: 'bg', label: 'Български' },
-  ];
+  supportedLanguage: any[];
   currentLang: string;
 
   baseTitle = 'Vinteres - Dating by personality and interests.';
@@ -82,6 +80,7 @@ export class AppComponent implements OnDestroy {
   private logoutSubscription: Subscription;
   private websocketOpenSubscription: Subscription;
   private verificationModalSubscription: Subscription;
+  private languageChangeSubscription: Subscription;
 
   private loadingVerificationStatus = false;
   private verificationImageBlob: Blob;
@@ -109,13 +108,22 @@ export class AppComponent implements OnDestroy {
     private titleService: Title,
     private translate: TranslateService,
     private verificationService: VerificationService,
-    onboardingService: OnboardingService
+    onboardingService: OnboardingService,
+    languageService: LanguageService
   ) {
-    this.currentLang = localStorage.getItem('lang') || 'bg';
+    this.currentLang = languageService.getCurrentLang();
+    this.supportedLanguage = languageService.getSupportedLanguages();
     translate.setDefaultLang('en');
     translate.use(this.currentLang);
 
     this.translateTitle();
+
+    this.languageChangeSubscription = languageService.langChangeSubject$
+      .subscribe(languageCode => {
+        this.translate.use(languageCode);
+        localStorage.setItem('lang', languageCode);
+        this.translateTitle();
+      });
 
     this.init();
 
@@ -161,6 +169,7 @@ export class AppComponent implements OnDestroy {
     if (this.countSubscription) { this.countSubscription.unsubscribe(); }
     if (this.websocketOpenSubscription) { this.websocketOpenSubscription.unsubscribe(); }
     if (this.verificationModalSubscription) { this.verificationModalSubscription.unsubscribe(); }
+    if (this.languageChangeSubscription) { this.languageChangeSubscription.unsubscribe(); }
     this.loginSubscription.unsubscribe();
     this.logoutSubscription.unsubscribe();
   }
@@ -239,12 +248,6 @@ export class AppComponent implements OnDestroy {
   hideVerifyAlert() {
     localStorage.setItem('hide_verify_item', this.authService.getLoggedUser().id);
     this.showVerifyAlert = false;
-  }
-
-  changeLanguage(languageCode) {
-    this.translate.use(languageCode);
-    localStorage.setItem('lang', languageCode);
-    this.translateTitle();
   }
 
   private translateTitle() {
