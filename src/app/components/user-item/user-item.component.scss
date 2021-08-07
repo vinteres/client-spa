@@ -5,6 +5,22 @@
   margin: 5px;
   position: relative;
   background-color: #fff;
+
+  .name-info {
+    font-size: initial;
+    display: flex;
+    flex-flow: row;
+    align-items: stretch;
+
+    div:nth-child(1) {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      padding-right: 5px;
+    }
+    div:nth-child(2) {
+      flex: 1 0 auto;
+    }
+  }
 }
 .user-item .image-cont img {
   width: 100%;

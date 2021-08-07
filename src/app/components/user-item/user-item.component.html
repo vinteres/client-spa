@@ -5,8 +5,14 @@
     </div>
     <div class="item-overlay rounded">
       <div class="text-container">
-        <div class="text-truncate" style="font-size: initial;">
-          {{ user.name }}, {{ user.age }} <verified-badge *ngIf="user.verified"></verified-badge> <online *ngIf="user.online"></online>
+        <div class="text-truncate name-info">
+          <div>
+            {{ user.name }},
+          </div>
+          <div>
+            {{ user.age }}
+            <verified-badge *ngIf="user.verified"></verified-badge> <online *ngIf="user.is_online"></online>
+          </div>
         </div> 
         <div class="text-truncate" *ngIf="user.mutual_hobbies_count" style="line-height: 14px;">{{ user.mutual_hobbies_count }} {{ 'mutual interests' | translate }}</div>
         <div class="text-truncate" *ngIf="user.mutual_ativities_count" style="line-height: 14px;">{{ user.mutual_ativities_count }} {{ 'mutual activities' | translate }}</div>

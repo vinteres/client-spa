@@ -4,7 +4,7 @@
   <div class="name-cont">
     <span class="align-middle">
       <span style="vertical-align: middle;">{{user.name}}, {{user.age}}</span>
-      <online *ngIf="user.online"></online>
+      <online *ngIf="user.is_online"></online>
       <div *ngIf="!isLoggedUser" class="btn-group">
         <a data-toggle="dropdown" class="header-item" style="color: #000; font-size: 20px; cursor: pointer; margin-left: 10px;">
           <fa-icon class="primary-item" [icon]="faEllipsisH"></fa-icon>
