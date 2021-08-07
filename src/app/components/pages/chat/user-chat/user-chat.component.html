@@ -4,7 +4,10 @@
     <div
       style="height: 52px; padding: 5px; border-bottom: 1px solid #b0b0b0; background-color: #fff; position: absolute; top: 0; width: 100%;">
       <img [src]="chat.user.profileImage" style="height: 40px; margin-right: 5px;" />
-      <a *ngIf="'page' !== chat.user.type" [routerLink]="['/user/' + chat.user.id]" style="color: #000; text-decoration: initial;">{{ chat.user.name }}</a>
+      <a *ngIf="'page' !== chat.user.type" [routerLink]="['/user/' + chat.user.id]" style="color: #000; text-decoration: initial;">
+        {{ chat.user.name }}
+        <online *ngIf="chat.user.is_online"></online>
+      </a>
       <span *ngIf="'page' === chat.user.type" style="color: #000; text-decoration: initial; cursor: default;">{{ chat.user.name }}</span>
     </div>
 
