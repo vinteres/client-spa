@@ -16,7 +16,7 @@
 }
 
 .msg-page-cont {
-  position: static;
+  position: fixed;
   overflow: hidden;
   height: 100%;
   width: 840px;
@@ -62,9 +62,10 @@
   margin-left: 5px;
 }
 
-@media only screen and (max-width: 840px) {
+@media only screen and (max-width: 890px) {
   .msg-page-cont {
     width: 100%;
+    position: static;
   }
   .msg-page-cont .chat-cont {
     width: calc(100% - 250px);

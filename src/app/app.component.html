@@ -67,7 +67,7 @@
   </div>
 </div>
 
-<div class="page-container" style="padding-bottom: 75px; position: relative;">
+<div class="page-container" style="position: relative;">
   <div *ngIf="isActiveUser && showVerifyAlert" class="alert alert-warning" role="alert" style="position: relative;">
     <a href="javascript:void(0)" (click)="openVerifyModal()" style="color: #4798b5;">
       {{ 'Verify yourself' | translate }}
@@ -76,18 +76,6 @@
   </div>
 
   <router-outlet></router-outlet>
-</div>
-
-<div *ngIf="isLoggedIn" style="position: absolute; bottom: 0; width: 100%;">
-  <div style="margin: auto; max-width: 840px; display: flex; justify-content: flex-end;">
-    <div class="terms-cont">
-      <a [href]="termsAndUsageUrl" target="_blank">{{ 'Terms of Usage' | translate }}</a>
-      <a [href]="privacyPolicyUrl" target="_blank">{{ 'Privacy Policy' | translate }}</a>
-      <div style="cursor: default;">
-        © Vinteres 2021
-      </div>
-    </div>
-  </div>
 </div>
 
 <ng-template #feedbackDialog let-modal>
