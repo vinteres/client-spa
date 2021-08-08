@@ -18,26 +18,33 @@
       <span aria-hidden="true">&times;</span>
     </button>
     <div>
-      <h4>{{ 'Age' | translate }}</h4>
-      <div class="row">
-        <div class="col-6">
-          <select class="form-control" [value]="editSearchPref.fromAge" (change)="changePref('fromAge', +$event.target.value)">
-            <option *ngFor="let age of ages" [value]="age" [selected]="age == editSearchPref.fromAge">{{age}}</option>
-          </select>
-        </div>
-        <div class="col-6">
-          <select class="form-control" [value]="editSearchPref.toAge" (change)="changePref('toAge', +$event.target.value)">
-            <option *ngFor="let age of agesTo" [value]="age" [selected]="age == editSearchPref.toAge">{{age}}</option>
-          </select>
+      <h3>{{ 'Search' | translate }}</h3>
+      <div style="display: flex;">
+        <h6 style="align-items: center; display: flex; margin-bottom: 0; margin-right: 10px; width: 55px;">{{ 'Age' | translate }}</h6>
+        <div style="display: flex; flex: 1 0 auto;">
+          <div style="flex: 1 0 auto;">
+            <select class="form-control" [value]="editSearchPref.fromAge" (change)="changePref('fromAge', +$event.target.value)">
+              <option *ngFor="let age of ages" [value]="age" [selected]="age == editSearchPref.fromAge">{{age}}</option>
+            </select>
+          </div>
+          <span style="align-items: center; display: flex; margin: 0 5px;">и</span>
+          <div style="flex: 1 0 auto;">
+            <select class="form-control" [value]="editSearchPref.toAge" (change)="changePref('toAge', +$event.target.value)">
+              <option *ngFor="let age of agesTo" [value]="age" [selected]="age == editSearchPref.toAge">{{age}}</option>
+            </select>
+          </div>
         </div>
       </div>
-      <div style="margin-top: 30px">
 
-      <h4>{{ 'City' | translate }}</h4>
-        <location-select [location]="editSearchPref.location" (locationChanged)="locationChanged($event)"></location-select>
+      <div style="margin-top: 30px; display: flex;">
+        <h6 style="align-items: center; display: flex; margin-bottom: 0; margin-right: 10px; width: 55px; justify-content: flex-end;">{{ 'City' | translate }}</h6>
+        <location-select style="flex: 1 0 auto;" [location]="editSearchPref.location" (locationChanged)="locationChanged($event)"></location-select>
       </div>
     </div>
 
-    <button class="btn btn-outline-primary" style="width: 100%; margin-top: 20px;" (click)="saveSearchPref()">{{ 'Search' | translate }}</button>
+    <div style="margin-top: 20px; display: flex; flex-flow: row;">
+      <button class="btn btn-outline-primary" style="flex: 1 0 auto;" (click)="resetSearchPref()">{{ 'Reset' | translate }}</button>
+      <button class="btn btn-outline-primary" style="flex: 1 0 auto; margin-left: 5px;" (click)="saveSearchPref()">{{ 'Search' | translate }}</button>
+    </div>
   </div>
 </ng-template>

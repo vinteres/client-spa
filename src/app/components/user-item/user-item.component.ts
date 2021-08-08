@@ -11,10 +11,16 @@ export class UserItemComponent implements OnInit {
   faPersonality = faUserFriends;
   faInterests = faIcons;
 
+  loading: boolean = true;
+
   @Input() user: any;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  imageLoaded() {
+    this.loading = false;
   }
 }

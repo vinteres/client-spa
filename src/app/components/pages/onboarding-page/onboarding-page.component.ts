@@ -51,6 +51,8 @@ export class OnboardingPageComponent implements OnInit {
     big: string
   };
 
+  imageUploadError: string = '';
+
   constructor(
     private formBuilder: FormBuilder,
     private onboardingService: OnboardingService,
@@ -464,6 +466,10 @@ export class OnboardingPageComponent implements OnInit {
   uploadImage(files) {
     if (this.uploadingImage) { return; }
 
+    this.imageUploadError = '';
+
+    if (!files[0]) { return; }
+
     const formData: FormData = new FormData();
     formData.append('image', files[0], files[0].name);
 
@@ -473,6 +479,10 @@ export class OnboardingPageComponent implements OnInit {
         this.userImage = response.images[0];
 
         this.passImageStep();
+      }, (response) => {
+        this.imageUploadError = response?.error?.error ?? 'Internal server error';
+
+        this.uploadingImage = false;
       });
   }
 

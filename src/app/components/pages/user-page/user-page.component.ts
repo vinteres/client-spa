@@ -131,6 +131,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
   reportDetails: string;
   reporting: boolean;
 
+  imageUploadError: string = '';
+
   searchPreferenceSubscription: Subscription;
   likeSentSubscription: Subscription;
 
@@ -391,7 +393,15 @@ export class UserPageComponent implements OnInit, OnDestroy {
   }
 
   uploadImage(position, files, image) {
+    if (this.isUploading()) { return; }
+
+    if (!files[0]) return;
+
+    this.loadingImages[position] = true;
+    this.imageUploadError = '';
+
     const formData: FormData = new FormData();
+
     formData.append('image', files[0], files[0].name);
     this.http.post(environment.api_url + `users/image/upload?position=${position}`, formData)
       .subscribe(response => {
@@ -399,6 +409,11 @@ export class UserPageComponent implements OnInit, OnDestroy {
         if (1 === position) {
           this.user.profile_image = this.user.images[0].small;
         }
+
+        this.loadingImages[position] = false;
+      }, (response) => {
+        this.imageUploadError = response?.error?.error ?? 'Internal server error';
+        this.loadingImages[position] = false;
       });
   }
 
@@ -408,6 +423,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
     if (this.loadingImages[position]) { return; }
 
     this.loadingImages[position] = true;
+    this.imageUploadError = '';
+
     this.http.delete(environment.api_url + `users/image?position=${position}`)
       .subscribe(response => {
         this.user.images = response.images;
@@ -417,16 +434,24 @@ export class UserPageComponent implements OnInit, OnDestroy {
         } else {
           this.user.profile_image = response.images.find(image => 1 === image.position).small;
         }
+
         this.loadingImages[position] = false;
-      }, () => {
+      }, (response) => {
+        this.imageUploadError = response?.error?.error ?? 'Internal server error';
         this.loadingImages[position] = false;
       });
   }
 
   showImageUpload(position, file) {
-    if (this.loadingImages[position]) { return; }
+    if (this.isUploading()) { return; }
 
     file.click();
+  }
+
+  private isUploading() {
+    return Object.keys(this.loadingImages)
+      .map(k => this.loadingImages[k])
+      .some(loading => loading);
   }
 
   showGalleryModal(imagePosition = 0) {

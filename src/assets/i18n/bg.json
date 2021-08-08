@@ -533,5 +533,9 @@
   "Doesn't matter": "Няма значение",
   "None:income": "Без доход",
   "Search": "Търси",
-  "Language": "Език"
+  "Language": "Език",
+  "Inappropriate image content": "Избраната снимка не отговаря на правилата ни за съдържание",
+  "Error uploading image": "Възникна грешка при качването на снимката",
+  "Internal server error": "Възникна грешка при обработката на заявката",
+  "Reset": "Изчисти"
 }

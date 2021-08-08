@@ -1,6 +1,9 @@
 <div class="user-item rounded shadow-sm" title="{{ user?.intro?.message }}">
   <div class="image-cont rounded" [routerLink]="['/user/' + user.id]">
-    <img class="rounded" [src]="user.profile_image" />
+    <div *ngIf="loading" style="height: 200px; display: flex; justify-content: center; align-items: center;">
+      <loader></loader>
+    </div>
+    <img class="rounded" [src]="user.profile_image" (load)="imageLoaded()" />
     <div class="img-text">
     </div>
     <div class="item-overlay rounded">

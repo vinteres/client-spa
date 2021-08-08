@@ -128,13 +128,8 @@ button.user-action-item:hover .user-action-icon {
   float: left;
   margin: 2px;
   position: relative;
-  display: inline-block;
   cursor: pointer;
   overflow: hidden;
-}
-
-.modal-add-item {
-  background-color: rgba(46, 62, 72, 0.4);
 }
 
 .modal-add {
@@ -143,6 +138,7 @@ button.user-action-item:hover .user-action-icon {
   font-weight: bold;
   padding: 57px;
   color: #fff;
+  background-color: rgba(46, 62, 72, 0.4);
 }
 
 .modal-add:hover {

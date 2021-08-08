@@ -455,8 +455,15 @@
     {{ 'Give a face to your profile. Having a photo drastically increases your chance for a match.' | translate }}
   </div>
 
+  <div *ngIf="imageUploadError" style="text-align: center; margin: 20px 0;">
+    <small small class="text-danger">
+      {{ imageUploadError | translate }}
+    </small>
+  </div>
+
   <div class="add-image-item" style="width: 200px; margin: auto;">
-    <img [src]="userImage.small" style="border-radius: 100%; width: 100%;" (click)="newImage.click()" />
+    <img *ngIf="!uploadingImage" [src]="userImage.small" style="border-radius: 100%; width: 100%;" (click)="newImage.click()" />
+    <loader *ngIf="uploadingImage"></loader>
   </div>
 
   <div style="text-align: center; margin-top: 20px;">

@@ -373,9 +373,19 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-8">
+            <div *ngIf="imageUploadError">
+              <small small class="text-danger">
+                {{ imageUploadError | translate }}
+              </small>
+            </div>
             <div *ngFor="let userImage of user.images; let ix = index"
-              class="rounded shadow border border-dark add-image-item" (click)="showImageUpload(ix + 1, file)">
-              <img class="rounded" [src]="userImage.big" style="width: 100%;" />
+              class="shadow rounded add-image-item" style="min-height: 150px;" (click)="showImageUpload(ix + 1, file)">
+
+              <div *ngIf="loadingImages[ix + 1]" style="height: 150px; display: flex; justify-content: center; align-items: center;">
+                <loader></loader>
+              </div>
+              <img *ngIf="!loadingImages[ix + 1]" class="rounded" [src]="userImage.big" style="width: 100%;" />
+
               <input type="file" accept="image/*" #file (change)="uploadImage(userImage.position, $event.target.files)"
                 style="display: none;">
               <button class="btn btn-outline-danger" style="position: absolute; top: 3px; right: 3px;"
@@ -384,9 +394,12 @@
               </button>
             </div>
 
-            <div *ngIf="user.images.length < 6" class="modal-add-item shadow rounded add-image-item align-middle"
-              (click)="newImage.click()">
-              <div class="modal-add">
+            <div *ngIf="user.images.length < 6" class="shadow rounded add-image-item align-middle"
+              (click)="showImageUpload(-1, newImage)">
+              <div *ngIf="loadingImages[user.images.length + 1]" style="height: 150px; display: flex; justify-content: center; align-items: center;">
+                <loader></loader>
+              </div>
+              <div *ngIf="!loadingImages[user.images.length + 1]" class="modal-add">
                 <fa-icon [icon]="faPlus"></fa-icon>
               </div>
               <input type="file" accept="image/*" #newImage

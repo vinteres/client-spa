@@ -43,10 +43,16 @@ export class FindPeoplePageComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private modalService: NgbModal
   ) {
+    let foundSearchPref;
+    try {
+      foundSearchPref = JSON.parse(sessionStorage.getItem('find_people_pref'));
+    } catch (e) { }
+    foundSearchPref = foundSearchPref || {};
+
     this.searchPref = {
-      fromAge: 18,
-      toAge: 70,
-      location: { name: '', fullName: '' }
+      fromAge: foundSearchPref?.fromAge ?? 18,
+      toAge: foundSearchPref?.toAge ?? 70,
+      location: foundSearchPref?.location ?? { name: '', fullName: '' }
     };
 
     this.activatedRoute.queryParams
@@ -139,6 +145,15 @@ export class FindPeoplePageComponent implements OnInit {
     this.modalService.open(content, { centered: true, size: 'sm' });
   }
 
+  resetSearchPref() {
+    this.editSearchPref = {
+      fromAge: 18,
+      toAge: 70,
+      location: { name: '', fullName: '' }
+    };
+    sessionStorage.setItem('find_people_pref', JSON.stringify(this.searchPref));
+  }
+
   saveSearchPref() {
     // const payload = {
     //   fromAge: this.editSearchPref.fromAge,
@@ -151,6 +166,7 @@ export class FindPeoplePageComponent implements OnInit {
       toAge: this.editSearchPref.toAge,
       location: { ...this.editSearchPref.location },
     };
+    sessionStorage.setItem('find_people_pref', JSON.stringify(this.searchPref));
 
     this.modalService.dismissAll();
 
