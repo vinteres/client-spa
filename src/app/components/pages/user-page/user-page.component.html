@@ -4,7 +4,7 @@
   <div class="name-cont">
     <span class="align-middle">
       <span style="vertical-align: middle;">{{user.name}}, {{user.age}}</span>
-      <span style="
+      <span *ngIf="user.is_online" style="
         vertical-align: middle;
         display: inline-block;
         width: 15px;
