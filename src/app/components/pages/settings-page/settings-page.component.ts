@@ -232,6 +232,14 @@ export class SettingsPageComponent implements OnInit {
   }
 
   openConfirmPassword(content) {
+    if (this.settings?.deactive?.skipPassword) {
+      const r = confirm('Сигурни ли сте, че искате да деактивирате акаунта ви?');
+      console.log(r);
+
+      if (r) this.deactivate();
+
+      return;
+    }
     this.confirmPasswordModal = '';
     this.confirmPasswordError = false;
     this.modalService.open(content, { size: 'sm' });
