@@ -3,7 +3,7 @@
     <div *ngIf="loading" style="height: 200px; display: flex; justify-content: center; align-items: center;">
       <loader></loader>
     </div>
-    <img class="rounded" [src]="user.profile_image" (load)="imageLoaded()" />
+    <img class="rounded" [src]="user.profile_image" (load)="imageLoaded()" (error)="errorLoadingImage()" />
     <div class="img-text">
     </div>
     <div class="item-overlay rounded">
@@ -13,8 +13,13 @@
             {{ user.name }},
           </div>
           <div>
-            {{ user.age }}
-            <verified-badge *ngIf="user.verified"></verified-badge> <online *ngIf="user.is_online"></online>
+            <span style="vertical-align: middle;">{{ user.age }}</span>
+            <span *ngIf="user.is_online" class="online" style="vertical-align: middle;"></span>
+            <verified-badge
+              *ngIf="user.verification_status === 'verified'"
+              style="vertical-align: middle;"
+              title="{{ 'Verified with photo' | translate }}"
+              ></verified-badge>
           </div>
         </div> 
         <div class="text-truncate" *ngIf="user.mutual_hobbies_count" style="line-height: 14px;">{{ user.mutual_hobbies_count }} {{ 'mutual interests' | translate }}</div>

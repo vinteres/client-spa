@@ -2,7 +2,8 @@
   <div class="header shadow-sm">
     <div class="content">
       <div class="home-data">
-        <a routerLink="/" style="font-weight: bold; color: #000; font-size: 20px; padding: 5px 0; display: inline-block;">
+        <a routerLink="/"
+          style="font-weight: bold; color: #000; font-size: 20px; padding: 5px 0; display: inline-block;">
           <img src="/assets/logo.svg" style="height: 39px;" />
           <span class="align-middle badge badge-pill badge-primary beta-badge">Beta</span>
         </a>
@@ -42,27 +43,37 @@
     <a routerLink="/likes" class="item">
       <fa-icon [icon]="faIntro"></fa-icon>
       <span class="label">{{ 'Likes' | translate }}</span>
-      <span *ngIf="notifsCount.intro > 0" class="badge rounded-pill bg-danger" style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{ notifsCount.intro }}</span>
+      <span *ngIf="notifsCount.intro > 0" class="badge rounded-pill bg-danger"
+        style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{
+        notifsCount.intro }}</span>
     </a>
     <a routerLink="/matches" class="item">
       <fa-icon [icon]="faMatch"></fa-icon>
       <span class="label">{{ 'Matches' | translate }}</span>
-      <span *ngIf="notifsCount.matches > 0" class="badge rounded-pill bg-danger" style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{ notifsCount.matches }}</span>
+      <span *ngIf="notifsCount.matches > 0" class="badge rounded-pill bg-danger"
+        style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{
+        notifsCount.matches }}</span>
     </a>
     <a routerLink="/chat" class="item">
       <fa-icon [icon]="faEnvelope"></fa-icon>
       <span class="label">{{ 'Messages' | translate }}</span>
-      <span *ngIf="notifsCount.msg > 0" class="badge rounded-pill bg-danger" style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{ notifsCount.msg }}</span>
+      <span *ngIf="notifsCount.msg > 0" class="badge rounded-pill bg-danger"
+        style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{
+        notifsCount.msg }}</span>
     </a>
     <a routerLink="/views" class="item">
       <fa-icon [icon]="faViews"></fa-icon>
       <span class="label">{{ 'Views' | translate }}</span>
-      <span *ngIf="notifsCount.visits > 0" class="badge rounded-pill bg-danger" style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{ notifsCount.visits }}</span>
+      <span *ngIf="notifsCount.visits > 0" class="badge rounded-pill bg-danger"
+        style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{
+        notifsCount.visits }}</span>
     </a>
     <a routerLink="/compatibilities" class="item">
       <fa-icon [icon]="faCompatibility"></fa-icon>
       <span class="label">{{ 'Compatibility' | translate }}</span>
-      <span *ngIf="compatibilityCount && 0 < compatibilityCount" class="badge rounded-pill bg-danger" style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{ compatibilityCount }}</span>
+      <span *ngIf="compatibilityCount && 0 < compatibilityCount" class="badge rounded-pill bg-danger"
+        style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{
+        compatibilityCount }}</span>
     </a>
   </div>
 </div>
@@ -72,7 +83,8 @@
     <a href="javascript:void(0)" (click)="openVerifyModal()" style="color: #4798b5;">
       {{ 'Verify yourself' | translate }}
     </a> {{ 'and show that it is really you!' | translate }}
-    <fa-icon [icon]="faClose" style="font-size: 25px; position: absolute; right: 5px; top: 5px;" (click)="hideVerifyAlert()"></fa-icon>
+    <fa-icon [icon]="faClose" style="font-size: 25px; position: absolute; right: 5px; top: 5px;"
+      (click)="hideVerifyAlert()"></fa-icon>
   </div>
 
   <router-outlet></router-outlet>
@@ -81,7 +93,8 @@
 <ng-template #feedbackDialog let-modal>
   <div class="modal-body">
     <div class="alert alert-secondary" role="alert">
-      {{ 'If you have found a bug, hove some ideas to improve the app or just want to send general feedback - leave a message!' | translate }}
+      {{ 'If you have found a bug, hove some ideas to improve the app or just want to send general feedback - leave a
+      message!' | translate }}
     </div>
     <div class="form-group">
       <label for="reason">{{ 'Type' | translate}}</label>
@@ -94,10 +107,14 @@
 
     <div class="form-group required">
       <label class="control-label" for="details">{{ 'Message' | translate }}</label>
-      <textarea class="form-control" placeholder="{{ 'Give us more details..' | translate }}" [(ngModel)]='feedbackDetails'></textarea>
+      <textarea class="form-control" placeholder="{{ 'Give us more details..' | translate }}"
+        [(ngModel)]='feedbackDetails'></textarea>
     </div>
-    <button class="btn btn-outline-primary" (click)="sendFeedback(feedbackType.value)" [disabled]="!feedbackDetails || 0 === feedbackDetails.trim().length" style="width: 100%;">{{ 'Send' | translate }}</button>
-    <button type="button" class="btn btn-outline-primary" style="width: 100%; margin-top: 10px;" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <button class="btn btn-outline-primary" (click)="sendFeedback(feedbackType.value)"
+      [disabled]="!feedbackDetails || 0 === feedbackDetails.trim().length" style="width: 100%;">{{ 'Send' | translate
+      }}</button>
+    <button type="button" class="btn btn-outline-primary" style="width: 100%; margin-top: 10px;" data-dismiss="modal"
+      aria-label="Close" (click)="modal.dismiss('Cross click')">
       {{ 'Close' | translate }}
     </button>
   </div>
@@ -115,40 +132,66 @@
       <div style="font-weight: bold;">
         {{ 'Why should I verify my profile?' | translate }}
       </div>
-      <ul style="padding-left: 20px;">
-        <li>{{ 'You show people that it\'s really you' | translate }}</li>
-        <li>{{ 'When you\'re verified then ONLY other verified people can contact you' | translate }}</li>
-      </ul>
-
-      <div style="font-weight: bold;">
+      {{ 'You show people that it\'s really you' | translate }}
+      <div style="font-weight: bold; margin-top: 10px;">
         {{ 'How does verification work?' | translate }}
       </div>
-      {{ 'Take a photo (from your current device) with the target gesture and submit it. The verification photo will be compared to your profile picture' | translate }}
+      <div>
+        {{ 'Take a photo (from your current device) with the target gesture and submit it.' | translate }}
+      </div>
+      <div>
+        {{ 'The verification photo will be compared to your profile picture' | translate }}
+      </div>
 
       <div *ngIf="!verificationStatus.profileImageId" class="alert alert-danger" role="alert" style="margin-top: 20px;">
         {{ 'You must upload a profile image before you request verification.' | translate }}
       </div>
 
       <div *ngIf="verificationStatus.profileImageId" style="margin-top: 20px;">
-        <button class="btn btn-outline-primary" style="width: 100%;" (click)="verifying = true">{{ 'Start verification' | translate }}</button>
+        <button class="btn btn-outline-primary" style="width: 100%;" (click)="verifying = true">{{ 'Next' | translate
+          }}</button>
       </div>
     </div>
     <div *ngIf="verifying">
-      <div style="width: 100%; padding: 15px;">
-        <div style="margin-bottom: 10px;">
-          {{ 'Please take a photo with the following gesture:' | translate }}
+      <div style="margin-bottom: 5px;">
+        <div style="font-weight: bold;">
+          {{ 'How does verification work?' | translate }}
         </div>
-        <div style="padding: 0 20px; position: relative;">
-          <img src="/assets/verify_gesture.jpg" class="border" style="width: 100%;" [ngStyle]="{ 'position': takingPhoto ? 'absolute' : '', top: takingPhoto ? '0px' : '', width: takingPhoto ? '110px' : '100%' }" />
-          <camera-image-capture *ngIf="takingPhoto" (imageCaptured)="imageCaptured($event)" (captureStarted)="clearCapturedImage()"></camera-image-capture>
-        </div>
-        <button *ngIf="!takingPhoto" class="btn btn-outline-primary" style="width: 100%; margin-top: 10px;" (click)="takingPhoto = true">{{ 'Next' | translate }}</button>
-        <div style="margin-top: 10px;">
-          {{ 'Don\'t worry - no one else will see the photo.' | translate }}
-        </div>
+        <ul style="margin-left: 20px;">
+          <li>{{ 'Take a photo with the target gesture bellow' | translate }}</li>
+          <li>{{ 'Click on photo or \'Start verification\' button to start' | translate }}</li>
+          <li>{{ 'Submit for verification after photo is taken' | translate }}</li>
+        </ul>
       </div>
-      <div *ngIf="hasVerificationBLob" style="text-align: center;">
-        <button class="btn btn-outline-primary" style="padding: 10px 5px; width: 100%;" (click)="sendVerificationRequest()">{{ 'Send for verification' | translate }}</button>
+
+      <div *ngIf="takingPhoto && loadingCamera" class="alert alert-warning" role="alert">
+        {{ 'You must allow access to camera in order to take photo' | translate }}
+      </div>
+
+      <div style="padding: 0; position: relative;">
+        <div style="margin: 15px 0;" [ngStyle]="{ 'text-align': !takingPhoto ? 'center' : ''}">
+          <img [src]="verifyPoseImage" class="shadow" style="width: 100%; max-width: 300px;"
+            (click)="startTakingPhoto()"
+            [ngStyle]="{ 'position': takingPhoto ? 'absolute' : '', top: takingPhoto ? '0px' : '', width: takingPhoto ? '110px' : '100%' }" />
+        </div>
+        <camera-image-capture *ngIf="takingPhoto" (imageCaptured)="imageCaptured($event)"
+          (captureStarted)="clearCapturedImage()" (cameraLoaded)="loadingCamera = false"></camera-image-capture>
+      </div>
+
+      <button *ngIf="!takingPhoto" class="btn btn-outline-primary" style="width: 100%; margin-top: 10px;"
+        (click)="startTakingPhoto()" [disabled]="uploadingVerificationImage">{{ 'Start verification' | translate
+        }}</button>
+
+      <div *ngIf="hasVerificationBLob" style="text-align: center; margin-top: 10px;">
+        <button class="btn btn-outline-primary" style="padding: 10px 5px; width: 100%;"
+          (click)="sendVerificationRequest()" [disabled]="uploadingVerificationImage">
+          <img *ngIf="uploadingVerificationImage" src="/assets/loader.svg" style="width: 24px;" /> {{ 'Send for
+          verification' | translate }}
+        </button>
+      </div>
+
+      <div *ngIf="takingPhoto" class="alert alert-info" role="alert" style="margin-top: 15px; margin-bottom: 0;">
+        {{ 'Don\'t worry - no one else will see the photo.' | translate }}
       </div>
     </div>
   </div>

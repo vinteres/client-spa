@@ -66,6 +66,15 @@
   text-overflow: ellipsis;
 }
 
+.online {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin: 0 5px;
+  background-color: #25db57;
+  border-radius: 100%;
+}
+
 @media only screen and (max-width: 840px) {
   .user-item {
     width: calc(33% - 10px);

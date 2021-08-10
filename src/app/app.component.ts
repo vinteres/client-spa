@@ -31,6 +31,7 @@ import { VerificationService } from './services/verification.service';
 import { OnboardingService } from './services/onboarding.service';
 import { Subscription } from 'rxjs';
 import { LanguageService } from './services/language.service';
+import { ImageCaptureServiceService } from './services/image-capture-service.service';
 
 @Component({
   selector: 'app-root',
@@ -95,6 +96,10 @@ export class AppComponent implements OnDestroy {
   feedbackType: string;
   feedbackDetails: string;
 
+  loadingCamera: boolean = true;
+  uploadingVerificationImage: boolean;
+  takingPhoto: boolean;
+
   constructor(
     private authService: AuthService,
     private websocketService: WebsocketService,
@@ -108,6 +113,7 @@ export class AppComponent implements OnDestroy {
     private titleService: Title,
     private translate: TranslateService,
     private verificationService: VerificationService,
+    private imageCaptureService: ImageCaptureServiceService,
     onboardingService: OnboardingService,
     languageService: LanguageService
   ) {
@@ -304,7 +310,8 @@ export class AppComponent implements OnDestroy {
 
         this.clearCapturedImage();
 
-        this.modalService.open(this.verifyDialog, { ariaLabelledBy: 'modal-basic-title', size: 'sm' })
+        // this.modalService.open(this.verifyDialog, { ariaLabelledBy: 'modal-basic-title', size: 'sm' })
+        this.modalService.open(this.verifyDialog, { ariaLabelledBy: 'modal-basic-title', size: 'md' })
           .result.then(() => {
             this.verificationService.modalSubject$.next('close');
           }, () => {
@@ -329,13 +336,22 @@ export class AppComponent implements OnDestroy {
     this.verificationImageBlob = null;
   }
 
+  startTakingPhoto() {
+    if (this.uploadingVerificationImage) { return; }
+
+    this.takingPhoto = true;
+  }
+
   sendVerificationRequest() {
-    if (!this.verificationImageBlob) {
+    if (!this.verificationImageBlob || this.uploadingVerificationImage) {
       return;
     }
 
     const formData = new FormData();
     formData.append('media-blob', this.verificationImageBlob);
+
+    this.uploadingVerificationImage = true;
+    this.imageCaptureService.canStartSubject$.next(false);
 
     this.http.post(environment.api_url + 'verification/upload', formData)
       .subscribe(() => {
@@ -347,9 +363,17 @@ export class AppComponent implements OnDestroy {
 
         this.showVerifyAlert = false;
 
+        this.verificationService.sentForVerificationSubject$.next();
+
+        this.uploadingVerificationImage = false;
+        this.imageCaptureService.canStartSubject$.next(true);
+
         this.translate.get('Verification request sent')
           .subscribe(translatedText => this.notifierService.notify('success', translatedText));
       }, () => {
+        this.uploadingVerificationImage = false;
+        this.imageCaptureService.canStartSubject$.next(true);
+
         this.translate.get('Error')
           .subscribe(translatedText => this.notifierService.notify('error', translatedText));
       });
@@ -386,5 +410,9 @@ export class AppComponent implements OnDestroy {
 
   get privacyPolicyUrl() {
     return environment.privacy_policy_url;
+  }
+
+  get verifyPoseImage() {
+    return `/assets/verify_${this.loggedUser()?.gender}.jpeg`;
   }
 }

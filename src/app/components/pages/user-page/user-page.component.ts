@@ -78,6 +78,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   faCompInterests = faIcons;
   faAge = faHourglassHalf;
   faIncome = faWallet;
+  faLike = faHeart;
 
   @ViewChild('editAnswerDialog') editAnswerDialog;
 
@@ -179,6 +180,13 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.likeSentSubscription = this.introsService.likeSentSubject$
       .subscribe(() => {
         this.user.relation_status = 'intro_from_me';
+      });
+
+    verificationService.sentForVerificationSubject$
+      .subscribe(() => {
+        if (this.isLoggedUser && this.user) {
+          this.user.verification_status = 'pending';
+        }
       });
   }
 
@@ -430,7 +438,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         this.user.images = response.images;
 
         if (0 === response.images.length) {
-          this.user.profile_image = `/assets/${this.user.gender}.jpg`;
+          this.user.profile_image = `/assets/${this.user.gender === 'male' ? 'man' : this.user.gender}.jpg`;
         } else {
           this.user.profile_image = response.images.find(image => 1 === image.position).small;
         }

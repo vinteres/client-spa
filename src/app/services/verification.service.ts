@@ -8,6 +8,7 @@ import { CHttp } from './chttp.service';
 })
 export class VerificationService {
   modalSubject$: Subject<'open' | 'close'> = new Subject();
+  sentForVerificationSubject$: Subject<void> = new Subject();
 
   constructor(private http: CHttp) { }
 

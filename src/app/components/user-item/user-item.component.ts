@@ -23,4 +23,9 @@ export class UserItemComponent implements OnInit {
   imageLoaded() {
     this.loading = false;
   }
+
+  errorLoadingImage() {
+    this.loading = false;
+    this.user.profile_image = `/assets/${this.user.gender === 'male' ? 'man' : this.user.gender}.jpg`;
+  }
 }

@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, NgZone, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ImageCaptureServiceService } from 'src/app/services/image-capture-service.service';
 import { VerificationService } from 'src/app/services/verification.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class CameraImageCaptureComponent implements OnInit, OnDestroy, AfterView
 
   @Output() imageCaptured: EventEmitter<Blob> = new EventEmitter();
   @Output() captureStarted: EventEmitter<void> = new EventEmitter();
+  @Output() cameraLoaded: EventEmitter<void> = new EventEmitter();
 
   private width = 320;
   private height = 0;
@@ -22,20 +24,33 @@ export class CameraImageCaptureComponent implements OnInit, OnDestroy, AfterView
 
   streaming = false;
   data: any;
+  streamingStoped = false;
+
+  canStart: boolean = true;
 
   verificationModalSubscription: Subscription;
+  canStartSubscription: Subscription;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.resizeVideo();
   }
 
-  constructor(verificationService: VerificationService) {
+  constructor(
+    private zone: NgZone,
+    verificationService: VerificationService,
+    imageCaptureService: ImageCaptureServiceService
+  ) {
     this.verificationModalSubscription = verificationService.modalSubject$
       .subscribe(command => {
         if ('close' !== command) { return; }
 
         this.done();
+      });
+
+    this.canStartSubscription = imageCaptureService.canStartSubject$
+      .subscribe((canStart) => {
+        this.canStart = canStart;
       });
   }
 
@@ -48,6 +63,7 @@ export class CameraImageCaptureComponent implements OnInit, OnDestroy, AfterView
 
   ngOnDestroy() {
     this.verificationModalSubscription.unsubscribe();
+    this.canStartSubscription.unsubscribe();
   }
 
   private resizeVideo() {
@@ -64,6 +80,8 @@ export class CameraImageCaptureComponent implements OnInit, OnDestroy, AfterView
   }
 
   start() {
+    if (!this.canStart) { return; }
+
     const video = this.video.nativeElement;
     const canvas = this.canvas.nativeElement;
 
@@ -72,6 +90,7 @@ export class CameraImageCaptureComponent implements OnInit, OnDestroy, AfterView
       audio: false
     })
       .then((stream) => {
+        this.cameraLoaded.emit();
         this.captureStarted.emit();
 
         this.stream = stream;
@@ -111,7 +130,9 @@ export class CameraImageCaptureComponent implements OnInit, OnDestroy, AfterView
       context.drawImage(video, 0, 0, this.width, this.height);
 
       canvas.toBlob((blob) => {
-        this.imageCaptured.emit(blob);
+        this.zone.run(() => {
+          this.imageCaptured.emit(blob);
+        });
       }, 'image/png');
 
       const data = canvas.toDataURL('image/png');
@@ -140,5 +161,6 @@ export class CameraImageCaptureComponent implements OnInit, OnDestroy, AfterView
   done() {
     this.stream.stop();
     this.streaming = false;
+    this.streamingStoped = true;
   }
 }
