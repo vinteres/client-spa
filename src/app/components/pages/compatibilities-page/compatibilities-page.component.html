@@ -1,5 +1,7 @@
-<h1>{{ 'Compatibilities' | translate }}
-  <fa-icon [icon]="faSearchPref" class="primary-item" style="margin-left: 10px;" (click)="openModal(content)"></fa-icon>
+<h1 style="position: relative;">{{ 'Compatibilities' | translate }}
+  <button class="btn btn-outline-dark" style="position: absolute; top: 0; right: 0;" (click)="openModal(content)">
+    <fa-icon [icon]="faSearchPref"></fa-icon>
+  </button>
 </h1>
 <h5>{{ 'People with high compatibility percentage to me.' | translate }}</h5>
 

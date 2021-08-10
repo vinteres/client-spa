@@ -6,6 +6,11 @@
         <textarea class="form-control" style="border: 0; min-height: 150px;"
           placeholder="{{ 'Write optional intro message...' | translate }}" [(ngModel)]="message"></textarea>
       </div>
+      <div *ngIf="message?.length > 255">
+        <small class="text-danger">
+          {{ 'Max length required' | translate:{'requiredLength': 255} }}
+        </small>
+      </div>
     </div>
 
     <div style="text-align: right;">
