@@ -1,0 +1,58 @@
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <h2 class="section-title">{{ 'You don\'t have a profile picture' | translate }}</h2>
+    <div>
+      {{ 'Give a face to your profile. Having a photo drastically increases your chance for a match.' | translate }}
+    </div>
+    <h5 style="margin-top: 15px;">{{ 'Photo rules:' | translate }}</h5>
+    <div style="padding: 0 20px;">
+      <ul class="a">
+        <li>{{ 'You must be in the picture' | translate }}</li>
+        <li>{{ 'Show your face' | translate }}</li>
+        <li>{{ 'No nudity' | translate }}</li>
+      </ul>
+    </div>
+
+    <div *ngIf="imageUploadError" style="text-align: center; margin: 20px 0;">
+      <small small class="text-danger">
+        {{ imageUploadError | translate }}
+      </small>
+    </div>
+
+    <div class="add-image-item" style="width: 200px; margin: auto;">
+      <img *ngIf="!uploadingImage" [src]="image" style="border-radius: 100%; width: 100%;" (click)="newImage.click()" />
+      <loader *ngIf="uploadingImage"></loader>
+    </div>
+
+    <!-- <div style="text-align: center; margin-top: 20px;">
+    <a role="button"  class="btn-skip" (click)="skipUpload()" [disabled]="uploadingImage">{{ 'Skip' | translate }}</a>
+  </div> -->
+
+    <div style="text-align: center; margin-top: 35px;">
+      <button class="btn btn-outline-outline-primary" (click)="newImage.click()" [disabled]="uploadingImage">{{ 'Upload'
+        | translate }}</button>
+    </div>
+
+    <input type="file" accept="image/*" (change)="uploadImage($event.target.files)" style="display: none;" #newImage>
+    <!-- <h1>xxsad</h1> -->
+    <!-- <h4 class="modal-title">{{ 'Like' | translate }} {{ params.userName }}</h4>
+    <div class="form-group">
+      <div style="margin-top: 15px;">
+        <textarea class="form-control" style="border: 0; min-height: 150px;"
+          placeholder="{{ 'Write optional intro message...' | translate }}" [(ngModel)]="message"></textarea>
+      </div>
+      <div *ngIf="message?.length > 255">
+        <small class="text-danger">
+          {{ 'Max length required' | translate:{'requiredLength': 255} }}
+        </small>
+      </div>
+    </div>
+
+    <div style="text-align: right;">
+      <button type="button" class="btn btn-outline-dark" style="margin-right: 15px;"
+        (click)="modal.close('Close click')" [disabled]="loading">{{ 'Cancel' | translate }}</button>
+      <button type="button" class="btn btn-outline-primary" (click)="save()"
+        [disabled]="loading">{{ 'Like' | translate }}</button>
+    </div> -->
+  </div>
+</ng-template>

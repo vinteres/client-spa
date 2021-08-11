@@ -48,6 +48,7 @@ import { LikeModalComponent } from './components/modals/like-modal/like-modal.co
 import { CreatedByComponent } from './components/misc/created-by/created-by.component';
 import { StepperComponent } from './components/misc/stepper/stepper.component';
 import { SignInWithComponent } from './components/misc/sign-in-with/sign-in-with.component';
+import { ImageUploadModalComponent } from './components/modals/image-upload-modal/image-upload-modal.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -133,6 +134,7 @@ const customNotifierOptions: NotifierOptions = {
     CreatedByComponent,
     StepperComponent,
     SignInWithComponent,
+    ImageUploadModalComponent,
   ],
   imports: [
     BrowserModule,

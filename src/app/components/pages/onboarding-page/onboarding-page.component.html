@@ -481,6 +481,15 @@
     {{ 'Give a face to your profile. Having a photo drastically increases your chance for a match.' | translate }}
   </div>
 
+  <h5 style="margin-top: 15px;">{{ 'Photo rules:' | translate }}</h5>
+  <div style="padding: 0 20px;">
+    <ul class="a">
+      <li>{{ 'You must be in the picture' | translate }}</li>
+      <li>{{ 'Show your face' | translate }}</li>
+      <li>{{ 'No nudity' | translate }}</li>
+    </ul>
+  </div>
+  
   <div *ngIf="imageUploadError" style="text-align: center; margin: 20px 0;">
     <small small class="text-danger">
       {{ imageUploadError | translate }}
@@ -492,9 +501,9 @@
     <loader *ngIf="uploadingImage"></loader>
   </div>
 
-  <div style="text-align: center; margin-top: 20px;">
+  <!-- <div style="text-align: center; margin-top: 20px;">
     <a role="button"  class="btn-skip" (click)="skipUpload()" [disabled]="uploadingImage">{{ 'Skip' | translate }}</a>
-  </div>
+  </div> -->
 
   <div style="text-align: center; margin-top: 35px;">
     <button class="btn btn-outline-outline-primary" (click)="newImage.click()" [disabled]="uploadingImage">{{ 'Upload' | translate }}</button>

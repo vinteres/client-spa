@@ -136,6 +136,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
   searchPreferenceSubscription: Subscription;
   likeSentSubscription: Subscription;
+  setImagesSubject: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -161,6 +162,14 @@ export class UserPageComponent implements OnInit, OnDestroy {
     hobbiesService.getAllActivities()
       .then(activities => {
         this.allActivities = activities;
+      });
+
+    this.setImagesSubject = usersService.setImagesSubject$
+      .subscribe(images => {
+        if (!this.isLoggedUser) return;
+
+        this.user.images = images;
+        this.user.profile_image = images[0].big;
       });
 
     this.searchPreferenceSubscription = searchPreferenceService.changedSubject$
@@ -201,6 +210,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.searchPreferenceSubscription.unsubscribe();
     this.likeSentSubscription.unsubscribe();
+    this.setImagesSubject.unsubscribe();
   }
 
   changeUser(userId) {
@@ -434,13 +444,20 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.imageUploadError = '';
 
     this.http.delete(environment.api_url + `users/image?position=${position}`)
-      .subscribe(response => {
-        this.user.images = response.images;
+      .subscribe(({ images, errMsg }) => {
+        this.user.images = images;
 
-        if (0 === response.images.length) {
+        if (errMsg) {
+          this.imageUploadError = errMsg;
+          this.loadingImages[position] = false;
+
+          return;
+        }
+
+        if (0 === images.length) {
           this.user.profile_image = `/assets/${this.user.gender === 'male' ? 'man' : this.user.gender}.jpg`;
         } else {
-          this.user.profile_image = response.images.find(image => 1 === image.position).small;
+          this.user.profile_image = images.find(image => 1 === image.position).small;
         }
 
         this.loadingImages[position] = false;

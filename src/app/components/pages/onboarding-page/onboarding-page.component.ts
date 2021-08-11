@@ -489,11 +489,11 @@ export class OnboardingPageComponent implements OnInit {
       });
   }
 
-  skipUpload() {
-    if (this.uploadingImage) { return; }
+  // skipUpload() {
+  //   if (this.uploadingImage) { return; }
 
-    this.passImageStep();
-  }
+  //   this.passImageStep();
+  // }
 
   uploadImage(files) {
     if (this.uploadingImage) { return; }

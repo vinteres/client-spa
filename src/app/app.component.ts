@@ -32,6 +32,7 @@ import { OnboardingService } from './services/onboarding.service';
 import { Subscription } from 'rxjs';
 import { LanguageService } from './services/language.service';
 import { ImageCaptureServiceService } from './services/image-capture-service.service';
+import { ModalService } from './services/modal.service';
 
 @Component({
   selector: 'app-root',
@@ -115,7 +116,8 @@ export class AppComponent implements OnDestroy {
     private verificationService: VerificationService,
     private imageCaptureService: ImageCaptureServiceService,
     onboardingService: OnboardingService,
-    languageService: LanguageService
+    languageService: LanguageService,
+    appModalService: ModalService
   ) {
     this.currentLang = languageService.getCurrentLang();
     this.supportedLanguage = languageService.getSupportedLanguages();
@@ -140,6 +142,15 @@ export class AppComponent implements OnDestroy {
         if (modalService.hasOpenModals()) {
           modalService.dismissAll();
         }
+
+        if (!this.authService.isLoggedIn() || this.authService.getLoggedUser().status != 'active') return;
+
+        appModalService.hasProfileImage()
+          .then(hasProfileImage => {
+            if (!hasProfileImage) {
+              appModalService.uploadProfileImageModalSubject$.next(true);
+            }
+          });
       });
 
     onboardingService.completedSubject$
