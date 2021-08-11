@@ -542,5 +542,6 @@
   "Take a photo with the target gesture bellow": "Снимай се с дадената поза по-долу",
   "Click on photo or 'Start verification' button to start": "Кликнете на снимката или натиснете 'Започни', за да започнете",
   "Submit for verification after photo is taken": "След като сте се снимали - изпратете за преглед",
-  "You must allow access to camera in order to take photo": "Моля разрешете достъп до камерата, за да може да снимате"
+  "You must allow access to camera in order to take photo": "Моля разрешете достъп до камерата, за да може да снимате",
+  "Age preference": "Възрастни предпочитания"
 }

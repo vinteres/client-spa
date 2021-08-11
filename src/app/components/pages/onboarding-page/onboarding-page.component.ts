@@ -51,6 +51,11 @@ export class OnboardingPageComponent implements OnInit {
     big: string
   };
 
+  showAgePicker: boolean = false;
+  ages = [];
+  agesTo = [];
+  agePref = { fromAge: 18, toAge: 70 };
+
   imageUploadError: string = '';
 
   constructor(
@@ -289,18 +294,45 @@ export class OnboardingPageComponent implements OnInit {
     return r;
   }
 
-  saveAccountInfo() {
+  showAgePickerStep() {
     if (this.accountInfoForm.invalid) {
       this.markFormAsDirty(this.accountInfoForm);
 
       return;
     }
+    if (this.accountInfoForm.invalid && this.accountInfoForm.dirty) { return; }
 
+    this.ages = this.getAges(18);
+    this.agesTo = this.getAges(this.agePref.fromAge);
+    this.showAgePicker = true;
+  }
+
+  private getAges(from) {
+    const ages = [];
+    for (let i = from; i < 100; i++) {
+      ages.push(i);
+    }
+
+    return ages;
+  }
+
+  changePref(option, value) {
+    this.agePref[option] = value;
+    if ('fromAge' === option && value > this.agePref.toAge) {
+      this.agePref.toAge = value;
+    }
+    this.agesTo = this.getAges(this.agePref.fromAge);
+  }
+
+  saveAccountInfo() {
     if (this.loading) { return; }
     if (this.accountInfoForm.invalid && this.accountInfoForm.dirty) { return; }
 
     this.loading = true;
-    this.onboardingService.setAccountInfo(this.accountInfoForm.value)
+    this.onboardingService.setAccountInfo({
+      accountInfo: this.accountInfoForm.value,
+      agePref: this.agePref
+    })
       .subscribe(response => {
         this.loading = false;
 

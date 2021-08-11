@@ -55,33 +55,33 @@ export class FindPeoplePageComponent implements OnInit {
       location: foundSearchPref?.location ?? { name: '', fullName: '' }
     };
 
-    this.activatedRoute.queryParams
-      .subscribe(params => {
+    this.userService.getSearchPref()
+      .subscribe((searchPreference) => {
+        this.searchPref = {
+          fromAge: searchPreference.fromAge ?? 18,
+          toAge: searchPreference.toAge ?? 70,
+          location: { name: '', fullName: '' }
+        };
 
-        let page;
-        try {
-          page = parseInt(params.page, 10);
-          if (isNaN(page) || 0 >= page) {
-            page = 1;
-          }
-        } catch (e) {
-          page = 1;
-        }
-        this.page = page;
+        this.ages = this.getAges(18);
+        this.agesTo = this.getAges(this.searchPref.fromAge);
 
-        this.loadUsers();
+        this.activatedRoute.queryParams
+          .subscribe(params => {
+            let page;
+            try {
+              page = parseInt(params.page, 10);
+              if (isNaN(page) || 0 >= page) {
+                page = 1;
+              }
+            } catch (e) {
+              page = 1;
+            }
+            this.page = page;
+
+            this.loadUsers();
+          });
       });
-
-    this.ages = this.getAges(18);
-    this.agesTo = this.getAges(this.searchPref.fromAge);
-
-    // this.userService.getSearchPref()
-    //   .subscribe((searchPreference) => {
-    //     this.searchPref = searchPreference;
-
-    //     this.ages = this.getAges(18);
-    //     this.agesTo = this.getAges(this.searchPref.fromAge);
-    //   });
   }
 
   ngOnInit(): void {
