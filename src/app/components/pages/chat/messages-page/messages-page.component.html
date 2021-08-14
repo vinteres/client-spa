@@ -1,5 +1,5 @@
 <div class="msg-page-cont">
-  <div class="rounded shadow-sm inner-cont" (click)="menuHidden = true">
+  <div class="rounded shadow-sm inner-cont on-cordx" (click)="menuHidden = true">
     <div class="chat-members-cont" style="overflow-y: auto;">
       <div style="height: 100%; width: 100%; overflow-y: auto;">
         <div class="messages-title-cont">
@@ -18,7 +18,7 @@
              style="padding: 5px;"
              (click)="changeUser(user)"
              >
-          <img [src]="user.profileImage" class="rounded" />
+          <img src="{{ cordovaService.getImgPath2(user.profileImage) }}" class="rounded" />
           <span class="member-name">{{ user.name }}</span>
         </div>
       </div>

@@ -78,6 +78,9 @@
 @media only screen and (max-width: 840px) {
   .user-item {
     width: calc(33% - 10px);
+    margin: 0;
+    // padding: 10px;
+    margin-bottom: 10px;
   }
 }
 

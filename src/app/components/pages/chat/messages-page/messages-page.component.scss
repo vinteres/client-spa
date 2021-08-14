@@ -36,6 +36,10 @@
   flex-direction: row;
   justify-content: space-evenly;
 }
+.msg-page-cont .inner-cont.on-cordx {
+  height: calc(100vh - 105px)
+}
+
 .msg-page-cont .messages-title-cont {
   overflow: hidden;
   height: 52px;

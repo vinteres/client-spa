@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { CordovaService } from 'src/app/cordova.service';
 
 @Component({
   selector: 'sign-up-page',
@@ -25,6 +26,7 @@ export class SignUpPageComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private http: HttpClient,
+    public cordovaService: CordovaService
   ) {
     this.createForm();
   }
@@ -121,5 +123,9 @@ export class SignUpPageComponent implements OnInit {
 
   get privacyPolicyUrl() {
     return environment.privacy_policy_url;
+  }
+
+  get bgImg() {
+    return `url("${this.cordovaService.getImgPath('/assets/bg.jpg')}")`;
   }
 }

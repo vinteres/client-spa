@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CordovaService } from 'src/app/cordova.service';
 
 @Component({
   selector: 'loader',
@@ -8,7 +9,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class LoaderComponent implements OnInit {
   @Input() size: string;
 
-  constructor() { }
+  constructor(public cordovaService: CordovaService) { }
 
   ngOnInit(): void {
   }

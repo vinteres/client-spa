@@ -1,3 +1,4 @@
 <div class="loader">
-  <img src="/assets/loader.svg" [ngStyle]="{'width': 'small' === size ? '50px': ''}" />
+  <img src="{{ cordovaService.getImgPath('/assets/loader.svg') }}"
+    [ngStyle]="{'width': 'small' === size ? '50px': ''}" />
 </div>

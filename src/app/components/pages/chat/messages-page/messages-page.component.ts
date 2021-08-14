@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { faAlignJustify } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
+import { CordovaService } from 'src/app/cordova.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ChatService } from 'src/app/services/chat.service';
 import { CHttp } from 'src/app/services/chttp.service';
@@ -26,11 +27,11 @@ export class MessagesPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: CHttp,
-    private authService: AuthService,
     private chatService: ChatService,
     private websocketService: WebsocketService,
-    private notificationsService: NotificationsService,
-    private router: Router
+    private router: Router,
+    public cordovaService: CordovaService,
+    authService: AuthService
   ) {
     this.websocketSubscription = chatService.chatMessageSubject$
       .subscribe(msg => {

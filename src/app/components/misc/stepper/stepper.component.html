@@ -1,9 +1,26 @@
-<div class="container">
+<div *ngIf="cordovaService.onCordova" class="container">
+  <ul class="progressbar2">
+    <li *ngFor="let step of steps; let i = index"
+      [ngClass]="{ 'done': activeStep > i + 1, 'active': activeStep == i + 1 }"
+      [ngStyle]="{ 'width': (100 / steps.length) + '%' }">
+      <span *ngIf="i % 2 !== 0">{{ step | translate }}</span>
+    </li>
+  </ul>
   <ul class="progressbar">
     <li *ngFor="let step of steps; let i = index"
-        [ngClass]="{ 'done': activeStep > i + 1, 'active': activeStep == i + 1 }"
-        [ngStyle]="{ 'width': (100 / steps.length) + '%' }"
-        >
+      [ngClass]="{ 'done': activeStep > i + 1, 'active': activeStep == i + 1 }"
+      [ngStyle]="{ 'width': (100 / steps.length) + '%' }">
+      <span *ngIf="i % 2 === 0">{{ step | translate }}</span>
+    </li>
+  </ul>
+  <div class="clear"></div>
+</div>
+
+<div *ngIf="!cordovaService.onCordova" class="container">
+  <ul class="progressbar">
+    <li *ngFor="let step of steps; let i = index"
+      [ngClass]="{ 'done': activeStep > i + 1, 'active': activeStep == i + 1 }"
+      [ngStyle]="{ 'width': (100 / steps.length) + '%' }">
       {{ step | translate }}
     </li>
   </ul>

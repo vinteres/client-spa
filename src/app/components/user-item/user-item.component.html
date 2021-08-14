@@ -3,7 +3,7 @@
     <div *ngIf="loading" style="height: 200px; display: flex; justify-content: center; align-items: center;">
       <loader></loader>
     </div>
-    <img class="rounded" [src]="user.profile_image" (load)="imageLoaded()" (error)="errorLoadingImage()" />
+    <img class="rounded" [src]="getImg(user.profile_image)" (load)="imageLoaded()" (error)="errorLoadingImage()" />
     <div class="img-text">
     </div>
     <div class="item-overlay rounded">

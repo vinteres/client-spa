@@ -43,13 +43,22 @@ export class SignInWithComponent implements OnInit {
                 } else {
                   this.router.navigateByUrl('/find-people');
                 }
+              }, (error) => {
+                console.log(error);
+                this.setLoading(false);
               });
             }, (error) => {
+              console.log(error);
               this.setLoading(false);
             });
           }, (error) => {
+            console.log(error);
             this.setLoading(false);
           })
+      })
+      .catch(error => {
+        console.log(error);
+        this.setLoading(false);
       });
   }
 

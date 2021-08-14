@@ -49,9 +49,13 @@ import { CreatedByComponent } from './components/misc/created-by/created-by.comp
 import { StepperComponent } from './components/misc/stepper/stepper.component';
 import { SignInWithComponent } from './components/misc/sign-in-with/sign-in-with.component';
 import { ImageUploadModalComponent } from './components/modals/image-upload-modal/image-upload-modal.component';
+import { CordovaService } from './cordova.service';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+export function HttpLoaderFactory(http: HttpClient, cordovaService: CordovaService) {
+  if (!cordovaService.onCordova) return new TranslateHttpLoader(http);
+
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 const customNotifierOptions: NotifierOptions = {
@@ -149,13 +153,14 @@ const customNotifierOptions: NotifierOptions = {
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {
-          provide: TranslateLoader,
-          useFactory: HttpLoaderFactory,
-          deps: [HttpClient]
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient, CordovaService]
       }
-  })
+    })
   ],
   providers: [
+    AndroidPermissions,
     customHttpProvider
   ],
   bootstrap: [AppComponent]

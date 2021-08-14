@@ -78,6 +78,28 @@ $contentWidth: 800px;
 .left-menu a i.icon {
   display: inline-block;
 }
+
+.menu-mobile {
+  background-color: #fff;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-around;
+  display: none;
+
+  .item {
+    color: #fff;
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+    padding: 0 10px;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
 .left-menu .item {
   display: block;
   height: 40px;
@@ -144,9 +166,12 @@ $contentWidth: 800px;
 @media only screen and (max-width: 940px) {
   .page-container {
     width: 100%;
-    padding-left: 45px;
+    margin-bottom: 40px;
+  }
+  .menu-mobile {
+    display: flex;
   }
   .left-menu {
-    z-index: 1;
+    display: none;
   }
 }

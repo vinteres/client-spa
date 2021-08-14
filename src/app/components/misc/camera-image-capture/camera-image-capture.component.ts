@@ -1,7 +1,19 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, NgZone, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  HostListener,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ImageCaptureServiceService } from 'src/app/services/image-capture-service.service';
 import { VerificationService } from 'src/app/services/verification.service';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { CordovaService } from 'src/app/cordova.service';
 
 @Component({
   selector: 'camera-image-capture',
@@ -38,6 +50,8 @@ export class CameraImageCaptureComponent implements OnInit, OnDestroy, AfterView
 
   constructor(
     private zone: NgZone,
+    private androidPermissions: AndroidPermissions,
+    private cordovaService: CordovaService,
     verificationService: VerificationService,
     imageCaptureService: ImageCaptureServiceService
   ) {
@@ -70,13 +84,25 @@ export class CameraImageCaptureComponent implements OnInit, OnDestroy, AfterView
     const video = this.video.nativeElement;
     const photo = this.photo.nativeElement;
 
-    const targetSize = video.parentNode.getBoundingClientRect().width;
-    video.height = targetSize;
-    photo.height = targetSize;
+    const videoParentSize = video.parentNode.getBoundingClientRect();
+    const containerWidth = videoParentSize.width;
+    const targetSize = containerWidth;
 
-    const d = Math.floor((video.videoWidth - video.videoHeight) / 2);
+    if (video.videoWidth > video.videoHeight) {
+      video.height = targetSize;
+      photo.height = targetSize;
+      const d = Math.floor((video.videoWidth - video.videoHeight) / 2);
 
-    video.style.marginLeft = photo.style.marginLeft = `-${d * (targetSize / video.videoHeight)}px`;
+      video.style.marginLeft = photo.style.marginLeft = `-${d * (targetSize / video.videoHeight)}px`;
+    } else {
+      video.parentNode.style = `max-height: ${targetSize}px; overflow: hidden;`;
+      video.width = targetSize;
+      photo.width = targetSize;
+
+      const d = Math.floor((video.videoHeight - video.videoWidth) / 2);
+
+      video.style.marginTop = photo.style.marginTop = `-${d * (targetSize / video.videoWidth)}px`;
+    }
   }
 
   start() {
@@ -85,21 +111,21 @@ export class CameraImageCaptureComponent implements OnInit, OnDestroy, AfterView
     const video = this.video.nativeElement;
     const canvas = this.canvas.nativeElement;
 
-    navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: false
-    })
-      .then((stream) => {
-        this.cameraLoaded.emit();
-        this.captureStarted.emit();
+    if (this.cordovaService.onCordova) {
+      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA)
+        .then(
+          result => {
+            if (result) {
+              this.reqMedia();
+            }
+          },
+          err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA)
+        );
 
-        this.stream = stream;
-        video.srcObject = stream;
-        video.play();
-      })
-      .catch((err) => {
-        console.log('An error occurred: ' + err);
-      });
+      this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.CAMERA, this.androidPermissions.PERMISSION.GET_ACCOUNTS]);
+    } else {
+      this.reqMedia();
+    }
 
     video.addEventListener('canplay', (ev) => {
       this.clearImage();
@@ -116,6 +142,27 @@ export class CameraImageCaptureComponent implements OnInit, OnDestroy, AfterView
 
       this.streaming = true;
     }, false);
+  }
+
+  private reqMedia() {
+    const video = this.video.nativeElement;
+
+    navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: false
+    })
+      .then((stream) => {
+        this.cameraLoaded.emit();
+        this.captureStarted.emit();
+
+        this.stream = stream;
+        video.srcObject = stream;
+        video.play();
+      })
+      .catch((err) => {
+        console.error(err);
+        console.log('An error occurred: ' + err);
+      });
   }
 
   takePicture() {

@@ -39,11 +39,14 @@ const routes: Routes = [
   { path: 'onboarding', component: OnboardingPageComponent, canActivate: [AuthGuard, IsNotOnboardingGuard] },
   { path: 'login', component: LoginPageComponent, canActivate: [LoggedInGuard] },
   { path: 'sign-up', component: SignUpPageComponent, canActivate: [LoggedInGuard] },
-  { path: '',   redirectTo: '/find-people', pathMatch: 'full' }
+  { path: '', redirectTo: '/find-people', pathMatch: 'full' }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(
+    routes,
+    // { useHash: true } CORDOVA BUILD
+  )],
   exports: [RouterModule]
 })
 export class RoutingModule { }

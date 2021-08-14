@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CordovaService } from 'src/app/cordova.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -8,7 +9,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AppTitleComponent implements OnInit {
 
-  constructor() { }
+  constructor(public cordovaService: CordovaService) { }
 
   ngOnInit(): void {
   }

@@ -4,8 +4,11 @@
       <div class="home-data">
         <a routerLink="/"
           style="font-weight: bold; color: #000; font-size: 20px; padding: 5px 0; display: inline-block;">
-          <img src="/assets/logo.svg" style="height: 39px;" />
-          <span class="align-middle badge badge-pill badge-primary beta-badge">Beta</span>
+          <img src="{{ cordovaService.getImgPath('/assets/logo.svg') }}" style="height: 39px;" />
+          <span
+            *ngIf="!cordovaService.onCordova"
+            class="align-middle badge badge-pill badge-primary beta-badge"
+            >Beta</span>
         </a>
       </div>
       <div class="user-data">
@@ -78,7 +81,7 @@
   </div>
 </div>
 
-<div class="page-container" style="position: relative;">
+<div class="page-container" style="position: relative;" [ngClass]="{ 'on-cordx': cordovaService.onCordova }">
   <div *ngIf="isActiveUser && showVerifyAlert" class="alert alert-warning" role="alert" style="position: relative;">
     <a href="javascript:void(0)" (click)="openVerifyModal()" style="color: #4798b5;">
       {{ 'Verify yourself' | translate }}
@@ -88,6 +91,48 @@
   </div>
 
   <router-outlet></router-outlet>
+
+  <div *ngIf="isActiveUser" class="menu-mobile border">
+    <a routerLink="/find-people" class="item">
+      <fa-icon [icon]="faFindPeople"></fa-icon>
+      <span class="label">{{ 'Find people' | translate }}</span>
+    </a>
+    <a routerLink="/likes" class="item">
+      <fa-icon [icon]="faIntro"></fa-icon>
+      <span class="label">{{ 'Likes' | translate }}</span>
+      <span *ngIf="notifsCount.intro > 0" class="badge rounded-pill bg-danger"
+        style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{
+        notifsCount.intro }}</span>
+    </a>
+    <a routerLink="/matches" class="item">
+      <fa-icon [icon]="faMatch"></fa-icon>
+      <span class="label">{{ 'Matches' | translate }}</span>
+      <span *ngIf="notifsCount.matches > 0" class="badge rounded-pill bg-danger"
+        style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{
+        notifsCount.matches }}</span>
+    </a>
+    <a routerLink="/chat" class="item">
+      <fa-icon [icon]="faEnvelope"></fa-icon>
+      <span class="label">{{ 'Messages' | translate }}</span>
+      <span *ngIf="notifsCount.msg > 0" class="badge rounded-pill bg-danger"
+        style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{
+        notifsCount.msg }}</span>
+    </a>
+    <a routerLink="/views" class="item">
+      <fa-icon [icon]="faViews"></fa-icon>
+      <span class="label">{{ 'Views' | translate }}</span>
+      <span *ngIf="notifsCount.visits > 0" class="badge rounded-pill bg-danger"
+        style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{
+        notifsCount.visits }}</span>
+    </a>
+    <a routerLink="/compatibilities" class="item">
+      <fa-icon [icon]="faCompatibility"></fa-icon>
+      <span class="label">{{ 'Compatibility' | translate }}</span>
+      <span *ngIf="compatibilityCount && 0 < compatibilityCount" class="badge rounded-pill bg-danger"
+        style="top: 3px; color: #fff; font-size: 11px; font-family: initial; font-weight: 800; position: absolute;">{{
+        compatibilityCount }}</span>
+    </a>
+  </div>
 </div>
 
 <ng-template #feedbackDialog let-modal>
@@ -185,7 +230,7 @@
       <div *ngIf="hasVerificationBLob" style="text-align: center; margin-top: 10px;">
         <button class="btn btn-outline-primary" style="padding: 10px 5px; width: 100%;"
           (click)="sendVerificationRequest()" [disabled]="uploadingVerificationImage">
-          <img *ngIf="uploadingVerificationImage" src="/assets/loader.svg" style="width: 24px;" /> {{ 'Send for
+          <img *ngIf="uploadingVerificationImage" src="{{ cordovaService.getImgPath('/assets/loader.svg') }}" style="width: 24px;" /> {{ 'Send for
           verification' | translate }}
         </button>
       </div>

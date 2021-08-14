@@ -1,3 +1,10 @@
+<div *ngIf="loadingPage" class="loader-cont" >
+  <img *ngIf="!error" src="{{ cordovaService.getImgPath('/assets/app_loader.svg') }}" alt="" />
+  <div *ngIf="error" style="text-align: center;">
+    <button class="btn btn-outline-primary" (click)="retry()">{{ 'Retry' | translate }}</button>
+  </div>
+</div>
+
 <div *ngIf="1 == step && showIntroText">
   <h2 class="section-title">{{ 'Onboarding' | translate }}</h2>
   <div class="alert alert-info" role="alert">
@@ -489,7 +496,7 @@
       <li>{{ 'No nudity' | translate }}</li>
     </ul>
   </div>
-  
+
   <div *ngIf="imageUploadError" style="text-align: center; margin: 20px 0;">
     <small small class="text-danger">
       {{ imageUploadError | translate }}

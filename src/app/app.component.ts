@@ -33,6 +33,7 @@ import { Subscription } from 'rxjs';
 import { LanguageService } from './services/language.service';
 import { ImageCaptureServiceService } from './services/image-capture-service.service';
 import { ModalService } from './services/modal.service';
+import { CordovaService } from './cordova.service';
 
 @Component({
   selector: 'app-root',
@@ -115,6 +116,7 @@ export class AppComponent implements OnDestroy {
     private translate: TranslateService,
     private verificationService: VerificationService,
     private imageCaptureService: ImageCaptureServiceService,
+    public cordovaService: CordovaService,
     onboardingService: OnboardingService,
     languageService: LanguageService,
     appModalService: ModalService
@@ -424,6 +426,8 @@ export class AppComponent implements OnDestroy {
   }
 
   get verifyPoseImage() {
-    return `/assets/verify_${this.loggedUser()?.gender}.jpeg`;
+    return this.cordovaService.getImgPath(
+      `/assets/verify_${this.loggedUser()?.gender}.jpeg`
+    );
   }
 }

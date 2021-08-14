@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
+import { CordovaService } from 'src/app/cordova.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { CHttp } from 'src/app/services/chttp.service';
 import { ModalService } from 'src/app/services/modal.service';
@@ -26,6 +27,7 @@ export class ImageUploadModalComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private authService: AuthService,
     private userService: UsersService,
+    private cordovaService: CordovaService,
     appModalService: ModalService
   ) {
     this.modalSubject = appModalService.uploadProfileImageModalSubject$
@@ -72,6 +74,12 @@ export class ImageUploadModalComponent implements OnInit, OnDestroy {
   }
 
   get image() {
-    return `/assets/${this.authService.getLoggedUser().gender === 'male' ? 'man' : this.authService.getLoggedUser().gender}.jpg`;
+    return this.cordovaService.getImgPath(
+      `/assets/${this.loggedUser?.gender === 'male' ? 'man' : this.loggedUser?.gender}.jpg`
+    );
+  }
+
+  get loggedUser() {
+    return this.authService.getLoggedUser();
   }
 }

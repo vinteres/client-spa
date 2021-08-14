@@ -43,6 +43,7 @@ import { VerificationService } from 'src/app/services/verification.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { SearchPreferenceService } from 'src/app/services/search-preference.service';
 import { ProfileQuestionService } from 'src/app/services/profile-question.service';
+import { CordovaService } from 'src/app/cordova.service';
 
 @Component({
   selector: 'user-page',
@@ -152,6 +153,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     private appModalService: ModalService,
     private profileQuestionService: ProfileQuestionService,
     public introsService: IntrosService,
+    private cordovaService: CordovaService,
     searchPreferenceService: SearchPreferenceService,
   ) {
     hobbiesService.getAll()
@@ -455,7 +457,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
         }
 
         if (0 === images.length) {
-          this.user.profile_image = `/assets/${this.user.gender === 'male' ? 'man' : this.user.gender}.jpg`;
+          this.user.profile_image = this.cordovaService.getImgPath(
+            `/assets/${this.user.gender === 'male' ? 'man' : this.user.gender}.jpg`
+          );
         } else {
           this.user.profile_image = images.find(image => 1 === image.position).small;
         }

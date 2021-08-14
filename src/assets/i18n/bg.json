@@ -545,5 +545,6 @@
   "You must allow access to camera in order to take photo": "Моля разрешете достъп до камерата, за да може да снимате",
   "Age preference": "Възрастни предпочитания",
   "You don't have a profile picture": "Нямате профилна снимка",
-  "Cannot delete profile image": "Не може да изтриете профилна снимка"
+  "Cannot delete profile image": "Не може да изтриете профилна снимка",
+  "Retry": "Опитай отново"
 }

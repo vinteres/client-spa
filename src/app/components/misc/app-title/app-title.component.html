@@ -1,6 +1,6 @@
 <div class="cont">
   <a [href]="websiteUrl">
-    <img src="/assets/logo.svg" class="img" />
+    <img src="{{ cordovaService.getImgPath('/assets/logo.svg') }}" class="img" />
     <span class="text">interes</span>
   </a>
   <h5 style="margin-top: 20px; font-weight: bold;">{{ 'Dating by personality and interests.' | translate }}</h5>

@@ -1,4 +1,4 @@
-<div class="bg"></div>
+<div class="bg" [ngStyle]="{ 'background-image': bgImg}"></div>
 <div class="overlay"></div>
 
 <div class="page-cont">
@@ -55,11 +55,11 @@
 
       <button class="btn btn-outline-primary" type="submit" [disabled]="loading">{{ 'Login' | translate }}</button>
 
-      <div style="text-align: center; margin: 10px 0;">
+      <div *ngIf="!cordovaService.onCordova" style="text-align: center; margin: 10px 0;">
         {{ 'Or login with' | translate }}
       </div>
 
-      <sign-in-with (loadingChanged)="loadingChanged($event)"></sign-in-with>
+      <sign-in-with *ngIf="!cordovaService.onCordova" (loadingChanged)="loadingChanged($event)"></sign-in-with>
     <div style="margin: 15px 0">
       {{ 'Or you can' | translate }} <a routerLink="/sign-up">{{ 'sign up here' | translate }}</a> {{ 'if you don\'t have an account.' | translate }}
     </div>

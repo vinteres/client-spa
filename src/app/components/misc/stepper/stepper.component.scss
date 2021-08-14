@@ -12,6 +12,22 @@ $borderColor: #ddd;
   clear: both;
 }
 
+.progressbar2 {
+  li {
+    list-style-type: none;
+    float: left;
+    position: relative;
+    text-align: center;
+    font-weight: 600;
+    cursor: default;
+    min-height: 1px;
+  }
+
+  li.active {
+    color: $activeColor;
+  }
+}
+
 .progressbar {
   counter-reset: step;
 }

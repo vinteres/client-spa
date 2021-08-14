@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewChecked, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { CordovaService } from 'src/app/cordova.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ChatService } from 'src/app/services/chat.service';
 import { CHttp } from 'src/app/services/chttp.service';
@@ -34,7 +35,8 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked, O
     private authService: AuthService,
     private websocketService: WebsocketService,
     private http: CHttp,
-    private router: Router
+    private router: Router,
+    public cordovaService: CordovaService
   ) {
     this.chatSubscription = chatService.chatMessageSubject$
       .subscribe(message => {

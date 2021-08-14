@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { AuthService } from './auth.service';
+import { CordovaService } from '../cordova.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,8 @@ import { AuthService } from './auth.service';
 export class CHttp extends HttpClient {
   constructor(
     handler: HttpHandler,
-    private authService: AuthService
+    private authService: AuthService,
+    private cordovaService: CordovaService
   ) {
     super(handler);
   }
@@ -18,7 +20,7 @@ export class CHttp extends HttpClient {
   get(url: string, options?: any): any {
     return super.get(url, this.addAuthTokenIfHas(options))
     .pipe(
-      catchError(this.handleError)
+      catchError((err) => this.handleError(err))
     );
   }
 
@@ -29,7 +31,7 @@ export class CHttp extends HttpClient {
   delete(url: string, options?: any): any {
     return super.delete(url, this.addAuthTokenIfHas(options))
       .pipe(
-        catchError(this.handleError)
+        catchError((err) => this.handleError(err))
       );
   }
 
@@ -55,25 +57,28 @@ export class CHttp extends HttpClient {
     }
     if (401 === errorStatus) {
       localStorage.removeItem('user_data');
-      window.location.href = '/login';
+      window.location.href = this.cordovaService.onCordova ? '#/login' : '/login';
     } else {
       try {
         error = JSON.parse(error._body);
         error.status = errorStatus;
       } catch (ex) { }
     }
-    console.error(JSON.stringify(error));
 
     return Observable.throw(error);
   }
 }
 
-export function customHttpFactory(httpHandler: HttpHandler, authService: AuthService) {
-  return new CHttp(httpHandler, authService);
+export function customHttpFactory(
+  httpHandler: HttpHandler,
+  authService: AuthService,
+  cordovaService: CordovaService
+) {
+  return new CHttp(httpHandler, authService, cordovaService);
 }
 
 export let customHttpProvider = {
   provide: CHttp,
   useFactory: customHttpFactory,
-  deps: [HttpHandler, AuthService]
+  deps: [HttpHandler, AuthService, CordovaService]
 };

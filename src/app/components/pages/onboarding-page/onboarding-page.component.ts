@@ -9,6 +9,7 @@ import { OnboardingService } from 'src/app/services/onboarding.service';
 import { environment } from 'src/environments/environment';
 import { CHttp } from 'src/app/services/chttp.service';
 import { UsersService } from 'src/app/services/users.service';
+import { CordovaService } from 'src/app/cordova.service';
 
 @Component({
   selector: 'onboarding-page',
@@ -58,6 +59,9 @@ export class OnboardingPageComponent implements OnInit {
 
   imageUploadError: string = '';
 
+  loadingPage = true;
+  error: false;
+
   constructor(
     private formBuilder: FormBuilder,
     private onboardingService: OnboardingService,
@@ -67,8 +71,22 @@ export class OnboardingPageComponent implements OnInit {
     private hobbiesService: HobbiesService,
     private translate: TranslateService,
     private http: CHttp,
-    private userService: UsersService
+    private userService: UsersService,
+    public cordovaService: CordovaService
   ) {
+    this.getStep();
+  }
+
+  ngOnInit(): void {
+  }
+
+  retry() {
+    this.getStep();
+  }
+
+  private getStep() {
+    this.error = false;
+
     this.onboardingService.getStep()
       .subscribe(response => {
         if (response.completed) {
@@ -80,15 +98,13 @@ export class OnboardingPageComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {
-  }
-
   private handleComplete() {
     const user = this.authService.getLoggedUser();
     user.status = 'active';
     this.authService.addUserToStorage(user);
 
     this.onboardingService.completedSubject$.next();
+    this.loadingPage = false;
 
     return this.router.navigateByUrl('/find-people');
   }
@@ -99,19 +115,27 @@ export class OnboardingPageComponent implements OnInit {
         .subscribe(resp => {
           this.createAccountInfoForm(resp);
           this.step = step;
+
+          this.loadingPage = false;
         });
     } else if (2 === step) {
       this.createAboutForm();
       this.step = step;
+
+      this.loadingPage = false;
     } else if (3 === step) {
       this.createProfileInfoForm();
       this.step = step;
+
+      this.loadingPage = false;
     } else if (4 === step) {
       const setupInterests = () => {
         if (!this.allHobbies || !this.allActivities) { return; }
 
         this.createInterestsForm();
         this.step = step;
+
+        this.loadingPage = false;
       };
       this.hobbiesService.getAll()
         .then(hobbies => {
@@ -130,6 +154,7 @@ export class OnboardingPageComponent implements OnInit {
       this.initDefaultUserImage();
 
       this.step = step;
+      this.loadingPage = false;
     } else if (6 === step) {
       this.onboardingService.getQuiz()
         .subscribe(({ questions, answers }) => {
@@ -155,10 +180,13 @@ export class OnboardingPageComponent implements OnInit {
           this.questionMap = h;
           this.createQuizForm(1);
 
+          this.loadingPage = false;
+
           this.step = step;
         });
     } else if (7 === step) {
       this.step = step;
+      this.loadingPage = false;
     }
   }
 
@@ -232,8 +260,8 @@ export class OnboardingPageComponent implements OnInit {
 
     this.userImage = {
       position: 0,
-      small: `/assets/${imageName}`,
-      big: `/assets/${imageName}`
+      small: this.cordovaService.getImgPath(`/assets/${imageName}`),
+      big: this.cordovaService.getImgPath(`/assets/${imageName}`)
     };
   }
 
@@ -524,6 +552,9 @@ export class OnboardingPageComponent implements OnInit {
         if (response.completed) {
           this.handleComplete();
         }
+      }, (err) => {
+        this.quizComplete = true;
+        this.handleError(err);
       });
   }
 

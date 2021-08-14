@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CordovaService } from 'src/app/cordova.service';
 
 @Component({
   selector: 'login-page',
@@ -19,7 +20,8 @@ export class LoginPageComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    public cordovaService: CordovaService
   ) { }
 
   ngOnInit() {
@@ -63,6 +65,10 @@ export class LoginPageComponent implements OnInit {
 
   loadingChanged(loading: boolean) {
     this.loading = loading;
+  }
+
+  get bgImg() {
+    return `url("${this.cordovaService.getImgPath('/assets/bg.jpg')}")`;
   }
 }
 

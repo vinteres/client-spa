@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { faIcons, faUserFriends } from '@fortawesome/free-solid-svg-icons';
+import { CordovaService } from 'src/app/cordova.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class UserItemComponent implements OnInit {
 
   @Input() user: any;
 
-  constructor() { }
+  constructor(private cordovaService: CordovaService) { }
 
   ngOnInit(): void {
   }
@@ -26,6 +27,12 @@ export class UserItemComponent implements OnInit {
 
   errorLoadingImage() {
     this.loading = false;
-    this.user.profile_image = `/assets/${this.user.gender === 'male' ? 'man' : this.user.gender}.jpg`;
+    this.user.profile_image = this.cordovaService.getImgPath(
+      `/assets/${this.user.gender === 'male' ? 'man' : this.user.gender}.jpg`
+    );
+  }
+
+  getImg(img) {
+    return this.cordovaService.getImgPath2(img);
   }
 }

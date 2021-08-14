@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CordovaService } from 'src/app/cordova.service';
 
 @Component({
   selector: 'stepper',
@@ -18,7 +19,7 @@ export class StepperComponent implements OnInit {
     'Personality:stepper'
   ];
 
-  constructor() { }
+  constructor(public cordovaService: CordovaService) { }
 
   ngOnInit(): void {
   }
