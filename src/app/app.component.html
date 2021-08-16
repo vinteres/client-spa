@@ -81,7 +81,17 @@
   </div>
 </div>
 
-<div class="page-container" style="position: relative;" [ngClass]="{ 'on-cordx': cordovaService.onCordova }">
+<div *ngIf="!isLoggedIn" class="radio lang-picker-cont">
+  <select class="form-control" #select (change)="changeLanguage(select.value)" style="font-size: 13px; padding: 2px; background-color: transparent;">
+    <option *ngFor="let language of supportedLanguage"
+            [selected]="currentLang === language.code"
+            [value]="language.code">
+      {{ language.label + ' (' + language.code + ')' }}
+    </option>
+  </select>
+</div>
+
+<div class="page-container" style="position: relative;" [ngStyle]="{ 'margin-top': isLoggedIn ? undefined : '0px' }">
   <div *ngIf="isActiveUser && showVerifyAlert" class="alert alert-warning" role="alert" style="position: relative;">
     <a href="javascript:void(0)" (click)="openVerifyModal()" style="color: #4798b5;">
       {{ 'Verify yourself' | translate }}

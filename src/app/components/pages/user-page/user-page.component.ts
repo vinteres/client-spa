@@ -568,8 +568,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  locationChanged(location) {
-    this.editFromData = location;
+  locationChanged(location: { id: string, name: string, fullName: string }) {
+    this.editFromData = { ...location, name: '' };
   }
 
   getInterests() {

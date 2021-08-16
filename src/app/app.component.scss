@@ -150,6 +150,15 @@ $contentWidth: 800px;
   margin-left: 5px;
 }
 
+.lang-picker-cont {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 1;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
 @media only screen and (max-width: 1170px) {
   .item .label {
     display: none;

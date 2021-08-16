@@ -5,4 +5,6 @@
 <div *ngIf="!loading && 0 === users.length">
   {{ 'No matches yet.' | translate }}
 </div>
-<user-item *ngFor="let user of users" [user]="user"></user-item>
+<div class="user-items-cont">
+  <user-item *ngFor="let user of users" [user]="user"></user-item>
+</div>

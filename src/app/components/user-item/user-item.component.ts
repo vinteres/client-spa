@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ViewChild } from '@angular/core';
 import { faIcons, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import { CordovaService } from 'src/app/cordova.service';
 
@@ -8,17 +8,23 @@ import { CordovaService } from 'src/app/cordova.service';
   templateUrl: './user-item.component.html',
   styleUrls: ['./user-item.component.scss']
 })
-export class UserItemComponent implements OnInit {
+export class UserItemComponent implements OnInit, AfterViewInit {
   faPersonality = faUserFriends;
   faInterests = faIcons;
 
   loading: boolean = true;
 
   @Input() user: any;
+  @ViewChild('loaderCont') loaderCont;
 
   constructor(private cordovaService: CordovaService) { }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+    let width = this.loaderCont.width || this.loaderCont.innerWidth || this.loaderCont.nativeElement.clientWidth;
+    this.loaderCont.nativeElement.style.height = `${width}px`;
   }
 
   imageLoaded() {

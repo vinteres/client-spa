@@ -221,8 +221,7 @@
               {{ 'No location yet.' | translate }}
             </span>
           </div>
-          <location-select *ngIf="editingFrom" [location]="editFromData" (locationChanged)="locationChanged($event)">
-          </location-select>
+          <location-select *ngIf="editingFrom" [location]="editFromData" (locationChanged)="locationChanged($event)"></location-select>
         </div>
 
         <div *ngFor="let answer of profileAnswers" class="shadow-sm rounded question-cont">

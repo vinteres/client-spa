@@ -546,5 +546,10 @@
   "Age preference": "Възрастни предпочитания",
   "You don't have a profile picture": "Нямате профилна снимка",
   "Cannot delete profile image": "Не може да изтриете профилна снимка",
-  "Retry": "Опитай отново"
+  "Retry": "Опитай отново",
+  "I don't have": "Нямам",
+  "Primary": "Основно",
+  "Secondary": "Средно",
+  "Higher": "Визше",
+  "Enter city": "Въведете град"
 }

@@ -6,7 +6,7 @@
 
 <loader *ngIf="loading"></loader>
 <div *ngIf="!loading && users.length == 0">{{ 'No people were found.' | translate }}</div>
-<div>
+<div class="user-items-cont">
   <user-item *ngFor="let user of users" [user]="user"></user-item>
 
   <div class="clearfix"></div>

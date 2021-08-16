@@ -116,9 +116,9 @@ export class AppComponent implements OnDestroy {
     private translate: TranslateService,
     private verificationService: VerificationService,
     private imageCaptureService: ImageCaptureServiceService,
+    private languageService: LanguageService,
     public cordovaService: CordovaService,
     onboardingService: OnboardingService,
-    languageService: LanguageService,
     appModalService: ModalService
   ) {
     this.currentLang = languageService.getCurrentLang();
@@ -407,6 +407,10 @@ export class AppComponent implements OnDestroy {
         this.translate.get('Error')
           .subscribe(translatedText => this.notifierService.notify('error', translatedText));
       });
+  }
+
+  changeLanguage(languageCode) {
+    this.languageService.langChangeSubject$.next(languageCode);
   }
 
   get isActiveUser() {

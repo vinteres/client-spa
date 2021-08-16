@@ -13,6 +13,42 @@
   src: url(assets/font/BalsamiqSans-Regular.ttf) format("opentype");
 }
 
+.user-items-cont {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  user-item {
+    margin: 0;
+    padding: 2px;
+    width: 25%;
+  }
+}
+
+@media only screen and (max-width: 840px) {
+  .user-items-cont {
+    user-item {
+      width: 33%;
+    }
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .user-items-cont {
+    user-item {
+      width: 50%;
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .user-items-cont {
+    user-item {
+      width: 100%;
+    }
+  }
+}
+
 body {
   background-color: #f5f3f0 !important;
   position: relative;

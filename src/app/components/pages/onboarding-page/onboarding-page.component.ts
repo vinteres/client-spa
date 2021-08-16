@@ -299,7 +299,7 @@ export class OnboardingPageComponent implements OnInit {
   }
 
   locationChanged(location) {
-    this.location = { name: location.fullName };
+    this.location = { ...location, name: '' };
     this.city.setValue(location.id);
   }
 

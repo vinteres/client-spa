@@ -304,16 +304,16 @@
             <label><input type="radio" value="not_tell" name="education_status" formControlName="education_status">{{ 'Rather not tell' | translate }}</label>
           </div>
           <div class="radio">
-            <label><input type="radio" value="none" name="education_status" formControlName="education_status">Нямам</label>
+            <label><input type="radio" value="none" name="education_status" formControlName="education_status">{{ 'I don\'t have' | translate }}</label>
           </div>
           <div class="radio">
-            <label><input type="radio" value="entry" name="education_status" formControlName="education_status">Основно</label>
+            <label><input type="radio" value="entry" name="education_status" formControlName="education_status">{{ 'Primary' | translate }}</label>
           </div>
           <div class="radio">
-            <label><input type="radio" value="mid" name="education_status" formControlName="education_status">Средно</label>
+            <label><input type="radio" value="mid" name="education_status" formControlName="education_status">{{ 'Secondary' | translate }}</label>
           </div>
           <div class="radio">
-            <label><input type="radio" value="higher" name="education_status" formControlName="education_status">Визше</label>
+            <label><input type="radio" value="higher" name="education_status" formControlName="education_status">{{ 'Higher' | translate }}</label>
           </div>
           <div>
             <small *ngIf="education_status.invalid && (education_status.dirty || education_status.touched)" class="text-danger">

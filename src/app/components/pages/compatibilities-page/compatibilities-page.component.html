@@ -9,7 +9,9 @@
 <div *ngIf="!loading && users.length == 0">
   {{ 'No compatibilities yet.' | translate }}
 </div>
-<user-item *ngFor="let user of users" [user]="user"></user-item>
+<div class="user-items-cont">
+  <user-item *ngFor="let user of users" [user]="user"></user-item>
+</div>
 
 <ng-template #content let-modal>
   <div class="modal-body">

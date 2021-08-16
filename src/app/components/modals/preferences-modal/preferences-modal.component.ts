@@ -34,7 +34,7 @@ export class PreferencesModalComponent implements OnInit, OnDestroy {
     appModalService: ModalService
   ) {
     this.modalSubscription = appModalService.actionSubject$
-      .subscribe(({ action, modal}) => {
+      .subscribe(({ action, modal }) => {
         if ('edit-preferences' !== modal) { return; }
 
         if ('open' === action) {
@@ -62,21 +62,12 @@ export class PreferencesModalComponent implements OnInit, OnDestroy {
     this.agesTo = this.getAges(this.editSearchPref.fromAge);
   }
 
-  locationChanged(location: {id: string, name: string, fullName: string}) {
+  locationChanged(location: { id: string, name: string, fullName: string }) {
     this.editSearchPref.location = {
       cityId: location.id,
-      name: null,
+      name: '',
       fullName: location.fullName,
     };
-  }
-
-  private getAges(from) {
-    const ages = [];
-    for (let i = from; i < 100; i++) {
-      ages.push(i);
-    }
-
-    return ages;
   }
 
   lookingForChanged(value, checked) {
@@ -118,5 +109,14 @@ export class PreferencesModalComponent implements OnInit, OnDestroy {
 
         this.searchPreferenceService.changedSubject$.next(payload);
       });
+  }
+
+  private getAges(from) {
+    const ages = [];
+    for (let i = from; i < 100; i++) {
+      ages.push(i);
+    }
+
+    return ages;
   }
 }

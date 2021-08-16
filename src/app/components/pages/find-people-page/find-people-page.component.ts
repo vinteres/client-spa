@@ -98,7 +98,7 @@ export class FindPeoplePageComponent implements OnInit {
   locationChanged(location: { id: string, name: string, fullName: string }) {
     this.editSearchPref.location = {
       cityId: location.id,
-      name: null,
+      name: '',
       fullName: location.fullName,
     };
   }

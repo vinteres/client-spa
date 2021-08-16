@@ -3,8 +3,8 @@
          (focus)="inputFocus()"
          (keyup)="interestKeyUp($event)"
          (keydown)="interestKeyDown()"
-         [value]="location.name"
-         placeholder="{{ location.fullName | translate }}"
+         [(ngModel)]="location.name"
+         placeholder="{{ (location.fullName || 'Enter city') | translate }}"
          />
 
   <div *ngIf="showHighlight" class="locations-dropdown dropdown border rounded shadow-sm">
