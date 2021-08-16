@@ -85,6 +85,7 @@ export class HobbiePickerComponent implements OnInit {
 
   keydownInput(e) {
     if (e.keyCode !== 13) return;
+    if (this.inpValue.length > 255) return;
 
     this.selectedHobbies.push({ name: this.inpValue, custom: true });
     this.emitEvent();

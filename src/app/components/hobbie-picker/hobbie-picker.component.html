@@ -26,5 +26,16 @@
       {{ hobbie.name | translate }}
     </span>
   </div>
-  <input class="form-control" style="margin-top: 10px;" (keydown)="keydownInput($event)" [(ngModel)]="inpValue" placeholder="{{ 'Add other ' + type + '...' | translate }}" />
+  <input class="form-control"
+         style="margin-top: 10px;"
+         (keydown)="keydownInput($event)"
+         [(ngModel)]="inpValue"
+         placeholder="{{ 'Add other ' + type + '...' | translate }}"
+         />
+
+  <div *ngIf="inpValue?.length > 255" style="margin: 5px;">
+    <small class="text-danger">
+      {{ 'Max length required' | translate:{'requiredLength': 255} }}
+    </small>
+  </div>
 </div>
