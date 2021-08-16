@@ -336,7 +336,7 @@ export class AppComponent implements OnDestroy {
   openFeedbackModal(content) {
     this.feedbackType = '';
     this.feedbackDetails = '';
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'sm' });
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', });
   }
 
   imageCaptured(blob) {

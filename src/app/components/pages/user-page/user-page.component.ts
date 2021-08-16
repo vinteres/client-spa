@@ -82,6 +82,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   faLike = faHeart;
 
   @ViewChild('editAnswerDialog') editAnswerDialog;
+  @ViewChild('reportDialog') reportDialog;
 
   userId: string;
   user: any = null;
@@ -497,10 +498,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg' });
   }
 
-  openReportModal(content) {
+  openReportModal() {
     this.reportType = '';
     this.reportDetails = '';
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'sm' });
+    this.modalService.open(this.reportDialog, { ariaLabelledBy: 'modal-basic-title' });
   }
 
   openVerifyModal() {

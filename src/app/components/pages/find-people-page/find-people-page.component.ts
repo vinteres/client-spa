@@ -142,7 +142,7 @@ export class FindPeoplePageComponent implements OnInit {
       toAge: this.searchPref.toAge,
       location: { ...this.searchPref.location },
     };
-    this.modalService.open(content, { centered: true, size: 'sm' });
+    this.modalService.open(content, { centered: true });
   }
 
   resetSearchPref() {

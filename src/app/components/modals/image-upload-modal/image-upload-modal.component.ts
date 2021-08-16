@@ -35,7 +35,6 @@ export class ImageUploadModalComponent implements OnInit, OnDestroy {
         if (!open) return;
 
         this.modalService.open(this.content, {
-          size: 'sm',
           centered: true,
           backdrop: 'static',
         });

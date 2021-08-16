@@ -90,7 +90,7 @@ export class PreferencesModalComponent implements OnInit, OnDestroy {
         this.ages = this.getAges(18);
         this.agesTo = this.getAges(this.editSearchPref.fromAge);
 
-        this.modalService.open(this.content, { size: 'sm' });
+        this.modalService.open(this.content, { centered: true });
       });
   }
 

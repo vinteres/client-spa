@@ -48,7 +48,6 @@ export class LikeModalComponent implements OnInit, OnDestroy {
     this.message = '';
 
     this.modalService.open(this.content, {
-      size: 'sm',
       centered: true,
       backdrop: 'static',
     });

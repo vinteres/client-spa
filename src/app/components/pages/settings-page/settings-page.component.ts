@@ -241,7 +241,7 @@ export class SettingsPageComponent implements OnInit {
     }
     this.confirmPasswordModal = '';
     this.confirmPasswordError = false;
-    this.modalService.open(content, { size: 'sm' });
+    this.modalService.open(content, { centered: true });
   }
 
   deactivate() {
