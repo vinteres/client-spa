@@ -1,13 +1,17 @@
 <div *ngIf="totalPages > 1" class="pagination-centered">
   <ul class="pagination justify-content-center">
     <li class="page-item" [ngClass]="{'disabled': 1 === page}" (click)="changePage(page - 1)">
-      <a class="page-link" [disabled]="1 === page">{{ 'Previous' | translate }}</a>
+      <a class="page-link" [disabled]="1 === page">
+        <fa-icon [icon]="faLeft"></fa-icon>
+      </a>
     </li>
     <li *ngFor="let i of pages()" class="page-item" [ngClass]="{'disabled': '..' === i, 'active': i === page}" (click)="changePage(i)">
       <a class="page-link" [disabled]="'..' === i">{{ i }}</a>
     </li>
     <li class="page-item" [ngClass]="{'disabled': totalPages === page}" (click)="changePage(page + 1)">
-      <a class="page-link" [disabled]="totalPages === page">{{ 'Next' | translate }}</a>
+      <a class="page-link" [disabled]="totalPages === page">
+        <fa-icon [icon]="faRight"></fa-icon>
+      </a>
     </li>
   </ul>
 </div>
