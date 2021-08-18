@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { CordovaService } from 'src/app/cordova.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'sign-up-page',
@@ -26,6 +27,7 @@ export class SignUpPageComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private http: HttpClient,
+    private alertService: AlertService,
     public cordovaService: CordovaService
   ) {
     this.createForm();
@@ -61,6 +63,8 @@ export class SignUpPageComponent implements OnInit {
           Object.keys(resp.error).forEach(field => {
             this.form.get(field).setErrors(resp.error[field]);
           });
+        } else {
+          this.alertService.error('Error');
         }
       });
   }

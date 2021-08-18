@@ -12,6 +12,12 @@
   <div class="clearfix"></div>
 </div>
 
+<div *ngIf="!loading && error">
+  <small class="text-danger">
+    {{ 'Error loading result.' | translate }}
+  </small>
+</div>
+
 <pagination [page]="page" [totalPages]="totalPages" (pageChange)="pageChange($event)"></pagination>
 
 <ng-template #content let-modal>

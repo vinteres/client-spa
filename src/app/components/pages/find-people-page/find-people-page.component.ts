@@ -4,6 +4,7 @@ import { CHttp } from 'src/app/services/chttp.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from 'src/app/services/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'find-people-page',
@@ -15,6 +16,7 @@ export class FindPeoplePageComponent implements OnInit {
   faNo = faTimes;
   faSearchPref = faSlidersH;
 
+  error: boolean;
   loading: boolean;
   page = 1;
   totalPages: number;
@@ -41,7 +43,8 @@ export class FindPeoplePageComponent implements OnInit {
     private http: CHttp,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private alertService: AlertService
   ) {
     let foundSearchPref;
     try {
@@ -81,6 +84,9 @@ export class FindPeoplePageComponent implements OnInit {
 
             this.loadUsers();
           });
+      }, (error) => {
+        this.error = true;
+        this.alertService.error('Error');
       });
   }
 
@@ -113,7 +119,10 @@ export class FindPeoplePageComponent implements OnInit {
   }
 
   loadUsers() {
+    if (this.loading) return;
+
     this.loading = true;
+    this.error = false;
 
     this.userService.getUsers(this.page, {
       fromAge: this.searchPref.fromAge,
@@ -124,6 +133,11 @@ export class FindPeoplePageComponent implements OnInit {
         this.users = response.users;
         this.loading = false;
         this.totalPages = response.totalPages;
+      }, (error) => {
+        this.alertService.error('Error');
+
+        this.error = true;
+        this.loading = false;
       });
   }
 

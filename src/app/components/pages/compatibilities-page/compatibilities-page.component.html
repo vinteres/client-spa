@@ -13,6 +13,12 @@
   <user-item *ngFor="let user of users" [user]="user"></user-item>
 </div>
 
+<div *ngIf="!loading && error">
+  <small class="text-danger">
+    {{ 'Error loading result.' | translate }}
+  </small>
+</div>
+
 <ng-template #content let-modal>
   <div class="modal-body">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')">

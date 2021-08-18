@@ -8,3 +8,9 @@
 <div class="user-items-cont">
   <user-item *ngFor="let user of users" [user]="user"></user-item>
 </div>
+
+<div *ngIf="!loading && error">
+  <small class="text-danger">
+    {{ 'Error loading result.' | translate }}
+  </small>
+</div>

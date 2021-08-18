@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { rejects } from 'assert';
 import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CHttp } from './chttp.service';
@@ -13,7 +14,7 @@ export class HobbiesService {
   constructor(private http: CHttp) { }
 
   getAll() {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       if (this.hobbies) { return resolve(this.hobbies); }
 
       this.http.get(environment.api_url + 'hobbies')
@@ -21,6 +22,8 @@ export class HobbiesService {
           this.hobbies = hobbies;
 
           resolve(hobbies);
+        }, (error) => {
+          reject(error);
         });
     });
   }
@@ -41,7 +44,7 @@ export class HobbiesService {
   }
 
   getAllActivities() {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       if (this.activities) { return resolve(this.activities); }
 
       this.http.get(environment.api_url + 'activities')
@@ -49,6 +52,8 @@ export class HobbiesService {
           this.activities = activities;
 
           resolve(activities);
+        }, (error) => {
+          reject(error);
         });
     });
   }

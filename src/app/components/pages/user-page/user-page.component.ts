@@ -35,15 +35,14 @@ import { CHttp } from 'src/app/services/chttp.service';
 import { environment } from 'src/environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HobbiesService } from 'src/app/services/hobbies.service';
-import { NotifierService } from 'angular-notifier';
 import { Subject, Subscription } from 'rxjs';
 import { IntrosService } from 'src/app/services/intros.service';
-import { TranslateService } from '@ngx-translate/core';
 import { VerificationService } from 'src/app/services/verification.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { SearchPreferenceService } from 'src/app/services/search-preference.service';
 import { ProfileQuestionService } from 'src/app/services/profile-question.service';
 import { CordovaService } from 'src/app/cordova.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'user-page',
@@ -148,23 +147,28 @@ export class UserPageComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private hobbiesService: HobbiesService,
     private router: Router,
-    private notifierService: NotifierService,
-    private translate: TranslateService,
     private verificationService: VerificationService,
     private appModalService: ModalService,
     private profileQuestionService: ProfileQuestionService,
-    public introsService: IntrosService,
     private cordovaService: CordovaService,
+    private alertService: AlertService,
+    public introsService: IntrosService,
     searchPreferenceService: SearchPreferenceService,
   ) {
     hobbiesService.getAll()
       .then(hobbies => {
         this.allHobbies = hobbies;
+      })
+      .catch(() => {
+        this.alertService.error('Error');
       });
 
     hobbiesService.getAllActivities()
       .then(activities => {
         this.allActivities = activities;
+      })
+      .catch(() => {
+        this.alertService.error('Error');
       });
 
     this.setImagesSubject = usersService.setImagesSubject$
@@ -258,6 +262,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
         } else {
           this.profileAnswers = answers;
         }
+      }, (error) => {
+        this.alertService.error('Error');
       });
   }
 
@@ -298,6 +304,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
         this.modalService.dismissAll();
       }, () => {
         this.loadings.editAnswer = false;
+
+        this.alertService.error('Error');
       });
   }
 
@@ -350,7 +358,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
     this.editingInterests = false;
     this.hobbiesService.saveHobbies(this.user.interests)
-      .subscribe(result => { });
+      .subscribe(result => { }, (error) => {
+        this.alertService.error('Error');
+      });
   }
 
   saveActivities() {
@@ -358,7 +368,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
     this.editingActivities = false;
     this.hobbiesService.saveActivities(this.user.activities)
-      .subscribe(result => { });
+      .subscribe(result => { }, (error) => {
+        this.alertService.error('Error');
+      });
   }
 
   editBio() {
@@ -384,6 +396,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
         this.editingBio = false;
 
         this.loadings.bio = false;
+      }, (error) => {
+        this.alertService.error('Error');
       });
   }
 
@@ -404,8 +418,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         this.user.location = this.editFromData;
         this.editingFrom = false;
-        this.translate.get('Location changed')
-          .subscribe(translatedText => this.notifierService.notify('success', translatedText));
+        this.alertService.success('Location changed');
+      }, (error) => {
+        this.alertService.error('Error');
       });
   }
 
@@ -550,11 +565,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
         this.user.reported = true;
         this.reporting = false;
         this.modalService.dismissAll();
-        this.translate.get('Report sent')
-          .subscribe(translatedText => this.notifierService.notify('success', translatedText));
+        this.alertService.success('Report sent');
       }, () => {
-        this.translate.get('Error')
-          .subscribe(translatedText => this.notifierService.notify('error', translatedText));
+        this.alertService.error('Error');
         this.reporting = false;
       });
   }
@@ -564,8 +577,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
       .subscribe(result => {
         this.user.relation_status = null;
       }, () => {
-        this.translate.get('Error')
-          .subscribe(translatedText => this.notifierService.notify('error', translatedText));
+        this.alertService.error('Error');
       });
   }
 
@@ -599,13 +611,14 @@ export class UserPageComponent implements OnInit, OnDestroy {
       .subscribe(result => {
         intro.liked_at = Date.now();
 
-        this.translate.get('You are now matched!')
-          .subscribe(translatedText => this.notifierService.notify('success', translatedText));
+        this.alertService.success('You are now matched!');
 
         this.user.intro.liked_at = true;
         this.user.relation_status = result.relationStatus;
       }, () => {
         this.likingIntro = false;
+
+        this.alertService.error('Error');
       });
   }
 

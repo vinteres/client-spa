@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertService } from 'src/app/services/alert.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
 
 @Component({
@@ -11,7 +12,10 @@ export class NotificationPageComponent implements OnInit {
   notifications: any;
   loading: boolean;
 
-  constructor(private notificationsService: NotificationsService) {
+  constructor(
+    notificationsService: NotificationsService,
+    alertService: AlertService
+  ) {
     this.loading = true;
     notificationsService.getAll()
       .subscribe(notifications => {
@@ -21,6 +25,8 @@ export class NotificationPageComponent implements OnInit {
         notificationsService.countSubject$.next({ type: 'notif', count: 0 });
       }, () => {
         this.loading = false;
+
+        alertService.error('Error');
       });
   }
 

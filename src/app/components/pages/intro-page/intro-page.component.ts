@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { IntrosService } from 'src/app/services/intros.service';
 import { faPlay, faPause, faHeart, faFlag } from '@fortawesome/free-solid-svg-icons';
 import { NotificationsService } from 'src/app/services/notifications.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'intro-page',
@@ -15,13 +16,15 @@ export class IntroPageComponent implements OnInit {
   faFlag = faFlag;
 
   loading: boolean;
+  error: boolean;
   users: any = [];
   page = 1;
   noMoreItems = false;
 
   constructor(
     public introsService: IntrosService,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private alertService: AlertService
   ) {
     this.loadIntros();
   }
@@ -44,6 +47,7 @@ export class IntroPageComponent implements OnInit {
     if (this.noMoreItems) { return; }
 
     this.loading = true;
+    this.error = false;
 
     this.getIntros()
       .subscribe(users => {
@@ -59,6 +63,10 @@ export class IntroPageComponent implements OnInit {
 
         this.loading = false;
         this.page++;
+      }, (error) => {
+        this.loading = false;
+        this.error = true;
+        this.alertService.error('Error');
       });
   }
 

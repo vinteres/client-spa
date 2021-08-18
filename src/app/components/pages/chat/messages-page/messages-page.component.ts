@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { faAlignJustify } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 import { CordovaService } from 'src/app/cordova.service';
+import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ChatService } from 'src/app/services/chat.service';
 import { CHttp } from 'src/app/services/chttp.service';
@@ -30,6 +31,7 @@ export class MessagesPageComponent implements OnInit, OnDestroy {
     private chatService: ChatService,
     private websocketService: WebsocketService,
     private router: Router,
+    private alertService: AlertService,
     public cordovaService: CordovaService,
     authService: AuthService
   ) {
@@ -77,6 +79,8 @@ export class MessagesPageComponent implements OnInit, OnDestroy {
       .subscribe(chatPeople => {
         this.users = this.sortMembers(chatPeople);
         this.loading = false;
+      }, (error) => {
+        this.alertService.error('Error');
       });
   }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { AuthService } from './auth.service';
@@ -65,7 +65,7 @@ export class CHttp extends HttpClient {
       } catch (ex) { }
     }
 
-    return Observable.throw(error);
+    return throwError(error);
   }
 }
 

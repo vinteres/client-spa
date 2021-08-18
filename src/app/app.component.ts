@@ -21,7 +21,6 @@ import { NotificationsService } from './services/notifications.service';
 import { environment } from 'src/environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NavigationStart, Router } from '@angular/router';
-import { NotifierService } from 'angular-notifier';
 import { CHttp } from './services/chttp.service';
 import { Title } from '@angular/platform-browser';
 import { ChatService } from './services/chat.service';
@@ -34,6 +33,7 @@ import { LanguageService } from './services/language.service';
 import { ImageCaptureServiceService } from './services/image-capture-service.service';
 import { ModalService } from './services/modal.service';
 import { CordovaService } from './cordova.service';
+import { AlertService } from './services/alert.service';
 
 @Component({
   selector: 'app-root',
@@ -109,7 +109,6 @@ export class AppComponent implements OnDestroy {
     private userService: UsersService,
     private modalService: NgbModal,
     private router: Router,
-    private notifierService: NotifierService,
     private chatService: ChatService,
     private http: CHttp,
     private titleService: Title,
@@ -117,6 +116,7 @@ export class AppComponent implements OnDestroy {
     private verificationService: VerificationService,
     private imageCaptureService: ImageCaptureServiceService,
     private languageService: LanguageService,
+    private alertService: AlertService,
     public cordovaService: CordovaService,
     onboardingService: OnboardingService,
     appModalService: ModalService
@@ -298,6 +298,9 @@ export class AppComponent implements OnDestroy {
     this.authService.logout()
       .then(() => {
         this.router.navigate(['/login']);
+      })
+      .catch(() => {
+        this.alertService.error('Error');
       });
   }
 
@@ -330,6 +333,8 @@ export class AppComponent implements OnDestroy {
           }, () => {
             this.verificationService.modalSubject$.next('close');
           });
+      }, (error) => {
+        this.alertService.error('Error');
       });
   }
 
@@ -381,14 +386,12 @@ export class AppComponent implements OnDestroy {
         this.uploadingVerificationImage = false;
         this.imageCaptureService.canStartSubject$.next(true);
 
-        this.translate.get('Verification request sent')
-          .subscribe(translatedText => this.notifierService.notify('success', translatedText));
+        this.alertService.success('Verification request sent');
       }, () => {
         this.uploadingVerificationImage = false;
         this.imageCaptureService.canStartSubject$.next(true);
 
-        this.translate.get('Error')
-          .subscribe(translatedText => this.notifierService.notify('error', translatedText));
+        this.alertService.error('Error');
       });
   }
 
@@ -401,11 +404,9 @@ export class AppComponent implements OnDestroy {
     this.http.post(environment.api_url + 'feedback', payload)
       .subscribe(response => {
         this.modalService.dismissAll();
-        this.translate.get('Feedback sent')
-          .subscribe(translatedText => this.notifierService.notify('success', translatedText));
+        this.alertService.success('Feedback sent');
       }, () => {
-        this.translate.get('Error')
-          .subscribe(translatedText => this.notifierService.notify('error', translatedText));
+        this.alertService.error('Error');
       });
   }
 

@@ -7,6 +7,7 @@ import { SearchPreferenceService } from 'src/app/services/search-preference.serv
 import { CHttp } from 'src/app/services/chttp.service';
 import { environment } from 'src/environments/environment';
 import { IntrosService } from 'src/app/services/intros.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'like-modal',
@@ -25,6 +26,7 @@ export class LikeModalComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private http: CHttp,
     private introService: IntrosService,
+    private alertService: AlertService,
     appModalService: ModalService
   ) {
     this.modalSubscription = appModalService.actionSubject$
@@ -64,6 +66,8 @@ export class LikeModalComponent implements OnInit, OnDestroy {
         this.modalService.dismissAll();
 
         this.introService.likeSentSubject$.next();
+      }, (error) => {
+        this.alertService.error('Error');
       });
   }
 }

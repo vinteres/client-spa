@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalService } from 'src/app/services/modal.service';
 import { Subscription } from 'rxjs';
 import { SearchPreferenceService } from 'src/app/services/search-preference.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'preferences-modal',
@@ -31,6 +32,7 @@ export class PreferencesModalComponent implements OnInit, OnDestroy {
     private userService: UsersService,
     private modalService: NgbModal,
     private searchPreferenceService: SearchPreferenceService,
+    private alertService: AlertService,
     appModalService: ModalService
   ) {
     this.modalSubscription = appModalService.actionSubject$
@@ -91,6 +93,8 @@ export class PreferencesModalComponent implements OnInit, OnDestroy {
         this.agesTo = this.getAges(this.editSearchPref.fromAge);
 
         this.modalService.open(this.content, { centered: true });
+      }, (error) => {
+        this.alertService.error('Error');
       });
   }
 
@@ -108,6 +112,8 @@ export class PreferencesModalComponent implements OnInit, OnDestroy {
         this.modalService.dismissAll();
 
         this.searchPreferenceService.changedSubject$.next(payload);
+      }, (error) => {
+        this.alertService.error('Error');
       });
   }
 

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { NotifierService } from 'angular-notifier';
 import { AuthService } from 'src/app/services/auth.service';
 import { HobbiesService } from 'src/app/services/hobbies.service';
 import { OnboardingService } from 'src/app/services/onboarding.service';
@@ -10,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { CHttp } from 'src/app/services/chttp.service';
 import { UsersService } from 'src/app/services/users.service';
 import { CordovaService } from 'src/app/cordova.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'onboarding-page',
@@ -65,13 +64,12 @@ export class OnboardingPageComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private onboardingService: OnboardingService,
-    private notifierService: NotifierService,
     private router: Router,
     private authService: AuthService,
     private hobbiesService: HobbiesService,
-    private translate: TranslateService,
     private http: CHttp,
     private userService: UsersService,
+    private alertService: AlertService,
     public cordovaService: CordovaService
   ) {
     this.getStep();
@@ -95,6 +93,8 @@ export class OnboardingPageComponent implements OnInit {
 
         this.setStep(response.step);
         this.showQuizIntroText = true;
+      }, (error) => {
+        this.alertService.error('Error');
       });
   }
 
@@ -117,6 +117,8 @@ export class OnboardingPageComponent implements OnInit {
           this.step = step;
 
           this.loadingPage = false;
+        }, (error) => {
+          this.alertService.error('Error');
         });
     } else if (2 === step) {
       this.createAboutForm();
@@ -142,6 +144,9 @@ export class OnboardingPageComponent implements OnInit {
           this.allHobbies = hobbies;
 
           setupInterests();
+        })
+        .catch(() => {
+          this.alertService.error('Error');
         });
 
       this.hobbiesService.getAllActivities()
@@ -149,6 +154,9 @@ export class OnboardingPageComponent implements OnInit {
           this.allActivities = activities;
 
           setupInterests();
+        })
+        .catch(() => {
+          this.alertService.error('Error');
         });
     } else if (5 === step) {
       this.initDefaultUserImage();
@@ -183,6 +191,8 @@ export class OnboardingPageComponent implements OnInit {
           this.loadingPage = false;
 
           this.step = step;
+        }, (error) => {
+          this.alertService.error('Error');
         });
     } else if (7 === step) {
       this.step = step;
@@ -574,8 +584,7 @@ export class OnboardingPageComponent implements OnInit {
     } else if (error.step) {
       this.setStep(error.step);
     } else {
-      this.translate.get('Error saving')
-        .subscribe(translatedText => this.notifierService.notify('error', translatedText));
+      this.alertService.error('Error saving');
     }
   }
 

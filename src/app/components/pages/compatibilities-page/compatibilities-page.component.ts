@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faSlidersH } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AlertService } from 'src/app/services/alert.service';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class CompatibilitiesPageComponent implements OnInit {
 
   users: any = [];
   loading: boolean;
+  error: boolean;
 
   ages = [];
   agesTo = [];
@@ -31,7 +33,8 @@ export class CompatibilitiesPageComponent implements OnInit {
 
   constructor(
     private usersService: UsersService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private alertService: AlertService
   ) {
     this.getCompatibilities();
 
@@ -41,6 +44,8 @@ export class CompatibilitiesPageComponent implements OnInit {
 
         this.ages = this.getAges(18);
         this.agesTo = this.getAges(this.searchPref.fromAge);
+      }, (error) => {
+        this.alertService.error('Error');
       });
   }
 
@@ -48,11 +53,19 @@ export class CompatibilitiesPageComponent implements OnInit {
   }
 
   getCompatibilities() {
+    if (this.loading) return;
+
     this.loading = true;
+    this.error = false;
+
     this.usersService.getCompatibilities()
       .subscribe(result => {
         this.users = result;
         this.loading = false;
+      }, (error) => {
+        this.error = true;
+        this.loading = false;
+        this.alertService.error('Error');
       });
   }
 
@@ -100,6 +113,8 @@ export class CompatibilitiesPageComponent implements OnInit {
         this.modalService.dismissAll();
 
         this.getCompatibilities();
+      }, (error) => {
+        this.alertService.error('Error');
       });
   }
 }

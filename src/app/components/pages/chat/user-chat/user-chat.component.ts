@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewChecked, ViewChild, OnDestroy } from '@angu
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CordovaService } from 'src/app/cordova.service';
+import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ChatService } from 'src/app/services/chat.service';
 import { CHttp } from 'src/app/services/chttp.service';
@@ -36,6 +37,7 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked, O
     private websocketService: WebsocketService,
     private http: CHttp,
     private router: Router,
+    private alertService: AlertService,
     public cordovaService: CordovaService
   ) {
     this.chatSubscription = chatService.chatMessageSubject$
@@ -133,6 +135,8 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked, O
         this.loading = false;
 
         this.chatService.setActiveUserId(userId);
+      }, (error) => {
+        this.alertService.error('Error');
       });
   }
 
@@ -241,6 +245,8 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked, O
         this.loadingMore = false;
       }, () => {
         this.loadingMore = false;
+
+        this.alertService.error('Error');
       });
   }
 

@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
-import { NotifierService } from 'angular-notifier';
 import { AuthService } from 'src/app/services/auth.service';
 import { UsersService } from 'src/app/services/users.service';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { LanguageService } from 'src/app/services/language.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'settings-page',
@@ -40,15 +39,14 @@ export class SettingsPageComponent implements OnInit {
 
   constructor(
     private usersService: UsersService,
-    private notifierService: NotifierService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private authService: AuthService,
     private router: Router,
-    private translate: TranslateService,
     private userService: UsersService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private alertService: AlertService
   ) {
     this.currentLang = languageService.getCurrentLang();
     this.supportedLanguage = languageService.getSupportedLanguages();
@@ -69,6 +67,8 @@ export class SettingsPageComponent implements OnInit {
         this.createSecurityForm();
 
         this.loading = false;
+      }, (error) => {
+        this.alertService.error('Error');
       });
   }
 
@@ -173,12 +173,11 @@ export class SettingsPageComponent implements OnInit {
     this.usersService.setAccountSettings(this.accountInfoForm.value)
       .subscribe(() => {
         this.loadingAccountInfo = false;
-        this.translate.get('Settings saved')
-          .subscribe(translatedText => this.notifierService.notify('success', translatedText));
+        this.alertService.success('Settings saved');
       }, (err) => {
         this.loadingAccountInfo = false;
-        this.translate.get('Error saving')
-          .subscribe(translatedText => this.notifierService.notify('error', translatedText));
+
+        this.alertService.error('Error saving');
       });
   }
 
@@ -196,12 +195,10 @@ export class SettingsPageComponent implements OnInit {
     this.usersService.setProfileSettings(this.profileInfoForm.value)
       .subscribe(() => {
         this.loadingProfileInfo = false;
-        this.translate.get('Settings saved')
-          .subscribe(translatedText => this.notifierService.notify('success', translatedText));
+        this.alertService.success('Settings saved');
       }, (err) => {
         this.loadingProfileInfo = false;
-        this.translate.get('Error saving')
-          .subscribe(translatedText => this.notifierService.notify('error', translatedText));
+        this.alertService.error('Error saving');
       });
   }
 
@@ -223,8 +220,7 @@ export class SettingsPageComponent implements OnInit {
       .subscribe(() => {
         this.loadingSecurity = false;
         this.securityForm.reset();
-        this.translate.get('Password changed')
-          .subscribe(translatedText => this.notifierService.notify('success', translatedText));
+        this.alertService.success('Password changed');
       }, (err) => {
         this.loadingSecurity = false;
         this.securityForm.controls.password.setErrors({invalid: true});
@@ -249,10 +245,13 @@ export class SettingsPageComponent implements OnInit {
       .subscribe(response => {
         this.modalService.dismissAll();
         this.authService.logout()
-          .then(() => this.router.navigate(['/login']));
+          .then(() => this.router.navigate(['/login']))
+          .catch(() => this.alertService.error('Error'));
       }, error => {
         if (400 === error.status) {
           this.confirmPasswordError = true;
+        } else {
+          this.alertService.error('Error');
         }
       });
   }
