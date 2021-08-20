@@ -41,4 +41,8 @@ export class UserItemComponent implements OnInit, AfterViewInit {
   getImg(img) {
     return this.cordovaService.getImgPath2(img);
   }
+
+  get userProfileLink() {
+    return this.user.showProfileLink ? [`/user/${this.user.id}`] : [];
+  }
 }
