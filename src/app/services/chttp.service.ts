@@ -18,32 +18,37 @@ export class CHttp extends HttpClient {
   }
 
   get(url: string, options?: any): any {
-    return super.get(url, this.addAuthTokenIfHas(options))
+    return super.get(url, this.modifyHeaders(options))
     .pipe(
       catchError((err) => this.handleError(err))
     );
   }
 
   post(url: string, body: any = {}, options?: any): any {
-    return super.post(url, body, this.addAuthTokenIfHas(options));
+    return super.post(url, body, this.modifyHeaders(options));
   }
 
   delete(url: string, options?: any): any {
-    return super.delete(url, this.addAuthTokenIfHas(options))
+    return super.delete(url, this.modifyHeaders(options))
       .pipe(
         catchError((err) => this.handleError(err))
       );
   }
 
-  private addAuthTokenIfHas(headers?: any) {
+  private modifyHeaders(headers?: any) {
     headers = headers || {};
 
-    const user = this.authService.getLoggedUser();
-    if (user && user.token) {
-      headers['X-Auth-Token'] = user.token;
-    }
+    this.addAuthTokenIfHas(headers);
+    headers['X-On-Mobile'] = this.cordovaService.onCordova ? 'true' : 'false';
 
     return { headers };
+  }
+
+  private addAuthTokenIfHas(headers: any) {
+    const user = this.authService.getLoggedUser();
+    if (user?.token) {
+      headers['X-Auth-Token'] = user.token;
+    }
   }
 
   private handleError(error: any) {
