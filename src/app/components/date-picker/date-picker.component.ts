@@ -87,8 +87,8 @@ export class DatePickerComponent implements OnInit {
   }
 
   get value() {
-    const month = this.selectedMonth < 10 ? `0${this.selectedMonth + 1}` : (this.selectedMonth  + 1);
-    const day = this.selectedDay < 10 ? `0${this.selectedDay}` : this.selectedDay;
+    const month = (+this.selectedMonth + 1) < 10 ? `0${+this.selectedMonth + 1}` : (+this.selectedMonth + 1);
+    const day = +this.selectedDay < 10 ? `0${+this.selectedDay}` : this.selectedDay;
     const date = `${this.selectedYear}/${month}/${day}`;
 
     return date;
