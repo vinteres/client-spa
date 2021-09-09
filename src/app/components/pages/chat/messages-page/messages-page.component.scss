@@ -66,7 +66,7 @@
   margin-left: 5px;
 }
 
-@media only screen and (max-width: 890px) {
+@media only screen and (max-width: 940px) {
   .msg-page-cont {
     width: 100%;
     position: static;
@@ -80,17 +80,8 @@
   .messages-title-cont {
     display: none;
   }
-  .chat-members-cont {
-    width: 50px !important;
-  }
-  .chat-members-cont .member-name {
-    display: none;
-  }
   .chat-members-cont .messages-title {
     display: none;
-  }
-  .chat-user-item img {
-    width: 100%;
   }
   .msg-page-cont .toggle-menu {
     display: block;

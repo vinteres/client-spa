@@ -2,7 +2,8 @@
   <loader *ngIf="loading"></loader>
   <div *ngIf="!loading && chat" style="height: 100%;">
     <div
-      style="height: 52px; padding: 5px; border-bottom: 1px solid #b0b0b0; background-color: #fff; position: absolute; top: 0; width: 100%;">
+      style="height: 52px; padding: 5px; border-bottom: 1px solid #b0b0b0; background-color: #fff; position: absolute; top: 0; width: 100%; display: flex; align-items: center;">
+      <mat-icon *ngIf="isMobile" [routerLink]="['/chat']" aria-hidden="false" style="margin: 0 5px;">arrow_back_ios</mat-icon>
       <img src="{{ cordovaService.getImgPath2(chat.user.profileImage) }}" style="height: 40px; margin-right: 5px;" />
       <a *ngIf="'page' !== chat.user.type" [routerLink]="['/user/' + chat.user.id]" style="color: #000; text-decoration: initial;">
         <span style="vertical-align: middle; display: inline-block;">{{ chat.user.name }}</span>

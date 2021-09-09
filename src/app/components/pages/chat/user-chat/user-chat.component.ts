@@ -253,4 +253,8 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked, O
   private getDateInt(i) {
     return i < 10 ? `0${i}` : `${i}`;
   }
+
+  get isMobile() {
+    return window.innerWidth <= 700;
+  }
 }

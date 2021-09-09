@@ -1,6 +1,7 @@
 <div class="msg-page-cont">
-  <div class="rounded shadow-sm inner-cont on-cordx" (click)="menuHidden = true">
-    <div class="chat-members-cont" style="overflow-y: auto;">
+  <div class="rounded shadow-sm inner-cont" [ngClass]="{ 'on-cordx': showFooterMenu }" (click)="menuHidden = true">
+    <div *ngIf="!isMobile || onMembersPage" class="chat-members-cont" style="overflow-y: auto;"
+      [ngStyle]="{ width: (isMobile && onMembersPage) ? '100%' : '', 'border-right': isMobile ? '0px' : '' }">
       <div style="height: 100%; width: 100%; overflow-y: auto;">
         <div class="messages-title-cont">
           <span class="messages-title">{{ 'Messages' | translate }}</span>
@@ -15,15 +16,19 @@
         <div *ngFor="let user of users"
              class="chat-user-item"
              [ngClass]="{'not-seen': (user.notSeenCount > 0), 'active-chat': (getActiveUserId() === user.id)}"
-             style="padding: 5px;"
+             style="padding: 5px; display: flex; flex-direction: row; align-items: center;"
              (click)="changeUser(user)"
              >
           <img src="{{ cordovaService.getImgPath2(user.profileImage) }}" class="rounded" />
           <span class="member-name">{{ user.name }}</span>
+          <div *ngIf="user.lastMessage" style="margin-left: 5px; display: flex; overflow: hidden;">
+            <mat-icon *ngIf="user.id !== user.lastMessage.user_id">reply</mat-icon>
+            <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" [ngStyle]="{ 'font-weight': user.notSeenCount ? 700 : '' }">{{ user.lastMessage.text }}</span>
+          </div>
         </div>
       </div>
     </div>
-    <div class="chat-cont" style="margin: 0;">
+    <div *ngIf="!isMobile || !onMembersPage" class="chat-cont" style="margin: 0;">
       <h4 *ngIf="!loading && 0 === users.length" style="display: inline-block; position: absolute;
       top: 50%;
       width: 100%;

@@ -32,14 +32,15 @@ export class MessagesPageComponent implements OnInit, OnDestroy {
     private websocketService: WebsocketService,
     private router: Router,
     private alertService: AlertService,
-    public cordovaService: CordovaService,
-    authService: AuthService
+    private authService: AuthService,
+    public cordovaService: CordovaService
   ) {
     this.websocketSubscription = chatService.chatMessageSubject$
       .subscribe(msg => {
         const user = this.users.find(item => item.chat_id === msg.chatId);
         if (user) {
           user.lastMessageAt = msg.created_at;
+          user.lastMessage = msg;
 
           if (!authService.isLoggedUser(msg.user_id) && msg.user_id !== this.getActiveUserId()) {
             if (!user.notSeenCount) {
@@ -106,7 +107,23 @@ export class MessagesPageComponent implements OnInit, OnDestroy {
     return this.chatService.getActiveUserId();
   }
 
+  get loggedUserId() {
+    return this.authService.getLoggedUser()?.id;
+  }
+
   private sortMembers(members) {
     return members.sort((a, b) => (a.lastMessageAt > b.lastMessageAt ? -1 : 1));
+  }
+
+  get showFooterMenu() {
+    return window.innerWidth <= 940;
+  }
+
+  get isMobile() {
+    return window.innerWidth <= 700;
+  }
+
+  get onMembersPage() {
+    return ['/chat', '#/chat'].includes(this.router.url);
   }
 }

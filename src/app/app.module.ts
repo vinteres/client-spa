@@ -51,6 +51,8 @@ import { SignInWithComponent } from './components/misc/sign-in-with/sign-in-with
 import { ImageUploadModalComponent } from './components/modals/image-upload-modal/image-upload-modal.component';
 import { CordovaService } from './cordova.service';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
 
 export function HttpLoaderFactory(http: HttpClient, cordovaService: CordovaService) {
   if (!cordovaService.onCordova) return new TranslateHttpLoader(http);
@@ -141,6 +143,7 @@ const customNotifierOptions: NotifierOptions = {
     ImageUploadModalComponent,
   ],
   imports: [
+    MatIconModule,
     BrowserModule,
     RoutingModule,
     FontAwesomeModule,
