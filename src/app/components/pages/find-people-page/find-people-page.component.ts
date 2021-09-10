@@ -29,14 +29,21 @@ export class FindPeoplePageComponent implements OnInit {
   searchPref: {
     fromAge: number,
     toAge: number,
+    order: string,
     location?: { cityId?: string, name: string, fullName: string }
   };
 
   editSearchPref: {
     fromAge: number,
     toAge: number,
+    order: string,
     location: { cityId?: string, name: string, fullName: string }
   };
+
+  orderOptions = [
+    { label: 'Last online', value: 'last_online' },
+    { label: 'Newest member', value: 'newest_member' },
+  ]
 
   constructor(
     private userService: UsersService,
@@ -55,6 +62,7 @@ export class FindPeoplePageComponent implements OnInit {
     this.searchPref = {
       fromAge: foundSearchPref?.fromAge ?? 18,
       toAge: foundSearchPref?.toAge ?? 70,
+      order: 'last_online',
       location: foundSearchPref?.location ?? { name: '', fullName: '' }
     };
 
@@ -63,6 +71,7 @@ export class FindPeoplePageComponent implements OnInit {
         this.searchPref = {
           fromAge: searchPreference.fromAge ?? 18,
           toAge: searchPreference.toAge ?? 70,
+          order: 'last_online',
           location: { name: '', fullName: '' }
         };
 
@@ -127,6 +136,7 @@ export class FindPeoplePageComponent implements OnInit {
     this.userService.getUsers(this.page, {
       fromAge: this.searchPref.fromAge,
       toAge: this.searchPref.toAge,
+      order: this.searchPref.order,
       cityId: this.searchPref?.location?.cityId
     })
       .subscribe(response => {
@@ -154,6 +164,7 @@ export class FindPeoplePageComponent implements OnInit {
     this.editSearchPref = {
       fromAge: this.searchPref.fromAge,
       toAge: this.searchPref.toAge,
+      order: this.searchPref.order,
       location: { ...this.searchPref.location },
     };
     this.modalService.open(content, { centered: true });
@@ -163,6 +174,7 @@ export class FindPeoplePageComponent implements OnInit {
     this.editSearchPref = {
       fromAge: 18,
       toAge: 70,
+      order: 'last_online',
       location: { name: '', fullName: '' }
     };
     sessionStorage.setItem('find_people_pref', JSON.stringify(this.searchPref));
@@ -178,6 +190,7 @@ export class FindPeoplePageComponent implements OnInit {
     this.searchPref = {
       fromAge: this.editSearchPref.fromAge,
       toAge: this.editSearchPref.toAge,
+      order: this.editSearchPref.order,
       location: { ...this.editSearchPref.location },
     };
     sessionStorage.setItem('find_people_pref', JSON.stringify(this.searchPref));

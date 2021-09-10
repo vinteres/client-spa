@@ -45,8 +45,15 @@
       </div>
 
       <div style="margin-top: 30px; display: flex;">
-        <h6 style="align-items: center; display: flex; margin-bottom: 0; margin-right: 10px; width: 55px; justify-content: flex-end;">{{ 'City' | translate }}</h6>
+        <h6 style="align-items: center; display: flex; margin-bottom: 0; margin-right: 10px; width: 55px;">{{ 'City' | translate }}</h6>
         <location-select style="flex: 1 0 auto;" [location]="editSearchPref.location" (locationChanged)="locationChanged($event)"></location-select>
+      </div>
+
+      <div style="margin-top: 30px; display: flex;">
+        <h6 style="align-items: center; display: flex; margin-bottom: 0; margin-right: 10px; width: 55px;">{{ 'Order' | translate }}</h6>
+        <select class="form-control" [value]="editSearchPref.order" (change)="changePref('order', $event.target.value)">
+          <option *ngFor="let option of orderOptions" [value]="option.value" [selected]="option.value == editSearchPref.order">{{ option.label | translate }}</option>
+        </select>
       </div>
     </div>
 
