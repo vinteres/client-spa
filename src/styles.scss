@@ -144,4 +144,17 @@ input[type="radio"] {
 }
 
 // html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.online-ic {
+  vertical-align: middle;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin: 0 5px;
+  background-color: #25db57;
+  border-radius: 100%;
+}

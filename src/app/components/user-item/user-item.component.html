@@ -19,19 +19,19 @@
           <div>
             {{ user.name }},
           </div>
-          <div>
+          <div style="display: flex; align-items: center;">
             <span style="vertical-align: middle;">{{ user.age }}</span>
-            <span *ngIf="user.is_online" class="online" style="vertical-align: middle;"></span>
-            <verified-badge
+            <span *ngIf="user.is_online" class="online-ic" style="vertical-align: middle;"></span>
+            <mat-icon
               *ngIf="user.verification_status === 'verified'"
-              style="vertical-align: middle;"
+              style="vertical-align: middle; font-size: 20px; margin-left: 3px;"
               title="{{ 'Verified with photo' | translate }}"
-              ></verified-badge>
+            >verified_outline</mat-icon>
           </div>
         </div> 
         <div class="text-truncate" *ngIf="user.mutual_hobbies_count" style="line-height: 14px;">{{ user.mutual_hobbies_count }} {{ 'mutual interests' | translate }}</div>
-        <div class="text-truncate" *ngIf="user.mutual_ativities_count" style="line-height: 14px;">{{ user.mutual_ativities_count }} {{ 'mutual activities' | translate }}</div>
-        <div class="text-truncate" *ngIf="user.from" style="line-height: 14px; margin-top: 5px">{{ user.from }}</div>
+        <div class="text-truncate" *ngIf="user.mutual_ativities_count" style="line-height: 14px; margin-bottom: 5px;">{{ user.mutual_ativities_count }} {{ 'mutual activities' | translate }}</div>
+        <div class="text-truncate" *ngIf="user.from" style="line-height: 14px;">{{ user.from }}</div>
       </div>
       <div *ngIf="user.intro && 'message' === user.intro.type" class="intro-message">
         {{ user.intro.message }}

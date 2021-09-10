@@ -9,15 +9,7 @@
         <span style="vertical-align: middle; display: inline-block;">{{ chat.user.name }}</span>
         <span
           *ngIf="chat.user.is_online"
-          style="
-            vertical-align: middle;
-            display: inline-block;
-            width: 15px;
-            height: 15px;
-            margin: 0 5px;
-            background-color: #25db57;
-            border-radius: 100%;
-          "></span>
+          class="online-ic"></span>
       </a>
       <span *ngIf="'page' === chat.user.type" style="color: #000; text-decoration: initial; cursor: default;">{{ chat.user.name }}</span>
     </div>

@@ -4,18 +4,11 @@
   <div class="name-cont">
     <span class="align-middle">
       <span style="vertical-align: middle;">{{user.name}}, {{user.age}}</span>
-      <span *ngIf="user.is_online" style="
-        vertical-align: middle;
-        display: inline-block;
-        width: 15px;
-        height: 15px;
-        margin: 0 7px;
-        background-color: #25db57;
-        border-radius: 100%;"></span>
+      <span *ngIf="user.is_online" class="online-ic"></span>
 
       <div *ngIf="'verified' === user.verification_status" style="display: inline-block;"
         title="{{ 'Verified with photo' | translate }}">
-        <verified-badge style="vertical-align: middle;"></verified-badge>
+        <mat-icon style="vertical-align: middle; margin-left: 3px; color: #4798b5;">verified_outline</mat-icon>
         <span class="verification-status-text" style="vertical-align: middle; cursor: default; margin-left: 2px;">{{
           'verified' | translate }}</span>
       </div>
