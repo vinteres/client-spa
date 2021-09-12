@@ -146,8 +146,12 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked, O
     }
 
     e.preventDefault();
-    const textarea = e.target;
-    const text = textarea.value;
+
+    this.bntSendMessage();
+  }
+
+  bntSendMessage() {
+    const text = this.chatMsg[this.userId];
 
     if ('' === text.trim()) { return; }
 
