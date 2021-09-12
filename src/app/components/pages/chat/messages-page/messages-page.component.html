@@ -20,12 +20,13 @@
              (click)="changeUser(user)"
              >
           <img src="{{ cordovaService.getImgPath2(user.profileImage) }}" class="rounded" />
-          <div style="margin-left: 5px; height: 60px; display: flex; flex-direction: column; justify-content: flex-start;">
+          <div style="margin-left: 5px; height: 60px; display: flex; flex-direction: column; justify-content: center; overflow: hidden;">
             <div>
-              <span class="member-name">{{ user.name }}</span>
+              <span class="member-name" style="font-size: 20px;">{{ user.name }}</span>
+              <mat-icon *ngIf="user.verified" style="vertical-align: middle; margin-left: 3px; color: #4798b5;">verified_outline</mat-icon>
               <span *ngIf="user.is_online" class="online-ic"></span>
             </div>
-            <div *ngIf="user.lastMessage" style=" display: flex; overflow: hidden;">
+            <div *ngIf="user.lastMessage" style=" display: flex; overflow: hidden; color: #636363; font-size: 15px;">
               <mat-icon *ngIf="user.id !== user.lastMessage.user_id">reply</mat-icon>
               <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" [ngStyle]="{ 'font-weight': user.notSeenCount ? 700 : '' }">{{ user.lastMessage.text }}</span>
             </div>

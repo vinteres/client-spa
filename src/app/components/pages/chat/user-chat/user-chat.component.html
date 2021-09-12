@@ -7,6 +7,7 @@
       <img src="{{ cordovaService.getImgPath2(chat.user.profileImage) }}" style="height: 40px; margin-right: 5px;" />
       <a *ngIf="'page' !== chat.user.type" [routerLink]="['/user/' + chat.user.id]" style="color: #000; text-decoration: initial;">
         <span style="vertical-align: middle; display: inline-block;">{{ chat.user.name }}</span>
+        <mat-icon *ngIf="chat.user.verified" style="vertical-align: middle; margin-left: 3px; color: #4798b5;">verified_outline</mat-icon>
         <span
           *ngIf="chat.user.is_online"
           class="online-ic"></span>
