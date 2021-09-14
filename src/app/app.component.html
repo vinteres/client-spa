@@ -1,5 +1,5 @@
 <div *ngIf="isLoggedIn">
-  <div class="header shadow-sm">
+  <div class="header" [ngClass]="{ 'shadow-sm': !isMobile, 'mobile-border': isMobile }">
     <div class="content">
       <div class="home-data">
         <a routerLink="/"
@@ -91,7 +91,7 @@
   </select>
 </div>
 
-<div class="page-container" style="position: relative;" [ngStyle]="{ 'margin-top': isLoggedIn ? undefined : '0px' }">
+<div class="page-container" style="position: relative;" [ngStyle]="{ 'margin-top': isLoggedIn ? undefined : '0px' }" [ngClass]="{ 'is-mobile': isMobile }">
   <div *ngIf="isActiveUser && showVerifyAlert" class="alert alert-warning" role="alert" style="position: relative;">
     <a href="javascript:void(0)" (click)="openVerifyModal()" style="color: #4798b5;">
       {{ 'Verify yourself' | translate }}

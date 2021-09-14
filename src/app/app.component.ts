@@ -435,4 +435,8 @@ export class AppComponent implements OnDestroy {
       `/assets/verify_${this.loggedUser()?.gender}.jpeg`
     );
   }
+
+  get isMobile() {
+    return this.cordovaService.isMobile || this.cordovaService.onCordova;
+  }
 }

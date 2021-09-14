@@ -24,4 +24,7 @@ export class StepperComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  get isMobile() {
+    return this.cordovaService.isMobile || this.cordovaService.onCordova;
+  }
 }

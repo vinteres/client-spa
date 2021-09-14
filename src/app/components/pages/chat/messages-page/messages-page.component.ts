@@ -120,7 +120,7 @@ export class MessagesPageComponent implements OnInit, OnDestroy {
   }
 
   get isMobile() {
-    return window.innerWidth <= 700;
+    return this.cordovaService.isMobile || this.cordovaService.onCordova;
   }
 
   get onMembersPage() {

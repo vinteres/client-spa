@@ -1,4 +1,4 @@
-<div *ngIf="cordovaService.onCordova" class="container">
+<div *ngIf="isMobile" class="container">
   <ul class="progressbar2">
     <li *ngFor="let step of steps; let i = index"
       [ngClass]="{ 'done': activeStep > i + 1, 'active': activeStep == i + 1 }"
@@ -16,7 +16,7 @@
   <div class="clear"></div>
 </div>
 
-<div *ngIf="!cordovaService.onCordova" class="container">
+<div *ngIf="!isMobile" class="container">
   <ul class="progressbar">
     <li *ngFor="let step of steps; let i = index"
       [ngClass]="{ 'done': activeStep > i + 1, 'active': activeStep == i + 1 }"

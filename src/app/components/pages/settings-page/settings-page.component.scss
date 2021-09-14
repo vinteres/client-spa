@@ -1,6 +1,5 @@
 .vnav-tabs {
   position: relative;
-  border-bottom: 3px solid #dee2e6;
   margin-top: 20px;
 }
 .vnav-tabs > a {
@@ -12,6 +11,7 @@
   cursor: pointer;
   color: rgba(46, 62, 72, 0.7);
   margin-bottom: -3px;
+  border-bottom: 3px solid #dee2e6;
 }
 .vnav-tabs > a.active {
   color: #000;

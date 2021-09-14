@@ -30,6 +30,12 @@ $contentWidth: 800px;
   z-index: 2;
   padding: 0 5px;
 }
+
+.header.mobile-border {
+  border: 0px;
+  border-bottom: 1px solid rgba(46, 62, 72, 0.12);
+}
+
 .header .content {
   width: $contentWidth;
   margin: auto;
@@ -122,6 +128,10 @@ $contentWidth: 800px;
   margin: auto;
   margin-top: 60px;
   min-height: calc(100vh - 100px);
+}
+
+.page-container.is-mobile {
+  margin-top: 50px;
 }
 
 .page-container:after {

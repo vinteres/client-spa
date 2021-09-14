@@ -259,6 +259,6 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked, O
   }
 
   get isMobile() {
-    return window.innerWidth <= 700;
+    return this.cordovaService.isMobile || this.cordovaService.onCordova;
   }
 }

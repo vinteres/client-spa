@@ -25,4 +25,8 @@ export class CordovaService {
 
     return image;
   }
+
+  get isMobile() {
+    return window.innerWidth <= 700;
+  }
 }
