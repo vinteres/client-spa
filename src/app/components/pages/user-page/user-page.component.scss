@@ -216,6 +216,10 @@ pre {
   font-size: 15px;
 }
 
+.resp-report-btn {
+  display: none;
+}
+
 @media only screen and (max-width: 990px) {
   .add-image-item {
     width: 100%;
@@ -248,6 +252,7 @@ pre {
   .profile-content .user-images-cont2 {
     padding: 0;
     text-align: center;
+    margin-top: 80px;
   }
   .profile-content .name-main {
     display: none;
@@ -255,7 +260,6 @@ pre {
   .profile-content .name-resp {
     display: block;
     text-align: center;
-    margin-top: 80px;
   }
   .profile-content .user-actions-cont {
     margin-top: 0;
@@ -270,5 +274,17 @@ pre {
     margin-bottom: 10px;
     padding: 5px;
     padding-left: 15px;
+  }
+
+  .name-cont {
+    overflow: hidden;
+  }
+
+  .resp-report-btn {
+    display: block;
+  }
+
+  .report-btn {
+    display: none;
   }
 }
