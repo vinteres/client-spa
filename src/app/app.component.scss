@@ -93,6 +93,7 @@ $contentWidth: 800px;
   flex-direction: row;
   justify-content: space-around;
   display: none;
+  z-index: 100;
 
   .item {
     color: #fff;
